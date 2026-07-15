@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给你扇窗全看世界，但你摸不到乁⁠[⁠ᓀ⁠˵⁠▾⁠˵⁠ᓂ⁠]⁠ㄏ</title>
+    <style>
+        /* --- 1. 字体与全局设置 --- */
+        @font-face {
+            font-family: '悠哉字体 Light';
+            src: url('Yozai-Light.woff2') format('woff2');
+            font-display: swap;
+        }
+
+        :root { --glass: rgba(255, 255, 255, 0.2); --accent: #66ccff; --glass-nav: rgba(255, 255, 255, 0.1); }
+        
+        body { 
+            margin: 0; height: 100vh; 
+            background: url('miku.jpg') center/cover no-repeat; 
+            /* 应用全局字体及回退方案 */
+            font-family: '悠哉字体 Light', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Microsoft JhengHei', sans-serif; 
+            overflow: hidden; 
+        }
+        
+        #header-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 110px; background: #fdeeef; opacity: 0.45; pointer-events: none; }
+        #title-text { position: absolute; top: 20px; width: 100%; text-align: center; color: var(--accent); font-weight: bold; pointer-events: none; line-height: 1.2; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+        
+        /* --- 2. 播放器样式 --- */
+        #player { position: absolute; left: 50px; bottom: 150px; width: 350px; background: var(--glass); backdrop-filter: blur(20px); border-radius: 24px; padding: 16px; cursor: move; z-index: 1000; display: flex; align-items: center; gap: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+        #art-box { position: relative; width: 60px; height: 60px; border-radius: 12px; overflow: hidden; flex-shrink: 0; }
+        #play-pause-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.35); display:flex; justify-content:center; align-items:center; color:white; cursor:pointer; opacity: 0.35; }
+        
+        .control-area { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+        #progress { width: 100%; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.3); accent-color: var(--accent); cursor: pointer; }
+        #time-display { font-size: 11px; color: #fff; text-align: right; font-variant-numeric: tabular-nums; }
+        .controls { display: flex; justify-content: space-between; align-items: center; padding-top: 4px; }
+        
+        #song-list { position: absolute; width: 350px; height: 160px; background: var(--glass); backdrop-filter: blur(20px); border-radius: 20px; display: none; overflow-y: auto; z-index: 999; color: white; padding: 10px 0; }
+        .song-item { padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; font-size: 14px; }
+        
+        /* --- 3. 导航链接：应用 #a0d8ef 颜色 --- */
+        .nav-links { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; gap: 40px; padding: 14px 40px; background: var(--glass-nav); backdrop-filter: blur(20px); border-radius: 50px; }
+        .nav-links a { color: #66ccff; text-decoration: none; font-weight: bold; transition: opacity 0.3s; }
+        .nav-links a:hover { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <!-- (此处保留原代码主体结构不变) -->
+    <div id="header-overlay"></div>
+    <div id="title-text">
+        <div style="font-size:1.8em;">来了,</div>
+        <div style="font-size:2.6em;">婆罗门！</div>
+    </div>
+
+    <div id="player">
+        <!-- 播放器内容与原代码一致 -->
+        <div id="art-box">
+            <img src="AIR16bit.jpg" width="60" height="60" onerror="this.src='https://via.placeholder.com/60'">
+            <div id="play-pause-overlay" onclick="togglePlay()">▶</div>
+        </div>
+        <div class="control-area">
+            <input type="range" id="progress" value="0">
+            <div id="time-display">00:00 / 00:00 / 00:00</div>
+            <div class="controls">
+                <button onclick="prev()" style="background:none; border:none; color:white; cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
+                <button id="main-play-btn" onclick="togglePlay()" style="background:var(--accent); border:none; color:#000; width:36px; height:36px; border-radius:18px; cursor:pointer;"><svg id="play-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+                <button onclick="next()" style="background:none; border:none; color:white; cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
+                <button id="mode-btn" onclick="changeMode()" style="background:none; border:none; color:white; font-size:16px;">🔁</button>
+                <button onclick="toggleList(event)" style="background:none; border:none; color:white; font-size:16px;">☰</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="song-list"></div>
+
+    <div class="nav-links">
+        <a href="https://bxfans.github.io/google-fe2/">Google 検索</a><a href="https://bxfans.github.io/Tube/">YouTube</a><a href="https://bxfans.github.io/Gptt/">ChatGPT</a>
+        <a href="https://bxfans.github.io/Pixiv/">Pixiv</a><a href="https://bxfans.github.io/niconico/">ニコニコ</a>
+    </div>
+
+    <audio id="audio"></audio>
+
+    <script>
+        // (脚本内容保持原样)
+        const songs = ["SpotiMate.io - 川 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 回想録 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 夢語り - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 鳥の詩 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 双星 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 夏影 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 野道 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 夜想 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 銀色 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 縁 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 月童 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - Farewell song - VISUAL ARTS _ Key.mp3", "SpotiMate.io - ふたり - VISUAL ARTS _ Key.mp3"];
+        const audio = document.getElementById('audio'), playIcon = document.getElementById('play-icon'), songList = document.getElementById('song-list'), progressBar = document.getElementById('progress'), timeDisplay = document.getElementById('time-display');
+        let currentIdx = 0, mode = 0;
+        const modes = ['🔁', '🔂', '🔀'];
+
+        songs.forEach((s, i) => {
+            const div = document.createElement('div');
+            div.className = 'song-item'; div.innerText = s;
+            div.onclick = () => { currentIdx = i; loadAndPlay(); };
+            songList.appendChild(div);
+        });
+
+        function loadAndPlay() {
+            audio.src = songs[currentIdx]; audio.play();
+            playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+        }
+
+        window.togglePlay = () => {
+            if (audio.paused) { audio.play(); playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; }
+            else { audio.pause(); playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>'; }
+        };
+
+        window.prev = () => { currentIdx = (currentIdx - 1 + songs.length) % songs.length; loadAndPlay(); };
+        window.next = () => { 
+            currentIdx = (mode === 2) ? Math.floor(Math.random() * songs.length) : (currentIdx + 1) % songs.length; 
+            loadAndPlay(); 
+        };
+        window.changeMode = () => { mode = (mode + 1) % 3; document.getElementById('mode-btn').innerText = modes[mode]; };
+        
+        audio.onended = () => (mode === 1) ? audio.play() : window.next();
+
+        audio.ontimeupdate = () => {
+            progressBar.value = (audio.currentTime / audio.duration) * 100 || 0;
+            const fmt = (s) => new Date(s * 1000).toISOString().substr(14, 5);
+            timeDisplay.innerText = `${fmt(audio.currentTime)} / ${fmt(audio.duration)} / ${fmt(audio.duration - audio.currentTime)}`;
+        };
+
+        progressBar.oninput = () => audio.currentTime = (progressBar.value / 100) * audio.duration;
+
+        const player = document.getElementById('player');
+        player.onmousedown = (e) => {
+            if (['BUTTON', 'INPUT', 'DIV'].includes(e.target.tagName) && e.target.id !== 'player') return;
+            let sx = e.clientX - player.offsetLeft, sy = e.clientY - player.offsetTop;
+            document.onmousemove = (e) => {
+                player.style.left = Math.max(0, Math.min(e.clientX - sx, window.innerWidth - player.offsetWidth)) + 'px';
+                player.style.top = Math.max(0, Math.min(e.clientY - sy, window.innerHeight - player.offsetHeight)) + 'px';
+                songList.style.display = 'none';
+            };
+            document.onmouseup = () => document.onmousemove = null;
+        };
+
+        window.toggleList = (e) => {
+            e.stopPropagation();
+            const visible = songList.style.display === 'block';
+            songList.style.display = visible ? 'none' : 'block';
+            const rect = player.getBoundingClientRect();
+            songList.style.left = rect.left + 'px';
+            songList.style.top = (rect.top > window.innerHeight/2) ? (rect.top - 170 + 'px') : (rect.top + 90 + 'px');
+        };
+
+        document.addEventListener('click', (e) => {
+            if (!player.contains(e.target) && !songList.contains(e.target)) songList.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
