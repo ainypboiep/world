@@ -16,7 +16,7 @@
         
         body { 
             margin: 0; height: 100vh; 
-            background: url('722264.jpg') center/cover no-repeat; 
+            background: url('miku.jpg') center/cover no-repeat; 
             /* 应用全局字体及回退方案 */
             font-family: '悠哉字体 Light', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Microsoft JhengHei', sans-serif; 
             overflow: hidden; 
@@ -26,7 +26,7 @@
         #title-text { position: absolute; top: 20px; width: 100%; text-align: center; color: var(--accent); font-weight: bold; pointer-events: none; line-height: 1.2; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
         
         /* --- 2. 播放器样式 --- */
-        #player { position: absolute; left: 50px; bottom: 150px; width: 350px; background: var(--glass); backdrop-filter: blur(20px); border-radius: 24px; padding: 16px; cursor: move; z-index: 1000; display: flex; align-items: center; gap: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+        #player { position: absolute; left: 50px; bottom: 150px; width: 350px; background: var(--glass); backdrop-filter: blur(20px); border-radius: 24px; padding: 16px; cursor: move; z-index: 1000; display: flex; align-items: center; gap: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); user-select: none; }
         #art-box { position: relative; width: 60px; height: 60px; border-radius: 12px; overflow: hidden; flex-shrink: 0; }
         #play-pause-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.35); display:flex; justify-content:center; align-items:center; color:white; cursor:pointer; opacity: 0.35; }
         
@@ -40,7 +40,7 @@
         
         /* --- 3. 导航链接：应用 #a0d8ef 颜色 --- */
         .nav-links { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; gap: 40px; padding: 14px 40px; background: var(--glass-nav); backdrop-filter: blur(20px); border-radius: 50px; }
-        .nav-links a { color: #66ccff; text-decoration: none; font-weight: bold; transition: opacity 0.3s; }
+        .nav-links a { color: #a0d8ef; text-decoration: none; font-weight: bold; transition: opacity 0.3s; }
         .nav-links a:hover { opacity: 0.8; }
     </style>
 </head>
@@ -81,7 +81,6 @@
     <audio id="audio"></audio>
 
     <script>
-        // (脚本内容保持原样)
         const songs = ["SpotiMate.io - 川 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 回想録 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 夢語り - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 鳥の詩 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 双星 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 夏影 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 野道 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 夜想 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 銀色 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 縁 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - 月童 - VISUAL ARTS _ Key.mp3", "SpotiMate.io - Farewell song - VISUAL ARTS _ Key.mp3", "SpotiMate.io - ふたり - VISUAL ARTS _ Key.mp3"];
         const audio = document.getElementById('audio'), playIcon = document.getElementById('play-icon'), songList = document.getElementById('song-list'), progressBar = document.getElementById('progress'), timeDisplay = document.getElementById('time-display');
         let currentIdx = 0, mode = 0;
@@ -121,17 +120,78 @@
 
         progressBar.oninput = () => audio.currentTime = (progressBar.value / 100) * audio.duration;
 
+        // ========== 修复后的拖动功能 ==========
         const player = document.getElementById('player');
-        player.onmousedown = (e) => {
-            if (['BUTTON', 'INPUT', 'DIV'].includes(e.target.tagName) && e.target.id !== 'player') return;
-            let sx = e.clientX - player.offsetLeft, sy = e.clientY - player.offsetTop;
-            document.onmousemove = (e) => {
-                player.style.left = Math.max(0, Math.min(e.clientX - sx, window.innerWidth - player.offsetWidth)) + 'px';
-                player.style.top = Math.max(0, Math.min(e.clientY - sy, window.innerHeight - player.offsetHeight)) + 'px';
-                songList.style.display = 'none';
-            };
-            document.onmouseup = () => document.onmousemove = null;
-        };
+        let isDragging = false;
+        let offsetX = 0, offsetY = 0;
+
+        player.addEventListener('mousedown', (e) => {
+            // 点击按钮、进度条、播放图标时不触发拖动
+            if (e.target.closest('button, input, #play-pause-overlay, #main-play-btn')) return;
+            
+            isDragging = true;
+            const rect = player.getBoundingClientRect();
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+
+            // 从 bottom 定位切换到 top 定位，避免冲突
+            player.style.bottom = 'auto';
+            player.style.left = rect.left + 'px';
+            player.style.top = rect.top + 'px';
+
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            
+            let newLeft = e.clientX - offsetX;
+            let newTop = e.clientY - offsetY;
+
+            // 边界限制
+            newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - player.offsetWidth));
+            newTop = Math.max(0, Math.min(newTop, window.innerHeight - player.offsetHeight));
+
+            player.style.left = newLeft + 'px';
+            player.style.top = newTop + 'px';
+            songList.style.display = 'none';
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // 触摸支持（手机端也能拖）
+        player.addEventListener('touchstart', (e) => {
+            if (e.target.closest('button, input, #play-pause-overlay, #main-play-btn')) return;
+            const touch = e.touches[0];
+            isDragging = true;
+            const rect = player.getBoundingClientRect();
+            offsetX = touch.clientX - rect.left;
+            offsetY = touch.clientY - rect.top;
+            player.style.bottom = 'auto';
+            player.style.left = rect.left + 'px';
+            player.style.top = rect.top + 'px';
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            const touch = e.touches[0];
+            let newLeft = touch.clientX - offsetX;
+            let newTop = touch.clientY - offsetY;
+            newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - player.offsetWidth));
+            newTop = Math.max(0, Math.min(newTop, window.innerHeight - player.offsetHeight));
+            player.style.left = newLeft + 'px';
+            player.style.top = newTop + 'px';
+            songList.style.display = 'none';
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+        // ========== 拖动功能结束 ==========
 
         window.toggleList = (e) => {
             e.stopPropagation();
