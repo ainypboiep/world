@@ -14,7 +14,26 @@
 
         :root {
             --accent: #66ccff;
-            --progress-height: 4px;
+            --progress-height: 2px;
+            --glass-bg1: rgba(255, 255, 255, 0.095);
+            --glass-bg2: rgba(255, 255, 255, 0.042);
+            --glass-bg3: rgba(255, 255, 255, 0.063);
+            --glass-border: rgba(255, 255, 255, 0.45);
+            --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+            --text-color: #fff;
+            --bg-overlay: rgba(0, 0, 0, 0);
+            --theme-transition-bg: rgba(0, 0, 0, 0.75);
+        }
+
+        [data-theme="dark"] {
+            --glass-bg1: rgba(255, 255, 255, 0.06);
+            --glass-bg2: rgba(255, 255, 255, 0.025);
+            --glass-bg3: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.25);
+            --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+            --text-color: #f0f0f0;
+            --bg-overlay: rgba(0, 0, 0, 0.65);
+            --theme-transition-bg: rgba(0, 0, 0, 0.85);
         }
 
         * {
@@ -28,6 +47,27 @@
             font-family: '悠哉字体 Light', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Microsoft JhengHei', sans-serif;
             overflow: hidden;
             user-select: none;
+            transition: filter 1.2s ease;
+            position: relative;
+        }
+        /* 暗黑模式壁纸变化：通过伪元素叠加暗色 + 滤镜 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            transition: opacity 1.2s ease;
+            opacity: 0;
+            background: var(--bg-overlay);
+            backdrop-filter: brightness(0.55) saturate(0.7);
+            -webkit-backdrop-filter: brightness(0.55) saturate(0.7);
+        }
+        [data-theme="dark"] body::before {
+            opacity: 1;
         }
 
         /* --- 顶部 --- */
@@ -40,6 +80,12 @@
             background: #fdeeef;
             opacity: 0.45;
             pointer-events: none;
+            z-index: 1;
+            transition: opacity 0.8s ease;
+        }
+        [data-theme="dark"] #header-overlay {
+            opacity: 0.15;
+            background: #1a1a2e;
         }
         #title-text {
             position: absolute;
@@ -51,9 +97,10 @@
             pointer-events: none;
             line-height: 1.2;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            z-index: 1;
         }
 
-        /* --- 右上角信息（时间 + 天气） --- */
+        /* --- 右上角信息 --- */
         #top-right-info {
             position: fixed;
             top: 16px;
@@ -65,19 +112,18 @@
             gap: 6px;
             padding: 12px 18px;
             border-radius: 20px;
-            background: linear-gradient(135deg,
-                    rgba(255, 255, 255, 0.20) 0%,
-                    rgba(255, 255, 255, 0.08) 50%,
-                    rgba(255, 255, 255, 0.14) 100%);
+            background: linear-gradient(135deg, var(--glass-bg1) 0%, var(--glass-bg2) 50%, var(--glass-bg3) 100%);
             backdrop-filter: blur(30px) saturate(180%) brightness(1.05);
             -webkit-backdrop-filter: blur(30px) saturate(180%) brightness(1.05);
-            border: 1px solid rgba(255, 255, 255, 0.40);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.20);
-            color: white;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            color: var(--text-color);
             font-weight: 400;
             min-width: 110px;
-            transition: opacity 0.3s;
+            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease, color 0.6s ease;
             pointer-events: none;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
         }
         #top-right-info .time {
             font-size: 1.2rem;
@@ -96,6 +142,14 @@
             height: 28px;
             flex-shrink: 0;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #top-right-info .weather-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
         }
         #top-right-info .weather-temp {
             font-size: 1.1rem;
@@ -107,19 +161,14 @@
             margin-left: 2px;
         }
 
-        /* --- 2. 液态玻璃核心样式 --- */
+        /* --- 液态玻璃核心 (不透明度再降30%) --- */
         .liquid-glass {
-            background: linear-gradient(135deg,
-                    rgba(255, 255, 255, 0.18) 0%,
-                    rgba(255, 255, 255, 0.08) 50%,
-                    rgba(255, 255, 255, 0.12) 100%);
+            background: linear-gradient(135deg, var(--glass-bg1) 0%, var(--glass-bg2) 50%, var(--glass-bg3) 100%);
             backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
             -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
-            border: 1px solid rgba(255, 255, 255, 0.45);
-            box-shadow:
-                0 12px 40px rgba(0, 0, 0, 0.22),
-                inset 0 1px 1px rgba(255, 255, 255, 0.55),
-                inset 0 -1px 1px rgba(255, 255, 255, 0.15);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease, color 0.6s ease;
         }
 
         /* --- 播放器 --- */
@@ -136,6 +185,9 @@
             align-items: center;
             gap: 16px;
             user-select: none;
+            will-change: left, top;
+            backface-visibility: hidden;
+            color: var(--text-color);
         }
         #art-box {
             position: relative;
@@ -167,13 +219,13 @@
             gap: 4px;
         }
 
-        /* --- 自定义进度条 --- */
+        /* --- 进度条 --- */
         #progress-container {
             position: relative;
             width: 100%;
             height: var(--progress-height);
-            border-radius: 2px;
-            background: rgba(255, 255, 255, 0.25);
+            border-radius: calc(var(--progress-height) / 2);
+            background: rgba(255, 255, 255, 0.15);
             cursor: pointer;
             touch-action: none;
         }
@@ -183,12 +235,12 @@
             left: 0;
             height: 100%;
             width: 0%;
-            border-radius: 2px;
+            border-radius: calc(var(--progress-height) / 2);
             background: var(--accent);
             background: linear-gradient(90deg, var(--accent), #88ddff, var(--accent));
             background-size: 200% 100%;
             background-position: 0% 0%;
-            transition: width 0.05s linear;
+            transition: none;
             will-change: width, background-position;
             box-shadow: 0 0 6px rgba(102, 204, 255, 0.4);
         }
@@ -196,12 +248,21 @@
             animation: flowGradient 1.8s linear infinite, pulseGlow 1.2s ease-in-out infinite;
         }
         @keyframes flowGradient {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 200% 0%; }
+            0% {
+                background-position: 0% 0%;
+            }
+            100% {
+                background-position: 200% 0%;
+            }
         }
         @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 6px rgba(102, 204, 255, 0.4); }
-            50% { box-shadow: 0 0 16px rgba(102, 204, 255, 0.8), 0 0 30px rgba(102, 204, 255, 0.3); }
+            0%,
+            100% {
+                box-shadow: 0 0 6px rgba(102, 204, 255, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 16px rgba(102, 204, 255, 0.8), 0 0 30px rgba(102, 204, 255, 0.3);
+            }
         }
 
         #progress {
@@ -220,9 +281,10 @@
 
         #time-display {
             font-size: 11px;
-            color: #fff;
+            color: var(--text-color);
             text-align: right;
             font-variant-numeric: tabular-nums;
+            transition: color 0.6s ease;
         }
         .controls {
             display: flex;
@@ -231,7 +293,7 @@
             padding-top: 4px;
         }
 
-        /* --- 歌曲列表 - 动画增强 --- */
+        /* --- 歌曲列表 --- */
         #song-list {
             position: absolute;
             width: 350px;
@@ -239,7 +301,7 @@
             border-radius: 20px;
             overflow-y: auto;
             z-index: 999;
-            color: white;
+            color: var(--text-color);
             padding: 10px 0;
             visibility: hidden;
             pointer-events: none;
@@ -247,6 +309,7 @@
             transform: scale(0.92) translateY(-8px);
             transform-origin: top center;
             will-change: transform, opacity;
+            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease, color 0.6s ease;
         }
         #song-list.active {
             visibility: visible;
@@ -256,7 +319,6 @@
         #song-list.hiding {
             animation: listPopOut 0.25s ease-in forwards;
         }
-
         @keyframes listPopIn {
             0% {
                 opacity: 0;
@@ -277,12 +339,12 @@
                 transform: scale(0.9) translateY(-8px);
             }
         }
-
         .song-item {
             padding: 12px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.12);
             cursor: pointer;
             font-size: 14px;
+            transition: background 0.2s;
         }
         .song-item:hover {
             background: rgba(255, 255, 255, 0.08);
@@ -298,20 +360,22 @@
             gap: 40px;
             padding: 14px 40px;
             border-radius: 50px;
+            z-index: 2;
         }
         .nav-links a {
             color: #66ccff;
             text-decoration: none;
             font-weight: bold;
-            transition: opacity 0.3s;
+            transition: opacity 0.3s, color 0.6s ease;
         }
         .nav-links a:hover {
             opacity: 0.8;
         }
+        [data-theme="dark"] .nav-links a {
+            color: #88ddff;
+        }
 
-        /* ============================================================
-                   齿轮按钮（右下角）
-                   ============================================================ */
+        /* --- 齿轮按钮 --- */
         #gear-island {
             position: fixed;
             right: 32px;
@@ -324,18 +388,21 @@
             justify-content: center;
             cursor: pointer;
             z-index: 1100;
-            transition: transform 0.25s ease, box-shadow 0.3s ease;
+            transition: transform 0.25s ease, box-shadow 0.3s ease, background 0.6s ease, border 0.6s ease;
             background: linear-gradient(135deg,
-                    rgba(255, 255, 255, 0.22) 0%,
-                    rgba(255, 255, 255, 0.08) 50%,
-                    rgba(255, 255, 255, 0.14) 100%);
+                    rgba(255, 255, 255, 0.116) 0%,
+                    rgba(255, 255, 255, 0.042) 50%,
+                    rgba(255, 255, 255, 0.074) 100%);
             backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
             -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
-            border: 1px solid rgba(255, 255, 255, 0.50);
-            box-shadow:
-                0 8px 28px rgba(0, 0, 0, 0.25),
-                inset 0 1px 1px rgba(255, 255, 255, 0.60),
-                inset 0 -1px 1px rgba(255, 255, 255, 0.15);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+        }
+        [data-theme="dark"] #gear-island {
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.07) 0%,
+                    rgba(255, 255, 255, 0.025) 50%,
+                    rgba(255, 255, 255, 0.045) 100%);
         }
         #gear-island:hover {
             transform: scale(1.08) rotate(12deg);
@@ -355,9 +422,7 @@
             transform: rotate(60deg);
         }
 
-        /* ============================================================
-                   弹窗
-                   ============================================================ */
+        /* --- 弹窗 --- */
         #modal-overlay {
             position: fixed;
             top: 0;
@@ -377,38 +442,55 @@
             display: flex;
         }
         @keyframes overlayFade {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
         }
 
         #modal {
             position: relative;
             width: 420px;
             max-width: 90vw;
-            height: 320px;
-            max-height: 70vh;
+            height: 340px;
+            max-height: 80vh;
             border-radius: 28px;
-            padding: 28px 24px 24px 24px;
+            padding: 28px 24px 20px 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             background: linear-gradient(145deg,
-                    rgba(255, 255, 255, 0.20) 0%,
-                    rgba(255, 255, 255, 0.07) 50%,
-                    rgba(255, 255, 255, 0.13) 100%);
+                    rgba(255, 255, 255, 0.105) 0%,
+                    rgba(255, 255, 255, 0.037) 50%,
+                    rgba(255, 255, 255, 0.068) 100%);
             backdrop-filter: blur(50px) saturate(220%) brightness(1.06);
             -webkit-backdrop-filter: blur(50px) saturate(220%) brightness(1.06);
-            border: 1px solid rgba(255, 255, 255, 0.50);
-            box-shadow:
-                0 24px 80px rgba(0, 0, 0, 0.45),
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45),
                 inset 0 1px 1px rgba(255, 255, 255, 0.60),
                 inset 0 -1px 1px rgba(255, 255, 255, 0.15);
             animation: modalPop 0.30s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: background 0.6s ease, border 0.6s ease;
+        }
+        [data-theme="dark"] #modal {
+            background: linear-gradient(145deg,
+                    rgba(255, 255, 255, 0.06) 0%,
+                    rgba(255, 255, 255, 0.02) 50%,
+                    rgba(255, 255, 255, 0.04) 100%);
+            border-color: rgba(255, 255, 255, 0.2);
         }
         @keyframes modalPop {
-            0% { transform: scale(0.80) translateY(30px); opacity: 0; }
-            100% { transform: scale(1) translateY(0); opacity: 1; }
+            0% {
+                transform: scale(0.80) translateY(30px);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
         }
 
         #window-controls {
@@ -460,10 +542,11 @@
         #modal-content .main-text {
             font-size: 3rem;
             font-weight: bold;
-            color: rgba(255, 255, 255, 0.92);
+            color: var(--text-color);
             text-shadow: 0 2px 16px rgba(0, 0, 0, 0.20);
             letter-spacing: 4px;
             line-height: 1.2;
+            transition: color 0.6s ease;
         }
         #modal-content .sub-deco {
             margin-top: 16px;
@@ -478,11 +561,185 @@
             color: rgba(255, 255, 255, 0.50);
             letter-spacing: 2px;
             font-weight: 300;
+            transition: color 0.6s ease;
+        }
+        [data-theme="dark"] #modal-content .sub-text {
+            color: rgba(255, 255, 255, 0.35);
         }
 
-        /* ============================================================
-                   响应式
-                   ============================================================ */
+        /* --- 主题切换组件 (左下角) --- */
+        #theme-switch-container {
+            position: absolute;
+            bottom: 20px;
+            left: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 5;
+            pointer-events: auto;
+        }
+        .theme-icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.6);
+            transition: color 0.3s, transform 0.3s, background 0.3s;
+            padding: 0;
+        }
+        .theme-icon-btn:hover {
+            transform: scale(1.1);
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .theme-icon-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+        .theme-icon-btn.active {
+            color: rgba(255, 255, 255, 0.95);
+        }
+        [data-theme="dark"] .theme-icon-btn.moon-icon {
+            color: #ffd93d;
+        }
+        [data-theme="light"] .theme-icon-btn.sun-icon {
+            color: #ffd93d;
+        }
+
+        /* 安卓17风格开关 */
+        .switch-track {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.25);
+            cursor: pointer;
+            transition: background 0.3s ease;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        [data-theme="dark"] .switch-track {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+        .switch-track.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        [data-theme="dark"] .switch-track.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .switch-thumb {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
+            will-change: transform;
+            pointer-events: none;
+        }
+        .switch-track.active .switch-thumb {
+            transform: translateX(24px);
+            background: #ffffff;
+        }
+        [data-theme="dark"] .switch-track.active .switch-thumb {
+            background: #ffffff;
+        }
+
+        /* --- 主题过渡层 (洪水动画) --- */
+        #theme-transition-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+            background: var(--theme-transition-bg);
+            clip-path: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
+            transition: clip-path 0.01s;
+            will-change: clip-path;
+            opacity: 0;
+            visibility: hidden;
+        }
+        #theme-transition-overlay.animating {
+            pointer-events: auto;
+            opacity: 1;
+            visibility: visible;
+        }
+        /* 明亮→暗黑：从右上角到左下角 (洪水涌来) */
+        #theme-transition-overlay.flood-in {
+            animation: floodIn 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes floodIn {
+            0% {
+                clip-path: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+                opacity: 1;
+            }
+        }
+        /* 暗黑→明亮：从左下角到右上角 (洪水退去) */
+        #theme-transition-overlay.flood-out {
+            animation: floodOut 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes floodOut {
+            0% {
+                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+                opacity: 1;
+            }
+            100% {
+                clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
+                opacity: 0;
+            }
+        }
+
+        /* --- MD3 图标按钮 (播放器) --- */
+        .md3-icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            transition: opacity 0.2s, color 0.6s ease;
+        }
+        .md3-icon-btn:hover {
+            opacity: 0.7;
+        }
+        .md3-icon-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* --- 响应式 --- */
         @media (max-width: 640px) {
             #top-right-info {
                 top: 10px;
@@ -512,7 +769,7 @@
             }
             #modal {
                 width: 92vw;
-                height: 280px;
+                height: 300px;
                 padding: 20px 16px 16px 16px;
             }
             #modal-content .main-text {
@@ -536,6 +793,32 @@
             #song-list {
                 width: 300px;
                 height: 140px;
+            }
+            #theme-switch-container {
+                bottom: 14px;
+                left: 16px;
+                gap: 8px;
+            }
+            .switch-track {
+                width: 44px;
+                height: 24px;
+            }
+            .switch-thumb {
+                width: 18px;
+                height: 18px;
+                top: 2px;
+                left: 2px;
+            }
+            .switch-track.active .switch-thumb {
+                transform: translateX(20px);
+            }
+            .theme-icon-btn svg {
+                width: 20px;
+                height: 20px;
+            }
+            .theme-icon-btn {
+                width: 28px;
+                height: 28px;
             }
         }
 
@@ -592,44 +875,37 @@
                 width: 22px;
                 height: 22px;
             }
-        }
-
-        /* MD3e 图标按钮 */
-        .md3-icon-btn {
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            padding: 0;
-            transition: opacity 0.2s;
-        }
-        .md3-icon-btn:hover {
-            opacity: 0.7;
-        }
-        .md3-icon-btn svg {
-            width: 20px;
-            height: 20px;
-            stroke: currentColor;
-            stroke-width: 2;
-            fill: none;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        /* 天气图标颜色继承 */
-        .weather-icon svg {
-            width: 100%;
-            height: 100%;
-            fill: currentColor;
+            #theme-switch-container {
+                bottom: 12px;
+                left: 12px;
+                gap: 6px;
+            }
+            .switch-track {
+                width: 38px;
+                height: 20px;
+                border-radius: 10px;
+            }
+            .switch-thumb {
+                width: 14px;
+                height: 14px;
+                top: 2px;
+                left: 2px;
+            }
+            .switch-track.active .switch-thumb {
+                transform: translateX(18px);
+            }
+            .theme-icon-btn svg {
+                width: 16px;
+                height: 16px;
+            }
+            .theme-icon-btn {
+                width: 24px;
+                height: 24px;
+            }
         }
     </style>
 </head>
-<body>
+<body data-theme="light">
 
     <!-- ====== 顶部 ====== -->
     <div id="header-overlay"></div>
@@ -642,7 +918,7 @@
     <div id="top-right-info" class="liquid-glass">
         <div class="time" id="clock">--:--:--</div>
         <div class="weather" id="weather-info">
-            <span class="weather-icon" id="weather-icon"><!-- SVG 图标 --></span>
+            <span class="weather-icon" id="weather-icon"></span>
             <span class="weather-temp" id="weather-temp">--°C</span>
             <span class="weather-desc" id="weather-desc"></span>
         </div>
@@ -655,7 +931,6 @@
             <div id="play-pause-overlay" onclick="togglePlay()">▶</div>
         </div>
         <div class="control-area">
-            <!-- 自定义进度条 -->
             <div id="progress-container">
                 <div id="progress-fill"></div>
                 <input type="range" id="progress" value="0" step="0.001" />
@@ -692,7 +967,7 @@
     </div>
 
     <!-- ====== 齿轮按钮 ====== -->
-    <div id="gear-island" class="liquid-glass" onclick="openModal()" title="パーソナライズ">
+    <div id="gear-island" onclick="openModal()" title="パーソナライズ">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
             <circle cx="12" cy="12" r="3" />
@@ -702,18 +977,42 @@
     <!-- ====== 弹窗 ====== -->
     <div id="modal-overlay" onclick="closeModalOutside(event)">
         <div id="modal" class="liquid-glass" onclick="event.stopPropagation();">
+            <!-- macOS 风格关闭按钮 -->
             <div id="window-controls">
                 <span class="dot red" onclick="closeModal()" title="关闭"></span>
                 <span class="dot yellow" title="最小化（装饰）"></span>
                 <span class="dot green" title="最大化（装饰）"></span>
             </div>
+
+            <!-- 弹窗内容 -->
             <div id="modal-content">
                 <div class="main-text">パーソナライズ</div>
                 <div class="sub-deco"></div>
                 <div class="sub-text">✦ あなただけの ✦</div>
             </div>
+
+            <!-- 左下角主题切换 -->
+            <div id="theme-switch-container">
+                <!-- 月亮 (暗黑) -->
+                <button class="theme-icon-btn moon-icon" id="moon-btn" onclick="setTheme('dark')" title="暗黑模式">
+                    <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.5 5.5 0 0 1-7.54-7.54A9.01 9.01 0 0 0 12 3z"/></svg>
+                </button>
+
+                <!-- 安卓17风格开关 -->
+                <div class="switch-track active" id="switch-track" onclick="toggleTheme()">
+                    <div class="switch-thumb" id="switch-thumb"></div>
+                </div>
+
+                <!-- 太阳 (明亮) -->
+                <button class="theme-icon-btn sun-icon active" id="sun-btn" onclick="setTheme('light')" title="明亮模式">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                </button>
+            </div>
         </div>
     </div>
+
+    <!-- ====== 主题过渡层 (洪水动画) ====== -->
+    <div id="theme-transition-overlay"></div>
 
     <!-- ====== 音频 ====== -->
     <audio id="audio"></audio>
@@ -727,11 +1026,9 @@
         const weatherTempEl = document.getElementById('weather-temp');
         const weatherDescEl = document.getElementById('weather-desc');
 
-        // ----- 1.1 时钟 -----
         function updateClock() {
             const now = new Date();
-            // 东八区 (UTC+8)
-            const offset = 8 * 60; // 分钟
+            const offset = 8 * 60;
             const local = new Date(now.getTime() + (offset - now.getTimezoneOffset()) * 60000);
             const h = String(local.getHours()).padStart(2, '0');
             const m = String(local.getMinutes()).padStart(2, '0');
@@ -741,33 +1038,26 @@
         updateClock();
         setInterval(updateClock, 1000);
 
-        // ----- 1.2 天气 -----
-        // 使用 wttr.in 免费天气 API（无需注册），自动根据IP获取位置，返回中文描述
         const WEATHER_CACHE_KEY = 'weather_cache';
-        const CACHE_DURATION = 10 * 60 * 1000; // 10分钟
+        const CACHE_DURATION = 10 * 60 * 1000;
 
-        // 天气代码 → Pixel 风格 SVG 图标（Material Design 风格）
         function getWeatherIconSVG(code) {
-            // code 参考：https://www.wttr.in/weather_conditions
-            // 113 ☀️ 晴, 116 ⛅ 部分多云, 119 ☁️ 多云, 122 ☁️ 阴, 143 🌫️ 雾,
-            // 176 🌧️ 小雨, 179 🌨️ 小雪, 185 🌧️ 冻雨, 200 ⛈️ 雷阵雨, ...
             let iconName = 'sunny';
             if (code === 113) iconName = 'sunny';
             else if (code === 116) iconName = 'partly_cloudy';
             else if (code === 119 || code === 122) iconName = 'cloudy';
             else if (code === 143 || code === 248 || code === 260) iconName = 'foggy';
-            else if ([176, 179, 182, 185, 293, 296, 299, 302, 305, 308, 311, 314, 317, 320, 323, 326, 329, 332, 335, 338, 350, 353, 356, 359, 362, 365, 368, 371, 374, 377, 386, 389, 392, 395].includes(code)) {
-                // 雨雪类
+            else if ([176, 179, 182, 185, 293, 296, 299, 302, 305, 308, 311, 314, 317, 320, 323, 326, 329, 332, 335, 338, 350,
+                    353, 356, 359, 362, 365, 368, 371, 374, 377, 386, 389, 392, 395
+                ].includes(code)) {
                 if (code >= 200 && code < 300) iconName = 'thunderstorm';
                 else if (code >= 300 && code < 400) iconName = 'rainy';
                 else if (code >= 500 && code < 600) iconName = 'rainy';
                 else if (code >= 600 && code < 700) iconName = 'snowy';
                 else iconName = 'rainy';
             } else {
-                iconName = 'cloudy'; // fallback
+                iconName = 'cloudy';
             }
-
-            // 返回 SVG 内容 (简单的 Material 风格)
             const svgMap = {
                 'sunny': `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`,
                 'partly_cloudy': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><circle cx="12" cy="12" r="5" opacity="0.4"/></svg>`,
@@ -778,6 +1068,13 @@
                 'thunderstorm': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><path d="M12 17l-2 4h4l-2 4"/></svg>`
             };
             return svgMap[iconName] || svgMap['cloudy'];
+        }
+
+        function updateWeatherUI(data) {
+            const { temp, desc, code } = data;
+            weatherTempEl.textContent = `${temp}°C`;
+            weatherDescEl.textContent = desc || '';
+            weatherIconEl.innerHTML = getWeatherIconSVG(code);
         }
 
         function fetchWeather() {
@@ -791,8 +1088,6 @@
                     }
                 } catch (e) { /* ignore */ }
             }
-
-            // 请求新数据
             fetch('https://wttr.in/?format=j1&lang=zh')
                 .then(res => {
                     if (!res.ok) throw new Error('Weather API error');
@@ -803,37 +1098,21 @@
                     const temp = current.temp_C;
                     const desc = current.weatherDesc[0].value;
                     const code = parseInt(current.weatherCode);
-                    const data = {
-                        temp,
-                        desc,
-                        code,
-                        timestamp: Date.now()
-                    };
+                    const data = { temp, desc, code, timestamp: Date.now() };
                     localStorage.setItem(WEATHER_CACHE_KEY, JSON.stringify(data));
                     updateWeatherUI(data);
                 })
                 .catch(err => {
                     console.warn('Weather fetch failed, using fallback', err);
-                    // 使用默认值（上海天气示例）
                     const fallback = { temp: '22', desc: '多云', code: 119, timestamp: Date.now() };
                     updateWeatherUI(fallback);
                 });
         }
-
-        function updateWeatherUI(data) {
-            const { temp, desc, code } = data;
-            weatherTempEl.textContent = `${temp}°C`;
-            weatherDescEl.textContent = desc || '';
-            weatherIconEl.innerHTML = getWeatherIconSVG(code);
-        }
-
-        // 初始化天气
         fetchWeather();
-        // 每10分钟刷新一次
         setInterval(fetchWeather, CACHE_DURATION);
 
         // ===================================================================
-        //  2. 播放器逻辑 (保持不变)
+        //  2. 播放器逻辑
         // ===================================================================
         const songs = [
             "Aquaculture - LamazeP.mp3",
@@ -856,6 +1135,7 @@
         const player = document.getElementById('player');
         let currentIdx = 0,
             mode = 0;
+        let isDraggingProgress = false;
 
         songs.forEach((s, i) => {
             const div = document.createElement('div');
@@ -878,6 +1158,7 @@
         }
 
         function updateProgress() {
+            if (isDraggingProgress) return;
             if (audio.duration) {
                 const percent = (audio.currentTime / audio.duration) * 100;
                 progressBar.value = percent;
@@ -937,8 +1218,27 @@
         audio.ontimeupdate = () => {
             updateProgress();
             const fmt = (s) => new Date(s * 1000).toISOString().substr(14, 5);
-            timeDisplay.innerText = `${fmt(audio.currentTime)} / ${fmt(audio.duration)} / ${fmt(audio.duration - audio.currentTime)}`;
+            timeDisplay.innerText =
+                `${fmt(audio.currentTime)} / ${fmt(audio.duration)} / ${fmt(audio.duration - audio.currentTime)}`;
         };
+
+        progressBar.addEventListener('mousedown', () => {
+            isDraggingProgress = true;
+            progressFill.classList.remove('playing');
+        });
+        progressBar.addEventListener('touchstart', () => {
+            isDraggingProgress = true;
+            progressFill.classList.remove('playing');
+        }, { passive: true });
+
+        const endProgressDrag = () => {
+            isDraggingProgress = false;
+            if (!audio.paused) {
+                progressFill.classList.add('playing');
+            }
+        };
+        document.addEventListener('mouseup', endProgressDrag);
+        document.addEventListener('touchend', endProgressDrag);
 
         progressBar.oninput = () => {
             const val = parseFloat(progressBar.value);
@@ -959,7 +1259,7 @@
         audio.onplay = () => setPlayingState(true);
         audio.onpause = () => setPlayingState(false);
 
-        // ========== 播放列表动画控制 ==========
+        // ========== 播放列表动画 ==========
         function closeListImmediate() {
             songList.classList.remove('active', 'hiding');
             songList.style.visibility = 'hidden';
@@ -1067,36 +1367,147 @@
 
         document.addEventListener('touchend', () => { isDragging = false; });
 
-        // ========== 齿轮弹窗 ==========
+        // ===================================================================
+        //  3. 暗黑模式切换 (主题 + 洪水动画)
+        // ===================================================================
+        let currentTheme = 'light';
+        let isTransitioning = false;
+
+        const transitionOverlay = document.getElementById('theme-transition-overlay');
+        const switchTrack = document.getElementById('switch-track');
+        const moonBtn = document.getElementById('moon-btn');
+        const sunBtn = document.getElementById('sun-btn');
+
+        function updateSwitchUI(theme) {
+            if (theme === 'dark') {
+                switchTrack.classList.add('active');
+                moonBtn.classList.add('active');
+                sunBtn.classList.remove('active');
+            } else {
+                switchTrack.classList.remove('active');
+                moonBtn.classList.remove('active');
+                sunBtn.classList.add('active');
+            }
+        }
+
+        function applyTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            currentTheme = theme;
+            updateSwitchUI(theme);
+            // 更新播放器按钮颜色
+            const btns = document.querySelectorAll('.md3-icon-btn');
+            btns.forEach(btn => {
+                btn.style.color = theme === 'dark' ? '#f0f0f0' : '#fff';
+            });
+        }
+
+        function setTheme(theme) {
+            if (theme === currentTheme || isTransitioning) return;
+            const fromDark = currentTheme === 'dark';
+            const toDark = theme === 'dark';
+
+            isTransitioning = true;
+
+            // 准备过渡层
+            transitionOverlay.className = 'animating';
+            transitionOverlay.style.opacity = '1';
+            transitionOverlay.style.visibility = 'visible';
+
+            // 根据方向选择动画
+            if (toDark) {
+                // 明亮→暗黑：洪水涌来 (右上→左下)
+                transitionOverlay.className = 'animating flood-in';
+            } else {
+                // 暗黑→明亮：洪水退去 (左下→右上)
+                transitionOverlay.className = 'animating flood-out';
+            }
+
+            // 动画结束后切换主题
+            const onAnimationEnd = () => {
+                transitionOverlay.removeEventListener('animationend', onAnimationEnd);
+                // 应用主题
+                applyTheme(theme);
+                // 延迟隐藏过渡层
+                setTimeout(() => {
+                    transitionOverlay.className = '';
+                    transitionOverlay.style.opacity = '0';
+                    transitionOverlay.style.visibility = 'hidden';
+                    isTransitioning = false;
+                }, 100);
+            };
+            transitionOverlay.addEventListener('animationend', onAnimationEnd);
+
+            // 安全兜底：如果动画未能触发结束事件
+            setTimeout(() => {
+                if (isTransitioning) {
+                    transitionOverlay.removeEventListener('animationend', onAnimationEnd);
+                    applyTheme(theme);
+                    transitionOverlay.className = '';
+                    transitionOverlay.style.opacity = '0';
+                    transitionOverlay.style.visibility = 'hidden';
+                    isTransitioning = false;
+                }
+            }, 1200);
+        }
+
+        function toggleTheme() {
+            if (isTransitioning) return;
+            const target = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(target);
+        }
+
+        // 点击开关轨道触发切换
+        switchTrack.addEventListener('click', toggleTheme);
+
+        // 点击齿轮时如果弹窗打开，确保开关状态同步
+        function syncSwitchUI() {
+            updateSwitchUI(currentTheme);
+        }
+
+        // ===================================================================
+        //  4. 齿轮弹窗
+        // ===================================================================
         const overlay = document.getElementById('modal-overlay');
+        const modal = document.getElementById('modal');
+
         window.openModal = function() {
             overlay.classList.add('active');
             overlay.style.display = 'flex';
             document.body.style.overflow = 'hidden';
+            syncSwitchUI();
         };
+
         window.closeModal = function() {
             overlay.classList.remove('active');
             overlay.style.display = 'none';
             document.body.style.overflow = '';
         };
+
         window.closeModalOutside = function(e) {
             if (e.target === overlay) closeModal();
         };
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
         });
+
         document.getElementById('gear-island').addEventListener('click', function(e) {
             e.stopPropagation();
         });
 
-        // ========== 初始化 ==========
+        // ===================================================================
+        //  5. 初始化
+        // ===================================================================
         window.addEventListener('load', () => {
             audio.src = songs[0];
             document.getElementById('mode-icon').innerHTML = iconMap[0];
             playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
             setPlayingState(false);
             updateProgress();
+            // 默认明亮模式
+            applyTheme('light');
         });
     </script>
+
 </body>
 </html>
