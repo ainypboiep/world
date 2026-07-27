@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>给你扇窗全看世界，但你摸不到乁⁠[⁠ᓀ⁠˵⁠▾⁠˵⁠ᓂ⁠]⁠ㄏ</title>
     <style>
         /* --- 1. 字体与全局设置 --- */
@@ -12,194 +12,1035 @@
             font-display: swap;
         }
 
-        :root { 
-            --accent: #66ccff; 
+        :root {
+            --accent: #66ccff;
+            --progress-height: 4px;
         }
-        
-        body { 
-            margin: 0; height: 100vh; 
-            background: url('722264.jpg') center/cover no-repeat; 
-            font-family: '悠哉字体 Light', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Microsoft JhengHei', sans-serif; 
-            overflow: hidden; 
+
+        * {
+            box-sizing: border-box;
         }
-        
-        #header-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 110px; background: #fdeeef; opacity: 0.45; pointer-events: none; }
-        #title-text { position: absolute; top: 20px; width: 100%; text-align: center; color: var(--accent); font-weight: bold; pointer-events: none; line-height: 1.2; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
-        
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: url('722264.jpg') center/cover no-repeat;
+            font-family: '悠哉字体 Light', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Microsoft JhengHei', sans-serif;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* --- 顶部 --- */
+        #header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 110px;
+            background: #fdeeef;
+            opacity: 0.45;
+            pointer-events: none;
+        }
+        #title-text {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            color: var(--accent);
+            font-weight: bold;
+            pointer-events: none;
+            line-height: 1.2;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- 右上角信息（时间 + 天气） --- */
+        #top-right-info {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 1200;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+            padding: 12px 18px;
+            border-radius: 20px;
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.20) 0%,
+                    rgba(255, 255, 255, 0.08) 50%,
+                    rgba(255, 255, 255, 0.14) 100%);
+            backdrop-filter: blur(30px) saturate(180%) brightness(1.05);
+            -webkit-backdrop-filter: blur(30px) saturate(180%) brightness(1.05);
+            border: 1px solid rgba(255, 255, 255, 0.40);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.20);
+            color: white;
+            font-weight: 400;
+            min-width: 110px;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        #top-right-info .time {
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            font-weight: 500;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.20);
+        }
+        #top-right-info .weather {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+        #top-right-info .weather-icon {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+        }
+        #top-right-info .weather-temp {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        #top-right-info .weather-desc {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-left: 2px;
+        }
+
         /* --- 2. 液态玻璃核心样式 --- */
         .liquid-glass {
-            background: linear-gradient(
-                135deg,
-                rgba(255, 255, 255, 0.18) 0%,
-                rgba(255, 255, 255, 0.08) 50%,
-                rgba(255, 255, 255, 0.12) 100%
-            );
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.18) 0%,
+                    rgba(255, 255, 255, 0.08) 50%,
+                    rgba(255, 255, 255, 0.12) 100%);
             backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
             -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
             border: 1px solid rgba(255, 255, 255, 0.45);
-            box-shadow: 
+            box-shadow:
                 0 12px 40px rgba(0, 0, 0, 0.22),
                 inset 0 1px 1px rgba(255, 255, 255, 0.55),
                 inset 0 -1px 1px rgba(255, 255, 255, 0.15);
         }
 
         /* --- 播放器 --- */
-        #player { 
-            position: absolute; left: 50px; bottom: 150px; width: 350px; 
-            border-radius: 24px; 
-            padding: 16px; 
-            cursor: move; 
-            z-index: 1000; 
-            display: flex; 
-            align-items: center; 
-            gap: 16px; 
-            user-select: none; 
+        #player {
+            position: absolute;
+            left: 50px;
+            bottom: 150px;
+            width: 350px;
+            border-radius: 24px;
+            padding: 16px;
+            cursor: move;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            user-select: none;
         }
-        #art-box { position: relative; width: 60px; height: 60px; border-radius: 12px; overflow: hidden; flex-shrink: 0; }
-        #play-pause-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.35); display:flex; justify-content:center; align-items:center; color:white; cursor:pointer; opacity: 0.35; }
-        
-        .control-area { flex: 1; display: flex; flex-direction: column; gap: 4px; }
-        #progress { width: 100%; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.3); accent-color: var(--accent); cursor: pointer; }
-        #time-display { font-size: 11px; color: #fff; text-align: right; font-variant-numeric: tabular-nums; }
-        .controls { display: flex; justify-content: space-between; align-items: center; padding-top: 4px; }
-        
-        /* 歌曲列表 */
-        #song-list { 
-            position: absolute; width: 350px; height: 160px; 
-            border-radius: 20px; 
-            display: none; 
-            overflow-y: auto; 
-            z-index: 999; 
-            color: white; 
-            padding: 10px 0; 
+        #art-box {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            overflow: hidden;
+            flex-shrink: 0;
         }
-        .song-item { padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.12); cursor: pointer; font-size: 14px; }
-        .song-item:hover { background: rgba(255,255,255,0.08); }
-        
-        /* 导航链接 */
-        .nav-links { 
-            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); 
-            display: flex; gap: 40px; padding: 14px 40px; 
-            border-radius: 50px; 
+        #play-pause-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            cursor: pointer;
+            opacity: 0.35;
         }
-        .nav-links a { color: #66ccff; text-decoration: none; font-weight: bold; transition: opacity 0.3s; }
-        .nav-links a:hover { opacity: 0.8; }
+
+        .control-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* --- 自定义进度条 --- */
+        #progress-container {
+            position: relative;
+            width: 100%;
+            height: var(--progress-height);
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.25);
+            cursor: pointer;
+            touch-action: none;
+        }
+        #progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            border-radius: 2px;
+            background: var(--accent);
+            background: linear-gradient(90deg, var(--accent), #88ddff, var(--accent));
+            background-size: 200% 100%;
+            background-position: 0% 0%;
+            transition: width 0.05s linear;
+            will-change: width, background-position;
+            box-shadow: 0 0 6px rgba(102, 204, 255, 0.4);
+        }
+        #progress-fill.playing {
+            animation: flowGradient 1.8s linear infinite, pulseGlow 1.2s ease-in-out infinite;
+        }
+        @keyframes flowGradient {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 6px rgba(102, 204, 255, 0.4); }
+            50% { box-shadow: 0 0 16px rgba(102, 204, 255, 0.8), 0 0 30px rgba(102, 204, 255, 0.3); }
+        }
+
+        #progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 2;
+            margin: 0;
+            padding: 0;
+            touch-action: none;
+        }
+
+        #time-display {
+            font-size: 11px;
+            color: #fff;
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 4px;
+        }
+
+        /* --- 歌曲列表 - 动画增强 --- */
+        #song-list {
+            position: absolute;
+            width: 350px;
+            height: 160px;
+            border-radius: 20px;
+            overflow-y: auto;
+            z-index: 999;
+            color: white;
+            padding: 10px 0;
+            visibility: hidden;
+            pointer-events: none;
+            opacity: 0;
+            transform: scale(0.92) translateY(-8px);
+            transform-origin: top center;
+            will-change: transform, opacity;
+        }
+        #song-list.active {
+            visibility: visible;
+            pointer-events: auto;
+            animation: listPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        #song-list.hiding {
+            animation: listPopOut 0.25s ease-in forwards;
+        }
+
+        @keyframes listPopIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.85) translateY(-12px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        @keyframes listPopOut {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.9) translateY(-8px);
+            }
+        }
+
+        .song-item {
+            padding: 12px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .song-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* --- 导航链接 --- */
+        .nav-links {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 40px;
+            padding: 14px 40px;
+            border-radius: 50px;
+        }
+        .nav-links a {
+            color: #66ccff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: opacity 0.3s;
+        }
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* ============================================================
+                   齿轮按钮（右下角）
+                   ============================================================ */
+        #gear-island {
+            position: fixed;
+            right: 32px;
+            bottom: 120px;
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1100;
+            transition: transform 0.25s ease, box-shadow 0.3s ease;
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.22) 0%,
+                    rgba(255, 255, 255, 0.08) 50%,
+                    rgba(255, 255, 255, 0.14) 100%);
+            backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
+            -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
+            border: 1px solid rgba(255, 255, 255, 0.50);
+            box-shadow:
+                0 8px 28px rgba(0, 0, 0, 0.25),
+                inset 0 1px 1px rgba(255, 255, 255, 0.60),
+                inset 0 -1px 1px rgba(255, 255, 255, 0.15);
+        }
+        #gear-island:hover {
+            transform: scale(1.08) rotate(12deg);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+        }
+        #gear-island:active {
+            transform: scale(0.92);
+        }
+        #gear-island svg {
+            width: 32px;
+            height: 32px;
+            color: rgba(255, 255, 255, 0.92);
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.20));
+            transition: transform 0.6s ease;
+        }
+        #gear-island:hover svg {
+            transform: rotate(60deg);
+        }
+
+        /* ============================================================
+                   弹窗
+                   ============================================================ */
+        #modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: overlayFade 0.25s ease;
+        }
+        #modal-overlay.active {
+            display: flex;
+        }
+        @keyframes overlayFade {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        #modal {
+            position: relative;
+            width: 420px;
+            max-width: 90vw;
+            height: 320px;
+            max-height: 70vh;
+            border-radius: 28px;
+            padding: 28px 24px 24px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg,
+                    rgba(255, 255, 255, 0.20) 0%,
+                    rgba(255, 255, 255, 0.07) 50%,
+                    rgba(255, 255, 255, 0.13) 100%);
+            backdrop-filter: blur(50px) saturate(220%) brightness(1.06);
+            -webkit-backdrop-filter: blur(50px) saturate(220%) brightness(1.06);
+            border: 1px solid rgba(255, 255, 255, 0.50);
+            box-shadow:
+                0 24px 80px rgba(0, 0, 0, 0.45),
+                inset 0 1px 1px rgba(255, 255, 255, 0.60),
+                inset 0 -1px 1px rgba(255, 255, 255, 0.15);
+            animation: modalPop 0.30s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes modalPop {
+            0% { transform: scale(0.80) translateY(30px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        #window-controls {
+            position: absolute;
+            top: 18px;
+            left: 20px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            z-index: 10;
+        }
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            display: inline-block;
+            transition: filter 0.2s, transform 0.15s;
+            cursor: default;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.10);
+        }
+        .dot.red {
+            background: radial-gradient(circle at 35% 35%, #ff6b6b, #d32f2f);
+            cursor: pointer;
+        }
+        .dot.red:hover {
+            filter: brightness(1.15);
+            transform: scale(1.12);
+        }
+        .dot.red:active {
+            transform: scale(0.88);
+        }
+        .dot.yellow {
+            background: radial-gradient(circle at 35% 35%, #ffd93d, #f9a825);
+        }
+        .dot.green {
+            background: radial-gradient(circle at 35% 35%, #6bcf7f, #2e7d32);
+        }
+
+        #modal-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            width: 100%;
+            text-align: center;
+            padding-top: 10px;
+        }
+        #modal-content .main-text {
+            font-size: 3rem;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.92);
+            text-shadow: 0 2px 16px rgba(0, 0, 0, 0.20);
+            letter-spacing: 4px;
+            line-height: 1.2;
+        }
+        #modal-content .sub-deco {
+            margin-top: 16px;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.50), transparent);
+            border-radius: 2px;
+        }
+        #modal-content .sub-text {
+            margin-top: 12px;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.50);
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        /* ============================================================
+                   响应式
+                   ============================================================ */
+        @media (max-width: 640px) {
+            #top-right-info {
+                top: 10px;
+                right: 10px;
+                padding: 8px 14px;
+                min-width: 80px;
+            }
+            #top-right-info .time {
+                font-size: 1rem;
+            }
+            #top-right-info .weather-icon {
+                width: 22px;
+                height: 22px;
+            }
+            #top-right-info .weather-temp {
+                font-size: 0.95rem;
+            }
+            #gear-island {
+                right: 18px;
+                bottom: 100px;
+                width: 52px;
+                height: 52px;
+            }
+            #gear-island svg {
+                width: 26px;
+                height: 26px;
+            }
+            #modal {
+                width: 92vw;
+                height: 280px;
+                padding: 20px 16px 16px 16px;
+            }
+            #modal-content .main-text {
+                font-size: 2.2rem;
+            }
+            #player {
+                left: 16px;
+                bottom: 120px;
+                width: 300px;
+                padding: 12px;
+            }
+            .nav-links {
+                gap: 16px;
+                padding: 10px 20px;
+                font-size: 0.85rem;
+                flex-wrap: wrap;
+                justify-content: center;
+                bottom: 20px;
+                max-width: 94vw;
+            }
+            #song-list {
+                width: 300px;
+                height: 140px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            #top-right-info {
+                top: 6px;
+                right: 6px;
+                padding: 6px 10px;
+                min-width: 60px;
+                border-radius: 16px;
+            }
+            #top-right-info .time {
+                font-size: 0.85rem;
+            }
+            #top-right-info .weather-icon {
+                width: 18px;
+                height: 18px;
+            }
+            #top-right-info .weather-temp {
+                font-size: 0.8rem;
+            }
+            #top-right-info .weather-desc {
+                font-size: 0.65rem;
+            }
+            #player {
+                width: 260px;
+                left: 10px;
+                bottom: 100px;
+                gap: 10px;
+            }
+            #art-box {
+                width: 48px;
+                height: 48px;
+            }
+            #modal-content .main-text {
+                font-size: 1.8rem;
+            }
+            .dot {
+                width: 12px;
+                height: 12px;
+            }
+            #window-controls {
+                gap: 6px;
+                top: 14px;
+                left: 14px;
+            }
+            #gear-island {
+                right: 12px;
+                bottom: 80px;
+                width: 44px;
+                height: 44px;
+            }
+            #gear-island svg {
+                width: 22px;
+                height: 22px;
+            }
+        }
+
+        /* MD3e 图标按钮 */
+        .md3-icon-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            transition: opacity 0.2s;
+        }
+        .md3-icon-btn:hover {
+            opacity: 0.7;
+        }
+        .md3-icon-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* 天气图标颜色继承 */
+        .weather-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
+        }
     </style>
 </head>
 <body>
+
+    <!-- ====== 顶部 ====== -->
     <div id="header-overlay"></div>
     <div id="title-text">
         <div style="font-size:1.8em;">来了,</div>
         <div style="font-size:2.6em;">バラモン！</div>
     </div>
 
+    <!-- ====== 右上角信息 ====== -->
+    <div id="top-right-info" class="liquid-glass">
+        <div class="time" id="clock">--:--:--</div>
+        <div class="weather" id="weather-info">
+            <span class="weather-icon" id="weather-icon"><!-- SVG 图标 --></span>
+            <span class="weather-temp" id="weather-temp">--°C</span>
+            <span class="weather-desc" id="weather-desc"></span>
+        </div>
+    </div>
+
+    <!-- ====== 播放器 ====== -->
     <div id="player" class="liquid-glass">
         <div id="art-box">
-            <img src="CD.jpg" width="60" height="60" onerror="this.src='https://via.placeholder.com/60'">
+            <img src="CD.jpg" width="60" height="60" onerror="this.src='https://via.placeholder.com/60'" alt="cover" />
             <div id="play-pause-overlay" onclick="togglePlay()">▶</div>
         </div>
         <div class="control-area">
-            <input type="range" id="progress" value="0">
+            <!-- 自定义进度条 -->
+            <div id="progress-container">
+                <div id="progress-fill"></div>
+                <input type="range" id="progress" value="0" step="0.001" />
+            </div>
             <div id="time-display">00:00 / 00:00 / 00:00</div>
             <div class="controls">
-                <button onclick="prev()" style="background:none; border:none; color:white; cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
-                <button id="main-play-btn" onclick="togglePlay()" style="background:var(--accent); border:none; color:#000; width:36px; height:36px; border-radius:18px; cursor:pointer;"><svg id="play-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
-                <button onclick="next()" style="background:none; border:none; color:white; cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
-                <button id="mode-btn" onclick="changeMode()" style="background:none; border:none; color:white; font-size:16px;">🔁</button>
-                <button onclick="toggleList(event)" style="background:none; border:none; color:white; font-size:16px;">☰</button>
+                <button onclick="prev()" class="md3-icon-btn">
+                    <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                </button>
+                <button id="main-play-btn" onclick="togglePlay()" style="background:var(--accent); border:none; color:#000; width:36px; height:36px; border-radius:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                    <svg id="play-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <button onclick="next()" class="md3-icon-btn">
+                    <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+                </button>
+                <button id="mode-btn" onclick="changeMode()" class="md3-icon-btn" title="切换播放模式">
+                    <span id="mode-icon" style="display:flex; align-items:center; justify-content:center; width:100%; height:100%;"></span>
+                </button>
+                <button onclick="toggleList(event)" class="md3-icon-btn" style="font-size:18px; font-weight:300;">☰</button>
             </div>
         </div>
     </div>
 
+    <!-- ====== 歌曲列表 ====== -->
     <div id="song-list" class="liquid-glass"></div>
 
+    <!-- ====== 导航链接 ====== -->
     <div class="nav-links liquid-glass">
-        <a href="md.html">すべてを見る</a><a href="https://bxfans.github.io/Tube/">YouTube</a><a href="https://bxfans.github.io/Gptt/">ChatGPT</a>
-        <a href="https://bxfans.github.io/Pixiv/">Pixiv</a><a href="https://bxfans.github.io/niconico/">ニコニコ</a>
+        <a href="md.html">すべてを見る</a>
+        <a href="https://bxfans.github.io/Tube/">YouTube</a>
+        <a href="https://bxfans.github.io/Gptt/">ChatGPT</a>
+        <a href="https://bxfans.github.io/Pixiv/">Pixiv</a>
+        <a href="https://bxfans.github.io/niconico/">ニコニコ</a>
     </div>
 
+    <!-- ====== 齿轮按钮 ====== -->
+    <div id="gear-island" class="liquid-glass" onclick="openModal()" title="パーソナライズ">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+            <circle cx="12" cy="12" r="3" />
+        </svg>
+    </div>
+
+    <!-- ====== 弹窗 ====== -->
+    <div id="modal-overlay" onclick="closeModalOutside(event)">
+        <div id="modal" class="liquid-glass" onclick="event.stopPropagation();">
+            <div id="window-controls">
+                <span class="dot red" onclick="closeModal()" title="关闭"></span>
+                <span class="dot yellow" title="最小化（装饰）"></span>
+                <span class="dot green" title="最大化（装饰）"></span>
+            </div>
+            <div id="modal-content">
+                <div class="main-text">パーソナライズ</div>
+                <div class="sub-deco"></div>
+                <div class="sub-text">✦ あなただけの ✦</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== 音频 ====== -->
     <audio id="audio"></audio>
 
     <script>
-        const songs = ["Aquaculture - LamazeP.mp3", "I say love - LamazeP.mp3", "Nothing - LamazeP.mp3", "Refugium - LamazeP.mp3", "WAVEFILE_V3ver - LamazeP.mp3", "くるくるぱぁ - LamazeP.mp3", "デレ化現象100_ - LamazeP.mp3", "トキメキ - LamazeP.mp3", "愛の詩 - LamazeP.mp3", "銀河系から徒歩_分以内で - LamazeP.mp3"];
-        const audio = document.getElementById('audio'), playIcon = document.getElementById('play-icon'), songList = document.getElementById('song-list'), progressBar = document.getElementById('progress'), timeDisplay = document.getElementById('time-display');
-        let currentIdx = 0, mode = 0;
-        const modes = ['🔁', '🔂', '🔀'];
+        // ===================================================================
+        //  1. 右上角时间与天气
+        // ===================================================================
+        const clockEl = document.getElementById('clock');
+        const weatherIconEl = document.getElementById('weather-icon');
+        const weatherTempEl = document.getElementById('weather-temp');
+        const weatherDescEl = document.getElementById('weather-desc');
+
+        // ----- 1.1 时钟 -----
+        function updateClock() {
+            const now = new Date();
+            // 东八区 (UTC+8)
+            const offset = 8 * 60; // 分钟
+            const local = new Date(now.getTime() + (offset - now.getTimezoneOffset()) * 60000);
+            const h = String(local.getHours()).padStart(2, '0');
+            const m = String(local.getMinutes()).padStart(2, '0');
+            const s = String(local.getSeconds()).padStart(2, '0');
+            clockEl.textContent = `${h}:${m}:${s}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // ----- 1.2 天气 -----
+        // 使用 wttr.in 免费天气 API（无需注册），自动根据IP获取位置，返回中文描述
+        const WEATHER_CACHE_KEY = 'weather_cache';
+        const CACHE_DURATION = 10 * 60 * 1000; // 10分钟
+
+        // 天气代码 → Pixel 风格 SVG 图标（Material Design 风格）
+        function getWeatherIconSVG(code) {
+            // code 参考：https://www.wttr.in/weather_conditions
+            // 113 ☀️ 晴, 116 ⛅ 部分多云, 119 ☁️ 多云, 122 ☁️ 阴, 143 🌫️ 雾,
+            // 176 🌧️ 小雨, 179 🌨️ 小雪, 185 🌧️ 冻雨, 200 ⛈️ 雷阵雨, ...
+            let iconName = 'sunny';
+            if (code === 113) iconName = 'sunny';
+            else if (code === 116) iconName = 'partly_cloudy';
+            else if (code === 119 || code === 122) iconName = 'cloudy';
+            else if (code === 143 || code === 248 || code === 260) iconName = 'foggy';
+            else if ([176, 179, 182, 185, 293, 296, 299, 302, 305, 308, 311, 314, 317, 320, 323, 326, 329, 332, 335, 338, 350, 353, 356, 359, 362, 365, 368, 371, 374, 377, 386, 389, 392, 395].includes(code)) {
+                // 雨雪类
+                if (code >= 200 && code < 300) iconName = 'thunderstorm';
+                else if (code >= 300 && code < 400) iconName = 'rainy';
+                else if (code >= 500 && code < 600) iconName = 'rainy';
+                else if (code >= 600 && code < 700) iconName = 'snowy';
+                else iconName = 'rainy';
+            } else {
+                iconName = 'cloudy'; // fallback
+            }
+
+            // 返回 SVG 内容 (简单的 Material 风格)
+            const svgMap = {
+                'sunny': `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`,
+                'partly_cloudy': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><circle cx="12" cy="12" r="5" opacity="0.4"/></svg>`,
+                'cloudy': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/></svg>`,
+                'foggy': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><line x1="3" y1="18" x2="21" y2="18"/><line x1="5" y1="20" x2="19" y2="20"/></svg>`,
+                'rainy': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><line x1="8" y1="17" x2="8" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="16" y1="17" x2="16" y2="21"/></svg>`,
+                'snowy': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><circle cx="8" cy="18" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="16" cy="18" r="1.5"/><circle cx="10" cy="22" r="1"/><circle cx="14" cy="22" r="1"/></svg>`,
+                'thunderstorm': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><path d="M12 17l-2 4h4l-2 4"/></svg>`
+            };
+            return svgMap[iconName] || svgMap['cloudy'];
+        }
+
+        function fetchWeather() {
+            const cached = localStorage.getItem(WEATHER_CACHE_KEY);
+            if (cached) {
+                try {
+                    const data = JSON.parse(cached);
+                    if (Date.now() - data.timestamp < CACHE_DURATION) {
+                        updateWeatherUI(data);
+                        return;
+                    }
+                } catch (e) { /* ignore */ }
+            }
+
+            // 请求新数据
+            fetch('https://wttr.in/?format=j1&lang=zh')
+                .then(res => {
+                    if (!res.ok) throw new Error('Weather API error');
+                    return res.json();
+                })
+                .then(json => {
+                    const current = json.current_condition[0];
+                    const temp = current.temp_C;
+                    const desc = current.weatherDesc[0].value;
+                    const code = parseInt(current.weatherCode);
+                    const data = {
+                        temp,
+                        desc,
+                        code,
+                        timestamp: Date.now()
+                    };
+                    localStorage.setItem(WEATHER_CACHE_KEY, JSON.stringify(data));
+                    updateWeatherUI(data);
+                })
+                .catch(err => {
+                    console.warn('Weather fetch failed, using fallback', err);
+                    // 使用默认值（上海天气示例）
+                    const fallback = { temp: '22', desc: '多云', code: 119, timestamp: Date.now() };
+                    updateWeatherUI(fallback);
+                });
+        }
+
+        function updateWeatherUI(data) {
+            const { temp, desc, code } = data;
+            weatherTempEl.textContent = `${temp}°C`;
+            weatherDescEl.textContent = desc || '';
+            weatherIconEl.innerHTML = getWeatherIconSVG(code);
+        }
+
+        // 初始化天气
+        fetchWeather();
+        // 每10分钟刷新一次
+        setInterval(fetchWeather, CACHE_DURATION);
+
+        // ===================================================================
+        //  2. 播放器逻辑 (保持不变)
+        // ===================================================================
+        const songs = [
+            "Aquaculture - LamazeP.mp3",
+            "I say love - LamazeP.mp3",
+            "Nothing - LamazeP.mp3",
+            "Refugium - LamazeP.mp3",
+            "WAVEFILE_V3ver - LamazeP.mp3",
+            "くるくるぱぁ - LamazeP.mp3",
+            "デレ化現象100_ - LamazeP.mp3",
+            "トキメキ - LamazeP.mp3",
+            "愛の詩 - LamazeP.mp3",
+            "銀河系から徒歩_分以内で - LamazeP.mp3"
+        ];
+        const audio = document.getElementById('audio');
+        const playIcon = document.getElementById('play-icon');
+        const songList = document.getElementById('song-list');
+        const progressBar = document.getElementById('progress');
+        const progressFill = document.getElementById('progress-fill');
+        const timeDisplay = document.getElementById('time-display');
+        const player = document.getElementById('player');
+        let currentIdx = 0,
+            mode = 0;
 
         songs.forEach((s, i) => {
             const div = document.createElement('div');
-            div.className = 'song-item'; div.innerText = s;
-            div.onclick = () => { currentIdx = i; loadAndPlay(); };
+            div.className = 'song-item';
+            div.innerText = s;
+            div.onclick = () => {
+                currentIdx = i;
+                loadAndPlay();
+                closeListWithAnimation();
+            };
             songList.appendChild(div);
         });
 
+        function setPlayingState(playing) {
+            if (playing) {
+                progressFill.classList.add('playing');
+            } else {
+                progressFill.classList.remove('playing');
+            }
+        }
+
+        function updateProgress() {
+            if (audio.duration) {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progressBar.value = percent;
+                progressFill.style.width = percent + '%';
+            } else {
+                progressFill.style.width = '0%';
+            }
+        }
+
         function loadAndPlay() {
-            audio.src = songs[currentIdx]; audio.play();
+            audio.src = songs[currentIdx];
+            audio.play();
             playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+            setPlayingState(true);
         }
 
         window.togglePlay = () => {
-            if (audio.paused) { audio.play(); playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; }
-            else { audio.pause(); playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>'; }
+            if (audio.paused) {
+                audio.play();
+                playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+                setPlayingState(true);
+            } else {
+                audio.pause();
+                playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+                setPlayingState(false);
+            }
         };
 
-        window.prev = () => { currentIdx = (currentIdx - 1 + songs.length) % songs.length; loadAndPlay(); };
-        window.next = () => { 
-            currentIdx = (mode === 2) ? Math.floor(Math.random() * songs.length) : (currentIdx + 1) % songs.length; 
-            loadAndPlay(); 
+        window.prev = () => {
+            currentIdx = (currentIdx - 1 + songs.length) % songs.length;
+            loadAndPlay();
         };
-        window.changeMode = () => { mode = (mode + 1) % 3; document.getElementById('mode-btn').innerText = modes[mode]; };
-        
-        audio.onended = () => (mode === 1) ? audio.play() : window.next();
+        window.next = () => {
+            currentIdx = (mode === 2) ? Math.floor(Math.random() * songs.length) : (currentIdx + 1) % songs.length;
+            loadAndPlay();
+        };
+
+        const iconMap = [
+            `<svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4" /><path d="M3 11v-2a4 4 0 0 1 4-4h14" /><path d="M7 22l-4-4 4-4" /><path d="M21 13v2a4 4 0 0 1-4 4H3" /></svg>`,
+            `<svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4" /><path d="M3 11v-2a4 4 0 0 1 4-4h14" /><path d="M7 22l-4-4 4-4" /><path d="M21 13v2a4 4 0 0 1-4 4H3" /><path d="M12 10v4" /><path d="M12 14h1.5" /></svg>`,
+            `<svg viewBox="0 0 24 24"><path d="M21 7h-4a3 3 0 0 0-3 3v4a3 3 0 0 1-3 3H3" /><path d="M21 17h-4a3 3 0 0 1-3-3v-4a3 3 0 0 0-3-3H3" /><path d="M3 7h4" /><path d="M3 17h4" /></svg>`
+        ];
+
+        window.changeMode = () => {
+            mode = (mode + 1) % 3;
+            document.getElementById('mode-icon').innerHTML = iconMap[mode];
+        };
+
+        audio.onended = () => {
+            if (mode === 1) {
+                audio.play();
+            } else {
+                window.next();
+            }
+        };
 
         audio.ontimeupdate = () => {
-            progressBar.value = (audio.currentTime / audio.duration) * 100 || 0;
+            updateProgress();
             const fmt = (s) => new Date(s * 1000).toISOString().substr(14, 5);
             timeDisplay.innerText = `${fmt(audio.currentTime)} / ${fmt(audio.duration)} / ${fmt(audio.duration - audio.currentTime)}`;
         };
 
-        progressBar.oninput = () => audio.currentTime = (progressBar.value / 100) * audio.duration;
+        progressBar.oninput = () => {
+            const val = parseFloat(progressBar.value);
+            audio.currentTime = (val / 100) * audio.duration;
+            progressFill.style.width = val + '%';
+        };
 
-        // ========== 拖动功能 ==========
-        const player = document.getElementById('player');
+        document.getElementById('progress-container').addEventListener('click', function(e) {
+            if (e.target === progressBar) return;
+            const rect = this.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width;
+            const val = Math.min(1, Math.max(0, x)) * 100;
+            progressBar.value = val;
+            audio.currentTime = (val / 100) * audio.duration;
+            progressFill.style.width = val + '%';
+        });
+
+        audio.onplay = () => setPlayingState(true);
+        audio.onpause = () => setPlayingState(false);
+
+        // ========== 播放列表动画控制 ==========
+        function closeListImmediate() {
+            songList.classList.remove('active', 'hiding');
+            songList.style.visibility = 'hidden';
+            songList.style.pointerEvents = 'none';
+            songList.style.animation = 'none';
+            void songList.offsetWidth;
+            songList.style.animation = '';
+        }
+
+        function closeListWithAnimation() {
+            if (songList.classList.contains('active')) {
+                songList.classList.remove('active');
+                songList.classList.add('hiding');
+                const onEnd = function() {
+                    songList.classList.remove('hiding');
+                    songList.style.visibility = 'hidden';
+                    songList.style.pointerEvents = 'none';
+                    songList.style.animation = '';
+                    songList.removeEventListener('animationend', onEnd);
+                };
+                songList.addEventListener('animationend', onEnd, { once: true });
+            }
+        }
+
+        window.toggleList = (e) => {
+            e.stopPropagation();
+            if (songList.classList.contains('active')) {
+                closeListWithAnimation();
+                return;
+            }
+            songList.classList.remove('hiding');
+            const rect = player.getBoundingClientRect();
+            const isAbove = rect.top > window.innerHeight / 2;
+            songList.style.left = rect.left + 'px';
+            songList.style.top = isAbove ? (rect.top - 170 + 'px') : (rect.top + 90 + 'px');
+            songList.style.visibility = 'visible';
+            songList.style.pointerEvents = 'auto';
+            void songList.offsetWidth;
+            songList.classList.add('active');
+        };
+
+        document.addEventListener('click', (e) => {
+            if (!player.contains(e.target) && !songList.contains(e.target)) {
+                if (songList.classList.contains('active')) {
+                    closeListWithAnimation();
+                }
+            }
+        });
+
+        // ========== 播放器拖动 ==========
         let isDragging = false;
-        let offsetX = 0, offsetY = 0;
+        let offsetX = 0,
+            offsetY = 0;
 
         player.addEventListener('mousedown', (e) => {
-            if (e.target.closest('button, input, #play-pause-overlay, #main-play-btn')) return;
-            
+            if (e.target.closest('button, input, #play-pause-overlay, #main-play-btn, #progress-container')) return;
             isDragging = true;
             const rect = player.getBoundingClientRect();
             offsetX = e.clientX - rect.left;
             offsetY = e.clientY - rect.top;
-
             player.style.bottom = 'auto';
             player.style.left = rect.left + 'px';
             player.style.top = rect.top + 'px';
-
             e.preventDefault();
+            closeListImmediate();
         });
 
         document.addEventListener('mousemove', (e) => {
             if (!isDragging) return;
-            
             let newLeft = e.clientX - offsetX;
             let newTop = e.clientY - offsetY;
-
             newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - player.offsetWidth));
             newTop = Math.max(0, Math.min(newTop, window.innerHeight - player.offsetHeight));
-
             player.style.left = newLeft + 'px';
             player.style.top = newTop + 'px';
-            songList.style.display = 'none';
         });
 
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
+        document.addEventListener('mouseup', () => { isDragging = false; });
 
         player.addEventListener('touchstart', (e) => {
-            if (e.target.closest('button, input, #play-pause-overlay, #main-play-btn')) return;
+            if (e.target.closest('button, input, #play-pause-overlay, #main-play-btn, #progress-container')) return;
             const touch = e.touches[0];
             isDragging = true;
             const rect = player.getBoundingClientRect();
@@ -209,6 +1050,7 @@
             player.style.left = rect.left + 'px';
             player.style.top = rect.top + 'px';
             e.preventDefault();
+            closeListImmediate();
         }, { passive: false });
 
         document.addEventListener('touchmove', (e) => {
@@ -220,26 +1062,40 @@
             newTop = Math.max(0, Math.min(newTop, window.innerHeight - player.offsetHeight));
             player.style.left = newLeft + 'px';
             player.style.top = newTop + 'px';
-            songList.style.display = 'none';
             e.preventDefault();
         }, { passive: false });
 
-        document.addEventListener('touchend', () => {
-            isDragging = false;
-        });
-        // ========== 拖动功能结束 ==========
+        document.addEventListener('touchend', () => { isDragging = false; });
 
-        window.toggleList = (e) => {
-            e.stopPropagation();
-            const visible = songList.style.display === 'block';
-            songList.style.display = visible ? 'none' : 'block';
-            const rect = player.getBoundingClientRect();
-            songList.style.left = rect.left + 'px';
-            songList.style.top = (rect.top > window.innerHeight/2) ? (rect.top - 170 + 'px') : (rect.top + 90 + 'px');
+        // ========== 齿轮弹窗 ==========
+        const overlay = document.getElementById('modal-overlay');
+        window.openModal = function() {
+            overlay.classList.add('active');
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         };
+        window.closeModal = function() {
+            overlay.classList.remove('active');
+            overlay.style.display = 'none';
+            document.body.style.overflow = '';
+        };
+        window.closeModalOutside = function(e) {
+            if (e.target === overlay) closeModal();
+        };
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
+        });
+        document.getElementById('gear-island').addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
 
-        document.addEventListener('click', (e) => {
-            if (!player.contains(e.target) && !songList.contains(e.target)) songList.style.display = 'none';
+        // ========== 初始化 ==========
+        window.addEventListener('load', () => {
+            audio.src = songs[0];
+            document.getElementById('mode-icon').innerHTML = iconMap[0];
+            playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+            setPlayingState(false);
+            updateProgress();
         });
     </script>
 </body>
