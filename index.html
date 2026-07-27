@@ -12,12 +12,16 @@
             font-display: swap;
         }
 
-        :root { --glass: rgba(255, 255, 255, 0.2); --accent: #66ccff; --glass-nav: rgba(255, 255, 255, 0.1); }
+        :root { 
+            --glass: rgba(255, 255, 255, 0.12); 
+            --accent: #66ccff; 
+            --glass-nav: rgba(255, 255, 255, 0.08); 
+            --liquid-border: rgba(255, 255, 255, 0.35);
+        }
         
         body { 
             margin: 0; height: 100vh; 
             background: url('722264.jpg') center/cover no-repeat; 
-            /* 应用全局字体及回退方案 */
             font-family: '悠哉字体 Light', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Microsoft JhengHei', sans-serif; 
             overflow: hidden; 
         }
@@ -25,8 +29,26 @@
         #header-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 110px; background: #fdeeef; opacity: 0.45; pointer-events: none; }
         #title-text { position: absolute; top: 20px; width: 100%; text-align: center; color: var(--accent); font-weight: bold; pointer-events: none; line-height: 1.2; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
         
-        /* --- 2. 播放器样式 --- */
-        #player { position: absolute; left: 50px; bottom: 150px; width: 350px; background: var(--glass); backdrop-filter: blur(20px); border-radius: 24px; padding: 16px; cursor: move; z-index: 1000; display: flex; align-items: center; gap: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); user-select: none; }
+        /* --- 2. 播放器：液态玻璃效果 --- */
+        #player { 
+            position: absolute; left: 50px; bottom: 150px; width: 350px; 
+            background: var(--glass); 
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border-radius: 24px; 
+            padding: 16px; 
+            cursor: move; 
+            z-index: 1000; 
+            display: flex; 
+            align-items: center; 
+            gap: 16px; 
+            box-shadow: 
+                0 8px 32px rgba(0,0,0,0.18),
+                inset 0 1px 0 rgba(255,255,255,0.4),
+                inset 0 -1px 0 rgba(255,255,255,0.1);
+            border: 1px solid var(--liquid-border);
+            user-select: none; 
+        }
         #art-box { position: relative; width: 60px; height: 60px; border-radius: 12px; overflow: hidden; flex-shrink: 0; }
         #play-pause-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.35); display:flex; justify-content:center; align-items:center; color:white; cursor:pointer; opacity: 0.35; }
         
@@ -35,17 +57,43 @@
         #time-display { font-size: 11px; color: #fff; text-align: right; font-variant-numeric: tabular-nums; }
         .controls { display: flex; justify-content: space-between; align-items: center; padding-top: 4px; }
         
-        #song-list { position: absolute; width: 350px; height: 160px; background: var(--glass); backdrop-filter: blur(20px); border-radius: 20px; display: none; overflow-y: auto; z-index: 999; color: white; padding: 10px 0; }
+        /* 歌曲列表也用液态玻璃 */
+        #song-list { 
+            position: absolute; width: 350px; height: 160px; 
+            background: var(--glass); 
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border-radius: 20px; 
+            display: none; 
+            overflow-y: auto; 
+            z-index: 999; 
+            color: white; 
+            padding: 10px 0; 
+            border: 1px solid var(--liquid-border);
+            box-shadow: 
+                0 8px 32px rgba(0,0,0,0.18),
+                inset 0 1px 0 rgba(255,255,255,0.35);
+        }
         .song-item { padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; font-size: 14px; }
         
-        /* --- 3. 导航链接：应用 #a0d8ef 颜色 --- */
-        .nav-links { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; gap: 40px; padding: 14px 40px; background: var(--glass-nav); backdrop-filter: blur(20px); border-radius: 50px; }
+        /* --- 3. 导航链接：液态玻璃 --- */
+        .nav-links { 
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); 
+            display: flex; gap: 40px; padding: 14px 40px; 
+            background: var(--glass-nav); 
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border-radius: 50px; 
+            border: 1px solid var(--liquid-border);
+            box-shadow: 
+                0 6px 24px rgba(0,0,0,0.15),
+                inset 0 1px 0 rgba(255,255,255,0.3);
+        }
         .nav-links a { color: #66ccff; text-decoration: none; font-weight: bold; transition: opacity 0.3s; }
         .nav-links a:hover { opacity: 0.8; }
     </style>
 </head>
 <body>
-    <!-- (此处保留原代码主体结构不变) -->
     <div id="header-overlay"></div>
     <div id="title-text">
         <div style="font-size:1.8em;">来了,</div>
@@ -53,9 +101,8 @@
     </div>
 
     <div id="player">
-        <!-- 播放器内容与原代码一致 -->
         <div id="art-box">
-            <img src="IsayloveCD.jpg" width="60" height="60" onerror="this.src='https://via.placeholder.com/60'">
+            <img src="CD.jpg" width="60" height="60" onerror="this.src='https://via.placeholder.com/60'">
             <div id="play-pause-overlay" onclick="togglePlay()">▶</div>
         </div>
         <div class="control-area">
@@ -120,13 +167,12 @@
 
         progressBar.oninput = () => audio.currentTime = (progressBar.value / 100) * audio.duration;
 
-        // ========== 修复后的拖动功能 ==========
+        // ========== 拖动功能 ==========
         const player = document.getElementById('player');
         let isDragging = false;
         let offsetX = 0, offsetY = 0;
 
         player.addEventListener('mousedown', (e) => {
-            // 点击按钮、进度条、播放图标时不触发拖动
             if (e.target.closest('button, input, #play-pause-overlay, #main-play-btn')) return;
             
             isDragging = true;
@@ -134,7 +180,6 @@
             offsetX = e.clientX - rect.left;
             offsetY = e.clientY - rect.top;
 
-            // 从 bottom 定位切换到 top 定位，避免冲突
             player.style.bottom = 'auto';
             player.style.left = rect.left + 'px';
             player.style.top = rect.top + 'px';
@@ -148,7 +193,6 @@
             let newLeft = e.clientX - offsetX;
             let newTop = e.clientY - offsetY;
 
-            // 边界限制
             newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - player.offsetWidth));
             newTop = Math.max(0, Math.min(newTop, window.innerHeight - player.offsetHeight));
 
@@ -161,7 +205,6 @@
             isDragging = false;
         });
 
-        // 触摸支持（手机端也能拖）
         player.addEventListener('touchstart', (e) => {
             if (e.target.closest('button, input, #play-pause-overlay, #main-play-btn')) return;
             const touch = e.touches[0];
