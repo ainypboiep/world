@@ -350,17 +350,22 @@
             background: rgba(255, 255, 255, 0.08);
         }
 
-        /* --- 导航链接 --- */
+        /* --- 导航链接（稳定居中） --- */
         .nav-links {
             position: absolute;
             bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: fit-content;
+            max-width: 94vw;
             display: flex;
             gap: 40px;
             padding: 14px 40px;
             border-radius: 50px;
             z-index: 2;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         .nav-links a {
             color: #66ccff;
@@ -659,7 +664,7 @@
             background: #ffffff;
         }
 
-        /* --- 主题过渡层 (洪水动画) --- */
+        /* --- 主题过渡层（石头入水波纹效果） --- */
         #theme-transition-overlay {
             position: fixed;
             top: 0;
@@ -669,45 +674,47 @@
             z-index: 9999;
             pointer-events: none;
             background: var(--theme-transition-bg);
-            clip-path: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
-            transition: clip-path 0.01s;
-            will-change: clip-path;
+            will-change: clip-path, opacity;
             opacity: 0;
             visibility: hidden;
+            clip-path: circle(0% at 50% 50%);
         }
         #theme-transition-overlay.animating {
             pointer-events: auto;
             opacity: 1;
             visibility: visible;
         }
-        /* 明亮→暗黑：从右上角到左下角 (洪水涌来) */
+        /* 明亮 → 暗黑：波纹从中心向外扩散 */
         #theme-transition-overlay.flood-in {
-            animation: floodIn 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: rippleIn 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
-        @keyframes floodIn {
+        @keyframes rippleIn {
             0% {
-                clip-path: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
-                opacity: 0;
+                clip-path: circle(0% at 50% 50%);
+                opacity: 0.6;
             }
-            10% {
+            30% {
                 opacity: 1;
             }
             100% {
-                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+                clip-path: circle(150% at 50% 50%);
                 opacity: 1;
             }
         }
-        /* 暗黑→明亮：从左下角到右上角 (洪水退去) */
+        /* 暗黑 → 明亮：波纹从外向内收缩 */
         #theme-transition-overlay.flood-out {
-            animation: floodOut 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: rippleOut 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
-        @keyframes floodOut {
+        @keyframes rippleOut {
             0% {
-                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+                clip-path: circle(150% at 50% 50%);
+                opacity: 1;
+            }
+            70% {
                 opacity: 1;
             }
             100% {
-                clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
+                clip-path: circle(0% at 50% 50%);
                 opacity: 0;
             }
         }
