@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>给你扇窗全看世界，但你摸不到乁⁠[⁠ᓀ⁠˵⁠▾⁠˵⁠ᓂ⁠]⁠ㄏ</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            /* 确保图片地址正确 */
+            background-image: url('miku.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        
+            /* 修改布局：垂直居中，水平靠右 */
+            display: flex;
+            justify-content: center;   /* 垂直方向居中 */
+            align-items: flex-end;     /* 如果想靠右，通常改这里 */
+            /* 更好的办法是下面这种写法，直接精准定位： */
+        }
+
+        .nav-links {
+            position: absolute;       /* 使用绝对定位 */
+            right: 10%;               /* 距离右侧 10% 的距离 */
+            top: 30%;                 /* 距离顶部 30%，避开人物头部 */
+        
+            background: rgba(255, 255, 255, 0.3); /* 改为白色半透明，更配这图的风格 */
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px); /* 增加磨砂玻璃效果，非常适合这种清新图 */
+        }
+
+        .nav-links a {
+            display: block;
+            color: #333;              /* 换成深色字体，在浅色背景上更清晰 */
+            text-decoration: none;
+            font-size: 20px;
+            margin: 20px 0;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff7f50;           /* 悬停时改为珊瑚色，呼应花朵颜色 */
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav-links">
+        <!-- 在这里修改你的自定义名称和跳转地址 -->
+        <a href="https://bxfans.github.io/google-fe2/">Google 搜索</a>
+        <a href="https://bxfans.github.io/Tube/">YouTube</a>
+        <a href="https://bxfans.github.io/Pixiv/">Pixiv</a>
+        <a href="https://bxfans.github.io/niconico/">ニコニコ</a>
+        <a href="https://bxfans.github.io/Gptt/">ChatGPT</a>
+        
+        
+    </div>
+
+</body>
+</html>
