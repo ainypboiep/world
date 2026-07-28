@@ -1213,7 +1213,7 @@
         setInterval(fetchWeather, CACHE_DURATION);
 
         // ===================================================================
-        //  3. 播放器逻辑 — 完整歌曲列表（已修复语法错误）
+        //  3. 播放器逻辑 — 完整歌曲列表（已修复语法错误 + 错误处理）
         // ===================================================================
         const songs = [
             "Aquaculture - LamazeP.mp3",
@@ -1281,9 +1281,7 @@
 
         // ----- 使用 Spotify API (通过第三方代理) 搜索封面 -----
         function fetchCoverOnline(fileName) {
-            // 先设为默认
             coverImg.src = 'CD.jpg';
-            // 解析歌名和艺术家 (格式: "Title - Artist.mp3")
             let name = fileName.replace(/\.mp3$/i, '');
             let artist = '';
             if (name.includes(' - ')) {
@@ -1294,7 +1292,6 @@
             if (!name) name = fileName;
             if (!artist) artist = 'unknown';
 
-            // 使用 spotify-api-wrapper 代理 (无需认证)
             const query = encodeURIComponent(`${name} ${artist}`);
             const url = `https://spotify-api-wrapper.appspot.com/search/track/${query}`;
 
@@ -1353,7 +1350,7 @@
 
         function updateProgress() {
             if (isDraggingProgress) return;
-            if (audio.duration) {
+            if (audio.duration && !isNaN(audio.duration)) {
                 const percent = (audio.currentTime / audio.duration) * 100;
                 progressBar.value = percent;
                 progressFill.style.width = percent + '%';
@@ -1365,16 +1362,36 @@
         function loadAndPlay() {
             const src = songs[currentIdx];
             audio.src = src;
+            // 强制加载
+            audio.load();
+            // 尝试播放
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    setPlayingState(true);
+                }).catch(err => {
+                    console.warn('播放被阻止或失败:', err);
+                    setPlayingState(false);
+                });
+            }
+            // 封面搜索
             fetchCoverOnline(src);
-            audio.play();
-            setPlayingState(true);
+            // 更新进度显示
+            updateProgress();
         }
 
         // 播放/暂停切换 (附带动画)
         window.togglePlay = () => {
             if (audio.paused) {
-                audio.play();
-                setPlayingState(true);
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        setPlayingState(true);
+                    }).catch(err => {
+                        console.warn('播放被阻止:', err);
+                        setPlayingState(false);
+                    });
+                }
             } else {
                 audio.pause();
                 setPlayingState(false);
@@ -1405,9 +1422,10 @@
             triggerAnimation(modeBtn, 'mode-anim', 550);
         };
 
+        // 音频事件监听
         audio.onended = () => {
             if (mode === 1) {
-                audio.play();
+                audio.play().catch(e => console.warn('循环播放失败', e));
             } else {
                 window.next();
             }
@@ -1416,10 +1434,24 @@
         audio.ontimeupdate = () => {
             updateProgress();
             const fmt = (s) => new Date(s * 1000).toISOString().substr(14, 5);
+            const duration = audio.duration || 0;
+            const remaining = duration - audio.currentTime;
             timeDisplay.innerText =
-                `${fmt(audio.currentTime)} / ${fmt(audio.duration)} / ${fmt(audio.duration - audio.currentTime)}`;
+                `${fmt(audio.currentTime)} / ${fmt(duration)} / ${fmt(remaining)}`;
         };
 
+        // 错误处理
+        audio.onerror = () => {
+            console.error('音频加载错误:', audio.error);
+            // 尝试重新加载
+            setTimeout(() => {
+                if (audio.src) {
+                    audio.load();
+                }
+            }, 1000);
+        };
+
+        // 进度条拖拽
         progressBar.addEventListener('mousedown', () => {
             isDraggingProgress = true;
             progressFill.classList.remove('playing');
@@ -1440,8 +1472,10 @@
 
         progressBar.oninput = () => {
             const val = parseFloat(progressBar.value);
-            audio.currentTime = (val / 100) * audio.duration;
-            progressFill.style.width = val + '%';
+            if (audio.duration) {
+                audio.currentTime = (val / 100) * audio.duration;
+                progressFill.style.width = val + '%';
+            }
         };
 
         document.getElementById('progress-container').addEventListener('click', function(e) {
@@ -1450,8 +1484,10 @@
             const x = (e.clientX - rect.left) / rect.width;
             const val = Math.min(1, Math.max(0, x)) * 100;
             progressBar.value = val;
-            audio.currentTime = (val / 100) * audio.duration;
-            progressFill.style.width = val + '%';
+            if (audio.duration) {
+                audio.currentTime = (val / 100) * audio.duration;
+                progressFill.style.width = val + '%';
+            }
         });
 
         audio.onplay = () => setPlayingState(true);
@@ -1709,12 +1745,18 @@
         //  7. 初始化
         // ===================================================================
         window.addEventListener('load', () => {
-            audio.src = songs[0];
+            // 初始加载第一首，但不自动播放
+            const src = songs[0];
+            audio.src = src;
+            audio.load();
             document.getElementById('mode-icon').innerHTML = iconMap[0];
             setPlayingState(false);
             updateProgress();
             applyTheme('light');
-            fetchCoverOnline(songs[0]);
+            fetchCoverOnline(src);
+            // 显示初始时间
+            const fmt = (s) => new Date(s * 1000).toISOString().substr(14, 5);
+            timeDisplay.innerText = `00:00 / ${fmt(0)} / 00:00`;
         });
     </script>
 
