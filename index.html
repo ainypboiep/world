@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>给你扇窗全看世界，但你摸不到乁⁠[⁠ᓀ⁠˵⁠▾⁠˵⁠ᓂ⁠]⁠ㄏ</title>
+    <!-- 引入 jsmediatags 用于读取音频封面 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js" defer></script>
     <style>
         /* --- 1. 字体与全局设置 --- */
         @font-face {
@@ -50,7 +52,6 @@
             transition: filter 1.2s ease;
             position: relative;
         }
-        /* 暗黑模式壁纸变化：通过伪元素叠加暗色 + 滤镜 */
         body::before {
             content: '';
             position: fixed;
@@ -161,7 +162,7 @@
             margin-left: 2px;
         }
 
-        /* --- 液态玻璃核心 (不透明度再降30%) --- */
+        /* --- 液态玻璃核心 --- */
         .liquid-glass {
             background: linear-gradient(135deg, var(--glass-bg1) 0%, var(--glass-bg2) 50%, var(--glass-bg3) 100%);
             backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
@@ -171,15 +172,14 @@
             transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease, color 0.6s ease;
         }
 
-        /* --- 播放器 --- */
+        /* ===== 播放器 — 固定在左上角 ===== */
         #player {
-            position: absolute;
-            left: 50px;
-            bottom: 150px;
+            position: fixed;
+            top: 130px;
+            left: 20px;
             width: 350px;
             border-radius: 24px;
             padding: 16px;
-            cursor: move;
             z-index: 1000;
             display: flex;
             align-items: center;
@@ -188,6 +188,7 @@
             will-change: left, top;
             backface-visibility: hidden;
             color: var(--text-color);
+            cursor: default;
         }
         #art-box {
             position: relative;
@@ -196,20 +197,56 @@
             border-radius: 12px;
             overflow: hidden;
             flex-shrink: 0;
+            background: #222; /* 占位背景 */
         }
+        #art-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        /* ----- 封面覆盖层 (播放/暂停) ----- */
         #play-pause-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(0, 0, 0, 0.30);
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
             cursor: pointer;
-            opacity: 0.35;
+            opacity: 0.6;
+            transition: opacity 0.3s ease, background 0.3s ease;
+            border-radius: 12px;
+        }
+        #play-pause-overlay:hover {
+            opacity: 0.95;
+            background: rgba(0, 0, 0, 0.45);
+        }
+        #play-pause-overlay .cover-icon {
+            width: 32px;
+            height: 32px;
+            fill: #fff;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+            transform: scale(0.9);
+            opacity: 0.8;
+        }
+        #play-pause-overlay:hover .cover-icon {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+        #play-pause-overlay .cover-icon.playing {
+            transform: scale(1);
+        }
+        #play-pause-overlay .cover-icon.paused {
+            transform: scale(0.9);
+        }
+        #play-pause-overlay:active .cover-icon {
+            transform: scale(0.7);
+            transition-duration: 0.08s;
         }
 
         .control-area {
@@ -295,7 +332,7 @@
 
         /* --- 歌曲列表 --- */
         #song-list {
-            position: absolute;
+            position: fixed;
             width: 350px;
             height: 160px;
             border-radius: 20px;
@@ -350,28 +387,35 @@
             background: rgba(255, 255, 255, 0.08);
         }
 
-        /* --- 导航链接（稳定居中） --- */
+        /* ===== 导航链接框 — 可拖拽 ===== */
         .nav-links {
-            position: absolute;
-            bottom: 40px;
-            left: 0;
-            right: 0;
-            margin: 0 auto;
-            width: fit-content;
-            max-width: 94vw;
+            position: fixed;
             display: flex;
-            gap: 40px;
-            padding: 14px 40px;
+            gap: 32px;
+            padding: 14px 36px;
             border-radius: 50px;
-            z-index: 2;
+            z-index: 50;
             flex-wrap: wrap;
             justify-content: center;
+            box-sizing: border-box;
+            cursor: grab;
+            touch-action: none;
+            transition: box-shadow 0.3s ease, background 0.6s ease, border 0.6s ease;
+            will-change: left, top;
+            backface-visibility: hidden;
+        }
+        .nav-links.dragging {
+            cursor: grabbing;
+            z-index: 1001 !important;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.40);
         }
         .nav-links a {
             color: #66ccff;
             text-decoration: none;
             font-weight: bold;
             transition: opacity 0.3s, color 0.6s ease;
+            white-space: nowrap;
+            pointer-events: auto;
         }
         .nav-links a:hover {
             opacity: 0.8;
@@ -617,7 +661,6 @@
             color: #ffd93d;
         }
 
-        /* 安卓17风格开关 */
         .switch-track {
             position: relative;
             width: 52px;
@@ -664,7 +707,7 @@
             background: #ffffff;
         }
 
-        /* --- 主题过渡层（石头入水波纹效果） --- */
+        /* --- 主题过渡层 (洪水动画) --- */
         #theme-transition-overlay {
             position: fixed;
             top: 0;
@@ -674,47 +717,43 @@
             z-index: 9999;
             pointer-events: none;
             background: var(--theme-transition-bg);
-            will-change: clip-path, opacity;
+            clip-path: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
+            transition: clip-path 0.01s;
+            will-change: clip-path;
             opacity: 0;
             visibility: hidden;
-            clip-path: circle(0% at 50% 50%);
         }
         #theme-transition-overlay.animating {
             pointer-events: auto;
             opacity: 1;
             visibility: visible;
         }
-        /* 明亮 → 暗黑：波纹从中心向外扩散 */
         #theme-transition-overlay.flood-in {
-            animation: rippleIn 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation: floodIn 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
-        @keyframes rippleIn {
+        @keyframes floodIn {
             0% {
-                clip-path: circle(0% at 50% 50%);
-                opacity: 0.6;
+                clip-path: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
+                opacity: 0;
             }
-            30% {
+            10% {
                 opacity: 1;
             }
             100% {
-                clip-path: circle(150% at 50% 50%);
+                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
                 opacity: 1;
             }
         }
-        /* 暗黑 → 明亮：波纹从外向内收缩 */
         #theme-transition-overlay.flood-out {
-            animation: rippleOut 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation: floodOut 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
-        @keyframes rippleOut {
+        @keyframes floodOut {
             0% {
-                clip-path: circle(150% at 50% 50%);
-                opacity: 1;
-            }
-            70% {
+                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
                 opacity: 1;
             }
             100% {
-                clip-path: circle(0% at 50% 50%);
+                clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
                 opacity: 0;
             }
         }
@@ -783,8 +822,8 @@
                 font-size: 2.2rem;
             }
             #player {
-                left: 16px;
-                bottom: 120px;
+                left: 12px;
+                top: 110px;
                 width: 300px;
                 padding: 12px;
             }
@@ -794,8 +833,6 @@
                 font-size: 0.85rem;
                 flex-wrap: wrap;
                 justify-content: center;
-                bottom: 20px;
-                max-width: 94vw;
             }
             #song-list {
                 width: 300px;
@@ -852,13 +889,18 @@
             }
             #player {
                 width: 260px;
-                left: 10px;
-                bottom: 100px;
+                left: 8px;
+                top: 100px;
                 gap: 10px;
+                padding: 10px;
             }
             #art-box {
                 width: 48px;
                 height: 48px;
+            }
+            #play-pause-overlay .cover-icon {
+                width: 26px;
+                height: 26px;
             }
             #modal-content .main-text {
                 font-size: 1.8rem;
@@ -909,6 +951,11 @@
                 width: 24px;
                 height: 24px;
             }
+            .nav-links {
+                gap: 10px;
+                padding: 8px 14px;
+                font-size: 0.75rem;
+            }
         }
     </style>
 </head>
@@ -931,11 +978,15 @@
         </div>
     </div>
 
-    <!-- ====== 播放器 ====== -->
+    <!-- ====== 播放器 (固定在左上角) ====== -->
     <div id="player" class="liquid-glass">
         <div id="art-box">
-            <img src="CD.jpg" width="60" height="60" onerror="this.src='https://via.placeholder.com/60'" alt="cover" />
-            <div id="play-pause-overlay" onclick="togglePlay()">▶</div>
+            <img src="CD.jpg" alt="cover" id="cover-img" />
+            <div id="play-pause-overlay" onclick="togglePlay()">
+                <svg class="cover-icon paused" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+            </div>
         </div>
         <div class="control-area">
             <div id="progress-container">
@@ -964,8 +1015,8 @@
     <!-- ====== 歌曲列表 ====== -->
     <div id="song-list" class="liquid-glass"></div>
 
-    <!-- ====== 导航链接 ====== -->
-    <div class="nav-links liquid-glass">
+    <!-- ====== 导航链接框 (可拖拽) ====== -->
+    <div class="nav-links liquid-glass" id="navLinks">
         <a href="md.html">すべてを見る</a>
         <a href="https://bxfans.github.io/Tube/">YouTube</a>
         <a href="https://bxfans.github.io/Gptt/">ChatGPT</a>
@@ -984,33 +1035,23 @@
     <!-- ====== 弹窗 ====== -->
     <div id="modal-overlay" onclick="closeModalOutside(event)">
         <div id="modal" class="liquid-glass" onclick="event.stopPropagation();">
-            <!-- macOS 风格关闭按钮 -->
             <div id="window-controls">
                 <span class="dot red" onclick="closeModal()" title="关闭"></span>
                 <span class="dot yellow" title="最小化（装饰）"></span>
                 <span class="dot green" title="最大化（装饰）"></span>
             </div>
-
-            <!-- 弹窗内容 -->
             <div id="modal-content">
                 <div class="main-text">パーソナライズ</div>
                 <div class="sub-deco"></div>
                 <div class="sub-text">✦ あなただけの ✦</div>
             </div>
-
-            <!-- 左下角主题切换 -->
             <div id="theme-switch-container">
-                <!-- 月亮 (暗黑) -->
                 <button class="theme-icon-btn moon-icon" id="moon-btn" onclick="setTheme('dark')" title="暗黑模式">
                     <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.5 5.5 0 0 1-7.54-7.54A9.01 9.01 0 0 0 12 3z"/></svg>
                 </button>
-
-                <!-- 安卓17风格开关 -->
                 <div class="switch-track active" id="switch-track" onclick="toggleTheme()">
                     <div class="switch-thumb" id="switch-thumb"></div>
                 </div>
-
-                <!-- 太阳 (明亮) -->
                 <button class="theme-icon-btn sun-icon active" id="sun-btn" onclick="setTheme('light')" title="明亮模式">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
                 </button>
@@ -1018,7 +1059,7 @@
         </div>
     </div>
 
-    <!-- ====== 主题过渡层 (洪水动画) ====== -->
+    <!-- ====== 主题过渡层 ====== -->
     <div id="theme-transition-overlay"></div>
 
     <!-- ====== 音频 ====== -->
@@ -1119,7 +1160,7 @@
         setInterval(fetchWeather, CACHE_DURATION);
 
         // ===================================================================
-        //  2. 播放器逻辑
+        //  2. 播放器逻辑 (包含封面提取)
         // ===================================================================
         const songs = [
             "Aquaculture - LamazeP.mp3",
@@ -1140,9 +1181,18 @@
         const progressFill = document.getElementById('progress-fill');
         const timeDisplay = document.getElementById('time-display');
         const player = document.getElementById('player');
+        const coverImg = document.getElementById('cover-img');
+
+        // 封面图标元素
+        const coverIcon = document.querySelector('#play-pause-overlay .cover-icon');
+
         let currentIdx = 0,
             mode = 0;
         let isDraggingProgress = false;
+
+        // SVG 字符串（播放/暂停）
+        const playSVG = `<path d="M8 5v14l11-7z"/>`;
+        const pauseSVG = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
 
         songs.forEach((s, i) => {
             const div = document.createElement('div');
@@ -1156,11 +1206,57 @@
             songList.appendChild(div);
         });
 
+        // ----- 读取音频封面（使用 jsmediatags）-----
+        function loadCoverFromFile(fileUrl) {
+            // 如果 jsmediatags 未加载，直接返回
+            if (typeof jsmediatags === 'undefined') {
+                coverImg.src = 'CD.jpg';
+                return;
+            }
+            // 如果是相对路径，转换为绝对路径（或保持原样）
+            const url = new URL(fileUrl, window.location.href).href;
+            jsmediatags.read(url, {
+                onSuccess: function(tag) {
+                    const picture = tag.tags.picture;
+                    if (picture) {
+                        const { data, format } = picture;
+                        // data 是 Uint8Array，转换为 Blob
+                        let mime = 'image/jpeg';
+                        if (format === 'image/png') mime = 'image/png';
+                        else if (format === 'image/gif') mime = 'image/gif';
+                        else if (format === 'image/webp') mime = 'image/webp';
+                        const blob = new Blob([data], { type: mime });
+                        const url = URL.createObjectURL(blob);
+                        coverImg.src = url;
+                        // 释放之前的 object URL（可选）
+                        // 注意：不要立即释放，因为 img 正在使用
+                        // 暂不处理，由浏览器自动管理
+                    } else {
+                        // 无封面，使用默认
+                        coverImg.src = 'CD.jpg';
+                    }
+                },
+                onError: function(error) {
+                    console.warn('读取封面失败，使用默认CD.jpg', error);
+                    coverImg.src = 'CD.jpg';
+                }
+            });
+        }
+
+        // ----- 播放状态控制 -----
         function setPlayingState(playing) {
             if (playing) {
                 progressFill.classList.add('playing');
+                coverIcon.innerHTML = pauseSVG;
+                coverIcon.classList.remove('paused');
+                coverIcon.classList.add('playing');
+                playIcon.innerHTML = pauseSVG;
             } else {
                 progressFill.classList.remove('playing');
+                coverIcon.innerHTML = playSVG;
+                coverIcon.classList.remove('playing');
+                coverIcon.classList.add('paused');
+                playIcon.innerHTML = playSVG;
             }
         }
 
@@ -1176,20 +1272,20 @@
         }
 
         function loadAndPlay() {
-            audio.src = songs[currentIdx];
+            const src = songs[currentIdx];
+            audio.src = src;
+            // 尝试读取封面
+            loadCoverFromFile(src);
             audio.play();
-            playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
             setPlayingState(true);
         }
 
         window.togglePlay = () => {
             if (audio.paused) {
                 audio.play();
-                playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
                 setPlayingState(true);
             } else {
                 audio.pause();
-                playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
                 setPlayingState(false);
             }
         };
@@ -1316,64 +1412,6 @@
             }
         });
 
-        // ========== 播放器拖动 ==========
-        let isDragging = false;
-        let offsetX = 0,
-            offsetY = 0;
-
-        player.addEventListener('mousedown', (e) => {
-            if (e.target.closest('button, input, #play-pause-overlay, #main-play-btn, #progress-container')) return;
-            isDragging = true;
-            const rect = player.getBoundingClientRect();
-            offsetX = e.clientX - rect.left;
-            offsetY = e.clientY - rect.top;
-            player.style.bottom = 'auto';
-            player.style.left = rect.left + 'px';
-            player.style.top = rect.top + 'px';
-            e.preventDefault();
-            closeListImmediate();
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            let newLeft = e.clientX - offsetX;
-            let newTop = e.clientY - offsetY;
-            newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - player.offsetWidth));
-            newTop = Math.max(0, Math.min(newTop, window.innerHeight - player.offsetHeight));
-            player.style.left = newLeft + 'px';
-            player.style.top = newTop + 'px';
-        });
-
-        document.addEventListener('mouseup', () => { isDragging = false; });
-
-        player.addEventListener('touchstart', (e) => {
-            if (e.target.closest('button, input, #play-pause-overlay, #main-play-btn, #progress-container')) return;
-            const touch = e.touches[0];
-            isDragging = true;
-            const rect = player.getBoundingClientRect();
-            offsetX = touch.clientX - rect.left;
-            offsetY = touch.clientY - rect.top;
-            player.style.bottom = 'auto';
-            player.style.left = rect.left + 'px';
-            player.style.top = rect.top + 'px';
-            e.preventDefault();
-            closeListImmediate();
-        }, { passive: false });
-
-        document.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            const touch = e.touches[0];
-            let newLeft = touch.clientX - offsetX;
-            let newTop = touch.clientY - offsetY;
-            newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - player.offsetWidth));
-            newTop = Math.max(0, Math.min(newTop, window.innerHeight - player.offsetHeight));
-            player.style.left = newLeft + 'px';
-            player.style.top = newTop + 'px';
-            e.preventDefault();
-        }, { passive: false });
-
-        document.addEventListener('touchend', () => { isDragging = false; });
-
         // ===================================================================
         //  3. 暗黑模式切换 (主题 + 洪水动画)
         // ===================================================================
@@ -1401,7 +1439,6 @@
             document.body.setAttribute('data-theme', theme);
             currentTheme = theme;
             updateSwitchUI(theme);
-            // 更新播放器按钮颜色
             const btns = document.querySelectorAll('.md3-icon-btn');
             btns.forEach(btn => {
                 btn.style.color = theme === 'dark' ? '#f0f0f0' : '#fff';
@@ -1415,26 +1452,19 @@
 
             isTransitioning = true;
 
-            // 准备过渡层
             transitionOverlay.className = 'animating';
             transitionOverlay.style.opacity = '1';
             transitionOverlay.style.visibility = 'visible';
 
-            // 根据方向选择动画
             if (toDark) {
-                // 明亮→暗黑：洪水涌来 (右上→左下)
                 transitionOverlay.className = 'animating flood-in';
             } else {
-                // 暗黑→明亮：洪水退去 (左下→右上)
                 transitionOverlay.className = 'animating flood-out';
             }
 
-            // 动画结束后切换主题
             const onAnimationEnd = () => {
                 transitionOverlay.removeEventListener('animationend', onAnimationEnd);
-                // 应用主题
                 applyTheme(theme);
-                // 延迟隐藏过渡层
                 setTimeout(() => {
                     transitionOverlay.className = '';
                     transitionOverlay.style.opacity = '0';
@@ -1444,7 +1474,6 @@
             };
             transitionOverlay.addEventListener('animationend', onAnimationEnd);
 
-            // 安全兜底：如果动画未能触发结束事件
             setTimeout(() => {
                 if (isTransitioning) {
                     transitionOverlay.removeEventListener('animationend', onAnimationEnd);
@@ -1463,10 +1492,8 @@
             setTheme(target);
         }
 
-        // 点击开关轨道触发切换
         switchTrack.addEventListener('click', toggleTheme);
 
-        // 点击齿轮时如果弹窗打开，确保开关状态同步
         function syncSwitchUI() {
             updateSwitchUI(currentTheme);
         }
@@ -1503,16 +1530,117 @@
         });
 
         // ===================================================================
-        //  5. 初始化
+        //  5. 导航链接框 — 可拖拽
+        // ===================================================================
+        const navLinks = document.getElementById('navLinks');
+        let isDraggingNav = false;
+        let navOffsetX = 0,
+            navOffsetY = 0;
+
+        navLinks.addEventListener('mousedown', (e) => {
+            if (e.target.closest('a')) return;
+            isDraggingNav = true;
+            const rect = navLinks.getBoundingClientRect();
+            navOffsetX = e.clientX - rect.left;
+            navOffsetY = e.clientY - rect.top;
+            navLinks.classList.add('dragging');
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDraggingNav) return;
+            let newLeft = e.clientX - navOffsetX;
+            let newTop = e.clientY - navOffsetY;
+            const w = navLinks.offsetWidth;
+            const h = navLinks.offsetHeight;
+            newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - w));
+            newTop = Math.max(0, Math.min(newTop, window.innerHeight - h));
+            navLinks.style.left = newLeft + 'px';
+            navLinks.style.top = newTop + 'px';
+            navLinks.style.bottom = 'auto';
+            navLinks.style.margin = '0';
+            navLinks.style.transform = 'none';
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDraggingNav) {
+                navLinks.classList.remove('dragging');
+                isDraggingNav = false;
+            }
+        });
+
+        navLinks.addEventListener('touchstart', (e) => {
+            if (e.target.closest('a')) return;
+            const touch = e.touches[0];
+            isDraggingNav = true;
+            const rect = navLinks.getBoundingClientRect();
+            navOffsetX = touch.clientX - rect.left;
+            navOffsetY = touch.clientY - rect.top;
+            navLinks.classList.add('dragging');
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isDraggingNav) return;
+            const touch = e.touches[0];
+            let newLeft = touch.clientX - navOffsetX;
+            let newTop = touch.clientY - navOffsetY;
+            const w = navLinks.offsetWidth;
+            const h = navLinks.offsetHeight;
+            newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - w));
+            newTop = Math.max(0, Math.min(newTop, window.innerHeight - h));
+            navLinks.style.left = newLeft + 'px';
+            navLinks.style.top = newTop + 'px';
+            navLinks.style.bottom = 'auto';
+            navLinks.style.margin = '0';
+            navLinks.style.transform = 'none';
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('touchend', () => {
+            if (isDraggingNav) {
+                navLinks.classList.remove('dragging');
+                isDraggingNav = false;
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            const rect = navLinks.getBoundingClientRect();
+            const w = navLinks.offsetWidth;
+            const h = navLinks.offsetHeight;
+            let left = parseFloat(navLinks.style.left) || rect.left;
+            let top = parseFloat(navLinks.style.top) || rect.top;
+            if (isNaN(left)) left = rect.left;
+            if (isNaN(top)) top = rect.top;
+            left = Math.max(0, Math.min(left, window.innerWidth - w));
+            top = Math.max(0, Math.min(top, window.innerHeight - h));
+            navLinks.style.left = left + 'px';
+            navLinks.style.top = top + 'px';
+        });
+
+        // ===================================================================
+        //  6. 初始化
         // ===================================================================
         window.addEventListener('load', () => {
             audio.src = songs[0];
             document.getElementById('mode-icon').innerHTML = iconMap[0];
-            playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
             setPlayingState(false);
             updateProgress();
-            // 默认明亮模式
             applyTheme('light');
+            // 加载第一首歌的封面
+            loadCoverFromFile(songs[0]);
+
+            // 导航链接框初始位置：底部居中
+            const rect = navLinks.getBoundingClientRect();
+            const w = rect.width;
+            const h = rect.height;
+            const left = (window.innerWidth - w) / 2;
+            const top = window.innerHeight - h - 40;
+            navLinks.style.left = left + 'px';
+            navLinks.style.top = top + 'px';
+            navLinks.style.bottom = 'auto';
+            navLinks.style.margin = '0';
+            navLinks.style.transform = 'none';
         });
     </script>
 
