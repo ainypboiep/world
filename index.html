@@ -4,8 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>给你扇窗全看世界，但你摸不到乁⁠[⁠ᓀ⁠˵⁠▾⁠˵⁠ᓂ⁠]⁠ㄏ</title>
-    <!-- 引入 jsmediatags 用于读取音频封面 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js" defer></script>
     <style>
         /* --- 1. 字体与全局设置 --- */
         @font-face {
@@ -28,12 +26,13 @@
         }
 
         [data-theme="dark"] {
-            --glass-bg1: rgba(255, 255, 255, 0.06);
-            --glass-bg2: rgba(255, 255, 255, 0.025);
-            --glass-bg3: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.25);
-            --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-            --text-color: #f0f0f0;
+            /* 暗黑模式下液态玻璃变暗 */
+            --glass-bg1: rgba(0, 0, 0, 0.45);
+            --glass-bg2: rgba(0, 0, 0, 0.25);
+            --glass-bg3: rgba(0, 0, 0, 0.35);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.8);
+            --text-color: #e0e0e0;
             --bg-overlay: rgba(0, 0, 0, 0.65);
             --theme-transition-bg: rgba(0, 0, 0, 0.85);
         }
@@ -172,7 +171,7 @@
             transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease, color 0.6s ease;
         }
 
-        /* ===== 播放器 — 固定在左上角 ===== */
+        /* ===== 播放器 — 可拖拽 ===== */
         #player {
             position: fixed;
             top: 130px;
@@ -188,7 +187,14 @@
             will-change: left, top;
             backface-visibility: hidden;
             color: var(--text-color);
-            cursor: default;
+            cursor: grab;
+            touch-action: none;
+            transition: box-shadow 0.3s ease, background 0.6s ease, border 0.6s ease;
+        }
+        #player.dragging {
+            cursor: grabbing;
+            z-index: 1002 !important;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.40);
         }
         #art-box {
             position: relative;
@@ -197,7 +203,7 @@
             border-radius: 12px;
             overflow: hidden;
             flex-shrink: 0;
-            background: #222; /* 占位背景 */
+            background: #222;
         }
         #art-box img {
             width: 100%;
@@ -387,9 +393,12 @@
             background: rgba(255, 255, 255, 0.08);
         }
 
-        /* ===== 导航链接框 — 可拖拽 ===== */
+        /* ===== 导航链接框 — 固定底部居中 ===== */
         .nav-links {
             position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             gap: 32px;
             padding: 14px 36px;
@@ -398,16 +407,9 @@
             flex-wrap: wrap;
             justify-content: center;
             box-sizing: border-box;
-            cursor: grab;
-            touch-action: none;
+            cursor: default;
+            touch-action: auto;
             transition: box-shadow 0.3s ease, background 0.6s ease, border 0.6s ease;
-            will-change: left, top;
-            backface-visibility: hidden;
-        }
-        .nav-links.dragging {
-            cursor: grabbing;
-            z-index: 1001 !important;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.40);
         }
         .nav-links a {
             color: #66ccff;
@@ -449,9 +451,10 @@
         }
         [data-theme="dark"] #gear-island {
             background: linear-gradient(135deg,
-                    rgba(255, 255, 255, 0.07) 0%,
-                    rgba(255, 255, 255, 0.025) 50%,
-                    rgba(255, 255, 255, 0.045) 100%);
+                    rgba(0, 0, 0, 0.4) 0%,
+                    rgba(0, 0, 0, 0.2) 50%,
+                    rgba(0, 0, 0, 0.3) 100%);
+            border-color: rgba(255, 255, 255, 0.15);
         }
         #gear-island:hover {
             transform: scale(1.08) rotate(12deg);
@@ -526,10 +529,10 @@
         }
         [data-theme="dark"] #modal {
             background: linear-gradient(145deg,
-                    rgba(255, 255, 255, 0.06) 0%,
-                    rgba(255, 255, 255, 0.02) 50%,
-                    rgba(255, 255, 255, 0.04) 100%);
-            border-color: rgba(255, 255, 255, 0.2);
+                    rgba(0, 0, 0, 0.4) 0%,
+                    rgba(0, 0, 0, 0.2) 50%,
+                    rgba(0, 0, 0, 0.3) 100%);
+            border-color: rgba(255, 255, 255, 0.15);
         }
         @keyframes modalPop {
             0% {
@@ -707,7 +710,7 @@
             background: #ffffff;
         }
 
-        /* --- 主题过渡层 (洪水动画) --- */
+        /* --- 主题过渡层 (波浪扩散) --- */
         #theme-transition-overlay {
             position: fixed;
             top: 0;
@@ -716,46 +719,16 @@
             height: 100%;
             z-index: 9999;
             pointer-events: none;
-            background: var(--theme-transition-bg);
-            clip-path: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
-            transition: clip-path 0.01s;
-            will-change: clip-path;
-            opacity: 0;
             visibility: hidden;
+            opacity: 0;
+            background: transparent;
+            transition: opacity 0.01s;
+            will-change: clip-path, background;
         }
         #theme-transition-overlay.animating {
             pointer-events: auto;
-            opacity: 1;
             visibility: visible;
-        }
-        #theme-transition-overlay.flood-in {
-            animation: floodIn 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-        @keyframes floodIn {
-            0% {
-                clip-path: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            100% {
-                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-                opacity: 1;
-            }
-        }
-        #theme-transition-overlay.flood-out {
-            animation: floodOut 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-        @keyframes floodOut {
-            0% {
-                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-                opacity: 1;
-            }
-            100% {
-                clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
-                opacity: 0;
-            }
+            opacity: 1;
         }
 
         /* --- MD3 图标按钮 (播放器) --- */
@@ -783,6 +756,45 @@
             fill: none;
             stroke-linecap: round;
             stroke-linejoin: round;
+        }
+
+        /* ===== 播放/暂停 & 模式按钮 动画 ===== */
+        @keyframes playPulse {
+            0% {
+                transform: scale(1);
+            }
+            30% {
+                transform: scale(1.3) rotate(15deg);
+            }
+            70% {
+                transform: scale(0.9) rotate(-10deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        @keyframes modeFlip {
+            0% {
+                transform: scale(1) rotate(0deg);
+            }
+            40% {
+                transform: scale(1.3) rotate(180deg);
+            }
+            70% {
+                transform: scale(0.85) rotate(320deg);
+            }
+            100% {
+                transform: scale(1) rotate(360deg);
+            }
+        }
+        .btn-anim {
+            animation: playPulse 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .mode-anim {
+            animation: modeFlip 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        #play-pause-overlay.btn-anim .cover-icon {
+            animation: playPulse 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
         /* --- 响应式 --- */
@@ -822,8 +834,6 @@
                 font-size: 2.2rem;
             }
             #player {
-                left: 12px;
-                top: 110px;
                 width: 300px;
                 padding: 12px;
             }
@@ -833,6 +843,7 @@
                 font-size: 0.85rem;
                 flex-wrap: wrap;
                 justify-content: center;
+                bottom: 20px;
             }
             #song-list {
                 width: 300px;
@@ -889,8 +900,6 @@
             }
             #player {
                 width: 260px;
-                left: 8px;
-                top: 100px;
                 gap: 10px;
                 padding: 10px;
             }
@@ -955,6 +964,7 @@
                 gap: 10px;
                 padding: 8px 14px;
                 font-size: 0.75rem;
+                bottom: 14px;
             }
         }
     </style>
@@ -978,7 +988,7 @@
         </div>
     </div>
 
-    <!-- ====== 播放器 (固定在左上角) ====== -->
+    <!-- ====== 播放器 (可拖拽) ====== -->
     <div id="player" class="liquid-glass">
         <div id="art-box">
             <img src="CD.jpg" alt="cover" id="cover-img" />
@@ -998,13 +1008,13 @@
                 <button onclick="prev()" class="md3-icon-btn">
                     <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
                 </button>
-                <button id="main-play-btn" onclick="togglePlay()" style="background:var(--accent); border:none; color:#000; width:36px; height:36px; border-radius:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                <button id="main-play-btn" onclick="togglePlay()" style="background:var(--accent); border:none; color:#000; width:36px; height:36px; border-radius:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transform-origin:center;">
                     <svg id="play-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                 </button>
                 <button onclick="next()" class="md3-icon-btn">
                     <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
                 </button>
-                <button id="mode-btn" onclick="changeMode()" class="md3-icon-btn" title="切换播放模式">
+                <button id="mode-btn" onclick="changeMode()" class="md3-icon-btn" title="切换播放模式" style="transform-origin:center;">
                     <span id="mode-icon" style="display:flex; align-items:center; justify-content:center; width:100%; height:100%;"></span>
                 </button>
                 <button onclick="toggleList(event)" class="md3-icon-btn" style="font-size:18px; font-weight:300;">☰</button>
@@ -1015,7 +1025,7 @@
     <!-- ====== 歌曲列表 ====== -->
     <div id="song-list" class="liquid-glass"></div>
 
-    <!-- ====== 导航链接框 (可拖拽) ====== -->
+    <!-- ====== 导航链接框 (固定底部居中) ====== -->
     <div class="nav-links liquid-glass" id="navLinks">
         <a href="md.html">すべてを見る</a>
         <a href="https://bxfans.github.io/Tube/">YouTube</a>
@@ -1059,7 +1069,7 @@
         </div>
     </div>
 
-    <!-- ====== 主题过渡层 ====== -->
+    <!-- ====== 主题过渡层 (波浪扩散) ====== -->
     <div id="theme-transition-overlay"></div>
 
     <!-- ====== 音频 ====== -->
@@ -1067,25 +1077,68 @@
 
     <script>
         // ===================================================================
-        //  1. 右上角时间与天气
+        //  1. 右上角时间 (根据IP获取时区)
         // ===================================================================
         const clockEl = document.getElementById('clock');
         const weatherIconEl = document.getElementById('weather-icon');
         const weatherTempEl = document.getElementById('weather-temp');
         const weatherDescEl = document.getElementById('weather-desc');
 
+        // 全局时区变量，默认东八区
+        let userTimeZone = 'Asia/Shanghai';
+
         function updateClock() {
             const now = new Date();
-            const offset = 8 * 60;
-            const local = new Date(now.getTime() + (offset - now.getTimezoneOffset()) * 60000);
-            const h = String(local.getHours()).padStart(2, '0');
-            const m = String(local.getMinutes()).padStart(2, '0');
-            const s = String(local.getSeconds()).padStart(2, '0');
-            clockEl.textContent = `${h}:${m}:${s}`;
+            try {
+                const formatter = new Intl.DateTimeFormat('zh-CN', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false,
+                    timeZone: userTimeZone
+                });
+                clockEl.textContent = formatter.format(now);
+            } catch (e) {
+                // 如果时区无效，回退到东八区
+                const offset = 8 * 60;
+                const local = new Date(now.getTime() + (offset - now.getTimezoneOffset()) * 60000);
+                const h = String(local.getHours()).padStart(2, '0');
+                const m = String(local.getMinutes()).padStart(2, '0');
+                const s = String(local.getSeconds()).padStart(2, '0');
+                clockEl.textContent = `${h}:${m}:${s}`;
+            }
         }
-        updateClock();
-        setInterval(updateClock, 1000);
 
+        // 获取用户IP所在时区
+        function fetchUserTimeZone() {
+            fetch('https://ipapi.co/json/')
+                .then(res => {
+                    if (!res.ok) throw new Error('IP API error');
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.timezone) {
+                        userTimeZone = data.timezone;
+                        // 立即更新时间
+                        updateClock();
+                    }
+                })
+                .catch(err => {
+                    console.warn('IP timezone fetch failed, using Asia/Shanghai', err);
+                    // 保持默认
+                });
+        }
+
+        // 初始更新时间
+        updateClock();
+        // 每秒更新
+        setInterval(updateClock, 1000);
+        // 异步获取时区
+        fetchUserTimeZone();
+
+        // ===================================================================
+        //  2. 天气 (独立)
+        // ===================================================================
         const WEATHER_CACHE_KEY = 'weather_cache';
         const CACHE_DURATION = 10 * 60 * 1000;
 
@@ -1160,7 +1213,7 @@
         setInterval(fetchWeather, CACHE_DURATION);
 
         // ===================================================================
-        //  2. 播放器逻辑 (包含封面提取)
+        //  3. 播放器逻辑 (Spotify 封面搜索，通过第三方代理)
         // ===================================================================
         const songs = [
             "Aquaculture - LamazeP.mp3",
@@ -1185,6 +1238,9 @@
 
         // 封面图标元素
         const coverIcon = document.querySelector('#play-pause-overlay .cover-icon');
+        const mainPlayBtn = document.getElementById('main-play-btn');
+        const modeBtn = document.getElementById('mode-btn');
+        const playOverlay = document.getElementById('play-pause-overlay');
 
         let currentIdx = 0,
             mode = 0;
@@ -1206,44 +1262,55 @@
             songList.appendChild(div);
         });
 
-        // ----- 读取音频封面（使用 jsmediatags）-----
-        function loadCoverFromFile(fileUrl) {
-            // 如果 jsmediatags 未加载，直接返回
-            if (typeof jsmediatags === 'undefined') {
-                coverImg.src = 'CD.jpg';
-                return;
+        // ----- 使用 Spotify API (通过第三方代理) 搜索封面 -----
+        function fetchCoverOnline(fileName) {
+            // 先设为默认
+            coverImg.src = 'CD.jpg';
+            // 解析歌名和艺术家 (格式: "Title - Artist.mp3")
+            let name = fileName.replace(/\.mp3$/i, '');
+            let artist = '';
+            if (name.includes(' - ')) {
+                const parts = name.split(' - ');
+                artist = parts.pop().trim();
+                name = parts.join(' - ').trim();
             }
-            // 如果是相对路径，转换为绝对路径（或保持原样）
-            const url = new URL(fileUrl, window.location.href).href;
-            jsmediatags.read(url, {
-                onSuccess: function(tag) {
-                    const picture = tag.tags.picture;
-                    if (picture) {
-                        const { data, format } = picture;
-                        // data 是 Uint8Array，转换为 Blob
-                        let mime = 'image/jpeg';
-                        if (format === 'image/png') mime = 'image/png';
-                        else if (format === 'image/gif') mime = 'image/gif';
-                        else if (format === 'image/webp') mime = 'image/webp';
-                        const blob = new Blob([data], { type: mime });
-                        const url = URL.createObjectURL(blob);
-                        coverImg.src = url;
-                        // 释放之前的 object URL（可选）
-                        // 注意：不要立即释放，因为 img 正在使用
-                        // 暂不处理，由浏览器自动管理
-                    } else {
-                        // 无封面，使用默认
-                        coverImg.src = 'CD.jpg';
+            if (!name) name = fileName;
+            if (!artist) artist = 'unknown';
+
+            // 使用 spotify-api-wrapper 代理 (无需认证)
+            const query = encodeURIComponent(`${name} ${artist}`);
+            const url = `https://spotify-api-wrapper.appspot.com/search/track/${query}`;
+
+            fetch(url)
+                .then(res => {
+                    if (!res.ok) throw new Error('Spotify proxy error');
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.tracks && data.tracks.items && data.tracks.items.length > 0) {
+                        // 取第一个结果
+                        const track = data.tracks.items[0];
+                        if (track.album && track.album.images && track.album.images.length > 0) {
+                            // 取最大尺寸的图片 (通常第一个是最大)
+                            const images = track.album.images;
+                            // 按尺寸排序 (宽高)
+                            const sorted = images.sort((a, b) => b.width - a.width);
+                            const imgUrl = sorted[0].url;
+                            if (imgUrl) {
+                                coverImg.src = imgUrl;
+                                return;
+                            }
+                        }
                     }
-                },
-                onError: function(error) {
-                    console.warn('读取封面失败，使用默认CD.jpg', error);
-                    coverImg.src = 'CD.jpg';
-                }
-            });
+                    console.log('No cover from Spotify, using default');
+                })
+                .catch(err => {
+                    console.warn('Spotify cover fetch failed', err);
+                    // 保持默认
+                });
         }
 
-        // ----- 播放状态控制 -----
+        // ----- 播放状态控制 (含动画触发) -----
         function setPlayingState(playing) {
             if (playing) {
                 progressFill.classList.add('playing');
@@ -1260,6 +1327,17 @@
             }
         }
 
+        // 触发动画辅助函数
+        function triggerAnimation(element, className, duration) {
+            if (!element) return;
+            element.classList.remove(className);
+            void element.offsetWidth;
+            element.classList.add(className);
+            setTimeout(() => {
+                element.classList.remove(className);
+            }, duration);
+        }
+
         function updateProgress() {
             if (isDraggingProgress) return;
             if (audio.duration) {
@@ -1274,12 +1352,12 @@
         function loadAndPlay() {
             const src = songs[currentIdx];
             audio.src = src;
-            // 尝试读取封面
-            loadCoverFromFile(src);
+            fetchCoverOnline(src);
             audio.play();
             setPlayingState(true);
         }
 
+        // 播放/暂停切换 (附带动画)
         window.togglePlay = () => {
             if (audio.paused) {
                 audio.play();
@@ -1288,6 +1366,8 @@
                 audio.pause();
                 setPlayingState(false);
             }
+            triggerAnimation(mainPlayBtn, 'btn-anim', 450);
+            triggerAnimation(playOverlay, 'btn-anim', 450);
         };
 
         window.prev = () => {
@@ -1305,9 +1385,11 @@
             `<svg viewBox="0 0 24 24"><path d="M21 7h-4a3 3 0 0 0-3 3v4a3 3 0 0 1-3 3H3" /><path d="M21 17h-4a3 3 0 0 1-3-3v-4a3 3 0 0 0-3-3H3" /><path d="M3 7h4" /><path d="M3 17h4" /></svg>`
         ];
 
+        // 切换播放模式 (附带动画)
         window.changeMode = () => {
             mode = (mode + 1) % 3;
             document.getElementById('mode-icon').innerHTML = iconMap[mode];
+            triggerAnimation(modeBtn, 'mode-anim', 550);
         };
 
         audio.onended = () => {
@@ -1413,7 +1495,75 @@
         });
 
         // ===================================================================
-        //  3. 暗黑模式切换 (主题 + 洪水动画)
+        //  4. 播放器拖拽功能
+        // ===================================================================
+        let isDraggingPlayer = false;
+        let playerOffsetX = 0,
+            playerOffsetY = 0;
+
+        player.addEventListener('mousedown', (e) => {
+            if (e.target.closest('button, input, #play-pause-overlay, #main-play-btn, #progress-container')) return;
+            isDraggingPlayer = true;
+            const rect = player.getBoundingClientRect();
+            playerOffsetX = e.clientX - rect.left;
+            playerOffsetY = e.clientY - rect.top;
+            player.classList.add('dragging');
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDraggingPlayer) return;
+            let newLeft = e.clientX - playerOffsetX;
+            let newTop = e.clientY - playerOffsetY;
+            const w = player.offsetWidth;
+            const h = player.offsetHeight;
+            newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - w));
+            newTop = Math.max(0, Math.min(newTop, window.innerHeight - h));
+            player.style.left = newLeft + 'px';
+            player.style.top = newTop + 'px';
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDraggingPlayer) {
+                player.classList.remove('dragging');
+                isDraggingPlayer = false;
+            }
+        });
+
+        player.addEventListener('touchstart', (e) => {
+            if (e.target.closest('button, input, #play-pause-overlay, #main-play-btn, #progress-container')) return;
+            const touch = e.touches[0];
+            isDraggingPlayer = true;
+            const rect = player.getBoundingClientRect();
+            playerOffsetX = touch.clientX - rect.left;
+            playerOffsetY = touch.clientY - rect.top;
+            player.classList.add('dragging');
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isDraggingPlayer) return;
+            const touch = e.touches[0];
+            let newLeft = touch.clientX - playerOffsetX;
+            let newTop = touch.clientY - playerOffsetY;
+            const w = player.offsetWidth;
+            const h = player.offsetHeight;
+            newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - w));
+            newTop = Math.max(0, Math.min(newTop, window.innerHeight - h));
+            player.style.left = newLeft + 'px';
+            player.style.top = newTop + 'px';
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('touchend', () => {
+            if (isDraggingPlayer) {
+                player.classList.remove('dragging');
+                isDraggingPlayer = false;
+            }
+        });
+
+        // ===================================================================
+        //  5. 主题切换 (波浪扩散动画)
         // ===================================================================
         let currentTheme = 'light';
         let isTransitioning = false;
@@ -1422,6 +1572,7 @@
         const switchTrack = document.getElementById('switch-track');
         const moonBtn = document.getElementById('moon-btn');
         const sunBtn = document.getElementById('sun-btn');
+        const gearBtn = document.getElementById('gear-island');
 
         function updateSwitchUI(theme) {
             if (theme === 'dark') {
@@ -1445,42 +1596,54 @@
             });
         }
 
+        // 波浪扩散动画
         function setTheme(theme) {
             if (theme === currentTheme || isTransitioning) return;
-            const fromDark = currentTheme === 'dark';
+
             const toDark = theme === 'dark';
+            const waveColor = toDark ? 'rgba(128,128,128,0.15)' : 'rgba(255,255,255,0.15)';
+
+            const gearRect = gearBtn.getBoundingClientRect();
+            const cx = gearRect.left + gearRect.width / 2;
+            const cy = gearRect.top + gearRect.height / 2;
 
             isTransitioning = true;
 
-            transitionOverlay.className = 'animating';
-            transitionOverlay.style.opacity = '1';
-            transitionOverlay.style.visibility = 'visible';
+            const overlay = transitionOverlay;
+            overlay.style.background = waveColor;
+            overlay.style.clipPath = `circle(0% at ${cx}px ${cy}px)`;
+            overlay.classList.add('animating');
+            overlay.style.visibility = 'visible';
+            overlay.style.opacity = '1';
 
-            if (toDark) {
-                transitionOverlay.className = 'animating flood-in';
-            } else {
-                transitionOverlay.className = 'animating flood-out';
-            }
+            void overlay.offsetWidth;
 
-            const onAnimationEnd = () => {
-                transitionOverlay.removeEventListener('animationend', onAnimationEnd);
+            overlay.style.transition = 'clip-path 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            overlay.style.clipPath = `circle(150% at ${cx}px ${cy}px)`;
+
+            const onTransitionEnd = () => {
+                overlay.removeEventListener('transitionend', onTransitionEnd);
                 applyTheme(theme);
-                setTimeout(() => {
-                    transitionOverlay.className = '';
-                    transitionOverlay.style.opacity = '0';
-                    transitionOverlay.style.visibility = 'hidden';
-                    isTransitioning = false;
-                }, 100);
+                overlay.style.transition = 'none';
+                overlay.classList.remove('animating');
+                overlay.style.visibility = 'hidden';
+                overlay.style.opacity = '0';
+                overlay.style.clipPath = '';
+                overlay.style.background = 'transparent';
+                isTransitioning = false;
             };
-            transitionOverlay.addEventListener('animationend', onAnimationEnd);
+            overlay.addEventListener('transitionend', onTransitionEnd);
 
             setTimeout(() => {
                 if (isTransitioning) {
-                    transitionOverlay.removeEventListener('animationend', onAnimationEnd);
+                    overlay.removeEventListener('transitionend', onTransitionEnd);
                     applyTheme(theme);
-                    transitionOverlay.className = '';
-                    transitionOverlay.style.opacity = '0';
-                    transitionOverlay.style.visibility = 'hidden';
+                    overlay.style.transition = 'none';
+                    overlay.classList.remove('animating');
+                    overlay.style.visibility = 'hidden';
+                    overlay.style.opacity = '0';
+                    overlay.style.clipPath = '';
+                    overlay.style.background = 'transparent';
                     isTransitioning = false;
                 }
             }, 1200);
@@ -1499,30 +1662,30 @@
         }
 
         // ===================================================================
-        //  4. 齿轮弹窗
+        //  6. 齿轮弹窗
         // ===================================================================
-        const overlay = document.getElementById('modal-overlay');
+        const overlayModal = document.getElementById('modal-overlay');
         const modal = document.getElementById('modal');
 
         window.openModal = function() {
-            overlay.classList.add('active');
-            overlay.style.display = 'flex';
+            overlayModal.classList.add('active');
+            overlayModal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
             syncSwitchUI();
         };
 
         window.closeModal = function() {
-            overlay.classList.remove('active');
-            overlay.style.display = 'none';
+            overlayModal.classList.remove('active');
+            overlayModal.style.display = 'none';
             document.body.style.overflow = '';
         };
 
         window.closeModalOutside = function(e) {
-            if (e.target === overlay) closeModal();
+            if (e.target === overlayModal) closeModal();
         };
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
+            if (e.key === 'Escape' && overlayModal.classList.contains('active')) closeModal();
         });
 
         document.getElementById('gear-island').addEventListener('click', function(e) {
@@ -1530,96 +1693,7 @@
         });
 
         // ===================================================================
-        //  5. 导航链接框 — 可拖拽
-        // ===================================================================
-        const navLinks = document.getElementById('navLinks');
-        let isDraggingNav = false;
-        let navOffsetX = 0,
-            navOffsetY = 0;
-
-        navLinks.addEventListener('mousedown', (e) => {
-            if (e.target.closest('a')) return;
-            isDraggingNav = true;
-            const rect = navLinks.getBoundingClientRect();
-            navOffsetX = e.clientX - rect.left;
-            navOffsetY = e.clientY - rect.top;
-            navLinks.classList.add('dragging');
-            e.preventDefault();
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (!isDraggingNav) return;
-            let newLeft = e.clientX - navOffsetX;
-            let newTop = e.clientY - navOffsetY;
-            const w = navLinks.offsetWidth;
-            const h = navLinks.offsetHeight;
-            newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - w));
-            newTop = Math.max(0, Math.min(newTop, window.innerHeight - h));
-            navLinks.style.left = newLeft + 'px';
-            navLinks.style.top = newTop + 'px';
-            navLinks.style.bottom = 'auto';
-            navLinks.style.margin = '0';
-            navLinks.style.transform = 'none';
-        });
-
-        document.addEventListener('mouseup', () => {
-            if (isDraggingNav) {
-                navLinks.classList.remove('dragging');
-                isDraggingNav = false;
-            }
-        });
-
-        navLinks.addEventListener('touchstart', (e) => {
-            if (e.target.closest('a')) return;
-            const touch = e.touches[0];
-            isDraggingNav = true;
-            const rect = navLinks.getBoundingClientRect();
-            navOffsetX = touch.clientX - rect.left;
-            navOffsetY = touch.clientY - rect.top;
-            navLinks.classList.add('dragging');
-            e.preventDefault();
-        }, { passive: false });
-
-        document.addEventListener('touchmove', (e) => {
-            if (!isDraggingNav) return;
-            const touch = e.touches[0];
-            let newLeft = touch.clientX - navOffsetX;
-            let newTop = touch.clientY - navOffsetY;
-            const w = navLinks.offsetWidth;
-            const h = navLinks.offsetHeight;
-            newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - w));
-            newTop = Math.max(0, Math.min(newTop, window.innerHeight - h));
-            navLinks.style.left = newLeft + 'px';
-            navLinks.style.top = newTop + 'px';
-            navLinks.style.bottom = 'auto';
-            navLinks.style.margin = '0';
-            navLinks.style.transform = 'none';
-            e.preventDefault();
-        }, { passive: false });
-
-        document.addEventListener('touchend', () => {
-            if (isDraggingNav) {
-                navLinks.classList.remove('dragging');
-                isDraggingNav = false;
-            }
-        });
-
-        window.addEventListener('resize', () => {
-            const rect = navLinks.getBoundingClientRect();
-            const w = navLinks.offsetWidth;
-            const h = navLinks.offsetHeight;
-            let left = parseFloat(navLinks.style.left) || rect.left;
-            let top = parseFloat(navLinks.style.top) || rect.top;
-            if (isNaN(left)) left = rect.left;
-            if (isNaN(top)) top = rect.top;
-            left = Math.max(0, Math.min(left, window.innerWidth - w));
-            top = Math.max(0, Math.min(top, window.innerHeight - h));
-            navLinks.style.left = left + 'px';
-            navLinks.style.top = top + 'px';
-        });
-
-        // ===================================================================
-        //  6. 初始化
+        //  7. 初始化
         // ===================================================================
         window.addEventListener('load', () => {
             audio.src = songs[0];
@@ -1627,20 +1701,7 @@
             setPlayingState(false);
             updateProgress();
             applyTheme('light');
-            // 加载第一首歌的封面
-            loadCoverFromFile(songs[0]);
-
-            // 导航链接框初始位置：底部居中
-            const rect = navLinks.getBoundingClientRect();
-            const w = rect.width;
-            const h = rect.height;
-            const left = (window.innerWidth - w) / 2;
-            const top = window.innerHeight - h - 40;
-            navLinks.style.left = left + 'px';
-            navLinks.style.top = top + 'px';
-            navLinks.style.bottom = 'auto';
-            navLinks.style.margin = '0';
-            navLinks.style.transform = 'none';
+            fetchCoverOnline(songs[0]);
         });
     </script>
 
