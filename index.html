@@ -1213,7 +1213,7 @@
         setInterval(fetchWeather, CACHE_DURATION);
 
         // ===================================================================
-        //  3. 播放器逻辑 (Spotify 封面搜索，通过第三方代理)
+        //  3. 播放器逻辑 — 完整歌曲列表（已修复语法错误）
         // ===================================================================
         const songs = [
             "Aquaculture - LamazeP.mp3",
@@ -1225,23 +1225,24 @@
             "デレ化現象100_ - LamazeP.mp3",
             "トキメキ - LamazeP.mp3",
             "愛の詩 - LamazeP.mp3",
-            "銀河系から徒歩_分以内で - LamazeP.mp3"
-            "ÅMARA _The Great Intelligence_ - sasakure.UK.mp3",
-            "優等生 _feat. 初音ミク_ - Shino.mp3",
+            "銀河系から徒歩_分以内で - LamazeP.mp3",
+            "ÅMARA _The Great Intelligence_- sasakure.UK.mp3",
+            "優等生 _feat. 初音ミク_- Shino.mp3",
             "静寂に咲く - MIMI.mp3",
-            "魔理沙は大変なものを盗んでいきました - IOSYS.mp3",
+            "魔理沙は大変なものを盗んでいきまし_た - IOSYS.mp3",
             "水音とカーテン - MIMI.mp3",
-            "化孵化 - sasakure.UK.mp3",
-            "孤独サイコ _Psycho Mode_ _feat. Hatsune Miku_ - TAK.mp3",
-            "彩ってく_ _feat. IA_ - ぼぉの.mp3",
-            "ミュージック _feat. 可不_ - MIMI.mp3",
-            "メタモリボン - emon_Tes._.mp3",
+            "化解化 - sasakure.UK.mp3",
+            "孤独サイコ _Psycho Mode_- feat. Hatsune Miku_- TAK.mp3",
+            "彩ってく _feat. IA_- ほおの.mp3",
+            "ミュージック _feat. 可木_- MIMI.mp3",
+            "メタモリボン - emon_Tes_.mp3",
             "哀の隙間 - MIMI.mp3",
             "LEMON MELON COOKIE - TAK.mp3",
             "mochimochi - TAK.mp3",
             "はじまりの未来 - Hatsune Miku.mp3",
-            "どりーみんチュチュ _feat. 巡音ルカ_初音ミク_ - emon_Tes._.mp3"
+            "どりーみんチュチュ - feat. 巡音ルカ_初音ミク_- emon_Tes_.mp3"
         ];
+
         const audio = document.getElementById('audio');
         const playIcon = document.getElementById('play-icon');
         const songList = document.getElementById('song-list');
@@ -1265,6 +1266,7 @@
         const playSVG = `<path d="M8 5v14l11-7z"/>`;
         const pauseSVG = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
 
+        // 构建歌曲列表
         songs.forEach((s, i) => {
             const div = document.createElement('div');
             div.className = 'song-item';
@@ -1303,12 +1305,9 @@
                 })
                 .then(data => {
                     if (data.tracks && data.tracks.items && data.tracks.items.length > 0) {
-                        // 取第一个结果
                         const track = data.tracks.items[0];
                         if (track.album && track.album.images && track.album.images.length > 0) {
-                            // 取最大尺寸的图片 (通常第一个是最大)
                             const images = track.album.images;
-                            // 按尺寸排序 (宽高)
                             const sorted = images.sort((a, b) => b.width - a.width);
                             const imgUrl = sorted[0].url;
                             if (imgUrl) {
@@ -1321,7 +1320,6 @@
                 })
                 .catch(err => {
                     console.warn('Spotify cover fetch failed', err);
-                    // 保持默认
                 });
         }
 
