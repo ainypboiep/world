@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>给你扇窗全看世界，但你摸不到乁⁠[⁠ᓀ⁠˵⁠▾⁠˵⁠ᓂ⁠]⁠ㄏ</title>
+    <!-- 引入 jsmediatags 用于读取音频元数据 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
     <style>
         /* --- 1. 字体与全局设置 --- */
         @font-face {
@@ -26,7 +28,6 @@
         }
 
         [data-theme="dark"] {
-            /* 暗黑模式下液态玻璃变暗 */
             --glass-bg1: rgba(0, 0, 0, 0.45);
             --glass-bg2: rgba(0, 0, 0, 0.25);
             --glass-bg3: rgba(0, 0, 0, 0.35);
@@ -1213,9 +1214,10 @@
         setInterval(fetchWeather, CACHE_DURATION);
 
         // ===================================================================
-        //  3. 播放器逻辑 — 完整歌曲列表（已修复语法错误 + 错误处理）
+        //  3. 播放器逻辑 — 优先从元数据读取，失败则从文件名解析
         // ===================================================================
-        const songs = [
+        // 保留所有 LamazeP 的曲子
+        const lamazeSongs = [
             "Aquaculture - LamazeP.mp3",
             "I say love - LamazeP.mp3",
             "Nothing - LamazeP.mp3",
@@ -1225,23 +1227,32 @@
             "デレ化現象100_ - LamazeP.mp3",
             "トキメキ - LamazeP.mp3",
             "愛の詩 - LamazeP.mp3",
-            "銀河系から徒歩_分以内で - LamazeP.mp3",
-            "ÅMARA _The Great Intelligence_- sasakure.UK.mp3",
-            "優等生 _feat. 初音ミク_- Shino.mp3",
-            "静寂に咲く - MIMI.mp3",
-            "魔理沙は大変なものを盗んでいきまし_た - IOSYS.mp3",
-            "水音とカーテン - MIMI.mp3",
-            "化解化 - sasakure.UK.mp3",
-            "孤独サイコ _Psycho Mode_- feat. Hatsune Miku_- TAK.mp3",
-            "彩ってく _feat. IA_- ほおの.mp3",
-            "ミュージック _feat. 可木_- MIMI.mp3",
-            "メタモリボン - emon_Tes_.mp3",
-            "哀の隙間 - MIMI.mp3",
+            "銀河系から徒歩_分以内で - LamazeP.mp3"
+        ];
+
+        // 从图片中提取的新歌曲 (按顺序)
+        const newSongs = [
             "LEMON MELON COOKIE - TAK.mp3",
             "mochimochi - TAK.mp3",
+            "ray - Cosmic Princess Kaguya_ Version - Kaguya_cv.Yuko Natsuyoshi_.mp3",
+            "どりーみんチュチュ_feat. 巡音ルカ_初音ミク_- emon_Tes_.mp3",
             "はじまりの未来 - Hatsune Miku.mp3",
-            "どりーみんチュチュ - feat. 巡音ルカ_初音ミク_- emon_Tes_.mp3"
+            "フローレミー - MIMI.mp3",
+            "ミュージック_feat. 可不_- MIMI.mp3",
+            "メタモリボン_- emon_Tes_.mp3",
+            "哀の隙間 - MIMI.mp3",
+            "化孵化 - sasakure.UK.mp3",
+            "孤独サイコ - Psycho Mode__feat. Hatsune Miku_- TAK.mp3",
+            "彩ってく_ feat. IA_- ぼぉの.mp3",
+            "水音とカーテン - MIMI.mp3",
+            "静寂に咲く - MIMI.mp3",
+            "魔理沙は大変なものを盗んでいきました - IOSYS.mp3",
+            "優等生_feat. 初音ミク_- Shino.mp3",
+            "AMARA_The Great Intelligence_- sasakure.UK.mp3"
         ];
+
+        // 合并：先Lamaze，后新歌
+        const songs = [...lamazeSongs, ...newSongs];
 
         const audio = document.getElementById('audio');
         const playIcon = document.getElementById('play-icon');
@@ -1266,6 +1277,9 @@
         const playSVG = `<path d="M8 5v14l11-7z"/>`;
         const pauseSVG = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
 
+        // Last.fm API Key (公开测试 key)
+        const LASTFM_API_KEY = 'b25b959554ed76058ac220b7b2e0a026';
+
         // 构建歌曲列表
         songs.forEach((s, i) => {
             const div = document.createElement('div');
@@ -1279,9 +1293,8 @@
             songList.appendChild(div);
         });
 
-        // ----- 使用 Spotify API (通过第三方代理) 搜索封面 -----
-        function fetchCoverOnline(fileName) {
-            coverImg.src = 'CD.jpg';
+        // ----- 从文件名解析 artist 和 title (回退方案) -----
+        function parseFromFileName(fileName) {
             let name = fileName.replace(/\.mp3$/i, '');
             let artist = '';
             if (name.includes(' - ')) {
@@ -1291,33 +1304,94 @@
             }
             if (!name) name = fileName;
             if (!artist) artist = 'unknown';
+            return { title: name, artist: artist };
+        }
 
-            const query = encodeURIComponent(`${name} ${artist}`);
-            const url = `https://spotify-api-wrapper.appspot.com/search/track/${query}`;
+        // ----- 使用 Last.fm API 搜索封面 (通用) -----
+        function searchCoverWithLastFm(title, artist) {
+            const url =
+                `https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${LASTFM_API_KEY}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(title)}&format=json`;
 
-            fetch(url)
+            return fetch(url)
                 .then(res => {
-                    if (!res.ok) throw new Error('Spotify proxy error');
+                    if (!res.ok) throw new Error('Last.fm API error');
                     return res.json();
                 })
                 .then(data => {
-                    if (data.tracks && data.tracks.items && data.tracks.items.length > 0) {
-                        const track = data.tracks.items[0];
-                        if (track.album && track.album.images && track.album.images.length > 0) {
-                            const images = track.album.images;
-                            const sorted = images.sort((a, b) => b.width - a.width);
-                            const imgUrl = sorted[0].url;
-                            if (imgUrl) {
-                                coverImg.src = imgUrl;
-                                return;
+                    if (data.track && data.track.album && data.track.album.image) {
+                        const images = data.track.album.image;
+                        let imgUrl = null;
+                        for (let img of images) {
+                            if (img.size === 'extralarge' && img['#text']) {
+                                imgUrl = img['#text'];
+                                break;
                             }
                         }
+                        if (!imgUrl) {
+                            const sorted = [...images].sort((a, b) => {
+                                const sizes = ['small', 'medium', 'large', 'extralarge', 'mega'];
+                                return sizes.indexOf(b.size) - sizes.indexOf(a.size);
+                            });
+                            if (sorted.length > 0 && sorted[0]['#text']) {
+                                imgUrl = sorted[0]['#text'];
+                            }
+                        }
+                        if (imgUrl) {
+                            coverImg.src = imgUrl;
+                            return true;
+                        }
                     }
-                    console.log('No cover from Spotify, using default');
+                    return false;
                 })
-                .catch(err => {
-                    console.warn('Spotify cover fetch failed', err);
+                .catch(() => false);
+        }
+
+        // ----- 主封面获取函数：优先从元数据，失败则从文件名 -----
+        function fetchCoverOnline(fileName) {
+            // 先设为默认
+            coverImg.src = 'CD.jpg';
+
+            // 构建文件的完整 URL (同源)
+            const fileUrl = fileName; // 相对路径，同源
+
+            // 检查 jsmediatags 是否可用
+            if (typeof jsmediatags !== 'undefined') {
+                jsmediatags.read(fileUrl, {
+                    onSuccess: function(tag) {
+                        let artist = tag.tags.artist;
+                        let title = tag.tags.title;
+                        // 如果元数据中有 artist 和 title，则使用它们
+                        if (artist && title) {
+                            // 清理可能的多余空格
+                            artist = artist.trim();
+                            title = title.trim();
+                            // 使用元数据搜索封面
+                            searchCoverWithLastFm(title, artist).then(success => {
+                                if (!success) {
+                                    // 如果 Last.fm 搜索失败，回退到文件名解析
+                                    const parsed = parseFromFileName(fileName);
+                                    searchCoverWithLastFm(parsed.title, parsed.artist);
+                                }
+                            });
+                        } else {
+                            // 缺少 artist 或 title，回退到文件名
+                            const parsed = parseFromFileName(fileName);
+                            searchCoverWithLastFm(parsed.title, parsed.artist);
+                        }
+                    },
+                    onError: function(error) {
+                        // 读取元数据失败，回退到文件名
+                        console.warn('读取元数据失败，回退到文件名', error);
+                        const parsed = parseFromFileName(fileName);
+                        searchCoverWithLastFm(parsed.title, parsed.artist);
+                    }
                 });
+            } else {
+                // jsmediatags 未加载，直接回退到文件名
+                console.warn('jsmediatags 未加载，使用文件名解析');
+                const parsed = parseFromFileName(fileName);
+                searchCoverWithLastFm(parsed.title, parsed.artist);
+            }
         }
 
         // ----- 播放状态控制 (含动画触发) -----
@@ -1362,9 +1436,7 @@
         function loadAndPlay() {
             const src = songs[currentIdx];
             audio.src = src;
-            // 强制加载
             audio.load();
-            // 尝试播放
             const playPromise = audio.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
@@ -1374,9 +1446,7 @@
                     setPlayingState(false);
                 });
             }
-            // 封面搜索
             fetchCoverOnline(src);
-            // 更新进度显示
             updateProgress();
         }
 
@@ -1443,7 +1513,6 @@
         // 错误处理
         audio.onerror = () => {
             console.error('音频加载错误:', audio.error);
-            // 尝试重新加载
             setTimeout(() => {
                 if (audio.src) {
                     audio.load();
@@ -1745,7 +1814,6 @@
         //  7. 初始化
         // ===================================================================
         window.addEventListener('load', () => {
-            // 初始加载第一首，但不自动播放
             const src = songs[0];
             audio.src = src;
             audio.load();
@@ -1754,7 +1822,6 @@
             updateProgress();
             applyTheme('light');
             fetchCoverOnline(src);
-            // 显示初始时间
             const fmt = (s) => new Date(s * 1000).toISOString().substr(14, 5);
             timeDisplay.innerText = `00:00 / ${fmt(0)} / 00:00`;
         });
