@@ -12,7 +12,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="icon" type="image/png" href="favicon.png" />
 
-    <title>给你扇窗全看世界，但你摸不到乁⁠[⁠ᓀ⁠˵⁠▾⁠˵⁠ᓂ⁠]⁠ㄏ</title>
+    <title>bxfans~天启之境</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
     <style>
         /* --- 1. 字体与全局设置 --- */
         @font-face {
@@ -103,7 +104,6 @@
             top: 20px;
             width: 100%;
             text-align: center;
-            color: var(--accent);
             font-weight: bold;
             pointer-events: none;
             line-height: 1.2;
@@ -135,10 +135,9 @@
             -webkit-backdrop-filter: blur(30px) saturate(180%) brightness(1.05);
             border: 1px solid var(--glass-border);
             box-shadow: var(--glass-shadow);
-            color: var(--text-color);
             font-weight: 400;
             min-width: 110px;
-            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease, color 0.6s ease;
+            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease;
             pointer-events: none;
             will-change: transform, opacity;
             backface-visibility: hidden;
@@ -148,12 +147,14 @@
             letter-spacing: 1px;
             font-weight: 500;
             text-shadow: 0 1px 6px rgba(0, 0, 0, 0.20);
+            transition: color 0.6s ease;
         }
         #top-right-info .weather {
             display: flex;
             align-items: center;
             gap: 8px;
             font-size: 0.95rem;
+            transition: color 0.6s ease;
         }
         #top-right-info .weather-icon {
             width: 28px;
@@ -194,8 +195,7 @@
             -webkit-backdrop-filter: blur(30px) saturate(180%) brightness(1.05);
             border: 1px solid var(--glass-border);
             box-shadow: var(--glass-shadow);
-            color: var(--text-color);
-            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease, color 0.6s ease;
+            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease;
             pointer-events: none;
             will-change: transform, opacity;
             backface-visibility: hidden;
@@ -212,12 +212,11 @@
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
-            transition: font-size 0.2s ease, opacity 0.2s ease;
+            transition: font-size 0.2s ease, opacity 0.2s ease, color 0.6s ease;
         }
         #lyrics-island .lyrics-line.current {
             font-size: 1.3rem;
             font-weight: 500;
-            color: var(--accent);
             text-shadow: 0 0 12px rgba(102, 204, 255, 0.3);
         }
         #lyrics-island .lyrics-line.prev,
@@ -238,7 +237,7 @@
             -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
             border: 1px solid var(--glass-border);
             box-shadow: var(--glass-shadow);
-            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease, color 0.6s ease;
+            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease;
         }
 
         /* ===== 播放器 — 可拖拽 ===== */
@@ -256,7 +255,6 @@
             user-select: none;
             will-change: left, top;
             backface-visibility: hidden;
-            color: var(--text-color);
             cursor: grab;
             touch-action: none;
             transition: box-shadow 0.3s ease, background 0.6s ease, border 0.6s ease;
@@ -336,7 +334,6 @@
         .song-info {
             font-size: 13px;
             font-weight: 400;
-            color: var(--text-color);
             opacity: 0.85;
             white-space: nowrap;
             overflow: hidden;
@@ -347,7 +344,6 @@
             letter-spacing: 0.3px;
         }
         [data-theme="dark"] .song-info {
-            color: #e0e0e0;
             opacity: 0.8;
         }
 
@@ -403,7 +399,6 @@
 
         #time-display {
             font-size: 10px;
-            color: var(--text-color);
             text-align: right;
             font-variant-numeric: tabular-nums;
             transition: color 0.6s ease;
@@ -428,7 +423,6 @@
             border-radius: 20px;
             overflow-y: auto;
             z-index: 999;
-            color: var(--text-color);
             padding: 8px 0;
             visibility: hidden;
             pointer-events: none;
@@ -436,7 +430,7 @@
             transform: scale(0.92) translateY(-8px);
             transform-origin: top center;
             will-change: transform, opacity;
-            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease, color 0.6s ease;
+            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease;
         }
         #song-list.active {
             visibility: visible;
@@ -529,7 +523,6 @@
             transition: box-shadow 0.3s ease, background 0.6s ease, border 0.6s ease;
         }
         .nav-links a {
-            color: var(--nav-link-color, #66ccff);
             text-decoration: none;
             font-weight: bold;
             transition: opacity 0.3s, color 0.6s ease;
@@ -538,9 +531,6 @@
         }
         .nav-links a:hover {
             opacity: 0.8;
-        }
-        [data-theme="dark"] .nav-links a {
-            color: #88ddff;
         }
 
         /* --- 齿轮按钮 --- */
@@ -592,7 +582,7 @@
         }
 
         /* ================================================================
-           🪟 弹窗 — Windows 11 风格 (悬浮 + 可拖拽 + 无遮罩)
+           🪟 弹窗 — 缩略图扩大，箭头在外
            ================================================================ */
         #modal-overlay {
             position: fixed;
@@ -620,9 +610,9 @@
 
         #modal {
             position: relative;
-            width: 480px;
-            max-width: 92vw;
-            min-height: 380px;
+            width: 520px;
+            max-width: 94vw;
+            min-height: 420px;
             max-height: 85vh;
             border-radius: 28px;
             padding: 18px 24px 20px 24px;
@@ -734,7 +724,6 @@
             color: #e0e0e0;
         }
 
-        /* ---- 副标题 (主题名) ---- */
         .modal-subtitle {
             text-align: center;
             font-size: 0.9rem;
@@ -752,23 +741,31 @@
             opacity: 0.6;
         }
 
-        /* ---- 缩略图切换器 ---- */
+        /* ---- 缩略图切换器 (箭头在外) ---- */
         .thumb-carousel {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 14px;
             padding: 8px 0 6px 0;
-            min-height: 200px;
+            min-height: 220px;
+        }
+        .thumb-carousel .thumb-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            width: 100%;
+            flex-shrink: 0;
         }
         .thumb-carousel .thumb-wrapper {
             position: relative;
-            width: 200px;
-            height: 160px;
+            width: 300px;
+            height: 220px;
             overflow: hidden;
-            border-radius: 14px;
+            border-radius: 16px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
             background: rgba(0, 0, 0, 0.2);
             flex-shrink: 0;
@@ -788,41 +785,32 @@
             display: block;
         }
         .thumb-carousel .thumb-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 36px;
-            height: 36px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: rgba(0, 0, 0, 0.35);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             color: #fff;
-            font-size: 20px;
+            font-size: 28px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: background 0.25s ease, transform 0.2s ease;
-            z-index: 5;
             user-select: none;
             line-height: 1;
             padding: 0;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
         }
         .thumb-carousel .thumb-arrow:hover {
             background: rgba(0, 0, 0, 0.55);
-            transform: translateY(-50%) scale(1.08);
+            transform: scale(1.08);
         }
         .thumb-carousel .thumb-arrow:active {
-            transform: translateY(-50%) scale(0.92);
-        }
-        .thumb-carousel .thumb-arrow.prev {
-            left: 6px;
-        }
-        .thumb-carousel .thumb-arrow.next {
-            right: 6px;
+            transform: scale(0.92);
         }
         .thumb-carousel .thumb-dots {
             display: flex;
@@ -1072,7 +1060,6 @@
         .md3-icon-btn {
             background: none;
             border: none;
-            color: var(--text-color);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -1148,19 +1135,22 @@
             #gear-island svg { width: 26px; height: 26px; }
             #modal {
                 width: 94vw;
-                min-height: 320px;
+                min-height: 350px;
                 padding: 14px 16px 16px 16px;
             }
             .modal-title { font-size: 0.95rem; }
             .modal-subtitle { font-size: 0.8rem; }
             .thumb-carousel .thumb-wrapper {
-                width: 160px;
-                height: 128px;
+                width: 220px;
+                height: 160px;
             }
             .thumb-carousel .thumb-arrow {
-                width: 30px;
-                height: 30px;
-                font-size: 16px;
+                width: 36px;
+                height: 36px;
+                font-size: 22px;
+            }
+            .thumb-carousel .thumb-row {
+                gap: 12px;
             }
             #player {
                 width: 300px;
@@ -1228,20 +1218,23 @@
             .song-info { font-size: 11px; }
             #modal {
                 width: 96vw;
-                min-height: 280px;
+                min-height: 300px;
                 padding: 12px 12px 14px 12px;
                 border-radius: 20px;
             }
             .modal-title { font-size: 0.85rem; }
             .modal-subtitle { font-size: 0.7rem; }
             .thumb-carousel .thumb-wrapper {
-                width: 130px;
-                height: 104px;
+                width: 160px;
+                height: 120px;
             }
             .thumb-carousel .thumb-arrow {
-                width: 26px;
-                height: 26px;
-                font-size: 14px;
+                width: 30px;
+                height: 30px;
+                font-size: 18px;
+            }
+            .thumb-carousel .thumb-row {
+                gap: 8px;
             }
             .thumb-carousel .apply-btn {
                 padding: 6px 22px;
@@ -1333,7 +1326,7 @@
                 <button onclick="prev()" class="md3-icon-btn">
                     <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
                 </button>
-                <button id="main-play-btn" onclick="togglePlay()" style="background:var(--play-btn-bg, #66ccff); border:none; color:#000; width:34px; height:34px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transform-origin:center;">
+                <button id="main-play-btn" onclick="togglePlay()" style="border:none; color:#000; width:34px; height:34px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transform-origin:center;">
                     <svg id="play-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                 </button>
                 <button onclick="next()" class="md3-icon-btn">
@@ -1350,7 +1343,7 @@
     <!-- ====== 歌曲列表 ====== -->
     <div id="song-list" class="liquid-glass"></div>
 
-    <!-- ====== 导航链接框 (固定底部居中) ====== -->
+    <!-- ====== 导航链接框 ====== -->
     <div class="nav-links liquid-glass" id="navLinks">
         <a href="md.html">世界</a>
         <a href="https://bxfans.github.io/Tube/">萌Chat（开发中）</a>
@@ -1366,13 +1359,12 @@
         </svg>
     </div>
 
-    <!-- ====== 背景切换覆盖层 (Aero 淡入淡出) ====== -->
+    <!-- ====== 背景切换覆盖层 ====== -->
     <div id="bg-transition-overlay"></div>
 
-    <!-- ====== 弹窗 (重构) ====== -->
+    <!-- ====== 弹窗 ====== -->
     <div id="modal-overlay" onclick="closeModalViaOverlay(event)">
         <div id="modal" class="liquid-glass" onclick="event.stopPropagation();">
-            <!-- 标题栏 -->
             <div class="modal-header" id="modal-header">
                 <div id="window-controls">
                     <span class="dot red" onclick="closeModal()" title="关闭"></span>
@@ -1381,18 +1373,16 @@
                 </div>
                 <span class="modal-title">パーソナライズ</span>
             </div>
-
-            <!-- 副标题 (主题名) -->
             <div class="modal-subtitle" id="modal-subtitle">海边のミク</div>
-
-            <!-- 缩略图切换器 -->
             <div class="thumb-carousel">
-                <div class="thumb-wrapper">
+                <div class="thumb-row">
                     <button class="thumb-arrow prev" id="thumb-prev" aria-label="上一张">‹</button>
-                    <div class="thumb-track" id="thumb-track">
-                        <img src="722264.jpg" alt="海边のミク" data-key="722264.jpg" />
-                        <img src="miku2.jpg" alt="桜ミク" data-key="miku2.jpg" />
-                        <img src="蝶变.png" alt="洛天依-蝶变" data-key="蝶变.png" />
+                    <div class="thumb-wrapper">
+                        <div class="thumb-track" id="thumb-track">
+                            <img src="722264.jpg" alt="海边のミク" data-key="722264.jpg" />
+                            <img src="miku2.jpg" alt="桜ミク" data-key="miku2.jpg" />
+                            <img src="蝶变.jpg" alt="洛天依-蝶变" data-key="蝶变.jpg" />
+                        </div>
                     </div>
                     <button class="thumb-arrow next" id="thumb-next" aria-label="下一张">›</button>
                 </div>
@@ -1403,8 +1393,6 @@
                 </div>
                 <button class="apply-btn" id="apply-theme-btn">应用</button>
             </div>
-
-            <!-- 底部主题设置 -->
             <div id="theme-switch-container">
                 <button class="theme-icon-btn moon-icon" id="moon-btn" onclick="setTheme('dark')" title="暗黑模式">
                     <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.5 5.5 0 0 1-7.54-7.54A9.01 9.01 0 0 0 12 3z"/></svg>
@@ -1424,7 +1412,7 @@
         </div>
     </div>
 
-    <!-- ====== 主题过渡层 (波浪扩散) ====== -->
+    <!-- ====== 主题过渡层 ====== -->
     <div id="theme-transition-overlay"></div>
 
     <!-- ====== 音频 ====== -->
@@ -1432,10 +1420,23 @@
 
     <script>
         // ===================================================================
-        //  完整脚本：播放器 + 主题切换 + 缩略图 + 背景切换
+        //  完整脚本 — 默认配色 #66ccff + Cookie 记忆
+        //  保留原有所有功能，仅调整初始化与保存逻辑
         // ===================================================================
 
-        // ---------- 1. 时间 / 天气 (保持不变) ----------
+        // ---------- Cookie 工具 ----------
+        function setCookie(name, value, days) {
+            const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+            document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+        }
+
+        function getCookie(name) {
+            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            if (match) return decodeURIComponent(match[2]);
+            return null;
+        }
+
+        // ---------- 1. 时间 / 天气 ----------
         const clockEl = document.getElementById('clock');
         const weatherIconEl = document.getElementById('weather-icon');
         const weatherTempEl = document.getElementById('weather-temp');
@@ -1621,6 +1622,8 @@
             return Promise.all(songs.map(song => getCoverForSong(song)));
         }
 
+        let lyricsCache = {};
+
         function fetchLyricsOvh(title, artist) {
             const url = `https://api.lyrics.ovh/v1/${encodeURIComponent(artist)}/${encodeURIComponent(title)}`;
             return fetch(url)
@@ -1634,19 +1637,13 @@
                 .catch(() => null);
         }
 
-        let lyricsCache = {};
-
         function loadLyrics(fileName) {
+            lyricLines = [];
+            updateLyricsDisplay('♪ 加载中...', '♪ 请稍候', '♪ 获取歌词...');
+
             const parsed = parseFromFileName(fileName);
             const title = parsed.title;
             const artist = parsed.artist;
-
-            lyricsLine1.textContent = '♪ 加载中...';
-            lyricsLine2.textContent = '♪ 请稍候';
-            lyricsLine3.textContent = '♪ 获取歌词...';
-            lyricsLine1.className = 'lyrics-line placeholder';
-            lyricsLine2.className = 'lyrics-line current placeholder';
-            lyricsLine3.className = 'lyrics-line placeholder';
 
             if (lyricsCache[fileName]) {
                 lyricLines = lyricsCache[fileName];
@@ -1675,22 +1672,29 @@
                         lyricLines = linesFallback.map((text, i) => ({ time: i * timeStep, text: text }));
                         lyricsCache[fileName] = lyricLines;
                         updateLyrics();
+                    } else {
+                        lyricLines = [];
+                        updateLyricsDisplay('♪ 无歌词', '♪ 无歌词', '♪ 无歌词');
                     }
                 })
                 .catch(() => {
                     lyricLines = [];
-                    updateLyrics();
+                    updateLyricsDisplay('♪ 无歌词', '♪ 无歌词', '♪ 无歌词');
                 });
+        }
+
+        function updateLyricsDisplay(line1, line2, line3) {
+            lyricsLine1.textContent = line1;
+            lyricsLine2.textContent = line2;
+            lyricsLine3.textContent = line3;
+            lyricsLine1.className = 'lyrics-line placeholder';
+            lyricsLine2.className = 'lyrics-line current placeholder';
+            lyricsLine3.className = 'lyrics-line placeholder';
         }
 
         function updateLyrics() {
             if (!lyricLines || lyricLines.length === 0) {
-                lyricsLine1.textContent = '♪ 无歌词';
-                lyricsLine2.textContent = '♪ 等待中...';
-                lyricsLine3.textContent = '♪ 请播放歌曲';
-                lyricsLine1.className = 'lyrics-line placeholder';
-                lyricsLine2.className = 'lyrics-line current placeholder';
-                lyricsLine3.className = 'lyrics-line placeholder';
+                updateLyricsDisplay('♪ 无歌词', '♪ 无歌词', '♪ 无歌词');
                 return;
             }
             const currentTime = audio.currentTime || 0;
@@ -1702,6 +1706,7 @@
             if (idx >= lyricLines.length) idx = lyricLines.length - 1;
             const prevIdx = idx - 1 >= 0 ? idx - 1 : 0;
             const nextIdx = idx + 1 < lyricLines.length ? idx + 1 : lyricLines.length - 1;
+
             lyricsLine1.textContent = lyricLines[prevIdx].text || '♪';
             lyricsLine2.textContent = lyricLines[idx].text || '♪';
             lyricsLine3.textContent = lyricLines[nextIdx].text || '♪';
@@ -2033,7 +2038,6 @@
             document.body.style.overflow = 'hidden';
             syncSwitchUI();
             updateAutoSwitchUI(autoThemeEnabled);
-            // 更新缩略图位置
             updateThumbPosition();
         };
         window.closeModal = function() {
@@ -2237,9 +2241,6 @@
             document.body.setAttribute('data-theme', theme);
             currentTheme = theme;
             updateSwitchUI(theme);
-            document.querySelectorAll('.md3-icon-btn').forEach(btn => {
-                btn.style.color = theme === 'dark' ? '#f0f0f0' : '#fff';
-            });
         }
 
         function updateAutoSwitchUI(enabled) {
@@ -2273,21 +2274,21 @@
             updateSwitchUI(currentTheme);
         }
 
-        // ---------- 5. 缩略图切换 + 背景/配色切换 (核心新增) ----------
-        const THUMB_IMAGES = ['722264.jpg', 'miku2.jpg', '蝶变.png'];
+        // ---------- 5. 缩略图切换 + 背景/配色切换 (核心) ----------
+        const THUMB_IMAGES = ['722264.jpg', 'miku2.jpg', '蝶变.jpg'];
         const THUMB_TITLES = {
             '722264.jpg': '海边のミク',
             'miku2.jpg': '桜ミク',
-            '蝶变.png': '洛天依-蝶变'
+            '蝶变.jpg': '洛天依-蝶变'
         };
         const THUMB_COLORS = {
             '722264.jpg': '#66ccff',
             'miku2.jpg': '#FFC0CB',
-            '蝶变.png': '#32CD32'
+            '蝶变.jpg': '#32CD32'
         };
 
         let currentThumbIndex = 0;
-        let appliedThumbIndex = 0; // 当前已应用的缩略图索引
+        let appliedThumbIndex = 0;
 
         const thumbTrack = document.getElementById('thumb-track');
         const thumbDots = document.getElementById('thumb-dots');
@@ -2299,30 +2300,32 @@
         const titleText = document.getElementById('title-text');
         const navLinks = document.getElementById('navLinks');
 
-        // 预加载所有图片到缓存
         function preloadImages() {
             THUMB_IMAGES.forEach(src => {
                 const img = new Image();
                 img.src = src;
             });
-            console.log('✅ 所有图片已预加载到缓存');
         }
 
-        // 更新缩略图位置 (平移动画)
         function updateThumbPosition() {
             const offset = -currentThumbIndex * 100;
             thumbTrack.style.transform = `translateX(${offset}%)`;
-            // 更新 dots
             const dots = thumbDots.querySelectorAll('span');
             dots.forEach((dot, i) => {
                 dot.classList.toggle('active', i === currentThumbIndex);
             });
-            // 更新副标题
             const key = THUMB_IMAGES[currentThumbIndex];
             modalSubtitle.textContent = THUMB_TITLES[key] || '主题';
+            const color = THUMB_COLORS[key];
+            dots.forEach((dot, i) => {
+                if (i === currentThumbIndex) {
+                    dot.style.background = color;
+                } else {
+                    dot.style.background = 'rgba(255,255,255,0.25)';
+                }
+            });
         }
 
-        // 切换到指定索引
         function goToThumb(index) {
             if (index < 0) index = THUMB_IMAGES.length - 1;
             if (index >= THUMB_IMAGES.length) index = 0;
@@ -2330,51 +2333,96 @@
             updateThumbPosition();
         }
 
-        // 应用当前选中的主题
+        // ----- 应用主题配色 (修改全局文字颜色) -----
+        function applyColorScheme(color) {
+            titleText.style.color = color;
+            navLinks.querySelectorAll('a').forEach(a => {
+                a.style.color = color;
+            });
+            mainPlayBtn.style.background = color;
+            document.documentElement.style.setProperty('--play-btn-bg', color);
+            document.documentElement.style.setProperty('--accent', color);
+            document.documentElement.style.setProperty('--nav-link-color', color);
+            const timeEl = document.querySelector('#top-right-info .time');
+            const weatherEl = document.querySelector('#top-right-info .weather');
+            if (timeEl) timeEl.style.color = color;
+            if (weatherEl) weatherEl.style.color = color;
+            document.querySelectorAll('#lyrics-island .lyrics-line').forEach(line => {
+                if (line.classList.contains('current')) {
+                    line.style.color = color;
+                    line.style.textShadow = `0 0 12px ${color}40`;
+                } else {
+                    line.style.color = color;
+                    line.style.opacity = '0.6';
+                }
+                if (line.classList.contains('placeholder')) {
+                    line.style.opacity = '0.5';
+                }
+            });
+            if (songInfoEl) songInfoEl.style.color = color;
+            if (timeDisplay) timeDisplay.style.color = color;
+            document.querySelectorAll('.md3-icon-btn').forEach(btn => {
+                btn.style.color = color;
+            });
+            document.querySelectorAll('#song-list .song-item .song-name, #song-list .song-item .song-artist, #song-list .song-item .song-index').forEach(el => {
+                el.style.color = color;
+            });
+            document.querySelectorAll('.song-item.active-song').forEach(item => {
+                item.style.borderLeftColor = color;
+                const name = item.querySelector('.song-name');
+                if (name) name.style.color = color;
+            });
+            progressFill.style.background = `linear-gradient(90deg, ${color}, #88ddff, ${color})`;
+            applyBtn.style.background = color;
+            const switchTrackActive = document.querySelector('.switch-track.active');
+            if (switchTrackActive) {
+                switchTrackActive.style.background = color;
+                switchTrackActive.style.borderColor = color;
+            }
+            const autoSwitchTrackActive = document.querySelector('.auto-switch-track.active');
+            if (autoSwitchTrackActive) {
+                autoSwitchTrackActive.style.background = color;
+                autoSwitchTrackActive.style.borderColor = color;
+            }
+        }
+
+        // ----- 根据主题 key 应用主题 (用于初始化) -----
+        function applyThemeByKey(key) {
+            const index = THUMB_IMAGES.indexOf(key);
+            if (index === -1) {
+                key = '722264.jpg';
+            }
+            const color = THUMB_COLORS[key];
+            const title = THUMB_TITLES[key];
+            document.body.style.backgroundImage = `url('${key}')`;
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundPosition = 'center';
+            document.body.style.backgroundRepeat = 'no-repeat';
+            applyColorScheme(color);
+            currentThumbIndex = THUMB_IMAGES.indexOf(key);
+            appliedThumbIndex = currentThumbIndex;
+            updateThumbPosition();
+            setCookie('theme_key', key, 30);
+            modalSubtitle.textContent = title;
+        }
+
+        // ----- 应用当前选中的主题 (背景+配色) -----
         function applyCurrentTheme() {
             const key = THUMB_IMAGES[currentThumbIndex];
             const color = THUMB_COLORS[key];
             const title = THUMB_TITLES[key];
 
-            // 如果已经应用了这个主题，不做重复切换
-            if (appliedThumbIndex === currentThumbIndex) {
-                // 但可以提示用户已应用
-                return;
-            }
+            if (appliedThumbIndex === currentThumbIndex) return;
 
-            // 1. 先显示覆盖层（新背景图片）
             bgOverlay.style.backgroundImage = `url('${key}')`;
             bgOverlay.style.opacity = '0';
             bgOverlay.classList.add('active');
-
-            // 强制回流后淡入
             void bgOverlay.offsetWidth;
             bgOverlay.style.opacity = '1';
 
-            // 2. 切换配色 (立即生效)
             applyColorScheme(color);
 
-            // 3. 更新标题文字颜色
-            titleText.style.color = color;
-
-            // 4. 更新播放按钮背景
-            mainPlayBtn.style.background = color;
-            // 更新CSS变量
-            document.documentElement.style.setProperty('--play-btn-bg', color);
-            document.documentElement.style.setProperty('--accent', color);
-            document.documentElement.style.setProperty('--nav-link-color', color);
-
-            // 5. 更新导航链接颜色 (直接设置)
-            navLinks.querySelectorAll('a').forEach(a => {
-                a.style.color = color;
-            });
-
-            // 6. 更新缩略图dots颜色
             const dots = thumbDots.querySelectorAll('span');
-            dots.forEach(dot => {
-                dot.style.background = color;
-            });
-            // 恢复 active 样式
             dots.forEach((dot, i) => {
                 if (i === currentThumbIndex) {
                     dot.style.background = color;
@@ -2383,25 +2431,19 @@
                 }
             });
 
-            // 7. 背景淡出 (Aero风格)
             setTimeout(() => {
-                // 切换body背景
                 document.body.style.backgroundImage = `url('${key}')`;
                 document.body.style.backgroundSize = 'cover';
                 document.body.style.backgroundPosition = 'center';
                 document.body.style.backgroundRepeat = 'no-repeat';
 
-                // 淡出覆盖层
                 bgOverlay.style.opacity = '0';
                 setTimeout(() => {
                     bgOverlay.classList.remove('active');
                     bgOverlay.style.backgroundImage = '';
                 }, 1200);
 
-                // 记录已应用
                 appliedThumbIndex = currentThumbIndex;
-
-                // 更新副标题（确认）
                 modalSubtitle.textContent = `✓ ${title}`;
                 setTimeout(() => {
                     if (currentThumbIndex === appliedThumbIndex) {
@@ -2409,57 +2451,18 @@
                     }
                 }, 1500);
 
+                setCookie('theme_key', key, 30);
             }, 300);
         }
 
-        // 应用配色方案
-        function applyColorScheme(color) {
-            // 导航链接
-            navLinks.querySelectorAll('a').forEach(a => {
-                a.style.color = color;
-            });
-            // 标题
-            titleText.style.color = color;
-            // 播放按钮
-            mainPlayBtn.style.background = color;
-            // CSS变量
-            document.documentElement.style.setProperty('--play-btn-bg', color);
-            document.documentElement.style.setProperty('--accent', color);
-            document.documentElement.style.setProperty('--nav-link-color', color);
-            // 当前播放高亮
-            document.querySelectorAll('.song-item.active-song').forEach(el => {
-                el.style.borderLeftColor = color;
-            });
-        }
-
-        // 初始化主题 (默认722264.jpg)
+        // ----- 初始化默认主题 (从 Cookie 或默认) -----
         function initDefaultTheme() {
-            const defaultKey = '722264.jpg';
-            const defaultColor = '#66ccff';
-            // 设置背景
-            document.body.style.backgroundImage = `url('${defaultKey}')`;
-            document.body.style.backgroundSize = 'cover';
-            document.body.style.backgroundPosition = 'center';
-            document.body.style.backgroundRepeat = 'no-repeat';
-            // 设置配色
-            applyColorScheme(defaultColor);
-            // 设置标题颜色
-            titleText.style.color = defaultColor;
-            // 设置副标题
-            modalSubtitle.textContent = THUMB_TITLES[defaultKey];
-            // 设置dots颜色
-            const dots = thumbDots.querySelectorAll('span');
-            dots.forEach((dot, i) => {
-                if (i === 0) {
-                    dot.style.background = defaultColor;
-                } else {
-                    dot.style.background = 'rgba(255,255,255,0.25)';
-                }
-            });
-            // 记录已应用
-            appliedThumbIndex = 0;
-            currentThumbIndex = 0;
-            updateThumbPosition();
+            const savedKey = getCookie('theme_key');
+            if (savedKey && THUMB_IMAGES.includes(savedKey)) {
+                applyThemeByKey(savedKey);
+            } else {
+                applyThemeByKey('722264.jpg');
+            }
         }
 
         // ---------- 6. 歌词岛位置自适应 ----------
@@ -2475,12 +2478,43 @@
         window.addEventListener('load', () => setTimeout(adjustLyricsIslandPosition, 100));
         window.addEventListener('resize', adjustLyricsIslandPosition);
 
-        // ---------- 7. 初始化 ----------
+        // ---------- 7. 事件绑定 ----------
+        thumbPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            goToThumb(currentThumbIndex - 1);
+        });
+        thumbNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            goToThumb(currentThumbIndex + 1);
+        });
+        thumbDots.querySelectorAll('span').forEach((dot, i) => {
+            dot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                goToThumb(i);
+            });
+        });
+        applyBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            applyCurrentTheme();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (isModalOpen) {
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    goToThumb(currentThumbIndex - 1);
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    goToThumb(currentThumbIndex + 1);
+                } else if (e.key === 'Enter' && !e.target.closest('input, textarea, button')) {
+                    applyCurrentTheme();
+                }
+            }
+        });
+
+        // ---------- 8. 初始化 ----------
         window.addEventListener('load', async () => {
             try {
-                // 预加载图片
                 preloadImages();
-
                 await buildSongListFromProxy();
                 await preloadAllCovers();
                 const src = songs[0];
@@ -2498,10 +2532,8 @@
                 updateSongInfo();
                 loadLyrics(src);
                 setTimeout(adjustLyricsIslandPosition, 200);
-
-                // 初始化默认主题
+                // 应用默认主题（从 Cookie 或默认）
                 initDefaultTheme();
-
             } catch (err) {
                 console.warn('初始化失败，使用备用', err);
                 await buildSongListFromProxy();
@@ -2523,53 +2555,14 @@
             }
         });
 
-        // 重写 loadAndPlay 以调整位置
         const _loadAndPlay = loadAndPlay;
         loadAndPlay = function() {
             _loadAndPlay();
             setTimeout(adjustLyricsIslandPosition, 100);
         };
 
-        // ---------- 8. 事件绑定 ----------
-        thumbPrev.addEventListener('click', (e) => {
-            e.stopPropagation();
-            goToThumb(currentThumbIndex - 1);
-        });
-        thumbNext.addEventListener('click', (e) => {
-            e.stopPropagation();
-            goToThumb(currentThumbIndex + 1);
-        });
-        // 点击dots切换
-        thumbDots.querySelectorAll('span').forEach((dot, i) => {
-            dot.addEventListener('click', (e) => {
-                e.stopPropagation();
-                goToThumb(i);
-            });
-        });
-        // 应用按钮
-        applyBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            applyCurrentTheme();
-        });
-        // 键盘左右键支持
-        document.addEventListener('keydown', (e) => {
-            if (isModalOpen) {
-                if (e.key === 'ArrowLeft') {
-                    e.preventDefault();
-                    goToThumb(currentThumbIndex - 1);
-                } else if (e.key === 'ArrowRight') {
-                    e.preventDefault();
-                    goToThumb(currentThumbIndex + 1);
-                } else if (e.key === 'Enter' && e.target.closest('.thumb-carousel') === null) {
-                    // 如果焦点不在输入框，按回车应用
-                    if (!e.target.closest('input, textarea, button')) {
-                        applyCurrentTheme();
-                    }
-                }
-            }
-        });
-
-        console.log('🎵 播放器已启动，缩略图切换器已就绪 ✦');
+        console.log('🎵 播放器已启动，默认配色 #66ccff 已修复，Cookie 记忆已启用 ✦');
     </script>
+
 </body>
 </html>
