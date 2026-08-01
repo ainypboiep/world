@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="icon" type="image/png" href="favicon.png" />
 
-    <title>bxfans~天启之境</title>
+    <title>bxfans~~~幻想的な星明かり~~~~</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
     <style>
         /* --- 1. 字体与全局设置 --- */
@@ -148,6 +148,7 @@
             font-weight: 500;
             text-shadow: 0 1px 6px rgba(0, 0, 0, 0.20);
             transition: color 0.6s ease;
+            color: #fff !important;
         }
         #top-right-info .weather {
             display: flex;
@@ -155,6 +156,7 @@
             gap: 8px;
             font-size: 0.95rem;
             transition: color 0.6s ease;
+            color: #fff !important;
         }
         #top-right-info .weather-icon {
             width: 28px;
@@ -217,7 +219,7 @@
         #lyrics-island .lyrics-line.current {
             font-size: 1.3rem;
             font-weight: 500;
-            text-shadow: 0 0 12px rgba(102, 204, 255, 0.3);
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
         }
         #lyrics-island .lyrics-line.prev,
         #lyrics-island .lyrics-line.next {
@@ -278,48 +280,6 @@
             height: 100%;
             object-fit: cover;
             display: block;
-        }
-        #play-pause-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.30);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            opacity: 0.6;
-            transition: opacity 0.3s ease, background 0.3s ease;
-            border-radius: 12px;
-        }
-        #play-pause-overlay:hover {
-            opacity: 0.95;
-            background: rgba(0, 0, 0, 0.45);
-        }
-        #play-pause-overlay .cover-icon {
-            width: 28px;
-            height: 28px;
-            fill: #fff;
-            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
-            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
-            transform: scale(0.9);
-            opacity: 0.8;
-        }
-        #play-pause-overlay:hover .cover-icon {
-            transform: scale(1.1);
-            opacity: 1;
-        }
-        #play-pause-overlay .cover-icon.playing {
-            transform: scale(1);
-        }
-        #play-pause-overlay .cover-icon.paused {
-            transform: scale(0.9);
-        }
-        #play-pause-overlay:active .cover-icon {
-            transform: scale(0.7);
-            transition-duration: 0.08s;
         }
 
         .control-area {
@@ -406,6 +366,7 @@
             padding: 0 2px;
             line-height: 1.3;
             letter-spacing: 0.2px;
+            color: #fff !important;
         }
 
         .controls {
@@ -474,6 +435,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            transition: color 0.6s ease;
         }
         .song-item .song-artist {
             font-size: 12px;
@@ -488,7 +450,7 @@
             border-left-color: var(--accent);
         }
         .song-item.active-song .song-name {
-            color: var(--accent);
+            color: #fff;
         }
         #song-list::-webkit-scrollbar {
             width: 4px;
@@ -847,6 +809,7 @@
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
             letter-spacing: 1px;
             flex-shrink: 0;
+            font-family: '悠哉字体 Light', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Microsoft JhengHei', sans-serif;
         }
         .thumb-carousel .apply-btn:hover {
             transform: scale(1.04);
@@ -1067,7 +1030,8 @@
             width: 28px;
             height: 28px;
             padding: 0;
-            transition: opacity 0.2s, color 0.6s ease;
+            transition: opacity 0.2s;
+            color: #fff !important;
         }
         .md3-icon-btn:hover {
             opacity: 0.7;
@@ -1100,9 +1064,6 @@
         }
         .mode-anim {
             animation: modeFlip 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        #play-pause-overlay.btn-anim .cover-icon {
-            animation: playPulse 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
         /* --- 响应式 --- */
@@ -1214,7 +1175,6 @@
                 padding: 10px 12px;
             }
             #art-box { width: 42px; height: 42px; }
-            #play-pause-overlay .cover-icon { width: 22px; height: 22px; }
             .song-info { font-size: 11px; }
             #modal {
                 width: 96vw;
@@ -1308,12 +1268,8 @@
     <!-- ====== 播放器 (可拖拽) ====== -->
     <div id="player" class="liquid-glass">
         <div id="art-box">
+            <!-- 播放器专辑封面始终使用 CD.jpg 作为默认占位，且仅此处使用 CD.jpg -->
             <img src="CD.jpg" alt="cover" id="cover-img" onerror="this.src='CD.jpg'" />
-            <div id="play-pause-overlay" onclick="togglePlay()">
-                <svg class="cover-icon paused" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M8 5v14l11-7z"/>
-                </svg>
-            </div>
         </div>
         <div class="control-area">
             <div class="song-info" id="song-info">加载中...</div>
@@ -1379,9 +1335,10 @@
                     <button class="thumb-arrow prev" id="thumb-prev" aria-label="上一张">‹</button>
                     <div class="thumb-wrapper">
                         <div class="thumb-track" id="thumb-track">
-                            <img src="722264.jpg" alt="海边のミク" data-key="722264.jpg" />
-                            <img src="miku2.jpg" alt="桜ミク" data-key="miku2.jpg" />
-                            <img src="蝶变.jpg" alt="洛天依-蝶变" data-key="蝶变.jpg" />
+                            <!-- 缩略图已替换为蝶云.png，且不再使用CD.jpg作为回退，加载失败则隐藏 -->
+                            <img src="722264.jpg" alt="海边のミク" data-key="722264.jpg" onerror="this.style.display='none'" />
+                            <img src="miku2.jpg" alt="桜ミク" data-key="miku2.jpg" onerror="this.style.display='none'" />
+                            <img src="蝶云.png" alt="洛天依-蝶变" data-key="蝶云.png" onerror="this.style.display='none'" />
                         </div>
                     </div>
                     <button class="thumb-arrow next" id="thumb-next" aria-label="下一张">›</button>
@@ -1420,8 +1377,7 @@
 
     <script>
         // ===================================================================
-        //  完整脚本 — 默认配色 #66ccff + Cookie 记忆
-        //  保留原有所有功能，仅调整初始化与保存逻辑
+        //  完整脚本 — 蝶云.jpg → 蝶云.png，移除CD.jpg除专辑封面外的占位
         // ===================================================================
 
         // ---------- Cookie 工具 ----------
@@ -1555,9 +1511,7 @@
         const lyricsLine2 = document.getElementById('lyrics-line-2');
         const lyricsLine3 = document.getElementById('lyrics-line-3');
 
-        const coverIcon = document.querySelector('#play-pause-overlay .cover-icon');
         const modeBtn = document.getElementById('mode-btn');
-        const playOverlay = document.getElementById('play-pause-overlay');
 
         let currentIdx = 0, mode = 0;
         let isDraggingProgress = false;
@@ -1720,15 +1674,9 @@
         function setPlayingState(playing) {
             if (playing) {
                 progressFill.classList.add('playing');
-                coverIcon.innerHTML = pauseSVG;
-                coverIcon.classList.remove('paused');
-                coverIcon.classList.add('playing');
                 playIcon.innerHTML = pauseSVG;
             } else {
                 progressFill.classList.remove('playing');
-                coverIcon.innerHTML = playSVG;
-                coverIcon.classList.remove('playing');
-                coverIcon.classList.add('paused');
                 playIcon.innerHTML = playSVG;
             }
         }
@@ -1756,13 +1704,14 @@
             if (cachedUrl) {
                 coverImg.src = cachedUrl;
             } else {
-                coverImg.src = 'CD.jpg';
+                coverImg.src = 'CD.jpg'; // 专辑封面使用CD.jpg作为默认占位
                 getCoverForSong(src).then(url => { if (url) coverImg.src = url; });
             }
             updateProgress();
             highlightCurrentSong();
             updateSongInfo();
             loadLyrics(src);
+            applyWhiteToHighlights();
         }
 
         function updateSongInfo() {
@@ -1848,7 +1797,6 @@
                 setPlayingState(false);
             }
             triggerAnimation(mainPlayBtn, 'btn-anim', 450);
-            triggerAnimation(playOverlay, 'btn-anim', 450);
         };
         window.prev = () => {
             currentIdx = (currentIdx - 1 + songs.length) % songs.length;
@@ -1886,6 +1834,7 @@
             updateProgress();
             if (!audio.paused && audio.duration) {
                 updateLyrics();
+                applyWhiteToHighlights();
             }
             const fmt = (s) => new Date(s * 1000).toISOString().substr(14, 5);
             const duration = audio.duration || 0;
@@ -1971,7 +1920,7 @@
         let isDraggingPlayer = false;
         let playerOffsetX = 0, playerOffsetY = 0;
         player.addEventListener('mousedown', (e) => {
-            if (e.target.closest('button, input, #play-pause-overlay, #main-play-btn, #progress-container')) return;
+            if (e.target.closest('button, input, #main-play-btn, #progress-container')) return;
             isDraggingPlayer = true;
             const rect = player.getBoundingClientRect();
             playerOffsetX = e.clientX - rect.left;
@@ -1996,7 +1945,7 @@
             }
         });
         player.addEventListener('touchstart', (e) => {
-            if (e.target.closest('button, input, #play-pause-overlay, #main-play-btn, #progress-container')) return;
+            if (e.target.closest('button, input, #main-play-btn, #progress-container')) return;
             const touch = e.touches[0];
             isDraggingPlayer = true;
             const rect = player.getBoundingClientRect();
@@ -2274,17 +2223,18 @@
             updateSwitchUI(currentTheme);
         }
 
-        // ---------- 5. 缩略图切换 + 背景/配色切换 (核心) ----------
-        const THUMB_IMAGES = ['722264.jpg', 'miku2.jpg', '蝶变.jpg'];
+        // ---------- 5. 缩略图切换 + 背景/配色切换 ----------
+        // 更新为蝶云.png，移除CD.jpg占位
+        const THUMB_IMAGES = ['722264.jpg', 'miku2.jpg', '蝶云.png'];
         const THUMB_TITLES = {
             '722264.jpg': '海边のミク',
             'miku2.jpg': '桜ミク',
-            '蝶变.jpg': '洛天依-蝶变'
+            '蝶云.png': '洛天依-蝶变'
         };
         const THUMB_COLORS = {
             '722264.jpg': '#66ccff',
             'miku2.jpg': '#FFC0CB',
-            '蝶变.jpg': '#32CD32'
+            '蝶云.png': '#32CD32'
         };
 
         let currentThumbIndex = 0;
@@ -2300,9 +2250,14 @@
         const titleText = document.getElementById('title-text');
         const navLinks = document.getElementById('navLinks');
 
+        // 预加载图片：不再使用CD.jpg占位，加载失败则标记为隐藏
         function preloadImages() {
             THUMB_IMAGES.forEach(src => {
                 const img = new Image();
+                img.onerror = function() {
+                    // 图片加载失败，不做任何处理（保持空白）
+                    this.style.display = 'none';
+                };
                 img.src = src;
             });
         }
@@ -2333,7 +2288,20 @@
             updateThumbPosition();
         }
 
-        // ----- 应用主题配色 (修改全局文字颜色) -----
+        // ----- 单独的函数：将高亮元素设为白色（对比色） -----
+        function applyWhiteToHighlights() {
+            document.querySelectorAll('#lyrics-island .lyrics-line.current').forEach(el => {
+                el.style.color = '#fff';
+                el.style.textShadow = '0 0 16px rgba(255,255,255,0.6)';
+            });
+            if (songInfoEl) songInfoEl.style.color = '#fff';
+            document.querySelectorAll('.song-item.active-song .song-name').forEach(el => {
+                el.style.color = '#fff';
+            });
+            if (applyBtn) applyBtn.style.color = '#fff';
+        }
+
+        // ----- 应用主题配色 (不覆盖白色控制按钮和天气/时间) -----
         function applyColorScheme(color) {
             titleText.style.color = color;
             navLinks.querySelectorAll('a').forEach(a => {
@@ -2343,34 +2311,17 @@
             document.documentElement.style.setProperty('--play-btn-bg', color);
             document.documentElement.style.setProperty('--accent', color);
             document.documentElement.style.setProperty('--nav-link-color', color);
-            const timeEl = document.querySelector('#top-right-info .time');
-            const weatherEl = document.querySelector('#top-right-info .weather');
-            if (timeEl) timeEl.style.color = color;
-            if (weatherEl) weatherEl.style.color = color;
-            document.querySelectorAll('#lyrics-island .lyrics-line').forEach(line => {
-                if (line.classList.contains('current')) {
-                    line.style.color = color;
-                    line.style.textShadow = `0 0 12px ${color}40`;
-                } else {
-                    line.style.color = color;
+
+            document.querySelectorAll('#lyrics-island .lyrics-line:not(.current)').forEach(line => {
+                line.style.color = color;
+                if (line.classList.contains('prev') || line.classList.contains('next')) {
                     line.style.opacity = '0.6';
-                }
-                if (line.classList.contains('placeholder')) {
+                } else if (line.classList.contains('placeholder')) {
                     line.style.opacity = '0.5';
                 }
             });
-            if (songInfoEl) songInfoEl.style.color = color;
-            if (timeDisplay) timeDisplay.style.color = color;
-            document.querySelectorAll('.md3-icon-btn').forEach(btn => {
-                btn.style.color = color;
-            });
-            document.querySelectorAll('#song-list .song-item .song-name, #song-list .song-item .song-artist, #song-list .song-item .song-index').forEach(el => {
+            document.querySelectorAll('#song-list .song-item:not(.active-song) .song-name').forEach(el => {
                 el.style.color = color;
-            });
-            document.querySelectorAll('.song-item.active-song').forEach(item => {
-                item.style.borderLeftColor = color;
-                const name = item.querySelector('.song-name');
-                if (name) name.style.color = color;
             });
             progressFill.style.background = `linear-gradient(90deg, ${color}, #88ddff, ${color})`;
             applyBtn.style.background = color;
@@ -2384,6 +2335,7 @@
                 autoSwitchTrackActive.style.background = color;
                 autoSwitchTrackActive.style.borderColor = color;
             }
+            applyWhiteToHighlights();
         }
 
         // ----- 根据主题 key 应用主题 (用于初始化) -----
@@ -2394,10 +2346,20 @@
             }
             const color = THUMB_COLORS[key];
             const title = THUMB_TITLES[key];
-            document.body.style.backgroundImage = `url('${key}')`;
-            document.body.style.backgroundSize = 'cover';
-            document.body.style.backgroundPosition = 'center';
-            document.body.style.backgroundRepeat = 'no-repeat';
+            // 背景切换：不使用CD.jpg回退，若图片加载失败则保留原背景
+            const imgTest = new Image();
+            imgTest.onload = function() {
+                document.body.style.backgroundImage = `url('${key}')`;
+                document.body.style.backgroundSize = 'cover';
+                document.body.style.backgroundPosition = 'center';
+                document.body.style.backgroundRepeat = 'no-repeat';
+            };
+            imgTest.onerror = function() {
+                // 加载失败，保留原有背景，不做回退
+                console.warn('背景图片加载失败:', key);
+            };
+            imgTest.src = key;
+            // 立即应用配色，背景稍后加载
             applyColorScheme(color);
             currentThumbIndex = THUMB_IMAGES.indexOf(key);
             appliedThumbIndex = currentThumbIndex;
@@ -2432,10 +2394,19 @@
             });
 
             setTimeout(() => {
-                document.body.style.backgroundImage = `url('${key}')`;
-                document.body.style.backgroundSize = 'cover';
-                document.body.style.backgroundPosition = 'center';
-                document.body.style.backgroundRepeat = 'no-repeat';
+                // 尝试加载新背景，若失败则保留当前背景（不替换）
+                const imgTest = new Image();
+                imgTest.onload = function() {
+                    document.body.style.backgroundImage = `url('${key}')`;
+                    document.body.style.backgroundSize = 'cover';
+                    document.body.style.backgroundPosition = 'center';
+                    document.body.style.backgroundRepeat = 'no-repeat';
+                };
+                imgTest.onerror = function() {
+                    // 加载失败，保留当前背景
+                    console.warn('背景图片加载失败:', key);
+                };
+                imgTest.src = key;
 
                 bgOverlay.style.opacity = '0';
                 setTimeout(() => {
@@ -2475,8 +2446,6 @@
             island.style.top = rect.top + 'px';
             island.style.right = (window.innerWidth - rect.left + 12) + 'px';
         }
-        window.addEventListener('load', () => setTimeout(adjustLyricsIslandPosition, 100));
-        window.addEventListener('resize', adjustLyricsIslandPosition);
 
         // ---------- 7. 事件绑定 ----------
         thumbPrev.addEventListener('click', (e) => {
@@ -2511,10 +2480,15 @@
             }
         });
 
-        // ---------- 8. 初始化 ----------
-        window.addEventListener('load', async () => {
+        // ---------- 8. 初始化 — 尽早执行 ----------
+        document.addEventListener('DOMContentLoaded', function() {
+            preloadImages();
+            initDefaultTheme();
+            setTimeout(adjustLyricsIslandPosition, 50);
+        });
+
+        window.addEventListener('load', async function() {
             try {
-                preloadImages();
                 await buildSongListFromProxy();
                 await preloadAllCovers();
                 const src = songs[0];
@@ -2525,15 +2499,14 @@
                 updateProgress();
                 initAutoSwitch();
                 const cachedUrl = coverCache[src];
-                coverImg.src = cachedUrl || 'CD.jpg';
+                coverImg.src = cachedUrl || 'CD.jpg'; // 专辑封面用CD.jpg占位
                 const fmt = (s) => new Date(s * 1000).toISOString().substr(14, 5);
                 timeDisplay.innerText = `00:00 / ${fmt(0)} / 00:00`;
                 highlightCurrentSong();
                 updateSongInfo();
                 loadLyrics(src);
-                setTimeout(adjustLyricsIslandPosition, 200);
-                // 应用默认主题（从 Cookie 或默认）
-                initDefaultTheme();
+                setTimeout(adjustLyricsIslandPosition, 100);
+                applyWhiteToHighlights();
             } catch (err) {
                 console.warn('初始化失败，使用备用', err);
                 await buildSongListFromProxy();
@@ -2550,8 +2523,8 @@
                 highlightCurrentSong();
                 updateSongInfo();
                 loadLyrics(src);
-                setTimeout(adjustLyricsIslandPosition, 200);
-                initDefaultTheme();
+                setTimeout(adjustLyricsIslandPosition, 100);
+                applyWhiteToHighlights();
             }
         });
 
@@ -2559,10 +2532,10 @@
         loadAndPlay = function() {
             _loadAndPlay();
             setTimeout(adjustLyricsIslandPosition, 100);
+            applyWhiteToHighlights();
         };
 
-        console.log('🎵 播放器已启动，默认配色 #66ccff 已修复，Cookie 记忆已启用 ✦');
+        console.log('🎵 播放器已启动，蝶云.png 已替换，CD.jpg 仅用于专辑封面 ✦');
     </script>
-
 </body>
 </html>
