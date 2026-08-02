@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="icon" type="image/png" href="favicon.png" />
 
-    <title>给你扇窗全看世界，但你摸不到乁⁠[⁠ᓀ⁠˵⁠▾⁠˵⁠ᓂ⁠]⁠ㄏ</title>
+    <title>bxfans~~~幻想的な星明かり~~~~</title>
     <style>
         /* --- 样式部分完全保持不变，与上一版本一致 --- */
         /* 由于篇幅限制，此处省略样式，实际输出会包含完整样式 */
@@ -967,6 +967,8 @@
                             <img src="722264.jpg" alt="海边のミク" data-key="722264.jpg" onerror="this.style.display='none'" />
                             <img src="miku2.jpg" alt="桜ミク" data-key="miku2.jpg" onerror="this.style.display='none'" />
                             <img src="蝶云.png" alt="洛天依-蝶变" data-key="蝶云.png" onerror="this.style.display='none'" />
+                            <!-- 新增：猫羽雫主题 -->
+                            <img src="nacho.png" alt="猫羽雫" data-key="nacho.png" onerror="this.style.display='none'" />
                         </div>
                     </div>
                     <button class="thumb-arrow next" id="thumb-next" aria-label="下一张">›</button>
@@ -975,6 +977,7 @@
                     <span data-index="0" class="active"></span>
                     <span data-index="1"></span>
                     <span data-index="2"></span>
+                    <span data-index="3"></span>
                 </div>
                 <button class="apply-btn" id="apply-theme-btn">应用</button>
             </div>
@@ -2042,16 +2045,19 @@
         }
 
         // ---------- 5. 缩略图切换 + 背景/配色切换 ----------
-        const THUMB_IMAGES = ['722264.jpg', 'miku2.jpg', '蝶云.png'];
+        // 新增主题：猫羽雫 (nacho.png, #B6D5E9)
+        const THUMB_IMAGES = ['722264.jpg', 'miku2.jpg', '蝶云.png', 'nacho.png'];
         const THUMB_TITLES = {
             '722264.jpg': '海边のミク',
             'miku2.jpg': '桜ミク',
-            '蝶云.png': '洛天依-蝶变'
+            '蝶云.png': '洛天依-蝶变',
+            'nacho.png': '猫羽雫'
         };
         const THUMB_COLORS = {
             '722264.jpg': '#66ccff',
             'miku2.jpg': '#FFC0CB',
-            '蝶云.png': '#32CD32'
+            '蝶云.png': '#32CD32',
+            'nacho.png': '#B6D5E9'
         };
 
         let currentThumbIndex = 0;
