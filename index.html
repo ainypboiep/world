@@ -12,10 +12,11 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="icon" type="image/png" href="favicon.png" />
 
-    <title>bxfans~~~幻想的な星明かり~~~~</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+    <title>给你扇窗全看世界，但你摸不到乁⁠[⁠ᓀ⁠˵⁠▾⁠˵⁠ᓂ⁠]⁠ㄏ</title>
     <style>
-        /* --- 1. 字体与全局设置 --- */
+        /* --- 样式部分完全保持不变，与上一版本一致 --- */
+        /* 由于篇幅限制，此处省略样式，实际输出会包含完整样式 */
+        /* 为了确保完整性，下面包含所有样式 */
         @font-face {
             font-family: '悠哉字体 Light';
             src: url('Yozai-Light.woff2') format('woff2');
@@ -49,9 +50,7 @@
             --theme-transition-bg: rgba(0, 0, 0, 0.85);
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -78,11 +77,8 @@
             backdrop-filter: brightness(0.55) saturate(0.7);
             -webkit-backdrop-filter: brightness(0.55) saturate(0.7);
         }
-        [data-theme="dark"] body::before {
-            opacity: 1;
-        }
+        [data-theme="dark"] body::before { opacity: 1; }
 
-        /* --- 顶部 --- */
         #header-overlay {
             position: absolute;
             top: 0;
@@ -95,10 +91,7 @@
             z-index: 1;
             transition: opacity 0.8s ease;
         }
-        [data-theme="dark"] #header-overlay {
-            opacity: 0.15;
-            background: #1a1a2e;
-        }
+        [data-theme="dark"] #header-overlay { opacity: 0.15; background: #1a1a2e; }
         #title-text {
             position: absolute;
             top: 20px;
@@ -107,18 +100,13 @@
             font-weight: bold;
             pointer-events: none;
             line-height: 1.2;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
             z-index: 1;
             transition: color 0.6s ease;
         }
-        #title-text .line1 {
-            font-size: 1.8em;
-        }
-        #title-text .line2 {
-            font-size: 2.6em;
-        }
+        #title-text .line1 { font-size: 1.8em; }
+        #title-text .line2 { font-size: 2.6em; }
 
-        /* --- 右上角信息 --- */
         #top-right-info {
             position: fixed;
             top: 16px;
@@ -146,7 +134,7 @@
             font-size: 1.2rem;
             letter-spacing: 1px;
             font-weight: 500;
-            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.20);
+            text-shadow: 0 1px 6px rgba(0,0,0,0.20);
             transition: color 0.6s ease;
             color: #fff !important;
         }
@@ -162,27 +150,15 @@
             width: 28px;
             height: 28px;
             flex-shrink: 0;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        #top-right-info .weather-icon svg {
-            width: 100%;
-            height: 100%;
-            fill: currentColor;
-        }
-        #top-right-info .weather-temp {
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-        #top-right-info .weather-desc {
-            font-size: 0.75rem;
-            opacity: 0.7;
-            margin-left: 2px;
-        }
+        #top-right-info .weather-icon svg { width: 100%; height: 100%; fill: currentColor; }
+        #top-right-info .weather-temp { font-size: 1.1rem; font-weight: 500; }
+        #top-right-info .weather-desc { font-size: 0.75rem; opacity: 0.7; margin-left: 2px; }
 
-        /* ----- 歌词岛 ----- */
         #lyrics-island {
             position: fixed;
             top: 16px;
@@ -219,20 +195,12 @@
         #lyrics-island .lyrics-line.current {
             font-size: 1.3rem;
             font-weight: 500;
-            text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+            text-shadow: 0 0 12px rgba(255,255,255,0.4);
         }
         #lyrics-island .lyrics-line.prev,
-        #lyrics-island .lyrics-line.next {
-            font-size: 0.9rem;
-            opacity: 0.6;
-        }
-        #lyrics-island .lyrics-line.placeholder {
-            font-size: 0.9rem;
-            opacity: 0.5;
-            font-style: italic;
-        }
+        #lyrics-island .lyrics-line.next { font-size: 0.9rem; opacity: 0.6; }
+        #lyrics-island .lyrics-line.placeholder { font-size: 0.9rem; opacity: 0.5; font-style: italic; }
 
-        /* --- 液态玻璃核心 --- */
         .liquid-glass {
             background: linear-gradient(135deg, var(--glass-bg1) 0%, var(--glass-bg2) 50%, var(--glass-bg3) 100%);
             backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
@@ -242,7 +210,6 @@
             transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease;
         }
 
-        /* ===== 播放器 — 可拖拽 ===== */
         #player {
             position: fixed;
             top: 130px;
@@ -261,11 +228,7 @@
             touch-action: none;
             transition: box-shadow 0.3s ease, background 0.6s ease, border 0.6s ease;
         }
-        #player.dragging {
-            cursor: grabbing;
-            z-index: 1002 !important;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.40);
-        }
+        #player.dragging { cursor: grabbing; z-index: 1002 !important; box-shadow: 0 20px 60px rgba(0,0,0,0.40); }
         #art-box {
             position: relative;
             width: 56px;
@@ -275,22 +238,9 @@
             flex-shrink: 0;
             background: #222;
         }
-        #art-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+        #art-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        .control-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            min-width: 0;
-            justify-content: center;
-        }
-
+        .control-area { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; justify-content: center; }
         .song-info {
             font-size: 13px;
             font-weight: 400;
@@ -303,16 +253,14 @@
             padding: 0 2px;
             letter-spacing: 0.3px;
         }
-        [data-theme="dark"] .song-info {
-            opacity: 0.8;
-        }
+        [data-theme="dark"] .song-info { opacity: 0.8; }
 
         #progress-container {
             position: relative;
             width: 100%;
             height: var(--progress-height);
             border-radius: calc(var(--progress-height) / 2);
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255,255,255,0.15);
             cursor: pointer;
             touch-action: none;
         }
@@ -329,7 +277,7 @@
             background-position: 0% 0%;
             transition: none;
             will-change: width, background-position;
-            box-shadow: 0 0 6px rgba(102, 204, 255, 0.4);
+            box-shadow: 0 0 6px rgba(102,204,255,0.4);
         }
         #progress-fill.playing {
             animation: flowGradient 1.8s linear infinite, pulseGlow 1.2s ease-in-out infinite;
@@ -339,10 +287,9 @@
             100% { background-position: 200% 0%; }
         }
         @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 6px rgba(102, 204, 255, 0.4); }
-            50% { box-shadow: 0 0 16px rgba(102, 204, 255, 0.8), 0 0 30px rgba(102, 204, 255, 0.3); }
+            0%,100% { box-shadow: 0 0 6px rgba(102,204,255,0.4); }
+            50% { box-shadow: 0 0 16px rgba(102,204,255,0.8), 0 0 30px rgba(102,204,255,0.3); }
         }
-
         #progress {
             position: absolute;
             top: 0;
@@ -356,7 +303,6 @@
             padding: 0;
             touch-action: none;
         }
-
         #time-display {
             font-size: 10px;
             text-align: right;
@@ -368,15 +314,8 @@
             letter-spacing: 0.2px;
             color: #fff !important;
         }
+        .controls { display: flex; justify-content: space-between; align-items: center; padding-top: 2px; }
 
-        .controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 2px;
-        }
-
-        /* --- 歌曲列表 --- */
         #song-list {
             position: fixed;
             width: 380px;
@@ -393,25 +332,13 @@
             will-change: transform, opacity;
             transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease;
         }
-        #song-list.active {
-            visibility: visible;
-            pointer-events: auto;
-            animation: listPopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        #song-list.hiding {
-            animation: listPopOut 0.25s ease-in forwards;
-        }
-        @keyframes listPopIn {
-            0% { opacity: 0; transform: scale(0.85) translateY(-12px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        @keyframes listPopOut {
-            0% { opacity: 1; transform: scale(1) translateY(0); }
-            100% { opacity: 0; transform: scale(0.9) translateY(-8px); }
-        }
+        #song-list.active { visibility: visible; pointer-events: auto; animation: listPopIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+        #song-list.hiding { animation: listPopOut 0.25s ease-in forwards; }
+        @keyframes listPopIn { 0% { opacity:0; transform: scale(0.85) translateY(-12px); } 100% { opacity:1; transform: scale(1) translateY(0); } }
+        @keyframes listPopOut { 0% { opacity:1; transform: scale(1) translateY(0); } 100% { opacity:0; transform: scale(0.9) translateY(-8px); } }
         .song-item {
             padding: 10px 18px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
             cursor: pointer;
             font-size: 14px;
             transition: background 0.2s, border-left 0.2s;
@@ -420,53 +347,17 @@
             align-items: center;
             gap: 10px;
         }
-        .song-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-        .song-item .song-index {
-            font-size: 11px;
-            opacity: 0.4;
-            min-width: 24px;
-            text-align: right;
-            font-variant-numeric: tabular-nums;
-        }
-        .song-item .song-name {
-            flex: 1;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            transition: color 0.6s ease;
-        }
-        .song-item .song-artist {
-            font-size: 12px;
-            opacity: 0.6;
-            white-space: nowrap;
-            max-width: 100px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .song-item.active-song {
-            background: rgba(102, 204, 255, 0.18);
-            border-left-color: var(--accent);
-        }
-        .song-item.active-song .song-name {
-            color: #fff;
-        }
-        #song-list::-webkit-scrollbar {
-            width: 4px;
-        }
-        #song-list::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        #song-list::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-        }
-        #song-list::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.35);
-        }
+        .song-item:hover { background: rgba(255,255,255,0.08); }
+        .song-item .song-index { font-size: 11px; opacity: 0.4; min-width: 24px; text-align: right; font-variant-numeric: tabular-nums; }
+        .song-item .song-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.6s ease; }
+        .song-item .song-artist { font-size: 12px; opacity: 0.6; white-space: nowrap; max-width: 100px; overflow: hidden; text-overflow: ellipsis; }
+        .song-item.active-song { background: rgba(102,204,255,0.18); border-left-color: var(--accent); }
+        .song-item.active-song .song-name { color: #fff; }
+        #song-list::-webkit-scrollbar { width: 4px; }
+        #song-list::-webkit-scrollbar-track { background: transparent; }
+        #song-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+        #song-list::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.35); }
 
-        /* ===== 导航链接框 ===== */
         .nav-links {
             position: fixed;
             bottom: 40px;
@@ -491,11 +382,8 @@
             white-space: nowrap;
             pointer-events: auto;
         }
-        .nav-links a:hover {
-            opacity: 0.8;
-        }
+        .nav-links a:hover { opacity: 0.8; }
 
-        /* --- 齿轮按钮 --- */
         #gear-island {
             position: fixed;
             right: 32px;
@@ -509,43 +397,21 @@
             cursor: pointer;
             z-index: 1100;
             transition: transform 0.25s ease, box-shadow 0.3s ease, background 0.6s ease, border 0.6s ease;
-            background: linear-gradient(135deg,
-                    rgba(255, 255, 255, 0.116) 0%,
-                    rgba(255, 255, 255, 0.042) 50%,
-                    rgba(255, 255, 255, 0.074) 100%);
+            background: linear-gradient(135deg, rgba(255,255,255,0.116) 0%, rgba(255,255,255,0.042) 50%, rgba(255,255,255,0.074) 100%);
             backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
             -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
             border: 1px solid var(--glass-border);
             box-shadow: var(--glass-shadow);
         }
         [data-theme="dark"] #gear-island {
-            background: linear-gradient(135deg,
-                    rgba(0, 0, 0, 0.4) 0%,
-                    rgba(0, 0, 0, 0.2) 50%,
-                    rgba(0, 0, 0, 0.3) 100%);
-            border-color: rgba(255, 255, 255, 0.15);
+            background: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 100%);
+            border-color: rgba(255,255,255,0.15);
         }
-        #gear-island:hover {
-            transform: scale(1.08) rotate(12deg);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-        }
-        #gear-island:active {
-            transform: scale(0.92);
-        }
-        #gear-island svg {
-            width: 32px;
-            height: 32px;
-            color: rgba(255, 255, 255, 0.92);
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.20));
-            transition: transform 0.6s ease;
-        }
-        #gear-island:hover svg {
-            transform: rotate(60deg);
-        }
+        #gear-island:hover { transform: scale(1.08) rotate(12deg); box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
+        #gear-island:active { transform: scale(0.92); }
+        #gear-island svg { width: 32px; height: 32px; color: rgba(255,255,255,0.92); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.20)); transition: transform 0.6s ease; }
+        #gear-island:hover svg { transform: rotate(60deg); }
 
-        /* ================================================================
-           🪟 弹窗 — 缩略图扩大，箭头在外
-           ================================================================ */
         #modal-overlay {
             position: fixed;
             top: 0;
@@ -564,11 +430,7 @@
             backdrop-filter: none !important;
             -webkit-backdrop-filter: none !important;
         }
-        #modal-overlay.visible {
-            pointer-events: auto;
-            opacity: 1;
-            visibility: visible;
-        }
+        #modal-overlay.visible { pointer-events: auto; opacity: 1; visibility: visible; }
 
         #modal {
             position: relative;
@@ -580,41 +442,24 @@
             padding: 18px 24px 20px 24px;
             display: flex;
             flex-direction: column;
-            background: linear-gradient(145deg,
-                    rgba(255, 255, 255, 0.105) 0%,
-                    rgba(255, 255, 255, 0.037) 50%,
-                    rgba(255, 255, 255, 0.068) 100%);
+            background: linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.037) 50%, rgba(255,255,255,0.068) 100%);
             backdrop-filter: blur(50px) saturate(220%) brightness(1.06);
             -webkit-backdrop-filter: blur(50px) saturate(220%) brightness(1.06);
             border: 1px solid var(--glass-border);
-            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45),
-                inset 0 1px 1px rgba(255, 255, 255, 0.60),
-                inset 0 -1px 1px rgba(255, 255, 255, 0.15);
+            box-shadow: 0 24px 80px rgba(0,0,0,0.45), inset 0 1px 1px rgba(255,255,255,0.60), inset 0 -1px 1px rgba(255,255,255,0.15);
             transform: scale(0.92) translateY(12px);
             opacity: 0;
-            transition: transform 0.38s cubic-bezier(0.1, 0.9, 0.2, 1),
-                opacity 0.32s cubic-bezier(0.1, 0.9, 0.2, 1);
+            transition: transform 0.38s cubic-bezier(0.1,0.9,0.2,1), opacity 0.32s cubic-bezier(0.1,0.9,0.2,1);
             will-change: transform, opacity;
             user-select: none;
             cursor: default;
             pointer-events: auto;
         }
-        #modal-overlay.visible #modal {
-            transform: scale(1) translateY(0);
-            opacity: 1;
-        }
-        #modal.closing {
-            transform: scale(0.92) translateY(12px) !important;
-            opacity: 0 !important;
-            transition: transform 0.32s cubic-bezier(0.1, 0.9, 0.2, 1),
-                opacity 0.28s cubic-bezier(0.1, 0.9, 0.2, 1);
-        }
+        #modal-overlay.visible #modal { transform: scale(1) translateY(0); opacity: 1; }
+        #modal.closing { transform: scale(0.92) translateY(12px) !important; opacity: 0 !important; transition: transform 0.32s cubic-bezier(0.1,0.9,0.2,1), opacity 0.28s cubic-bezier(0.1,0.9,0.2,1); }
         [data-theme="dark"] #modal {
-            background: linear-gradient(145deg,
-                    rgba(0, 0, 0, 0.4) 0%,
-                    rgba(0, 0, 0, 0.2) 50%,
-                    rgba(0, 0, 0, 0.3) 100%);
-            border-color: rgba(255, 255, 255, 0.15);
+            background: linear-gradient(145deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 100%);
+            border-color: rgba(255,255,255,0.15);
         }
 
         .modal-header {
@@ -628,9 +473,7 @@
             user-select: none;
             cursor: grab;
         }
-        .modal-header:active {
-            cursor: grabbing;
-        }
+        .modal-header:active { cursor: grabbing; }
 
         #window-controls {
             position: absolute;
@@ -650,42 +493,27 @@
             display: inline-block;
             transition: filter 0.2s, transform 0.15s;
             cursor: default;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.10);
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.10);
             flex-shrink: 0;
         }
-        .dot.red {
-            background: radial-gradient(circle at 35% 35%, #ff6b6b, #d32f2f);
-            cursor: pointer;
-        }
-        .dot.red:hover {
-            filter: brightness(1.15);
-            transform: scale(1.12);
-        }
-        .dot.red:active {
-            transform: scale(0.88);
-        }
-        .dot.yellow {
-            background: radial-gradient(circle at 35% 35%, #ffd93d, #f9a825);
-        }
-        .dot.green {
-            background: radial-gradient(circle at 35% 35%, #6bcf7f, #2e7d32);
-        }
+        .dot.red { background: radial-gradient(circle at 35% 35%, #ff6b6b, #d32f2f); cursor: pointer; }
+        .dot.red:hover { filter: brightness(1.15); transform: scale(1.12); }
+        .dot.red:active { transform: scale(0.88); }
+        .dot.yellow { background: radial-gradient(circle at 35% 35%, #ffd93d, #f9a825); }
+        .dot.green { background: radial-gradient(circle at 35% 35%, #6bcf7f, #2e7d32); }
 
         .modal-title {
             font-size: 1.1rem;
             font-weight: 500;
             color: var(--text-color);
             letter-spacing: 2px;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+            text-shadow: 0 1px 4px rgba(0,0,0,0.15);
             transition: color 0.6s ease;
             text-align: center;
             line-height: 1.2;
             pointer-events: none;
         }
-        [data-theme="dark"] .modal-title {
-            color: #e0e0e0;
-        }
-
+        [data-theme="dark"] .modal-title { color: #e0e0e0; }
         .modal-subtitle {
             text-align: center;
             font-size: 0.9rem;
@@ -698,12 +526,8 @@
             flex-shrink: 0;
             min-height: 28px;
         }
-        [data-theme="dark"] .modal-subtitle {
-            color: #e0e0e0;
-            opacity: 0.6;
-        }
+        [data-theme="dark"] .modal-subtitle { color: #e0e0e0; opacity: 0.6; }
 
-        /* ---- 缩略图切换器 (箭头在外) ---- */
         .thumb-carousel {
             flex: 1;
             display: flex;
@@ -728,15 +552,15 @@
             height: 220px;
             overflow: hidden;
             border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-            background: rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+            background: rgba(0,0,0,0.2);
             flex-shrink: 0;
         }
         .thumb-carousel .thumb-track {
             display: flex;
             width: 100%;
             height: 100%;
-            transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
             will-change: transform;
         }
         .thumb-carousel .thumb-track img {
@@ -750,10 +574,10 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(0,0,0,0.35);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255,255,255,0.15);
             color: #fff;
             font-size: 28px;
             cursor: pointer;
@@ -764,16 +588,11 @@
             user-select: none;
             line-height: 1;
             padding: 0;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.2);
             flex-shrink: 0;
         }
-        .thumb-carousel .thumb-arrow:hover {
-            background: rgba(0, 0, 0, 0.55);
-            transform: scale(1.08);
-        }
-        .thumb-carousel .thumb-arrow:active {
-            transform: scale(0.92);
-        }
+        .thumb-carousel .thumb-arrow:hover { background: rgba(0,0,0,0.55); transform: scale(1.08); }
+        .thumb-carousel .thumb-arrow:active { transform: scale(0.92); }
         .thumb-carousel .thumb-dots {
             display: flex;
             gap: 8px;
@@ -784,17 +603,12 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255,255,255,0.25);
             transition: background 0.3s ease, transform 0.3s ease;
             cursor: pointer;
         }
-        .thumb-carousel .thumb-dots span.active {
-            background: var(--accent, #66ccff);
-            transform: scale(1.2);
-        }
-        .thumb-carousel .thumb-dots span:hover {
-            background: rgba(255, 255, 255, 0.5);
-        }
+        .thumb-carousel .thumb-dots span.active { background: var(--accent, #66ccff); transform: scale(1.2); }
+        .thumb-carousel .thumb-dots span:hover { background: rgba(255,255,255,0.5); }
 
         .thumb-carousel .apply-btn {
             padding: 8px 32px;
@@ -806,20 +620,14 @@
             font-weight: 500;
             cursor: pointer;
             transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
             letter-spacing: 1px;
             flex-shrink: 0;
             font-family: '悠哉字体 Light', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Microsoft JhengHei', sans-serif;
         }
-        .thumb-carousel .apply-btn:hover {
-            transform: scale(1.04);
-            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
-        }
-        .thumb-carousel .apply-btn:active {
-            transform: scale(0.96);
-        }
+        .thumb-carousel .apply-btn:hover { transform: scale(1.04); box-shadow: 0 6px 24px rgba(0,0,0,0.25); }
+        .thumb-carousel .apply-btn:active { transform: scale(0.96); }
 
-        /* --- 主题切换组件 (底部) --- */
         #theme-switch-container {
             display: flex;
             align-items: center;
@@ -830,7 +638,7 @@
             padding-bottom: 2px;
             flex-wrap: wrap;
             pointer-events: auto;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 1px solid rgba(255,255,255,0.06);
             margin-top: 6px;
         }
         .theme-icon-btn {
@@ -843,69 +651,34 @@
             background: none;
             border: none;
             cursor: pointer;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255,255,255,0.6);
             transition: color 0.3s, transform 0.3s, background 0.3s;
             padding: 0;
         }
-        .theme-icon-btn:hover {
-            transform: scale(1.1);
-            color: rgba(255, 255, 255, 0.9);
-            background: rgba(255, 255, 255, 0.08);
-        }
-        .theme-icon-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
-        }
-        .theme-icon-btn.active {
-            color: rgba(255, 255, 255, 0.95);
-        }
-        [data-theme="dark"] .theme-icon-btn.moon-icon {
-            color: #ffd93d;
-        }
-        [data-theme="light"] .theme-icon-btn.sun-icon {
-            color: #ffd93d;
-        }
-
-        .theme-icon-btn.disabled {
-            opacity: 0.3 !important;
-            pointer-events: none !important;
-            cursor: not-allowed !important;
-        }
-        .switch-track.disabled {
-            opacity: 0.3 !important;
-            pointer-events: none !important;
-            cursor: not-allowed !important;
-        }
-        .switch-track.disabled .switch-thumb {
-            background: #888 !important;
-        }
+        .theme-icon-btn:hover { transform: scale(1.1); color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.08); }
+        .theme-icon-btn svg { width: 24px; height: 24px; fill: currentColor; }
+        .theme-icon-btn.active { color: rgba(255,255,255,0.95); }
+        [data-theme="dark"] .theme-icon-btn.moon-icon { color: #ffd93d; }
+        [data-theme="light"] .theme-icon-btn.sun-icon { color: #ffd93d; }
+        .theme-icon-btn.disabled { opacity: 0.3 !important; pointer-events: none !important; cursor: not-allowed !important; }
+        .switch-track.disabled { opacity: 0.3 !important; pointer-events: none !important; cursor: not-allowed !important; }
+        .switch-track.disabled .switch-thumb { background: #888 !important; }
 
         .switch-track {
             position: relative;
             width: 36px;
             height: 20px;
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255,255,255,0.25);
             cursor: pointer;
             transition: background 0.3s ease, opacity 0.3s ease;
             flex-shrink: 0;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
         }
-        [data-theme="dark"] .switch-track {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.08);
-        }
-        .switch-track.active {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-        [data-theme="dark"] .switch-track.active {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-
+        [data-theme="dark"] .switch-track { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.08); }
+        .switch-track.active { background: var(--accent); border-color: var(--accent); }
+        [data-theme="dark"] .switch-track.active { background: var(--accent); border-color: var(--accent); }
         .switch-thumb {
             position: absolute;
             top: 2px;
@@ -914,43 +687,29 @@
             height: 14px;
             border-radius: 50%;
             background: #ffffff;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), background 0.3s;
             will-change: transform;
             pointer-events: none;
         }
-        .switch-track.active .switch-thumb {
-            transform: translateX(16px);
-            background: #ffffff;
-        }
-        [data-theme="dark"] .switch-track.active .switch-thumb {
-            background: #ffffff;
-        }
+        .switch-track.active .switch-thumb { transform: translateX(16px); background: #ffffff; }
+        [data-theme="dark"] .switch-track.active .switch-thumb { background: #ffffff; }
 
         .auto-switch-track {
             position: relative;
             width: 36px;
             height: 20px;
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255,255,255,0.25);
             cursor: pointer;
             transition: background 0.3s ease;
             flex-shrink: 0;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
         }
-        [data-theme="dark"] .auto-switch-track {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.08);
-        }
-        .auto-switch-track.active {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-        [data-theme="dark"] .auto-switch-track.active {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
+        [data-theme="dark"] .auto-switch-track { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.08); }
+        .auto-switch-track.active { background: var(--accent); border-color: var(--accent); }
+        [data-theme="dark"] .auto-switch-track.active { background: var(--accent); border-color: var(--accent); }
         .auto-switch-track .auto-switch-thumb {
             position: absolute;
             top: 2px;
@@ -959,27 +718,15 @@
             height: 14px;
             border-radius: 50%;
             background: #ffffff;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), background 0.3s;
             will-change: transform;
             pointer-events: none;
         }
-        .auto-switch-track.active .auto-switch-thumb {
-            transform: translateX(16px);
-            background: #ffffff;
-        }
-        [data-theme="dark"] .auto-switch-track.active .auto-switch-thumb {
-            background: #ffffff;
-        }
+        .auto-switch-track.active .auto-switch-thumb { transform: translateX(16px); background: #ffffff; }
+        [data-theme="dark"] .auto-switch-track.active .auto-switch-thumb { background: #ffffff; }
+        .auto-label { color: var(--text-color); font-size: 0.85rem; white-space: nowrap; transition: color 0.6s ease; }
 
-        .auto-label {
-            color: var(--text-color);
-            font-size: 0.85rem;
-            white-space: nowrap;
-            transition: color 0.6s ease;
-        }
-
-        /* --- 主题过渡层 (波浪扩散) --- */
         #theme-transition-overlay {
             position: fixed;
             top: 0;
@@ -994,13 +741,8 @@
             transition: opacity 0.01s;
             will-change: clip-path, background;
         }
-        #theme-transition-overlay.animating {
-            pointer-events: auto;
-            visibility: visible;
-            opacity: 1;
-        }
+        #theme-transition-overlay.animating { pointer-events: auto; visibility: visible; opacity: 1; }
 
-        /* --- 背景切换覆盖层 (Aero 淡入淡出) --- */
         #bg-transition-overlay {
             position: fixed;
             top: 0;
@@ -1015,11 +757,8 @@
             background-position: center;
             background-repeat: no-repeat;
         }
-        #bg-transition-overlay.active {
-            opacity: 1;
-        }
+        #bg-transition-overlay.active { opacity: 1; }
 
-        /* --- MD3 图标按钮 (播放器) --- */
         .md3-icon-btn {
             background: none;
             border: none;
@@ -1033,20 +772,9 @@
             transition: opacity 0.2s;
             color: #fff !important;
         }
-        .md3-icon-btn:hover {
-            opacity: 0.7;
-        }
-        .md3-icon-btn svg {
-            width: 20px;
-            height: 20px;
-            stroke: currentColor;
-            stroke-width: 2;
-            fill: none;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
+        .md3-icon-btn:hover { opacity: 0.7; }
+        .md3-icon-btn svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
-        /* ===== 播放/暂停 & 模式按钮 动画 ===== */
         @keyframes playPulse {
             0% { transform: scale(1); }
             30% { transform: scale(1.3) rotate(15deg); }
@@ -1059,79 +787,30 @@
             70% { transform: scale(0.85) rotate(320deg); }
             100% { transform: scale(1) rotate(360deg); }
         }
-        .btn-anim {
-            animation: playPulse 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        .mode-anim {
-            animation: modeFlip 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
+        .btn-anim { animation: playPulse 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+        .mode-anim { animation: modeFlip 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards; }
 
-        /* --- 响应式 --- */
         @media (max-width: 640px) {
-            #top-right-info {
-                top: 10px;
-                right: 10px;
-                padding: 8px 14px;
-                min-width: 80px;
-            }
+            #top-right-info { top: 10px; right: 10px; padding: 8px 14px; min-width: 80px; }
             #top-right-info .time { font-size: 1rem; }
             #top-right-info .weather-icon { width: 22px; height: 22px; }
             #top-right-info .weather-temp { font-size: 0.95rem; }
-            #lyrics-island {
-                top: 10px;
-                right: 120px;
-                min-width: 120px;
-                max-width: 200px;
-                padding: 6px 12px;
-            }
+            #lyrics-island { top: 10px; right: 120px; min-width: 120px; max-width: 200px; padding: 6px 12px; }
             #lyrics-island .lyrics-line.current { font-size: 1.0rem; }
-            #lyrics-island .lyrics-line.prev,
-            #lyrics-island .lyrics-line.next { font-size: 0.75rem; }
-            #gear-island {
-                right: 18px;
-                bottom: 100px;
-                width: 52px;
-                height: 52px;
-            }
+            #lyrics-island .lyrics-line.prev, #lyrics-island .lyrics-line.next { font-size: 0.75rem; }
+            #gear-island { right: 18px; bottom: 100px; width: 52px; height: 52px; }
             #gear-island svg { width: 26px; height: 26px; }
-            #modal {
-                width: 94vw;
-                min-height: 350px;
-                padding: 14px 16px 16px 16px;
-            }
+            #modal { width: 94vw; min-height: 350px; padding: 14px 16px 16px 16px; }
             .modal-title { font-size: 0.95rem; }
             .modal-subtitle { font-size: 0.8rem; }
-            .thumb-carousel .thumb-wrapper {
-                width: 220px;
-                height: 160px;
-            }
-            .thumb-carousel .thumb-arrow {
-                width: 36px;
-                height: 36px;
-                font-size: 22px;
-            }
-            .thumb-carousel .thumb-row {
-                gap: 12px;
-            }
-            #player {
-                width: 300px;
-                padding: 12px 14px;
-                gap: 12px;
-            }
+            .thumb-carousel .thumb-wrapper { width: 220px; height: 160px; }
+            .thumb-carousel .thumb-arrow { width: 36px; height: 36px; font-size: 22px; }
+            .thumb-carousel .thumb-row { gap: 12px; }
+            #player { width: 300px; padding: 12px 14px; gap: 12px; }
             #art-box { width: 48px; height: 48px; }
             .song-info { font-size: 12px; }
-            .nav-links {
-                gap: 16px;
-                padding: 10px 20px;
-                font-size: 0.85rem;
-                flex-wrap: wrap;
-                justify-content: center;
-                bottom: 20px;
-            }
-            #song-list {
-                width: 320px;
-                max-height: 200px;
-            }
+            .nav-links { gap: 16px; padding: 10px 20px; font-size: 0.85rem; flex-wrap: wrap; justify-content: center; bottom: 20px; }
+            #song-list { width: 320px; max-height: 200px; }
             .song-item { padding: 8px 14px; font-size: 13px; }
             .song-item .song-artist { max-width: 70px; font-size: 11px; }
             #theme-switch-container { gap: 8px; padding-top: 12px; }
@@ -1146,68 +825,28 @@
             .dot { width: 12px; height: 12px; }
             #time-display { font-size: 9px; }
         }
-
         @media (max-width: 420px) {
-            #top-right-info {
-                top: 6px;
-                right: 6px;
-                padding: 6px 10px;
-                min-width: 60px;
-                border-radius: 16px;
-            }
+            #top-right-info { top: 6px; right: 6px; padding: 6px 10px; min-width: 60px; border-radius: 16px; }
             #top-right-info .time { font-size: 0.85rem; }
             #top-right-info .weather-icon { width: 18px; height: 18px; }
             #top-right-info .weather-temp { font-size: 0.8rem; }
             #top-right-info .weather-desc { font-size: 0.65rem; }
-            #lyrics-island {
-                top: 6px;
-                right: 90px;
-                min-width: 90px;
-                max-width: 150px;
-                padding: 4px 8px;
-            }
+            #lyrics-island { top: 6px; right: 90px; min-width: 90px; max-width: 150px; padding: 4px 8px; }
             #lyrics-island .lyrics-line.current { font-size: 0.85rem; }
-            #lyrics-island .lyrics-line.prev,
-            #lyrics-island .lyrics-line.next { font-size: 0.65rem; }
-            #player {
-                width: 260px;
-                gap: 10px;
-                padding: 10px 12px;
-            }
+            #lyrics-island .lyrics-line.prev, #lyrics-island .lyrics-line.next { font-size: 0.65rem; }
+            #player { width: 260px; gap: 10px; padding: 10px 12px; }
             #art-box { width: 42px; height: 42px; }
             .song-info { font-size: 11px; }
-            #modal {
-                width: 96vw;
-                min-height: 300px;
-                padding: 12px 12px 14px 12px;
-                border-radius: 20px;
-            }
+            #modal { width: 96vw; min-height: 300px; padding: 12px 12px 14px 12px; border-radius: 20px; }
             .modal-title { font-size: 0.85rem; }
             .modal-subtitle { font-size: 0.7rem; }
-            .thumb-carousel .thumb-wrapper {
-                width: 160px;
-                height: 120px;
-            }
-            .thumb-carousel .thumb-arrow {
-                width: 30px;
-                height: 30px;
-                font-size: 18px;
-            }
-            .thumb-carousel .thumb-row {
-                gap: 8px;
-            }
-            .thumb-carousel .apply-btn {
-                padding: 6px 22px;
-                font-size: 0.8rem;
-            }
+            .thumb-carousel .thumb-wrapper { width: 160px; height: 120px; }
+            .thumb-carousel .thumb-arrow { width: 30px; height: 30px; font-size: 18px; }
+            .thumb-carousel .thumb-row { gap: 8px; }
+            .thumb-carousel .apply-btn { padding: 6px 22px; font-size: 0.8rem; }
             .dot { width: 10px; height: 10px; }
             #window-controls { gap: 5px; }
-            #gear-island {
-                right: 12px;
-                bottom: 80px;
-                width: 44px;
-                height: 44px;
-            }
+            #gear-island { right: 12px; bottom: 80px; width: 44px; height: 44px; }
             #gear-island svg { width: 22px; height: 22px; }
             #theme-switch-container { gap: 6px; padding-top: 10px; }
             .switch-track, .auto-switch-track { width: 28px; height: 16px; border-radius: 8px; }
@@ -1216,17 +855,8 @@
             .auto-switch-track.active .auto-switch-thumb { transform: translateX(12px); }
             .theme-icon-btn svg { width: 16px; height: 16px; }
             .theme-icon-btn { width: 24px; height: 24px; }
-            .nav-links {
-                gap: 10px;
-                padding: 8px 14px;
-                font-size: 0.75rem;
-                bottom: 14px;
-            }
-            #song-list {
-                width: 260px;
-                max-height: 160px;
-                padding: 6px 0;
-            }
+            .nav-links { gap: 10px; padding: 8px 14px; font-size: 0.75rem; bottom: 14px; }
+            #song-list { width: 260px; max-height: 160px; padding: 6px 0; }
             .song-item { padding: 6px 12px; font-size: 12px; }
             .song-item .song-artist { max-width: 50px; font-size: 10px; }
             .song-item .song-index { min-width: 18px; font-size: 10px; }
@@ -1265,10 +895,9 @@
         <div class="lyrics-line placeholder" id="lyrics-line-3">♪ 请播放歌曲</div>
     </div>
 
-    <!-- ====== 播放器 (可拖拽) ====== -->
+    <!-- ====== 播放器 ====== -->
     <div id="player" class="liquid-glass">
         <div id="art-box">
-            <!-- 播放器专辑封面始终使用 CD.jpg 作为默认占位，且仅此处使用 CD.jpg -->
             <img src="CD.jpg" alt="cover" id="cover-img" onerror="this.src='CD.jpg'" />
         </div>
         <div class="control-area">
@@ -1335,7 +964,6 @@
                     <button class="thumb-arrow prev" id="thumb-prev" aria-label="上一张">‹</button>
                     <div class="thumb-wrapper">
                         <div class="thumb-track" id="thumb-track">
-                            <!-- 缩略图已替换为蝶云.png，且不再使用CD.jpg作为回退，加载失败则隐藏 -->
                             <img src="722264.jpg" alt="海边のミク" data-key="722264.jpg" onerror="this.style.display='none'" />
                             <img src="miku2.jpg" alt="桜ミク" data-key="miku2.jpg" onerror="this.style.display='none'" />
                             <img src="蝶云.png" alt="洛天依-蝶变" data-key="蝶云.png" onerror="this.style.display='none'" />
@@ -1377,8 +1005,16 @@
 
     <script>
         // ===================================================================
-        //  完整脚本 — 蝶云.jpg → 蝶云.png，移除CD.jpg除专辑封面外的占位
+        //  完整脚本 — QQ音乐首选，网易云备用
         // ===================================================================
+
+        // ---------- 强制名称映射 ----------
+        const SONG_NAME_OVERRIDES = {
+            "銀河系から徒歩_分以内で - LamazeP.mp3": {
+                title: "銀河系から徒歩5分以内で",
+                artist: "LamazeP"
+            }
+        };
 
         // ---------- Cookie 工具 ----------
         function setCookie(name, value, days) {
@@ -1519,11 +1155,15 @@
         const playSVG = `<path d="M8 5v14l11-7z"/>`;
         const pauseSVG = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
 
-        const SPOTIFY_PROXY = 'https://spotify-api-wrapper.appspot.com';
         const coverCache = {};
         let lyricLines = [];
 
+        // 解析文件名，支持强制覆盖
         function parseFromFileName(fileName) {
+            // 检查覆盖映射
+            if (SONG_NAME_OVERRIDES[fileName]) {
+                return SONG_NAME_OVERRIDES[fileName];
+            }
             let name = fileName.replace(/\.mp3$/i, '');
             let artist = '';
             if (name.includes(' - ')) {
@@ -1536,23 +1176,50 @@
             return { title: name, artist: artist };
         }
 
-        function fetchCoverFromSpotify(title, artist) {
-            const query = encodeURIComponent(`${title} ${artist}`);
-            return fetch(`${SPOTIFY_PROXY}/search/track/${query}`)
-                .then(res => res.json())
+        // ============================================================
+        //  封面获取：QQ音乐首选，网易云备用
+        // ============================================================
+
+        // ----- QQ音乐搜索封面 -----
+        function searchCoverFromQQMusic(title, artist) {
+            const keyword = encodeURIComponent(`${title} ${artist}`.trim());
+            const url = `https://api.qqlyrics.cn/search?keyword=${keyword}`;
+            return fetch(url)
+                .then(res => {
+                    if (!res.ok) throw new Error('QQ音乐 API 请求失败');
+                    return res.json();
+                })
                 .then(data => {
-                    if (data.tracks && data.tracks.items && data.tracks.items.length > 0) {
-                        const track = data.tracks.items[0];
-                        if (track.album && track.album.images && track.album.images.length > 0) {
-                            const sorted = track.album.images.sort((a, b) => b.width - a.width);
-                            return sorted[0].url;
+                    if (data.code === 0 && data.data && data.data.length > 0) {
+                        const song = data.data[0];
+                        if (song.cover) {
+                            return song.cover;
                         }
                     }
-                    return null;
+                    throw new Error('QQ音乐未找到封面');
                 })
                 .catch(() => null);
         }
 
+        // ----- 网易云音乐搜索封面 -----
+        function searchCoverFromNetEase(title, artist) {
+            const keyword = encodeURIComponent(`${title} ${artist}`.trim());
+            const url = `https://api.uomg.com/api/163.s?msg=${keyword}`;
+            return fetch(url)
+                .then(res => {
+                    if (!res.ok) throw new Error('网易云 API 请求失败');
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.code === 1 && data.data && data.data.cover) {
+                        return data.data.cover;
+                    }
+                    throw new Error('网易云未找到封面');
+                })
+                .catch(() => null);
+        }
+
+        // ----- 获取封面（QQ音乐→网易云）-----
         function getCoverForSong(fileName) {
             return new Promise((resolve) => {
                 if (coverCache[fileName] !== undefined) {
@@ -1560,38 +1227,150 @@
                     return;
                 }
                 const parsed = parseFromFileName(fileName);
-                fetchCoverFromSpotify(parsed.title, parsed.artist)
+                const title = parsed.title;
+                const artist = parsed.artist;
+
+                // 优先 QQ音乐
+                searchCoverFromQQMusic(title, artist)
                     .then(url => {
-                        coverCache[fileName] = url || null;
-                        resolve(coverCache[fileName]);
+                        if (url) {
+                            coverCache[fileName] = url;
+                            resolve(url);
+                        } else {
+                            // 降级到网易云
+                            return searchCoverFromNetEase(title, artist);
+                        }
+                    })
+                    .then(url => {
+                        if (url) {
+                            coverCache[fileName] = url;
+                            resolve(url);
+                        } else {
+                            coverCache[fileName] = null;
+                            resolve(null);
+                        }
                     })
                     .catch(() => {
-                        coverCache[fileName] = null;
-                        resolve(null);
+                        // 最后尝试网易云
+                        searchCoverFromNetEase(title, artist)
+                            .then(url => {
+                                if (url) {
+                                    coverCache[fileName] = url;
+                                    resolve(url);
+                                } else {
+                                    coverCache[fileName] = null;
+                                    resolve(null);
+                                }
+                            })
+                            .catch(() => {
+                                coverCache[fileName] = null;
+                                resolve(null);
+                            });
                     });
             });
         }
 
+        // ----- 预加载所有封面 -----
         function preloadAllCovers() {
             return Promise.all(songs.map(song => getCoverForSong(song)));
         }
 
-        let lyricsCache = {};
+        // ============================================================
+        //  歌词获取：QQ音乐首选，网易云备用
+        // ============================================================
 
-        function fetchLyricsOvh(title, artist) {
-            const url = `https://api.lyrics.ovh/v1/${encodeURIComponent(artist)}/${encodeURIComponent(title)}`;
-            return fetch(url)
-                .then(res => res.json())
+        // ----- QQ音乐获取歌词 -----
+        function fetchLyricsFromQQMusic(title, artist) {
+            const keyword = encodeURIComponent(`${title} ${artist}`.trim());
+            // 1. 搜索获取 mid
+            return fetch(`https://api.qqlyrics.cn/search?keyword=${keyword}`)
+                .then(res => {
+                    if (!res.ok) throw new Error('QQ音乐搜索失败');
+                    return res.json();
+                })
                 .then(data => {
-                    if (data.lyrics) {
-                        return data.lyrics.split('\n').filter(line => line.trim().length > 0);
+                    if (data.code === 0 && data.data && data.data.length > 0) {
+                        const mid = data.data[0].mid;
+                        if (!mid) throw new Error('未获取到歌曲 mid');
+                        // 2. 获取歌词
+                        return fetch(`https://api.qqlyrics.cn/lyric?mid=${mid}`);
                     }
-                    throw new Error('No lyrics');
+                    throw new Error('QQ音乐未找到歌曲');
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error('QQ音乐歌词获取失败');
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.code === 0 && data.data && data.data.lyric) {
+                        const lrcText = data.data.lyric;
+                        return parseLRC(lrcText);
+                    }
+                    throw new Error('QQ音乐歌词数据为空');
                 })
                 .catch(() => null);
         }
 
+        // ----- 网易云音乐获取歌词 -----
+        function fetchLyricsFromNetEase(title, artist) {
+            const keyword = encodeURIComponent(`${title} ${artist}`.trim());
+            const url = `https://api.uomg.com/api/163.s?msg=${keyword}`;
+            return fetch(url)
+                .then(res => {
+                    if (!res.ok) throw new Error('网易云 API 请求失败');
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.code === 1 && data.data && data.data.lyric) {
+                        return parseLRC(data.data.lyric);
+                    }
+                    throw new Error('网易云未找到歌词');
+                })
+                .catch(() => null);
+        }
+
+        // ----- 解析 LRC 格式 -----
+        function parseLRC(lrcText) {
+            const lines = lrcText.split('\n');
+            const parsed = [];
+            const timeRegex = /\[(\d{2}):(\d{2})\.(\d{2,3})\]/;
+            for (let line of lines) {
+                const trimmed = line.trim();
+                if (!trimmed) continue;
+                const match = trimmed.match(timeRegex);
+                if (match) {
+                    const minutes = parseInt(match[1]);
+                    const seconds = parseInt(match[2]);
+                    const ms = parseInt(match[3].padEnd(3, '0'));
+                    const totalSeconds = minutes * 60 + seconds + ms / 1000;
+                    const text = trimmed.replace(timeRegex, '').trim();
+                    if (text) {
+                        parsed.push({ time: totalSeconds, text: text });
+                    }
+                }
+            }
+            if (parsed.length === 0) {
+                // 如果没有时间戳，尝试按行均匀分配
+                const textLines = lrcText.split('\n').filter(line => line.trim().length > 0);
+                if (textLines.length > 0) {
+                    const duration = audio.duration || 180;
+                    const timeStep = duration / textLines.length;
+                    return textLines.map((text, i) => ({
+                        time: i * timeStep,
+                        text: text.trim()
+                    }));
+                }
+                return null;
+            }
+            parsed.sort((a, b) => a.time - b.time);
+            return parsed;
+        }
+
+        // ----- 加载歌词（QQ音乐→网易云）-----
+        let lyricsCache = {};
+
         function loadLyrics(fileName) {
+            // 清空并显示加载状态
             lyricLines = [];
             updateLyricsDisplay('♪ 加载中...', '♪ 请稍候', '♪ 获取歌词...');
 
@@ -1599,32 +1378,49 @@
             const title = parsed.title;
             const artist = parsed.artist;
 
+            // 检查缓存
             if (lyricsCache[fileName]) {
                 lyricLines = lyricsCache[fileName];
                 updateLyrics();
                 return;
             }
 
-            fetchLyricsOvh(title, artist)
+            // 优先 QQ音乐
+            fetchLyricsFromQQMusic(title, artist)
                 .then(lines => {
                     if (lines && lines.length > 0) {
-                        const duration = audio.duration || 180;
-                        const total = lines.length;
-                        const timeStep = duration / total;
-                        lyricLines = lines.map((text, i) => ({ time: i * timeStep, text: text }));
-                        lyricsCache[fileName] = lyricLines;
+                        lyricLines = lines;
+                        lyricsCache[fileName] = lines;
                         updateLyrics();
                     } else {
-                        return fetchLyricsOvh(title, '');
+                        // 降级到网易云
+                        return fetchLyricsFromNetEase(title, artist);
                     }
                 })
-                .then(linesFallback => {
-                    if (linesFallback && linesFallback.length > 0) {
-                        const duration = audio.duration || 180;
-                        const total = linesFallback.length;
-                        const timeStep = duration / total;
-                        lyricLines = linesFallback.map((text, i) => ({ time: i * timeStep, text: text }));
-                        lyricsCache[fileName] = lyricLines;
+                .then(lines => {
+                    if (lines && lines.length > 0) {
+                        lyricLines = lines;
+                        lyricsCache[fileName] = lines;
+                        updateLyrics();
+                    } else {
+                        // 尝试仅用歌名搜索
+                        return fetchLyricsFromQQMusic(title, '');
+                    }
+                })
+                .then(lines => {
+                    if (lines && lines.length > 0) {
+                        lyricLines = lines;
+                        lyricsCache[fileName] = lines;
+                        updateLyrics();
+                    } else {
+                        // 最后尝试网易云仅用歌名
+                        return fetchLyricsFromNetEase(title, '');
+                    }
+                })
+                .then(lines => {
+                    if (lines && lines.length > 0) {
+                        lyricLines = lines;
+                        lyricsCache[fileName] = lines;
                         updateLyrics();
                     } else {
                         lyricLines = [];
@@ -1632,8 +1428,22 @@
                     }
                 })
                 .catch(() => {
-                    lyricLines = [];
-                    updateLyricsDisplay('♪ 无歌词', '♪ 无歌词', '♪ 无歌词');
+                    // 最终尝试网易云
+                    fetchLyricsFromNetEase(title, artist)
+                        .then(lines => {
+                            if (lines && lines.length > 0) {
+                                lyricLines = lines;
+                                lyricsCache[fileName] = lines;
+                                updateLyrics();
+                            } else {
+                                lyricLines = [];
+                                updateLyricsDisplay('♪ 无歌词', '♪ 无歌词', '♪ 无歌词');
+                            }
+                        })
+                        .catch(() => {
+                            lyricLines = [];
+                            updateLyricsDisplay('♪ 无歌词', '♪ 无歌词', '♪ 无歌词');
+                        });
                 });
         }
 
@@ -1671,6 +1481,7 @@
             if (nextIdx === idx) lyricsLine3.textContent = '';
         }
 
+        // ----- 播放状态控制 -----
         function setPlayingState(playing) {
             if (playing) {
                 progressFill.classList.add('playing');
@@ -1704,7 +1515,7 @@
             if (cachedUrl) {
                 coverImg.src = cachedUrl;
             } else {
-                coverImg.src = 'CD.jpg'; // 专辑封面使用CD.jpg作为默认占位
+                coverImg.src = 'CD.jpg';
                 getCoverForSong(src).then(url => { if (url) coverImg.src = url; });
             }
             updateProgress();
@@ -1733,8 +1544,10 @@
 
         let songDisplayData = [];
 
+        // ----- 歌曲列表构建（保留 Spotify 解析，仅用于列表显示）-----
         function searchTrackInfo(query) {
-            return fetch(`${SPOTIFY_PROXY}/search/track/${encodeURIComponent(query)}`)
+            const url = `https://spotify-api-wrapper.appspot.com/search/track/${encodeURIComponent(query)}`;
+            return fetch(url)
                 .then(res => res.json())
                 .then(data => {
                     if (data.tracks && data.tracks.items && data.tracks.items.length > 0) {
@@ -1747,6 +1560,11 @@
         }
 
         async function resolveWithSpotify(fileName) {
+            // 检查覆盖（以防万一）
+            if (SONG_NAME_OVERRIDES[fileName]) {
+                const ov = SONG_NAME_OVERRIDES[fileName];
+                return { original: fileName, title: ov.title, artist: ov.artist, display: `${ov.title} - ${ov.artist}` };
+            }
             const query = fileName.replace(/\.mp3$/i, '').trim();
             const info = await searchTrackInfo(query);
             if (info) {
@@ -2224,7 +2042,6 @@
         }
 
         // ---------- 5. 缩略图切换 + 背景/配色切换 ----------
-        // 更新为蝶云.png，移除CD.jpg占位
         const THUMB_IMAGES = ['722264.jpg', 'miku2.jpg', '蝶云.png'];
         const THUMB_TITLES = {
             '722264.jpg': '海边のミク',
@@ -2250,14 +2067,10 @@
         const titleText = document.getElementById('title-text');
         const navLinks = document.getElementById('navLinks');
 
-        // 预加载图片：不再使用CD.jpg占位，加载失败则标记为隐藏
         function preloadImages() {
             THUMB_IMAGES.forEach(src => {
                 const img = new Image();
-                img.onerror = function() {
-                    // 图片加载失败，不做任何处理（保持空白）
-                    this.style.display = 'none';
-                };
+                img.onerror = function() { this.style.display = 'none'; };
                 img.src = src;
             });
         }
@@ -2288,7 +2101,6 @@
             updateThumbPosition();
         }
 
-        // ----- 单独的函数：将高亮元素设为白色（对比色） -----
         function applyWhiteToHighlights() {
             document.querySelectorAll('#lyrics-island .lyrics-line.current').forEach(el => {
                 el.style.color = '#fff';
@@ -2301,7 +2113,6 @@
             if (applyBtn) applyBtn.style.color = '#fff';
         }
 
-        // ----- 应用主题配色 (不覆盖白色控制按钮和天气/时间) -----
         function applyColorScheme(color) {
             titleText.style.color = color;
             navLinks.querySelectorAll('a').forEach(a => {
@@ -2338,15 +2149,11 @@
             applyWhiteToHighlights();
         }
 
-        // ----- 根据主题 key 应用主题 (用于初始化) -----
         function applyThemeByKey(key) {
             const index = THUMB_IMAGES.indexOf(key);
-            if (index === -1) {
-                key = '722264.jpg';
-            }
+            if (index === -1) key = '722264.jpg';
             const color = THUMB_COLORS[key];
             const title = THUMB_TITLES[key];
-            // 背景切换：不使用CD.jpg回退，若图片加载失败则保留原背景
             const imgTest = new Image();
             imgTest.onload = function() {
                 document.body.style.backgroundImage = `url('${key}')`;
@@ -2354,12 +2161,8 @@
                 document.body.style.backgroundPosition = 'center';
                 document.body.style.backgroundRepeat = 'no-repeat';
             };
-            imgTest.onerror = function() {
-                // 加载失败，保留原有背景，不做回退
-                console.warn('背景图片加载失败:', key);
-            };
+            imgTest.onerror = function() { console.warn('背景图片加载失败:', key); };
             imgTest.src = key;
-            // 立即应用配色，背景稍后加载
             applyColorScheme(color);
             currentThumbIndex = THUMB_IMAGES.indexOf(key);
             appliedThumbIndex = currentThumbIndex;
@@ -2368,12 +2171,10 @@
             modalSubtitle.textContent = title;
         }
 
-        // ----- 应用当前选中的主题 (背景+配色) -----
         function applyCurrentTheme() {
             const key = THUMB_IMAGES[currentThumbIndex];
             const color = THUMB_COLORS[key];
             const title = THUMB_TITLES[key];
-
             if (appliedThumbIndex === currentThumbIndex) return;
 
             bgOverlay.style.backgroundImage = `url('${key}')`;
@@ -2394,7 +2195,6 @@
             });
 
             setTimeout(() => {
-                // 尝试加载新背景，若失败则保留当前背景（不替换）
                 const imgTest = new Image();
                 imgTest.onload = function() {
                     document.body.style.backgroundImage = `url('${key}')`;
@@ -2402,10 +2202,7 @@
                     document.body.style.backgroundPosition = 'center';
                     document.body.style.backgroundRepeat = 'no-repeat';
                 };
-                imgTest.onerror = function() {
-                    // 加载失败，保留当前背景
-                    console.warn('背景图片加载失败:', key);
-                };
+                imgTest.onerror = function() { console.warn('背景图片加载失败:', key); };
                 imgTest.src = key;
 
                 bgOverlay.style.opacity = '0';
@@ -2426,7 +2223,6 @@
             }, 300);
         }
 
-        // ----- 初始化默认主题 (从 Cookie 或默认) -----
         function initDefaultTheme() {
             const savedKey = getCookie('theme_key');
             if (savedKey && THUMB_IMAGES.includes(savedKey)) {
@@ -2480,7 +2276,7 @@
             }
         });
 
-        // ---------- 8. 初始化 — 尽早执行 ----------
+        // ---------- 8. 初始化 ----------
         document.addEventListener('DOMContentLoaded', function() {
             preloadImages();
             initDefaultTheme();
@@ -2499,7 +2295,7 @@
                 updateProgress();
                 initAutoSwitch();
                 const cachedUrl = coverCache[src];
-                coverImg.src = cachedUrl || 'CD.jpg'; // 专辑封面用CD.jpg占位
+                coverImg.src = cachedUrl || 'CD.jpg';
                 const fmt = (s) => new Date(s * 1000).toISOString().substr(14, 5);
                 timeDisplay.innerText = `00:00 / ${fmt(0)} / 00:00`;
                 highlightCurrentSong();
@@ -2535,7 +2331,7 @@
             applyWhiteToHighlights();
         };
 
-        console.log('🎵 播放器已启动，蝶云.png 已替换，CD.jpg 仅用于专辑封面 ✦');
+        console.log('🎵 播放器已启动 — QQ音乐首选，网易云备用 ✦');
     </script>
 </body>
 </html>
