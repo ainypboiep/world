@@ -550,6 +550,117 @@
             opacity: 0.8;
         }
 
+        /* ===== 新增：桌面端搜索框样式 ===== */
+        #pc-app #pc-search-container {
+            position: fixed;
+            bottom: 98px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 49;
+            width: 480px;
+            max-width: 90vw;
+            border-radius: 28px;
+            padding: 4px 6px 4px 18px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, var(--glass-bg1) 0%, var(--glass-bg2) 50%, var(--glass-bg3) 100%);
+            backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
+            -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow), 0 0 0 0 rgba(102, 204, 255, 0);
+            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease, transform 0.2s ease;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+        }
+        #pc-app #pc-search-container:focus-within {
+            border-color: rgba(102, 204, 255, 0.6);
+            box-shadow: var(--glass-shadow), 0 0 0 3px rgba(102, 204, 255, 0.15);
+            transform: translateX(-50%) scale(1.01);
+        }
+        #pc-app #pc-search-container .search-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            color: rgba(255, 255, 255, 0.6);
+            transition: color 0.3s ease;
+        }
+        #pc-app #pc-search-container .search-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        #pc-app #pc-search-container:focus-within .search-icon {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        #pc-app #pc-search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 15px;
+            font-family: inherit;
+            padding: 10px 4px;
+            min-width: 0;
+            letter-spacing: 0.3px;
+            font-weight: 400;
+        }
+        #pc-app #pc-search-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+        #pc-app #pc-search-input::-webkit-search-decoration,
+        #pc-app #pc-search-input::-webkit-search-cancel-button {
+            display: none;
+        }
+        #pc-app .pc-search-btn {
+            flex-shrink: 0;
+            border: none;
+            border-radius: 22px;
+            padding: 8px 18px;
+            background: rgba(102, 204, 255, 0.18);
+            color: #fff;
+            font-size: 13px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            letter-spacing: 0.5px;
+            font-weight: 400;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        #pc-app .pc-search-btn:hover {
+            background: rgba(102, 204, 255, 0.32);
+            transform: scale(1.04);
+            box-shadow: 0 4px 16px rgba(102, 204, 255, 0.15);
+        }
+        #pc-app .pc-search-btn:active {
+            transform: scale(0.94);
+        }
+        #pc-app .pc-search-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
         #pc-app #gear-island {
             position: fixed;
             right: 32px;
@@ -1183,6 +1294,29 @@
             #pc-app .song-info {
                 font-size: 12px;
             }
+            /* 桌面端搜索框移动适配 */
+            #pc-app #pc-search-container {
+                width: 360px;
+                bottom: 88px;
+                padding: 3px 4px 3px 14px;
+                border-radius: 24px;
+            }
+            #pc-app #pc-search-input {
+                font-size: 14px;
+                padding: 8px 4px;
+            }
+            #pc-app .pc-search-btn {
+                padding: 6px 14px;
+                font-size: 12px;
+            }
+            #pc-app .pc-search-btn svg {
+                width: 14px;
+                height: 14px;
+            }
+            #pc-app #pc-search-container .search-icon {
+                width: 18px;
+                height: 18px;
+            }
             #pc-app .nav-links {
                 gap: 16px;
                 padding: 10px 20px;
@@ -1370,6 +1504,29 @@
                 width: 24px;
                 height: 24px;
             }
+            /* 桌面端搜索框小屏适配 */
+            #pc-app #pc-search-container {
+                width: 280px;
+                bottom: 76px;
+                padding: 2px 4px 2px 12px;
+                border-radius: 20px;
+            }
+            #pc-app #pc-search-input {
+                font-size: 13px;
+                padding: 6px 4px;
+            }
+            #pc-app .pc-search-btn {
+                padding: 4px 12px;
+                font-size: 11px;
+            }
+            #pc-app .pc-search-btn svg {
+                width: 12px;
+                height: 12px;
+            }
+            #pc-app #pc-search-container .search-icon {
+                width: 16px;
+                height: 16px;
+            }
             #pc-app .nav-links {
                 gap: 10px;
                 padding: 8px 14px;
@@ -1418,7 +1575,7 @@
         }
 
         /* ================================================================
-           移动版样式（纯导航）
+           移动版样式（纯导航 + 搜索框）
            ================================================================ */
         #mobile-app {
             flex-direction: column;
@@ -1504,6 +1661,109 @@
             transform: scale(0.94);
             color: #66ccff;
         }
+
+        /* ===== 新增：移动端搜索框样式 ===== */
+        #mobile-app #mobile-search-container {
+            position: relative;
+            z-index: 2;
+            width: min(480px, 90vw);
+            border-radius: 28px;
+            padding: 3px 5px 3px 18px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(24px) saturate(180%) brightness(1.06);
+            -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.06);
+            border: 1px solid rgba(255, 255, 255, 0.30);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 0 0 0 rgba(102, 204, 255, 0);
+            transition: background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+            flex-shrink: 0;
+        }
+        #mobile-app #mobile-search-container:focus-within {
+            border-color: rgba(102, 204, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 0 0 3px rgba(102, 204, 255, 0.12);
+            transform: scale(1.01);
+        }
+        #mobile-app #mobile-search-container .search-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            transition: color 0.3s ease;
+        }
+        #mobile-app #mobile-search-container .search-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        #mobile-app #mobile-search-container:focus-within .search-icon {
+            color: rgba(255, 255, 255, 0.85);
+        }
+        #mobile-app #mobile-search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: clamp(14px, 3.2vw, 16px);
+            font-family: inherit;
+            padding: 10px 4px;
+            min-width: 0;
+            letter-spacing: 0.3px;
+            font-weight: 400;
+        }
+        #mobile-app #mobile-search-input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+        #mobile-app #mobile-search-input::-webkit-search-decoration,
+        #mobile-app #mobile-search-input::-webkit-search-cancel-button {
+            display: none;
+        }
+        #mobile-app .mobile-search-btn {
+            flex-shrink: 0;
+            border: none;
+            border-radius: 22px;
+            padding: 8px 16px;
+            background: rgba(102, 204, 255, 0.16);
+            color: #fff;
+            font-size: clamp(12px, 2.6vw, 14px);
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            letter-spacing: 0.5px;
+            font-weight: 400;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        #mobile-app .mobile-search-btn:active {
+            transform: scale(0.94);
+            background: rgba(102, 204, 255, 0.30);
+        }
+        #mobile-app .mobile-search-btn svg {
+            width: 15px;
+            height: 15px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
         .mobile-footer {
             position: fixed;
             bottom: 16px;
@@ -1541,6 +1801,26 @@
                 gap: 6vh;
                 padding: 20px 12px 32px;
             }
+            #mobile-app #mobile-search-container {
+                padding: 2px 4px 2px 14px;
+                border-radius: 22px;
+            }
+            #mobile-app #mobile-search-input {
+                font-size: 13px;
+                padding: 8px 4px;
+            }
+            #mobile-app .mobile-search-btn {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+            #mobile-app .mobile-search-btn svg {
+                width: 13px;
+                height: 13px;
+            }
+            #mobile-app #mobile-search-container .search-icon {
+                width: 17px;
+                height: 17px;
+            }
         }
         @media (max-height: 480px) and (orientation: landscape) {
             #mobile-app {
@@ -1569,6 +1849,18 @@
             .mobile-nav a {
                 font-size: 0.85rem;
             }
+            #mobile-app #mobile-search-container {
+                width: min(400px, 80vw);
+                padding: 2px 4px 2px 14px;
+            }
+            #mobile-app #mobile-search-input {
+                font-size: 13px;
+                padding: 6px 4px;
+            }
+            #mobile-app .mobile-search-btn {
+                padding: 5px 12px;
+                font-size: 11px;
+            }
             .mobile-footer {
                 display: none;
             }
@@ -1583,6 +1875,10 @@
             }
             .mobile-nav a:not(:last-child)::after {
                 color: rgba(255, 255, 255, 0.12);
+            }
+            #mobile-app #mobile-search-container {
+                background: rgba(0, 0, 0, 0.20);
+                border-color: rgba(255, 255, 255, 0.10);
             }
         }
         #mobile-app {
@@ -1665,6 +1961,18 @@
         <!-- 歌曲列表 -->
         <div id="song-list" class="liquid-glass"></div>
 
+        <!-- ===== 新增：桌面端搜索框（在导航链接上方） ===== -->
+        <div id="pc-search-container">
+            <span class="search-icon">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </span>
+            <input type="text" id="pc-search-input" class="search-input" placeholder="在必应中搜索..." autocomplete="off" />
+            <button class="pc-search-btn" id="pc-search-btn" onclick="performPcSearch()">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                搜索
+            </button>
+        </div>
+
         <!-- 导航链接框 -->
         <div class="nav-links liquid-glass" id="navLinks">
             <a href="md.html">世界</a>
@@ -1744,7 +2052,7 @@
     </div>
 
     <!-- ============================================================== -->
-    <!-- 移动端界面 (纯导航) -->
+    <!-- 移动端界面 (纯导航 + 搜索框) -->
     <!-- ============================================================== -->
     <div id="mobile-app">
         <div class="mobile-title">
@@ -1757,11 +2065,24 @@
             <a href="https://bxfans.github.io/Gptt/">智人TV</a>
             <a href="re.html">ACGNリソース</a>
         </nav>
+
+        <!-- ===== 新增：移动端搜索框（在导航链接下方） ===== -->
+        <div id="mobile-search-container">
+            <span class="search-icon">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </span>
+            <input type="text" id="mobile-search-input" class="search-input" placeholder="在必应中搜索..." autocomplete="off" />
+            <button class="mobile-search-btn" id="mobile-search-btn" onclick="performMobileSearch()">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                搜索
+            </button>
+        </div>
+
         <div class="mobile-footer">✦ 幻想的な星明かり ✦</div>
     </div>
 
     <!-- ============================================================== -->
-    <!-- 脚本：UA检测 + PC版完整播放器逻辑 + 移动端交互 -->
+    <!-- 脚本：UA检测 + PC版完整播放器逻辑 + 移动端交互 + 搜索功能 -->
     <!-- ============================================================== -->
     <script>
         (function() {
@@ -1776,12 +2097,9 @@
 
             if (isMobile) {
                 document.body.classList.add('mode-mobile');
-                // 移动端不需要初始化PC脚本，直接return
-                // 但我们仍需执行部分移动端交互（如点击反馈）
-                // 下面的PC脚本会被跳过，但我们仍然需要做一些基础工作
-                // 我们在此标记全局变量，让PC脚本跳过初始化
                 window.__IS_MOBILE__ = true;
                 console.log('📱 移动端模式已激活，仅显示导航');
+
                 // 移动端点击反馈
                 document.querySelectorAll('.mobile-nav a').forEach(function(link) {
                     link.addEventListener('touchstart', function() {
@@ -1791,18 +2109,47 @@
                         this.style.transition = 'transform 0.25s ease, color 0.25s ease';
                     }, { passive: true });
                 });
-                // 移动端无需执行后续PC代码
+
+                // ===== 移动端搜索功能 =====
+                window.performMobileSearch = function() {
+                    var input = document.getElementById('mobile-search-input');
+                    var query = input.value.trim();
+                    if (!query) {
+                        input.focus();
+                        return;
+                    }
+                    var url = 'https://cn.bing.com/search?q=' + encodeURIComponent(query);
+                    window.open(url, '_blank');
+                };
+
+                var mobileInput = document.getElementById('mobile-search-input');
+                var mobileBtn = document.getElementById('mobile-search-btn');
+
+                mobileInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        performMobileSearch();
+                    }
+                });
+
+                mobileBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    performMobileSearch();
+                });
+
+                // 触摸优化
+                mobileInput.addEventListener('touchstart', function() {
+                    this.focus();
+                }, { passive: true });
+
                 return;
             } else {
                 window.__IS_MOBILE__ = false;
                 console.log('🖥️ PC端模式，加载完整播放器');
-                // 继续执行PC脚本（下方）
+                // 继续执行PC脚本
             }
 
-            // ---------- 2. PC 播放器完整脚本 (原 index.html 全部 JS) ----------
-            // 注意：由于原脚本在全局范围内定义函数，我们直接复制，但需要确保不覆盖移动端变量
-            // 以下为原脚本内容（已做适当调整，避免与移动端冲突）
-
+            // ---------- 2. PC 播放器完整脚本 ----------
             // 强制名称映射
             const SONG_NAME_OVERRIDES = {
                 "銀河系から徒歩_分以内で - LamazeP.mp3": {
@@ -3063,7 +3410,34 @@
                 }
             });
 
-            // 初始化
+            // ===== 新增：桌面端搜索功能 =====
+            window.performPcSearch = function() {
+                var input = document.getElementById('pc-search-input');
+                var query = input.value.trim();
+                if (!query) {
+                    input.focus();
+                    return;
+                }
+                var url = 'https://cn.bing.com/search?q=' + encodeURIComponent(query);
+                window.open(url, '_blank');
+            };
+
+            var pcInput = document.getElementById('pc-search-input');
+            var pcBtn = document.getElementById('pc-search-btn');
+
+            pcInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    performPcSearch();
+                }
+            });
+
+            pcBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                performPcSearch();
+            });
+
+            // ===== 初始化 =====
             document.addEventListener('DOMContentLoaded', function() {
                 preloadImages();
                 initDefaultTheme();
@@ -3120,6 +3494,7 @@
             };
 
             console.log('🎵 PC播放器已启动 — QQ音乐首选，网易云备用 ✦');
+            console.log('🔍 搜索框已加载 — 必应中国特供版');
         })();
     </script>
 </body>
