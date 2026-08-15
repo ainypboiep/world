@@ -1574,13 +1574,14 @@
 
         /* ================================================================
            移动版样式（纯标题 + 大号搜索框 + 底部）
+           标题与搜索框已完美居中
            ================================================================ */
         #mobile-app {
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 24px 20px 32px;
-            gap: 4vh;
+            justify-content: center; /* 核心：垂直居中 */
+            padding: 20px;
+            gap: clamp(20px, 5vh, 50px); /* 标题与搜索框的间距自适应 */
             background: url('722264.jpg') center / cover no-repeat;
             position: relative;
         }
@@ -1599,7 +1600,7 @@
             position: relative;
             z-index: 2;
             flex-shrink: 0;
-            margin-top: -1vh;
+            margin-top: 0; /* 移除负边距，保证居中 */
         }
         .mobile-title .line1 {
             font-size: clamp(1.4rem, 5.5vw, 2.6rem);
@@ -1617,7 +1618,7 @@
             margin-top: -0.05em;
         }
 
-        /* ===== 移动端大号搜索框（替换原链接岛） ===== */
+        /* ===== 移动端大号搜索框 ===== */
         #mobile-app #mobile-search-container {
             position: relative;
             z-index: 2;
@@ -1721,23 +1722,26 @@
             stroke-linejoin: round;
         }
 
+        /* 页脚 - 绝对定位，不干扰居中 */
         .mobile-footer {
-            position: relative;
+            position: absolute;
+            bottom: 16px;
+            left: 0;
+            width: 100%;
+            text-align: center;
             z-index: 2;
             font-size: clamp(0.6rem, 1.4vw, 0.8rem);
             color: rgba(255, 255, 255, 0.25);
             letter-spacing: 0.1em;
             pointer-events: none;
             text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
-            margin-top: auto;
-            padding-top: 2vh;
         }
 
         /* 移动端响应式 */
         @media (max-width: 480px) {
             #mobile-app {
-                padding: 20px 14px 28px;
-                gap: 3vh;
+                padding: 16px 14px 20px;
+                gap: clamp(16px, 4vh, 36px);
             }
             .mobile-title .line1 {
                 font-size: 1.2rem;
@@ -1770,8 +1774,8 @@
         }
         @media (max-width: 380px) {
             #mobile-app {
-                padding: 16px 10px 24px;
-                gap: 2.5vh;
+                padding: 12px 10px 16px;
+                gap: clamp(12px, 3vh, 28px);
             }
             .mobile-title .line1 {
                 font-size: 1.0rem;
@@ -1803,16 +1807,17 @@
             }
             .mobile-footer {
                 font-size: 0.5rem;
+                bottom: 10px;
             }
         }
         @media (max-height: 480px) and (orientation: landscape) {
             #mobile-app {
-                gap: 2vh;
-                padding: 12px 20px 16px;
                 flex-direction: row;
                 flex-wrap: wrap;
-                justify-content: center;
+                gap: 2vh 4vw;
+                padding: 10px 20px;
                 align-content: center;
+                justify-content: center;
             }
             .mobile-title {
                 flex: 0 0 100%;
@@ -1825,14 +1830,14 @@
                 font-size: 1.6rem;
             }
             #mobile-app #mobile-search-container {
-                width: min(500px, 85vw);
+                width: min(500px, 80vw);
                 padding: 4px 6px 4px 18px;
                 border-radius: 28px;
                 flex-shrink: 0;
             }
             #mobile-app #mobile-search-input {
                 font-size: 14px;
-                padding: 10px 4px;
+                padding: 8px 4px;
             }
             #mobile-app .mobile-search-btn {
                 padding: 8px 16px;
@@ -2026,7 +2031,7 @@
     </div>
 
     <!-- ============================================================== -->
-    <!-- 移动端界面 (标题 + 大号搜索框 + 底部) — 链接岛已删除         -->
+    <!-- 移动端界面 (标题 + 大号搜索框 + 底部) — 已完美居中          -->
     <!-- ============================================================== -->
     <div id="mobile-app">
         <div class="mobile-title">
@@ -2034,7 +2039,7 @@
             <div class="line2">バラモン！</div>
         </div>
 
-        <!-- ===== 大号搜索框（原链接岛位置，已放大） ===== -->
+        <!-- ===== 大号搜索框 ===== -->
         <div id="mobile-search-container">
             <span class="search-icon">
                 <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -2066,7 +2071,7 @@
             if (isMobile) {
                 document.body.classList.add('mode-mobile');
                 window.__IS_MOBILE__ = true;
-                console.log('📱 移动端模式已激活 — 链接岛已删除，大号搜索框就位');
+                console.log('📱 移动端模式已激活 — 标题与搜索框已居中');
 
                 // ===== 移动端搜索功能 =====
                 window.performMobileSearch = function() {
