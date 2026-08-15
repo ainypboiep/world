@@ -62,7 +62,6 @@
             display: none;
         }
 
-        /* 移动模式：隐藏PC，显示移动 */
         .mode-mobile #pc-app {
             opacity: 0;
             pointer-events: none;
@@ -74,7 +73,7 @@
         }
 
         /* ================================================================
-           PC 版样式 (原 index.html 全部 CSS)
+           PC 版样式
            ================================================================ */
         #pc-app {
             --accent: #66ccff;
@@ -548,7 +547,6 @@
             opacity: 0.8;
         }
 
-        /* ===== 新增：桌面端搜索框样式 ===== */
         #pc-app #pc-search-container {
             position: fixed;
             bottom: 98px;
@@ -1292,7 +1290,6 @@
             #pc-app .song-info {
                 font-size: 12px;
             }
-            /* 桌面端搜索框移动适配 */
             #pc-app #pc-search-container {
                 width: 360px;
                 bottom: 88px;
@@ -1502,7 +1499,6 @@
                 width: 24px;
                 height: 24px;
             }
-            /* 桌面端搜索框小屏适配 */
             #pc-app #pc-search-container {
                 width: 280px;
                 bottom: 76px;
@@ -1573,15 +1569,14 @@
         }
 
         /* ================================================================
-           移动版样式（纯标题 + 大号搜索框 + 底部）
-           标题与搜索框已完美居中
+           移动版样式
            ================================================================ */
         #mobile-app {
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* 核心：垂直居中 */
+            justify-content: center;
             padding: 20px;
-            gap: clamp(20px, 5vh, 50px); /* 标题与搜索框的间距自适应 */
+            gap: clamp(20px, 5vh, 50px);
             background: url('722264.jpg') center / cover no-repeat;
             position: relative;
         }
@@ -1600,7 +1595,7 @@
             position: relative;
             z-index: 2;
             flex-shrink: 0;
-            margin-top: 0; /* 移除负边距，保证居中 */
+            margin-top: 0;
         }
         .mobile-title .line1 {
             font-size: clamp(1.4rem, 5.5vw, 2.6rem);
@@ -1618,7 +1613,6 @@
             margin-top: -0.05em;
         }
 
-        /* ===== 移动端大号搜索框 ===== */
         #mobile-app #mobile-search-container {
             position: relative;
             z-index: 2;
@@ -1722,7 +1716,6 @@
             stroke-linejoin: round;
         }
 
-        /* 页脚 - 绝对定位，不干扰居中 */
         .mobile-footer {
             position: absolute;
             bottom: 16px;
@@ -1737,7 +1730,6 @@
             text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
         }
 
-        /* 移动端响应式 */
         @media (max-width: 480px) {
             #mobile-app {
                 padding: 16px 14px 20px;
@@ -1879,18 +1871,16 @@
 <body>
 
     <!-- ============================================================== -->
-    <!-- PC 端界面 (原 index.html 完整 DOM) -->
+    <!-- PC 端界面 -->
     <!-- ============================================================== -->
     <div id="pc-app" data-theme="light">
 
-        <!-- 顶部遮罩 -->
         <div id="header-overlay"></div>
         <div id="title-text">
             <div class="line1">来了,</div>
             <div class="line2">バラモン！</div>
         </div>
 
-        <!-- 右上角信息 -->
         <div id="top-right-info" class="liquid-glass">
             <div class="time" id="clock">--:--:--</div>
             <div class="weather" id="weather-info">
@@ -1900,14 +1890,12 @@
             </div>
         </div>
 
-        <!-- 歌词岛 -->
         <div id="lyrics-island" class="liquid-glass">
             <div class="lyrics-line placeholder" id="lyrics-line-1">♪ 等待歌词...</div>
             <div class="lyrics-line current" id="lyrics-line-2">♪ 加载中...</div>
             <div class="lyrics-line placeholder" id="lyrics-line-3">♪ 请播放歌曲</div>
         </div>
 
-        <!-- 播放器 -->
         <div id="player" class="liquid-glass">
             <div id="art-box">
                 <img src="CD.jpg" alt="cover" id="cover-img" onerror="this.src='CD.jpg'" />
@@ -1937,10 +1925,8 @@
             </div>
         </div>
 
-        <!-- 歌曲列表 -->
         <div id="song-list" class="liquid-glass"></div>
 
-        <!-- ===== 新增：桌面端搜索框（在导航链接上方） ===== -->
         <div id="pc-search-container">
             <span class="search-icon">
                 <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -1952,7 +1938,6 @@
             </button>
         </div>
 
-        <!-- 导航链接框 -->
         <div class="nav-links liquid-glass" id="navLinks">
             <a href="md.html">世界</a>
             <a href="https://bxfans.github.io/Tube/">萌Chat（开发中）</a>
@@ -1960,7 +1945,6 @@
             <a href="re.html">ACGNリソース</a>
         </div>
 
-        <!-- 齿轮按钮 -->
         <div id="gear-island" onclick="openModal()" title="パーソナライズ">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
@@ -1968,10 +1952,8 @@
             </svg>
         </div>
 
-        <!-- 背景切换覆盖层 -->
         <div id="bg-transition-overlay"></div>
 
-        <!-- 弹窗 -->
         <div id="modal-overlay" onclick="closeModalViaOverlay(event)">
             <div id="modal" class="liquid-glass" onclick="event.stopPropagation();">
                 <div class="modal-header" id="modal-header">
@@ -2023,15 +2005,13 @@
             </div>
         </div>
 
-        <!-- 主题过渡层 -->
         <div id="theme-transition-overlay"></div>
 
-        <!-- 音频 -->
         <audio id="audio"></audio>
     </div>
 
     <!-- ============================================================== -->
-    <!-- 移动端界面 (标题 + 大号搜索框 + 底部) — 已完美居中          -->
+    <!-- 移动端界面 -->
     <!-- ============================================================== -->
     <div id="mobile-app">
         <div class="mobile-title">
@@ -2039,7 +2019,6 @@
             <div class="line2">バラモン！</div>
         </div>
 
-        <!-- ===== 大号搜索框 ===== -->
         <div id="mobile-search-container">
             <span class="search-icon">
                 <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -2055,7 +2034,7 @@
     </div>
 
     <!-- ============================================================== -->
-    <!-- 脚本：UA检测 + PC版完整播放器逻辑 + 移动端交互 + 搜索功能 -->
+    <!-- 脚本：UA检测 + PC播放器（网易云） + 移动端交互 + 搜索 -->
     <!-- ============================================================== -->
     <script>
         (function() {
@@ -2064,186 +2043,53 @@
             // ---------- 1. UA 检测 ----------
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile/i.test(navigator.userAgent);
 
-            // 切换模式
             const pcApp = document.getElementById('pc-app');
             const mobileApp = document.getElementById('mobile-app');
 
             if (isMobile) {
                 document.body.classList.add('mode-mobile');
                 window.__IS_MOBILE__ = true;
-                console.log('📱 移动端模式已激活 — 标题与搜索框已居中');
+                console.log('📱 移动端模式已激活');
 
-                // ===== 移动端搜索功能 =====
                 window.performMobileSearch = function() {
                     var input = document.getElementById('mobile-search-input');
                     var query = input.value.trim();
-                    if (!query) {
-                        input.focus();
-                        return;
-                    }
-                    var url = 'https://cn.bing.com/search?q=' + encodeURIComponent(query);
-                    window.open(url, '_blank');
+                    if (!query) { input.focus(); return; }
+                    window.open('https://cn.bing.com/search?q=' + encodeURIComponent(query), '_blank');
                 };
-
                 var mobileInput = document.getElementById('mobile-search-input');
                 var mobileBtn = document.getElementById('mobile-search-btn');
-
                 mobileInput.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        performMobileSearch();
-                    }
+                    if (e.key === 'Enter') { e.preventDefault();
+                        performMobileSearch(); }
                 });
-
                 mobileBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     performMobileSearch();
                 });
-
-                // 触摸优化
-                mobileInput.addEventListener('touchstart', function() {
-                    this.focus();
-                }, { passive: true });
-
+                mobileInput.addEventListener('touchstart', function() { this.focus(); }, { passive: true });
                 return;
             } else {
                 window.__IS_MOBILE__ = false;
-                console.log('🖥️ PC端模式，加载完整播放器');
-                // 继续执行PC脚本
+                console.log('🖥️ PC端模式 — 网易云音乐播放器');
             }
 
-            // ---------- 2. PC 播放器完整脚本 ----------
-            // 强制名称映射
-            const SONG_NAME_OVERRIDES = {
-                "銀河系から徒歩_分以内で - LamazeP.mp3": {
-                    title: "銀河系から徒歩5分以内で",
-                    artist: "LamazeP"
-                }
-            };
+            // ---------- 2. PC 播放器 — 网易云音乐 ----------
+            // 配置
+            const ARTIST_ID = '1078425';
+            const EXCLUDED_IDS = ['32192205', '4886973', '500665207'];
 
-            // Cookie 工具
-            function setCookie(name, value, days) {
-                const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
-                document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
-            }
+            // 状态
+            let songList = [];
+            let currentIdx = 0;
+            let mode = 0; // 0:顺序 1:单曲循环 2:随机
+            let isDraggingProgress = false;
+            let lyricLines = [];
+            let songUrlCache = {};
+            let lyricCache = {};
+            let coverCache = {};
 
-            function getCookie(name) {
-                const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-                if (match) return decodeURIComponent(match[2]);
-                return null;
-            }
-
-            // 时间 / 天气
-            const clockEl = document.getElementById('clock');
-            const weatherIconEl = document.getElementById('weather-icon');
-            const weatherTempEl = document.getElementById('weather-temp');
-            const weatherDescEl = document.getElementById('weather-desc');
-
-            let userTimeZone = 'Asia/Shanghai';
-
-            function updateClock() {
-                const now = new Date();
-                try {
-                    const formatter = new Intl.DateTimeFormat('zh-CN', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        hour12: false,
-                        timeZone: userTimeZone
-                    });
-                    clockEl.textContent = formatter.format(now);
-                } catch {
-                    const offset = 8 * 60;
-                    const local = new Date(now.getTime() + (offset - now.getTimezoneOffset()) * 60000);
-                    clockEl.textContent =
-                        `${String(local.getHours()).padStart(2,'0')}:${String(local.getMinutes()).padStart(2,'0')}:${String(local.getSeconds()).padStart(2,'0')}`;
-                }
-            }
-            updateClock();
-            setInterval(updateClock, 1000);
-            fetch('https://ipapi.co/json/')
-                .then(r => r.json())
-                .then(d => { if (d.timezone) { userTimeZone = d.timezone;
-                        updateClock(); } })
-                .catch(() => {});
-
-            const WEATHER_CACHE_KEY = 'weather_cache';
-            const CACHE_DURATION = 10 * 60 * 1000;
-            const svgMap = {
-                'sunny': `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`,
-                'cloudy': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/></svg>`,
-                'rainy': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><line x1="8" y1="17" x2="8" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="16" y1="17" x2="16" y2="21"/></svg>`,
-                'snowy': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><circle cx="8" cy="18" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="16" cy="18" r="1.5"/></svg>`,
-                'thunderstorm': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><path d="M12 17l-2 4h4l-2 4"/></svg>`
-            };
-
-            function getWeatherIconSVG(code) {
-                let icon = 'cloudy';
-                if (code === 113) icon = 'sunny';
-                else if ([176, 179, 182, 185, 293, 296, 299, 302, 305, 308, 311, 314, 317, 320, 323, 326, 329, 332, 335, 338, 350,
-                        353, 356, 359, 362, 365, 368, 371, 374, 377, 386, 389, 392, 395
-                    ].includes(code)) {
-                    if (code >= 200 && code < 300) icon = 'thunderstorm';
-                    else if (code >= 300 && code < 600) icon = 'rainy';
-                    else if (code >= 600 && code < 700) icon = 'snowy';
-                    else icon = 'rainy';
-                }
-                return svgMap[icon] || svgMap['cloudy'];
-            }
-
-            function updateWeatherUI(data) {
-                weatherTempEl.textContent = `${data.temp}°C`;
-                weatherDescEl.textContent = data.desc || '';
-                weatherIconEl.innerHTML = getWeatherIconSVG(data.code);
-            }
-
-            function fetchWeather() {
-                const cached = localStorage.getItem(WEATHER_CACHE_KEY);
-                if (cached) {
-                    try {
-                        const data = JSON.parse(cached);
-                        if (Date.now() - data.timestamp < CACHE_DURATION) { updateWeatherUI(data); return; }
-                    } catch (e) {}
-                }
-                fetch('https://wttr.in/?format=j1&lang=zh')
-                    .then(r => r.json())
-                    .then(json => {
-                        const current = json.current_condition[0];
-                        const data = { temp: current.temp_C, desc: current.weatherDesc[0].value, code: parseInt(
-                                current.weatherCode), timestamp: Date.now() };
-                        localStorage.setItem(WEATHER_CACHE_KEY, JSON.stringify(data));
-                        updateWeatherUI(data);
-                    })
-                    .catch(() => {
-                        const fallback = { temp: '22', desc: '多云', code: 119, timestamp: Date.now() };
-                        updateWeatherUI(fallback);
-                    });
-            }
-            fetchWeather();
-            setInterval(fetchWeather, CACHE_DURATION);
-
-            // 播放器核心
-            const songs = [
-                "Aquaculture - LamazeP.mp3",
-                "I say love - LamazeP.mp3",
-                "Nothing - LamazeP.mp3",
-                "Refugium - LamazeP.mp3",
-                "WAVEFILE_V3ver - LamazeP.mp3",
-                "くるくるぱぁ - LamazeP.mp3",
-                "デレ化現象100_ - LamazeP.mp3",
-                "トキメキ - LamazeP.mp3",
-                "愛の詩 - LamazeP.mp3",
-                "銀河系から徒歩_分以内で - LamazeP.mp3",
-                "LEMON MELON COOKIE - TAK.mp3",
-                "mochimochi - TAK.mp3",
-                "はじまりの未来 - Hatsune Miku.mp3",
-                "哀の隙間 - MIMI.mp3",
-                "化孵化 - sasakure.UK.mp3",
-                "水音とカーテン - MIMI.mp3",
-                "静寂に咲く - MIMI.mp3",
-                "魔理沙は大変なものを盗んでいきました - IOSYS.mp3"
-            ];
-
+            // DOM 引用
             const audio = document.getElementById('audio');
             const playIcon = document.getElementById('play-icon');
             const songListEl = document.getElementById('song-list');
@@ -2254,174 +2100,71 @@
             const coverImg = document.getElementById('cover-img');
             const songInfoEl = document.getElementById('song-info');
             const mainPlayBtn = document.getElementById('main-play-btn');
-
             const lyricsLine1 = document.getElementById('lyrics-line-1');
             const lyricsLine2 = document.getElementById('lyrics-line-2');
             const lyricsLine3 = document.getElementById('lyrics-line-3');
-
             const modeBtn = document.getElementById('mode-btn');
-
-            let currentIdx = 0,
-                mode = 0;
-            let isDraggingProgress = false;
 
             const playSVG = `<path d="M8 5v14l11-7z"/>`;
             const pauseSVG = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
 
-            const coverCache = {};
-            let lyricLines = [];
-
-            // 解析文件名
-            function parseFromFileName(fileName) {
-                if (SONG_NAME_OVERRIDES[fileName]) {
-                    return SONG_NAME_OVERRIDES[fileName];
+            // ---------- 网易云 API ----------
+            async function fetchArtistSongs(artistId) {
+                const url = `https://api.uomg.com/api/artist.s?uid=${artistId}`;
+                const resp = await fetch(url);
+                if (!resp.ok) throw new Error('获取歌手歌曲列表失败: ' + resp.status);
+                const json = await resp.json();
+                if (json.code !== 1 || !json.data || !json.data.list) {
+                    throw new Error('歌手歌曲列表数据异常: ' + JSON.stringify(json));
                 }
-                let name = fileName.replace(/\.mp3$/i, '');
-                let artist = '';
-                if (name.includes(' - ')) {
-                    const parts = name.split(' - ');
-                    artist = parts.pop().trim();
-                    name = parts.join(' - ').trim();
-                }
-                if (!name) name = fileName;
-                if (!artist) artist = 'unknown';
-                return { title: name, artist: artist };
-            }
-
-            // 封面获取（QQ音乐→网易云）
-            function searchCoverFromQQMusic(title, artist) {
-                const keyword = encodeURIComponent(`${title} ${artist}`.trim());
-                const url = `https://api.qqlyrics.cn/search?keyword=${keyword}`;
-                return fetch(url)
-                    .then(res => {
-                        if (!res.ok) throw new Error('QQ音乐 API 请求失败');
-                        return res.json();
-                    })
-                    .then(data => {
-                        if (data.code === 0 && data.data && data.data.length > 0) {
-                            const song = data.data[0];
-                            if (song.cover) {
-                                return song.cover;
-                            }
-                        }
-                        throw new Error('QQ音乐未找到封面');
-                    })
-                    .catch(() => null);
-            }
-
-            function searchCoverFromNetEase(title, artist) {
-                const keyword = encodeURIComponent(`${title} ${artist}`.trim());
-                const url = `https://api.uomg.com/api/163.s?msg=${keyword}`;
-                return fetch(url)
-                    .then(res => {
-                        if (!res.ok) throw new Error('网易云 API 请求失败');
-                        return res.json();
-                    })
-                    .then(data => {
-                        if (data.code === 1 && data.data && data.data.cover) {
-                            return data.data.cover;
-                        }
-                        throw new Error('网易云未找到封面');
-                    })
-                    .catch(() => null);
-            }
-
-            function getCoverForSong(fileName) {
-                return new Promise((resolve) => {
-                    if (coverCache[fileName] !== undefined) {
-                        resolve(coverCache[fileName]);
-                        return;
-                    }
-                    const parsed = parseFromFileName(fileName);
-                    const title = parsed.title;
-                    const artist = parsed.artist;
-
-                    searchCoverFromQQMusic(title, artist)
-                        .then(url => {
-                            if (url) {
-                                coverCache[fileName] = url;
-                                resolve(url);
-                            } else {
-                                return searchCoverFromNetEase(title, artist);
-                            }
-                        })
-                        .then(url => {
-                            if (url) {
-                                coverCache[fileName] = url;
-                                resolve(url);
-                            } else {
-                                coverCache[fileName] = null;
-                                resolve(null);
-                            }
-                        })
-                        .catch(() => {
-                            searchCoverFromNetEase(title, artist)
-                                .then(url => {
-                                    if (url) {
-                                        coverCache[fileName] = url;
-                                        resolve(url);
-                                    } else {
-                                        coverCache[fileName] = null;
-                                        resolve(null);
-                                    }
-                                })
-                                .catch(() => {
-                                    coverCache[fileName] = null;
-                                    resolve(null);
-                                });
-                        });
+                // 过滤排除的歌曲
+                const list = json.data.list.filter(song => {
+                    const id = String(song.id);
+                    return !EXCLUDED_IDS.includes(id);
                 });
+                if (list.length === 0) throw new Error('过滤后没有歌曲');
+                return list.map(song => ({
+                    id: String(song.id),
+                    name: song.name || '未知歌曲',
+                    artist: song.artist || '未知歌手',
+                    album: song.album || '未知专辑',
+                    cover: song.picUrl || song.cover || '',
+                    url: '',
+                    lyric: ''
+                }));
             }
 
-            function preloadAllCovers() {
-                return Promise.all(songs.map(song => getCoverForSong(song)));
+            async function fetchSongUrl(songId) {
+                if (songUrlCache[songId]) return songUrlCache[songId];
+                const url = `https://api.uomg.com/api/music.163?mid=${songId}`;
+                const resp = await fetch(url);
+                if (!resp.ok) throw new Error('获取播放地址失败: ' + resp.status);
+                const json = await resp.json();
+                if (json.code !== 1 || !json.data || !json.data.url) {
+                    throw new Error('播放地址数据异常');
+                }
+                songUrlCache[songId] = json.data.url;
+                // 同时更新封面（高清）
+                if (json.data.cover && json.data.cover !== coverCache[songId]) {
+                    coverCache[songId] = json.data.cover;
+                }
+                return json.data.url;
             }
 
-            // 歌词获取（QQ音乐→网易云）
-            function fetchLyricsFromQQMusic(title, artist) {
-                const keyword = encodeURIComponent(`${title} ${artist}`.trim());
-                return fetch(`https://api.qqlyrics.cn/search?keyword=${keyword}`)
-                    .then(res => {
-                        if (!res.ok) throw new Error('QQ音乐搜索失败');
-                        return res.json();
-                    })
-                    .then(data => {
-                        if (data.code === 0 && data.data && data.data.length > 0) {
-                            const mid = data.data[0].mid;
-                            if (!mid) throw new Error('未获取到歌曲 mid');
-                            return fetch(`https://api.qqlyrics.cn/lyric?mid=${mid}`);
-                        }
-                        throw new Error('QQ音乐未找到歌曲');
-                    })
-                    .then(res => {
-                        if (!res.ok) throw new Error('QQ音乐歌词获取失败');
-                        return res.json();
-                    })
-                    .then(data => {
-                        if (data.code === 0 && data.data && data.data.lyric) {
-                            const lrcText = data.data.lyric;
-                            return parseLRC(lrcText);
-                        }
-                        throw new Error('QQ音乐歌词数据为空');
-                    })
-                    .catch(() => null);
-            }
-
-            function fetchLyricsFromNetEase(title, artist) {
-                const keyword = encodeURIComponent(`${title} ${artist}`.trim());
-                const url = `https://api.uomg.com/api/163.s?msg=${keyword}`;
-                return fetch(url)
-                    .then(res => {
-                        if (!res.ok) throw new Error('网易云 API 请求失败');
-                        return res.json();
-                    })
-                    .then(data => {
-                        if (data.code === 1 && data.data && data.data.lyric) {
-                            return parseLRC(data.data.lyric);
-                        }
-                        throw new Error('网易云未找到歌词');
-                    })
-                    .catch(() => null);
+            async function fetchSongLyric(songId) {
+                if (lyricCache[songId]) return lyricCache[songId];
+                const url = `https://api.uomg.com/api/lyric.163?mid=${songId}`;
+                const resp = await fetch(url);
+                if (!resp.ok) throw new Error('获取歌词失败: ' + resp.status);
+                const json = await resp.json();
+                if (json.code !== 1 || !json.data) {
+                    return null;
+                }
+                const lrcText = json.data.lyric || json.data.lrc || '';
+                if (!lrcText) return null;
+                const parsed = parseLRC(lrcText);
+                lyricCache[songId] = parsed;
+                return parsed;
             }
 
             function parseLRC(lrcText) {
@@ -2438,9 +2181,7 @@
                         const ms = parseInt(match[3].padEnd(3, '0'));
                         const totalSeconds = minutes * 60 + seconds + ms / 1000;
                         const text = trimmed.replace(timeRegex, '').trim();
-                        if (text) {
-                            parsed.push({ time: totalSeconds, text: text });
-                        }
+                        if (text) parsed.push({ time: totalSeconds, text: text });
                     }
                 }
                 if (parsed.length === 0) {
@@ -2448,10 +2189,7 @@
                     if (textLines.length > 0) {
                         const duration = audio.duration || 180;
                         const timeStep = duration / textLines.length;
-                        return textLines.map((text, i) => ({
-                            time: i * timeStep,
-                            text: text.trim()
-                        }));
+                        return textLines.map((text, i) => ({ time: i * timeStep, text: text.trim() }));
                     }
                     return null;
                 }
@@ -2459,77 +2197,40 @@
                 return parsed;
             }
 
-            let lyricsCache = {};
-
-            function loadLyrics(fileName) {
-                lyricLines = [];
-                updateLyricsDisplay('♪ 加载中...', '♪ 请稍候', '♪ 获取歌词...');
-
-                const parsed = parseFromFileName(fileName);
-                const title = parsed.title;
-                const artist = parsed.artist;
-
-                if (lyricsCache[fileName]) {
-                    lyricLines = lyricsCache[fileName];
-                    updateLyrics();
-                    return;
+            // ---------- UI 更新 ----------
+            function setPlayingState(playing) {
+                if (playing) {
+                    progressFill.classList.add('playing');
+                    playIcon.innerHTML = pauseSVG;
+                } else {
+                    progressFill.classList.remove('playing');
+                    playIcon.innerHTML = playSVG;
                 }
+            }
 
-                fetchLyricsFromQQMusic(title, artist)
-                    .then(lines => {
-                        if (lines && lines.length > 0) {
-                            lyricLines = lines;
-                            lyricsCache[fileName] = lines;
-                            updateLyrics();
-                        } else {
-                            return fetchLyricsFromNetEase(title, artist);
-                        }
-                    })
-                    .then(lines => {
-                        if (lines && lines.length > 0) {
-                            lyricLines = lines;
-                            lyricsCache[fileName] = lines;
-                            updateLyrics();
-                        } else {
-                            return fetchLyricsFromQQMusic(title, '');
-                        }
-                    })
-                    .then(lines => {
-                        if (lines && lines.length > 0) {
-                            lyricLines = lines;
-                            lyricsCache[fileName] = lines;
-                            updateLyrics();
-                        } else {
-                            return fetchLyricsFromNetEase(title, '');
-                        }
-                    })
-                    .then(lines => {
-                        if (lines && lines.length > 0) {
-                            lyricLines = lines;
-                            lyricsCache[fileName] = lines;
-                            updateLyrics();
-                        } else {
-                            lyricLines = [];
-                            updateLyricsDisplay('♪ 无歌词', '♪ 无歌词', '♪ 无歌词');
-                        }
-                    })
-                    .catch(() => {
-                        fetchLyricsFromNetEase(title, artist)
-                            .then(lines => {
-                                if (lines && lines.length > 0) {
-                                    lyricLines = lines;
-                                    lyricsCache[fileName] = lines;
-                                    updateLyrics();
-                                } else {
-                                    lyricLines = [];
-                                    updateLyricsDisplay('♪ 无歌词', '♪ 无歌词', '♪ 无歌词');
-                                }
-                            })
-                            .catch(() => {
-                                lyricLines = [];
-                                updateLyricsDisplay('♪ 无歌词', '♪ 无歌词', '♪ 无歌词');
-                            });
-                    });
+            function updateProgress() {
+                if (isDraggingProgress) return;
+                if (audio.duration && !isNaN(audio.duration)) {
+                    const percent = (audio.currentTime / audio.duration) * 100;
+                    progressBar.value = percent;
+                    progressFill.style.width = percent + '%';
+                } else {
+                    progressFill.style.width = '0%';
+                }
+            }
+
+            function updateSongInfo() {
+                if (currentIdx < 0 || currentIdx >= songList.length) return;
+                const song = songList[currentIdx];
+                songInfoEl.textContent = `${song.name} - ${song.artist}`;
+            }
+
+            function highlightCurrentSong() {
+                const items = songListEl.querySelectorAll('.song-item');
+                items.forEach((item, index) => {
+                    if (index === currentIdx) item.classList.add('active-song');
+                    else item.classList.remove('active-song');
+                });
             }
 
             function updateLyricsDisplay(line1, line2, line3) {
@@ -2566,129 +2267,71 @@
                 if (nextIdx === idx) lyricsLine3.textContent = '';
             }
 
-            function setPlayingState(playing) {
-                if (playing) {
-                    progressFill.classList.add('playing');
-                    playIcon.innerHTML = pauseSVG;
-                } else {
-                    progressFill.classList.remove('playing');
-                    playIcon.innerHTML = playSVG;
-                }
+            function applyWhiteToHighlights() {
+                document.querySelectorAll('#lyrics-island .lyrics-line.current').forEach(function(el) {
+                    el.style.color = '#fff';
+                    el.style.textShadow = '0 0 16px rgba(255,255,255,0.6)';
+                });
+                if (songInfoEl) songInfoEl.style.color = '#fff';
+                document.querySelectorAll('.song-item.active-song .song-name').forEach(function(el) {
+                    el.style.color = '#fff';
+                });
             }
 
-            function updateProgress() {
-                if (isDraggingProgress) return;
-                if (audio.duration && !isNaN(audio.duration)) {
-                    const percent = (audio.currentTime / audio.duration) * 100;
-                    progressBar.value = percent;
-                    progressFill.style.width = percent + '%';
-                } else {
-                    progressFill.style.width = '0%';
-                }
-            }
+            // ---------- 核心播放函数 ----------
+            async function loadAndPlay(index) {
+                if (index < 0 || index >= songList.length) return;
+                currentIdx = index;
+                const song = songList[index];
 
-            function loadAndPlay() {
-                const src = songs[currentIdx];
-                audio.src = src;
-                audio.load();
-                const playPromise = audio.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => setPlayingState(true)).catch(() => setPlayingState(false));
+                // 更新UI
+                updateSongInfo();
+                highlightCurrentSong();
+                coverImg.src = song.cover || 'CD.jpg';
+
+                // 获取播放地址
+                try {
+                    const url = await fetchSongUrl(song.id);
+                    audio.src = url;
+                    audio.load();
+                    const playPromise = audio.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => setPlayingState(true)).catch(() => setPlayingState(false));
+                    }
+                } catch (e) {
+                    console.warn('获取播放地址失败:', e);
+                    audio.src = '';
+                    setPlayingState(false);
+                    songInfoEl.textContent = song.name + ' - 播放失败';
                 }
-                const cachedUrl = coverCache[src];
-                if (cachedUrl) {
-                    coverImg.src = cachedUrl;
-                } else {
-                    coverImg.src = 'CD.jpg';
-                    getCoverForSong(src).then(url => { if (url) coverImg.src = url; });
+
+                // 获取歌词
+                try {
+                    const lyric = await fetchSongLyric(song.id);
+                    if (lyric && lyric.length > 0) {
+                        lyricLines = lyric;
+                    } else {
+                        lyricLines = [];
+                        updateLyricsDisplay('♪ 无歌词', '♪ 无歌词', '♪ 无歌词');
+                    }
+                } catch (e) {
+                    lyricLines = [];
+                    updateLyricsDisplay('♪ 歌词加载失败', '♪ 请稍后重试', '♪');
                 }
+
+                // 更新封面（如果有高清）
+                if (coverCache[song.id]) {
+                    coverImg.src = coverCache[song.id];
+                } else if (song.cover) {
+                    coverImg.src = song.cover;
+                }
+
                 updateProgress();
-                highlightCurrentSong();
-                updateSongInfo();
-                loadLyrics(src);
                 applyWhiteToHighlights();
+                setTimeout(adjustLyricsIslandPosition, 100);
             }
 
-            function updateSongInfo() {
-                const data = songDisplayData[currentIdx];
-                if (data) songInfoEl.textContent = data.display;
-                else {
-                    const parsed = parseFromFileName(songs[currentIdx]);
-                    songInfoEl.textContent = `${parsed.title} - ${parsed.artist}`;
-                }
-            }
-
-            function highlightCurrentSong() {
-                const items = songListEl.querySelectorAll('.song-item');
-                items.forEach((item, index) => {
-                    if (index === currentIdx) item.classList.add('active-song');
-                    else item.classList.remove('active-song');
-                });
-            }
-
-            let songDisplayData = [];
-
-            function searchTrackInfo(query) {
-                const url = `https://spotify-api-wrapper.appspot.com/search/track/${encodeURIComponent(query)}`;
-                return fetch(url)
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.tracks && data.tracks.items && data.tracks.items.length > 0) {
-                            const track = data.tracks.items[0];
-                            return { title: track.name, artist: track.artists.map(a => a.name).join(', ') };
-                        }
-                        return null;
-                    })
-                    .catch(() => null);
-            }
-
-            async function resolveWithSpotify(fileName) {
-                if (SONG_NAME_OVERRIDES[fileName]) {
-                    const ov = SONG_NAME_OVERRIDES[fileName];
-                    return { original: fileName, title: ov.title, artist: ov.artist, display: `${ov.title} - ${ov.artist}` };
-                }
-                const query = fileName.replace(/\.mp3$/i, '').trim();
-                const info = await searchTrackInfo(query);
-                if (info) {
-                    return { original: fileName, title: info.title, artist: info.artist, display: `${info.title} - ${info.artist}` };
-                } else {
-                    const parsed = parseFromFileName(fileName);
-                    return { original: fileName, title: parsed.title, artist: parsed.artist, display: `${parsed.title} - ${parsed.artist}` };
-                }
-            }
-
-            async function buildSongListFromProxy() {
-                const results = await Promise.all(songs.map(fileName => resolveWithSpotify(fileName)));
-                songDisplayData = results;
-                songListEl.innerHTML = '';
-                results.forEach((item, index) => {
-                    const div = document.createElement('div');
-                    div.className = 'song-item';
-                    div.dataset.index = index;
-                    const idxSpan = document.createElement('span');
-                    idxSpan.className = 'song-index';
-                    idxSpan.textContent = String(index + 1).padStart(2, '0');
-                    const nameSpan = document.createElement('span');
-                    nameSpan.className = 'song-name';
-                    nameSpan.textContent = item.title;
-                    const artistSpan = document.createElement('span');
-                    artistSpan.className = 'song-artist';
-                    artistSpan.textContent = item.artist !== 'unknown' ? item.artist : '';
-                    div.appendChild(idxSpan);
-                    div.appendChild(nameSpan);
-                    if (item.artist !== 'unknown') div.appendChild(artistSpan);
-                    div.onclick = () => {
-                        currentIdx = parseInt(div.dataset.index);
-                        loadAndPlay();
-                        closeListWithAnimation();
-                        highlightCurrentSong();
-                    };
-                    songListEl.appendChild(div);
-                });
-                highlightCurrentSong();
-                updateSongInfo();
-            }
-
+            // ---------- 播放控制 ----------
             window.togglePlay = function() {
                 if (audio.paused) {
                     audio.play().then(() => setPlayingState(true)).catch(() => setPlayingState(false));
@@ -2698,13 +2341,21 @@
                 }
                 triggerAnimation(mainPlayBtn, 'btn-anim', 450);
             };
+
             window.prev = function() {
-                currentIdx = (currentIdx - 1 + songs.length) % songs.length;
-                loadAndPlay();
+                if (songList.length === 0) return;
+                currentIdx = (currentIdx - 1 + songList.length) % songList.length;
+                loadAndPlay(currentIdx);
             };
+
             window.next = function() {
-                currentIdx = (mode === 2) ? Math.floor(Math.random() * songs.length) : (currentIdx + 1) % songs.length;
-                loadAndPlay();
+                if (songList.length === 0) return;
+                if (mode === 2) {
+                    currentIdx = Math.floor(Math.random() * songList.length);
+                } else {
+                    currentIdx = (currentIdx + 1) % songList.length;
+                }
+                loadAndPlay(currentIdx);
             };
 
             const iconMap = [
@@ -2712,6 +2363,7 @@
                 `<svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4" /><path d="M3 11v-2a4 4 0 0 1 4-4h14" /><path d="M7 22l-4-4 4-4" /><path d="M21 13v2a4 4 0 0 1-4 4H3" /><path d="M12 10v4" /><path d="M12 14h1.5" /></svg>`,
                 `<svg viewBox="0 0 24 24"><path d="M21 7h-4a3 3 0 0 0-3 3v4a3 3 0 0 1-3 3H3" /><path d="M21 17h-4a3 3 0 0 1-3-3v-4a3 3 0 0 0-3-3H3" /><path d="M3 7h4" /><path d="M3 17h4" /></svg>`
             ];
+
             window.changeMode = function() {
                 mode = (mode + 1) % 3;
                 document.getElementById('mode-icon').innerHTML = iconMap[mode];
@@ -2726,10 +2378,15 @@
                 setTimeout(() => element.classList.remove(className), duration);
             }
 
+            // ---------- 音频事件 ----------
             audio.onended = function() {
-                if (mode === 1) audio.play().catch(() => {});
-                else window.next();
+                if (mode === 1) {
+                    audio.play().catch(() => {});
+                } else {
+                    window.next();
+                }
             };
+
             audio.ontimeupdate = function() {
                 updateProgress();
                 if (!audio.paused && audio.duration) {
@@ -2741,11 +2398,13 @@
                 const remaining = duration - audio.currentTime;
                 timeDisplay.innerText = `${fmt(audio.currentTime)} / ${fmt(duration)} / ${fmt(remaining)}`;
             };
+
             audio.onerror = function() {
-                console.error('音频错误，尝试重载');
-                setTimeout(() => { if (audio.src) audio.load(); }, 1000);
+                console.warn('音频错误');
+                setPlayingState(false);
             };
 
+            // ---------- 进度条 ----------
             progressBar.addEventListener('mousedown', function() { isDraggingProgress = true;
                 progressFill.classList.remove('playing'); });
             progressBar.addEventListener('touchstart', function() { isDraggingProgress = true;
@@ -2775,6 +2434,7 @@
                 }
             });
 
+            // ---------- 歌曲列表 ----------
             function closeListImmediate() {
                 songListEl.classList.remove('active', 'hiding');
                 songListEl.style.visibility = 'hidden';
@@ -2798,6 +2458,7 @@
                     songListEl.addEventListener('animationend', onEnd, { once: true });
                 }
             }
+
             window.toggleList = function(e) {
                 e.stopPropagation();
                 if (songListEl.classList.contains('active')) {
@@ -2815,13 +2476,14 @@
                 void songListEl.offsetWidth;
                 songListEl.classList.add('active');
             };
+
             document.addEventListener('click', function(e) {
                 if (!player.contains(e.target) && !songListEl.contains(e.target)) {
                     if (songListEl.classList.contains('active')) closeListWithAnimation();
                 }
             });
 
-            // 播放器拖拽
+            // ---------- 播放器拖拽 ----------
             let isDraggingPlayer = false;
             let playerOffsetX = 0,
                 playerOffsetY = 0;
@@ -2881,7 +2543,7 @@
                 }
             });
 
-            // 弹窗控制
+            // ---------- 弹窗控制 ----------
             const overlayEl = document.getElementById('modal-overlay');
             const modalEl = document.getElementById('modal');
             const headerEl = document.getElementById('modal-header');
@@ -2929,7 +2591,7 @@
                 if (e.key === 'Escape' && isModalOpen) closeModal();
             });
 
-            // 弹窗拖拽
+            // ---------- 弹窗拖拽 ----------
             let isDraggingModal = false;
             let modalOffsetX = 0,
                 modalOffsetY = 0;
@@ -2993,7 +2655,7 @@
                 isDraggingModal = false;
             });
 
-            // 主题切换
+            // ---------- 主题切换 ----------
             let currentTheme = 'light';
             let isTransitioning = false;
             const transitionOverlay = document.getElementById('theme-transition-overlay');
@@ -3136,7 +2798,7 @@
                 updateSwitchUI(currentTheme);
             }
 
-            // 主题图片轮播
+            // ---------- 主题图片轮播 ----------
             const THUMB_IMAGES = ['722264.jpg', 'miku2.jpg', '蝶云.png', 'nacho.png'];
             const THUMB_TITLES = {
                 '722264.jpg': '海边のミク',
@@ -3196,18 +2858,6 @@
                 if (index >= THUMB_IMAGES.length) index = 0;
                 currentThumbIndex = index;
                 updateThumbPosition();
-            }
-
-            function applyWhiteToHighlights() {
-                document.querySelectorAll('#lyrics-island .lyrics-line.current').forEach(function(el) {
-                    el.style.color = '#fff';
-                    el.style.textShadow = '0 0 16px rgba(255,255,255,0.6)';
-                });
-                if (songInfoEl) songInfoEl.style.color = '#fff';
-                document.querySelectorAll('.song-item.active-song .song-name').forEach(function(el) {
-                    el.style.color = '#fff';
-                });
-                if (applyBtn) applyBtn.style.color = '#fff';
             }
 
             function applyColorScheme(color) {
@@ -3329,7 +2979,108 @@
                 }
             }
 
-            // 歌词岛位置自适应
+            // ---------- Cookie 工具 ----------
+            function setCookie(name, value, days) {
+                const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+                document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+            }
+
+            function getCookie(name) {
+                const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+                if (match) return decodeURIComponent(match[2]);
+                return null;
+            }
+
+            // ---------- 时间 / 天气 ----------
+            const clockEl = document.getElementById('clock');
+            const weatherIconEl = document.getElementById('weather-icon');
+            const weatherTempEl = document.getElementById('weather-temp');
+            const weatherDescEl = document.getElementById('weather-desc');
+
+            let userTimeZone = 'Asia/Shanghai';
+
+            function updateClock() {
+                const now = new Date();
+                try {
+                    const formatter = new Intl.DateTimeFormat('zh-CN', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: false,
+                        timeZone: userTimeZone
+                    });
+                    clockEl.textContent = formatter.format(now);
+                } catch {
+                    const offset = 8 * 60;
+                    const local = new Date(now.getTime() + (offset - now.getTimezoneOffset()) * 60000);
+                    clockEl.textContent =
+                        `${String(local.getHours()).padStart(2,'0')}:${String(local.getMinutes()).padStart(2,'0')}:${String(local.getSeconds()).padStart(2,'0')}`;
+                }
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+            fetch('https://ipapi.co/json/')
+                .then(r => r.json())
+                .then(d => { if (d.timezone) { userTimeZone = d.timezone;
+                        updateClock(); } })
+                .catch(() => {});
+
+            const WEATHER_CACHE_KEY = 'weather_cache';
+            const CACHE_DURATION = 10 * 60 * 1000;
+            const svgMap = {
+                'sunny': `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`,
+                'cloudy': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/></svg>`,
+                'rainy': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><line x1="8" y1="17" x2="8" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="16" y1="17" x2="16" y2="21"/></svg>`,
+                'snowy': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><circle cx="8" cy="18" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="16" cy="18" r="1.5"/></svg>`,
+                'thunderstorm': `<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><path d="M12 17l-2 4h4l-2 4"/></svg>`
+            };
+
+            function getWeatherIconSVG(code) {
+                let icon = 'cloudy';
+                if (code === 113) icon = 'sunny';
+                else if ([176, 179, 182, 185, 293, 296, 299, 302, 305, 308, 311, 314, 317, 320, 323, 326, 329, 332, 335, 338, 350,
+                        353, 356, 359, 362, 365, 368, 371, 374, 377, 386, 389, 392, 395
+                    ].includes(code)) {
+                    if (code >= 200 && code < 300) icon = 'thunderstorm';
+                    else if (code >= 300 && code < 600) icon = 'rainy';
+                    else if (code >= 600 && code < 700) icon = 'snowy';
+                    else icon = 'rainy';
+                }
+                return svgMap[icon] || svgMap['cloudy'];
+            }
+
+            function updateWeatherUI(data) {
+                weatherTempEl.textContent = `${data.temp}°C`;
+                weatherDescEl.textContent = data.desc || '';
+                weatherIconEl.innerHTML = getWeatherIconSVG(data.code);
+            }
+
+            function fetchWeather() {
+                const cached = localStorage.getItem(WEATHER_CACHE_KEY);
+                if (cached) {
+                    try {
+                        const data = JSON.parse(cached);
+                        if (Date.now() - data.timestamp < CACHE_DURATION) { updateWeatherUI(data); return; }
+                    } catch (e) {}
+                }
+                fetch('https://wttr.in/?format=j1&lang=zh')
+                    .then(r => r.json())
+                    .then(json => {
+                        const current = json.current_condition[0];
+                        const data = { temp: current.temp_C, desc: current.weatherDesc[0].value, code: parseInt(
+                                current.weatherCode), timestamp: Date.now() };
+                        localStorage.setItem(WEATHER_CACHE_KEY, JSON.stringify(data));
+                        updateWeatherUI(data);
+                    })
+                    .catch(() => {
+                        const fallback = { temp: '22', desc: '多云', code: 119, timestamp: Date.now() };
+                        updateWeatherUI(fallback);
+                    });
+            }
+            fetchWeather();
+            setInterval(fetchWeather, CACHE_DURATION);
+
+            // ---------- 歌词岛位置自适应 ----------
             function adjustLyricsIslandPosition() {
                 var timeInfo = document.getElementById('top-right-info');
                 if (!timeInfo) return;
@@ -3340,7 +3091,89 @@
                 island.style.right = (window.innerWidth - rect.left + 12) + 'px';
             }
 
-            // 事件绑定
+            // ---------- 桌面端搜索 ----------
+            window.performPcSearch = function() {
+                var input = document.getElementById('pc-search-input');
+                var query = input.value.trim();
+                if (!query) { input.focus(); return; }
+                window.open('https://cn.bing.com/search?q=' + encodeURIComponent(query), '_blank');
+            };
+
+            var pcInput = document.getElementById('pc-search-input');
+            var pcBtn = document.getElementById('pc-search-btn');
+            pcInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') { e.preventDefault();
+                    performPcSearch(); }
+            });
+            pcBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                performPcSearch();
+            });
+
+            // ---------- 构建歌曲列表 ----------
+            function buildSongListUI() {
+                songListEl.innerHTML = '';
+                songList.forEach((song, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'song-item';
+                    div.dataset.index = index;
+                    const idxSpan = document.createElement('span');
+                    idxSpan.className = 'song-index';
+                    idxSpan.textContent = String(index + 1).padStart(2, '0');
+                    const nameSpan = document.createElement('span');
+                    nameSpan.className = 'song-name';
+                    nameSpan.textContent = song.name;
+                    const artistSpan = document.createElement('span');
+                    artistSpan.className = 'song-artist';
+                    artistSpan.textContent = song.artist;
+                    div.appendChild(idxSpan);
+                    div.appendChild(nameSpan);
+                    if (song.artist) div.appendChild(artistSpan);
+                    div.onclick = function() {
+                        const idx = parseInt(this.dataset.index);
+                        if (idx !== currentIdx) {
+                            loadAndPlay(idx);
+                        } else {
+                            // 同一首歌，切换播放状态
+                            window.togglePlay();
+                        }
+                        closeListWithAnimation();
+                    };
+                    songListEl.appendChild(div);
+                });
+                highlightCurrentSong();
+                updateSongInfo();
+            }
+
+            // ---------- 初始化 ----------
+            async function initPlayer() {
+                try {
+                    const list = await fetchArtistSongs(ARTIST_ID);
+                    if (list.length === 0) throw new Error('没有获取到歌曲');
+                    songList = list;
+                    console.log(`🎵 获取到 ${songList.length} 首歌曲（已排除 ${EXCLUDED_IDS.length} 首）`);
+                    buildSongListUI();
+                    document.getElementById('mode-icon').innerHTML = iconMap[0];
+                    // 加载第一首
+                    await loadAndPlay(0);
+                } catch (err) {
+                    console.error('初始化播放器失败:', err);
+                    songInfoEl.textContent = '⚠️ 加载失败，请刷新重试';
+                    // 显示占位列表
+                    songList = [{
+                        id: '0',
+                        name: '加载失败',
+                        artist: '请检查网络',
+                        album: '',
+                        cover: 'CD.jpg',
+                        url: '',
+                        lyric: ''
+                    }];
+                    buildSongListUI();
+                }
+            }
+
+            // ---------- 事件绑定 ----------
             thumbPrev.addEventListener('click', function(e) {
                 e.stopPropagation();
                 goToThumb(currentThumbIndex - 1);
@@ -3373,91 +3206,50 @@
                 }
             });
 
-            // ===== 新增：桌面端搜索功能 =====
-            window.performPcSearch = function() {
-                var input = document.getElementById('pc-search-input');
-                var query = input.value.trim();
-                if (!query) {
-                    input.focus();
-                    return;
-                }
-                var url = 'https://cn.bing.com/search?q=' + encodeURIComponent(query);
-                window.open(url, '_blank');
-            };
-
-            var pcInput = document.getElementById('pc-search-input');
-            var pcBtn = document.getElementById('pc-search-btn');
-
-            pcInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    performPcSearch();
-                }
-            });
-
-            pcBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                performPcSearch();
-            });
-
-            // ===== 初始化 =====
+            // ---------- 启动 ----------
             document.addEventListener('DOMContentLoaded', function() {
                 preloadImages();
                 initDefaultTheme();
                 setTimeout(adjustLyricsIslandPosition, 50);
             });
 
-            window.addEventListener('load', async function() {
-                try {
-                    await buildSongListFromProxy();
-                    await preloadAllCovers();
-                    var src = songs[0];
-                    audio.src = src;
-                    audio.load();
-                    document.getElementById('mode-icon').innerHTML = iconMap[0];
-                    setPlayingState(false);
-                    updateProgress();
-                    initAutoSwitch();
-                    var cachedUrl = coverCache[src];
-                    coverImg.src = cachedUrl || 'CD.jpg';
-                    var fmt = function(s) { return new Date(s * 1000).toISOString().substr(14, 5); };
-                    timeDisplay.innerText = '00:00 / ' + fmt(0) + ' / 00:00';
-                    highlightCurrentSong();
-                    updateSongInfo();
-                    loadLyrics(src);
+            window.addEventListener('load', function() {
+                initPlayer();
+                initAutoSwitch();
+                setTimeout(adjustLyricsIslandPosition, 100);
+                // 重写 loadAndPlay 以包含调整
+                const _loadAndPlay = loadAndPlay;
+                loadAndPlay = function(index) {
+                    _loadAndPlay(index);
                     setTimeout(adjustLyricsIslandPosition, 100);
                     applyWhiteToHighlights();
-                } catch (err) {
-                    console.warn('初始化失败，使用备用', err);
-                    await buildSongListFromProxy();
-                    var src = songs[0];
-                    audio.src = src;
-                    audio.load();
-                    document.getElementById('mode-icon').innerHTML = iconMap[0];
-                    setPlayingState(false);
-                    updateProgress();
-                    initAutoSwitch();
-                    coverImg.src = 'CD.jpg';
-                    var fmt = function(s) { return new Date(s * 1000).toISOString().substr(14, 5); };
-                    timeDisplay.innerText = '00:00 / ' + fmt(0) + ' / 00:00';
-                    highlightCurrentSong();
-                    updateSongInfo();
-                    loadLyrics(src);
-                    setTimeout(adjustLyricsIslandPosition, 100);
-                    applyWhiteToHighlights();
-                }
+                };
+                // 暴露给全局
+                window.loadAndPlay = loadAndPlay;
+                window.songList = songList;
+                window.currentIdx = currentIdx;
+                console.log('🎵 PC播放器已启动 — 网易云音乐 (艺术家ID: ' + ARTIST_ID + ')');
+                console.log('🔍 搜索框已加载 — 必应中国特供版');
             });
 
-            // 重写 loadAndPlay 以包含调整
-            var _loadAndPlay = loadAndPlay;
-            loadAndPlay = function() {
-                _loadAndPlay();
-                setTimeout(adjustLyricsIslandPosition, 100);
-                applyWhiteToHighlights();
+            // 重写 next/prev 以使用新的 loadAndPlay
+            const _next = window.next;
+            window.next = function() {
+                if (songList.length === 0) return;
+                if (mode === 2) {
+                    currentIdx = Math.floor(Math.random() * songList.length);
+                } else {
+                    currentIdx = (currentIdx + 1) % songList.length;
+                }
+                loadAndPlay(currentIdx);
+            };
+            const _prev = window.prev;
+            window.prev = function() {
+                if (songList.length === 0) return;
+                currentIdx = (currentIdx - 1 + songList.length) % songList.length;
+                loadAndPlay(currentIdx);
             };
 
-            console.log('🎵 PC播放器已启动 — QQ音乐首选，网易云备用 ✦');
-            console.log('🔍 搜索框已加载 — 必应中国特供版');
         })();
     </script>
 </body>
