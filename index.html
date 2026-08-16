@@ -2105,7 +2105,7 @@
     </div>
 
     <!-- ============================================================== -->
-    <!-- 脚本：完整增强版（已适配修复后的后端） -->
+    <!-- 脚本：完整修复版（使用公共 API api.music.imiru.app） -->
     <!-- ============================================================== -->
     <script>
         (function() {
@@ -2144,12 +2144,12 @@
                 return;
             } else {
                 window.__IS_MOBILE__ = false;
-                console.log('🖥️ PC端模式 — 网易云音乐播放器 (自定义后端)');
+                console.log('🖥️ PC端模式 — 使用公共 API (api.music.imiru.app)');
             }
 
             // ---------- 2. 配置 ----------
             const CONFIG = {
-                API_BASE: 'https://163musicapi.bxfans.dpdns.org',
+                API_BASE: 'https://api.music.imiru.app',
                 ARTIST_ID: '1078425',
                 EXCLUDED_IDS: ['32192205', '4886973', '500665207']
             };
@@ -2182,84 +2182,42 @@
             const playSVG = `<path d="M8 5v14l11-7z"/>`;
             const pauseSVG = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
 
-            // ---------- API ----------
+            // ---------- API 函数 ----------
             async function fetchArtistSongs(artistId) {
-                const url = `${CONFIG.API_BASE}/api/artist.s?uid=${artistId}`;
+                const url = `${CONFIG.API_BASE}/artist/songs?uid=${artistId}`;
                 const resp = await fetch(url);
                 if (!resp.ok) throw new Error('HTTP ' + resp.status);
                 const json = await resp.json();
                 console.log('🎵 歌手原始返回:', json);
 
-                // 支持 { code: 1, data: { list: [...] } } 和 { code: 200, hotSongs: [...] }
-                let list = null;
-                if (json.code === 1 && json.data && Array.isArray(json.data.list)) {
-                    list = json.data.list;
-                } else if (json.code === 200) {
-                    if (Array.isArray(json.hotSongs)) list = json.hotSongs;
-                    else if (Array.isArray(json.songs)) list = json.songs;
-                } else if (Array.isArray(json.data)) {
-                    list = json.data;
-                } else if (Array.isArray(json.list)) {
-                    list = json.list;
-                } else if (Array.isArray(json)) {
-                    list = json;
-                }
-                if (!list || list.length === 0) {
-                    throw new Error('无法提取歌曲列表，返回内容: ' + JSON.stringify(json).slice(0, 200));
-                }
+                // 兼容多种返回格式
+                let list = json.data?.songs || json.songs || json.data?.list || json.list || json.data || [];
+                if (!Array.isArray(list)) list = [];
 
-                // 过滤排除的歌曲
+                // 过滤排除歌曲
                 const filtered = list.filter(song => {
                     const id = String(song.id);
                     return !CONFIG.EXCLUDED_IDS.includes(id);
                 });
-                if (filtered.length === 0) throw new Error('过滤后没有歌曲');
 
                 return filtered.map(song => {
-                    // ---- 歌手 ----
+                    // 提取歌手名
                     let artistName = '未知歌手';
-                    if (song.ar && Array.isArray(song.ar) && song.ar.length > 0 && song.ar[0].name) {
+                    if (song.ar && Array.isArray(song.ar) && song.ar[0]?.name) {
                         artistName = song.ar[0].name;
-                    } else if (song.artists && Array.isArray(song.artists) && song.artists.length > 0 && song.artists[0].name) {
+                    } else if (song.artists && Array.isArray(song.artists) && song.artists[0]?.name) {
                         artistName = song.artists[0].name;
-                    } else if (song.artist && typeof song.artist === 'object' && song.artist.name) {
-                        artistName = song.artist.name;
                     } else if (song.artist && typeof song.artist === 'string') {
                         artistName = song.artist;
-                    } else if (song.singer && typeof song.singer === 'string') {
+                    } else if (song.artist && song.artist.name) {
+                        artistName = song.artist.name;
+                    } else if (song.singer) {
                         artistName = song.singer;
-                    } else if (song.singer && Array.isArray(song.singer) && song.singer.length > 0) {
-                        artistName = song.singer[0];
-                    } else if (song.artist_name) {
-                        artistName = song.artist_name;
-                    } else if (song.singername) {
-                        artistName = song.singername;
                     }
-
-                    // ---- 专辑 ----
-                    let albumName = '未知专辑';
-                    if (song.al && song.al.name) {
-                        albumName = song.al.name;
-                    } else if (song.album && typeof song.album === 'string') {
-                        albumName = song.album;
-                    } else if (song.album && song.album.name) {
-                        albumName = song.album.name;
-                    }
-
-                    // ---- 封面 ----
-                    let coverUrl = '';
-                    if (song.al && song.al.picUrl) {
-                        coverUrl = song.al.picUrl;
-                    } else if (song.picUrl) {
-                        coverUrl = song.picUrl;
-                    } else if (song.cover) {
-                        coverUrl = song.cover;
-                    } else if (song.albumCover) {
-                        coverUrl = song.albumCover;
-                    } else if (song.album && song.album.cover) {
-                        coverUrl = song.album.cover;
-                    }
-
+                    // 专辑
+                    let albumName = song.al?.name || song.album || '未知专辑';
+                    // 封面
+                    let coverUrl = song.al?.picUrl || song.picUrl || song.cover || '';
                     return {
                         id: String(song.id),
                         name: song.name || song.title || '未知歌曲',
@@ -2274,58 +2232,29 @@
 
             async function fetchSongUrl(songId) {
                 if (songUrlCache[songId]) return songUrlCache[songId];
-                // 尝试 mid 和 id 两个参数
-                const params = ['mid', 'id'];
-                for (const p of params) {
-                    const url = `${CONFIG.API_BASE}/api/music.163?${p}=${songId}`;
-                    try {
-                        const resp = await fetch(url);
-                        if (!resp.ok) throw new Error(`HTTP ${resp.status} (${p})`);
-                        const json = await resp.json();
-                        console.log(`🔊 播放地址返回 (${p}):`, json);
-                        let playUrl = null;
-                        if (json.code === 1 && json.data && json.data.url) {
-                            playUrl = json.data.url;
-                        } else if (json.url) {
-                            playUrl = json.url;
-                        } else if (json.data && typeof json.data === 'string') {
-                            playUrl = json.data;
-                        }
-                        if (playUrl && playUrl !== '') {
-                            songUrlCache[songId] = playUrl;
-                            // 尝试提取封面
-                            if (json.data && json.data.cover) coverCache[songId] = json.data.cover;
-                            else if (json.cover) coverCache[songId] = json.cover;
-                            return playUrl;
-                        } else {
-                            throw new Error(`未提取到播放地址 (${p})`);
-                        }
-                    } catch (e) {
-                        console.warn(`⚠️ 尝试参数 ${p} 失败:`, e.message);
-                    }
-                }
-                throw new Error('所有参数尝试获取播放地址均失败');
+                const url = `${CONFIG.API_BASE}/song/url?id=${songId}`;
+                const resp = await fetch(url);
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                const json = await resp.json();
+                console.log('🔊 播放地址返回:', json);
+                let playUrl = json.data?.url || json.url || '';
+                if (!playUrl) throw new Error('未获取到播放地址');
+                songUrlCache[songId] = playUrl;
+                // 尝试提取封面（如果存在）
+                if (json.data?.cover) coverCache[songId] = json.data.cover;
+                return playUrl;
             }
 
             async function fetchSongLyric(songId) {
                 if (lyricCache[songId]) return lyricCache[songId];
-                const url = `${CONFIG.API_BASE}/api/lyric.163?mid=${songId}`;
+                const url = `${CONFIG.API_BASE}/lyric?id=${songId}`;
                 const resp = await fetch(url);
                 if (!resp.ok) throw new Error('HTTP ' + resp.status);
                 const json = await resp.json();
-                console.log('📃 歌词原始返回:', json);
-                let lrcText = null;
-                if (json.code === 1 && json.data && json.data.lyric) {
-                    lrcText = json.data.lyric;
-                } else if (json.lrc && json.lrc.lyric) {
-                    lrcText = json.lrc.lyric;
-                } else if (json.lyric) {
-                    lrcText = json.lyric;
-                } else if (json.data && json.data.lrc) {
-                    lrcText = json.data.lrc;
-                }
-                if (!lrcText) return null;
-                const parsed = parseLRC(lrcText);
+                console.log('📃 歌词返回:', json);
+                let lyricText = json.data?.lyric || json.lyric || json.lrc?.lyric || '';
+                if (!lyricText) return null;
+                const parsed = parseLRC(lyricText);
                 lyricCache[songId] = parsed;
                 return parsed;
             }
@@ -2479,15 +2408,13 @@
 
                 if (coverCache[song.id]) {
                     coverImg.src = coverCache[song.id];
-                } else if (song.cover) {
-                    coverImg.src = song.cover;
                 }
                 updateProgress();
                 applyWhiteToHighlights();
                 setTimeout(adjustLyricsIslandPosition, 100);
             }
 
-            // ---------- 控制 ----------
+            // ---------- 播放控制 ----------
             window.togglePlay = function() {
                 if (audio.paused) {
                     audio.play().then(() => setPlayingState(true)).catch((err) => {
@@ -3294,7 +3221,7 @@
                 window.loadAndPlay = loadAndPlay;
                 window.songList = songList;
                 window.currentIdx = currentIdx;
-                console.log('🎵 PC播放器已启动 — 网易云音乐 (后端: ' + CONFIG.API_BASE + ')');
+                console.log('🎵 PC播放器已启动 — 使用公共 API (api.music.imiru.app)');
                 console.log('🔍 搜索框已加载 — 必应中国特供版（带清除按钮）');
             });
 
