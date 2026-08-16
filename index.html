@@ -2105,7 +2105,7 @@
     </div>
 
     <!-- ============================================================== -->
-    <!-- 脚本：UA检测 + PC播放器（网易云） + 移动端交互 + 搜索 -->
+    <!-- 脚本：完整增强版 -->
     <!-- ============================================================== -->
     <script>
         (function() {
@@ -2113,9 +2113,6 @@
 
             // ---------- 1. UA 检测 ----------
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile/i.test(navigator.userAgent);
-
-            const pcApp = document.getElementById('pc-app');
-            const mobileApp = document.getElementById('mobile-app');
 
             if (isMobile) {
                 document.body.classList.add('mode-mobile');
@@ -2145,9 +2142,9 @@
                 console.log('🖥️ PC端模式 — 网易云音乐播放器 (自定义后端)');
             }
 
-            // ---------- 2. 配置：使用您的后端域名 ----------
+            // ---------- 2. 配置 ----------
             const CONFIG = {
-                API_BASE: 'https://163musicapi.bxfans.dpdns.org',   // 您的后端地址
+                API_BASE: 'https://163musicapi.bxfans.dpdns.org',
                 ARTIST_ID: '1078425',
                 EXCLUDED_IDS: ['32192205', '4886973', '500665207']
             };
@@ -2155,14 +2152,13 @@
             // ---------- 3. 播放器核心 ----------
             let songList = [];
             let currentIdx = 0;
-            let mode = 0; // 0:顺序 1:单曲循环 2:随机
+            let mode = 0;
             let isDraggingProgress = false;
             let lyricLines = [];
             let songUrlCache = {};
             let lyricCache = {};
             let coverCache = {};
 
-            // DOM 引用
             const audio = document.getElementById('audio');
             const playIcon = document.getElementById('play-icon');
             const songListEl = document.getElementById('song-list');
@@ -2181,56 +2177,93 @@
             const playSVG = `<path d="M8 5v14l11-7z"/>`;
             const pauseSVG = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
 
-            // ---------- 增强的 API 解析（适配多种格式） ----------
+            // ---------- 增强 API ----------
             async function fetchArtistSongs(artistId) {
                 const url = `${CONFIG.API_BASE}/api/artist.s?uid=${artistId}`;
                 const resp = await fetch(url);
                 if (!resp.ok) throw new Error('HTTP ' + resp.status);
                 const json = await resp.json();
-                console.log('🎵 歌手原始返回:', json);  // 调试用
+                console.log('🎵 歌手原始返回:', json);
 
-                // 尝试多种可能的字段路径
                 let list = null;
-                // 1. 封装格式 { code: 1, data: { list: [...] } }
                 if (json.code === 1 && json.data && Array.isArray(json.data.list)) {
                     list = json.data.list;
-                }
-                // 2. Binaryify 格式 { code: 200, hotSongs: [...] } 或 { songs: [...] }
-                else if (json.code === 200) {
+                } else if (json.code === 200) {
                     if (Array.isArray(json.hotSongs)) list = json.hotSongs;
                     else if (Array.isArray(json.songs)) list = json.songs;
-                }
-                // 3. 其他常见格式
-                else if (Array.isArray(json.data)) {
+                } else if (Array.isArray(json.data)) {
                     list = json.data;
                 } else if (Array.isArray(json.list)) {
                     list = json.list;
                 } else if (Array.isArray(json)) {
                     list = json;
                 }
-
                 if (!list || list.length === 0) {
                     throw new Error('无法从返回数据中提取歌曲列表，请检查后端返回格式。返回内容: ' + JSON.stringify(json).slice(0, 200));
                 }
 
-                // 过滤排除的歌曲
                 const filtered = list.filter(song => {
                     const id = String(song.id);
                     return !CONFIG.EXCLUDED_IDS.includes(id);
                 });
-
                 if (filtered.length === 0) throw new Error('过滤后没有歌曲');
 
-                // 标准化每条歌曲
-                return filtered.map(song => ({
-                    id: String(song.id),
-                    name: song.name || song.title || '未知歌曲',
-                    artist: (song.ar && song.ar[0] && song.ar[0].name) || song.artist || song.singer || '未知歌手',
-                    album: (song.al && song.al.name) || song.album || '未知专辑',
-                    cover: (song.al && song.al.picUrl) || song.picUrl || song.cover || song.albumCover || '',
-                    url: '',
-                    lyric: ''
-                }));
+                return filtered.map(song => {
+                    // ---- 歌手 ----
+                    let artistName = '未知歌手';
+                    if (song.ar && Array.isArray(song.ar) && song.ar.length > 0 && song.ar[0].name) {
+                        artistName = song.ar[0].name;
+                    } else if (song.artists && Array.isArray(song.artists) && song.artists.length > 0 && song.artists[0]
+                        .name) {
+                        artistName = song.artists[0].name;
+                    } else if (song.artist && typeof song.artist === 'object' && song.artist.name) {
+                        artistName = song.artist.name;
+                    } else if (song.artist && typeof song.artist === 'string') {
+                        artistName = song.artist;
+                    } else if (song.singer && typeof song.singer === 'string') {
+                        artistName = song.singer;
+                    } else if (song.singer && Array.isArray(song.singer) && song.singer.length > 0) {
+                        artistName = song.singer[0];
+                    } else if (song.artist_name) {
+                        artistName = song.artist_name;
+                    } else if (song.singername) {
+                        artistName = song.singername;
+                    }
+
+                    // ---- 专辑 ----
+                    let albumName = '未知专辑';
+                    if (song.al && song.al.name) {
+                        albumName = song.al.name;
+                    } else if (song.album && typeof song.album === 'string') {
+                        albumName = song.album;
+                    } else if (song.album && song.album.name) {
+                        albumName = song.album.name;
+                    }
+
+                    // ---- 封面 ----
+                    let coverUrl = '';
+                    if (song.al && song.al.picUrl) {
+                        coverUrl = song.al.picUrl;
+                    } else if (song.picUrl) {
+                        coverUrl = song.picUrl;
+                    } else if (song.cover) {
+                        coverUrl = song.cover;
+                    } else if (song.albumCover) {
+                        coverUrl = song.albumCover;
+                    } else if (song.album && song.album.cover) {
+                        coverUrl = song.album.cover;
+                    }
+
+                    return {
+                        id: String(song.id),
+                        name: song.name || song.title || '未知歌曲',
+                        artist: artistName,
+                        album: albumName,
+                        cover: coverUrl,
+                        url: '',
+                        lyric: ''
+                    };
+                });
             }
 
             async function fetchSongUrl(songId) {
@@ -2242,7 +2275,6 @@
                 console.log('🔊 播放地址原始返回:', json);
 
                 let playUrl = null;
-                // 尝试多种字段
                 if (json.code === 1 && json.data && json.data.url) {
                     playUrl = json.data.url;
                 } else if (json.code === 200 && json.data && Array.isArray(json.data) && json.data[0] && json.data[0].url) {
@@ -2251,16 +2283,19 @@
                     playUrl = json.url;
                 } else if (json.data && json.data.url) {
                     playUrl = json.data.url;
+                } else if (json.data && typeof json.data === 'string') {
+                    playUrl = json.data;
                 }
-
-                if (!playUrl) {
-                    throw new Error('未获取到播放地址: ' + JSON.stringify(json));
+                if (!playUrl || playUrl === '') {
+                    throw new Error('未获取到播放地址，返回内容: ' + JSON.stringify(json).slice(0, 200));
                 }
-                songUrlCache[songId] = playUrl;
-                // 更新封面（如果有）
+                // 尝试提取封面
                 if (json.data && json.data.cover) {
                     coverCache[songId] = json.data.cover;
+                } else if (json.cover) {
+                    coverCache[songId] = json.cover;
                 }
+                songUrlCache[songId] = playUrl;
                 return playUrl;
             }
 
@@ -2273,21 +2308,19 @@
                 console.log('📃 歌词原始返回:', json);
 
                 let lrcText = null;
-                // 尝试多种字段
                 if (json.code === 1 && json.data && json.data.lyric) {
                     lrcText = json.data.lyric;
-                } else if (json.code === 200 && json.lrc && json.lrc.lyric) {
-                    lrcText = json.lrc.lyric;
+                } else if (json.code === 200) {
+                    if (json.lrc && json.lrc.lyric) lrcText = json.lrc.lyric;
+                    else if (json.lyric) lrcText = json.lyric;
                 } else if (json.lrc && json.lrc.lyric) {
                     lrcText = json.lrc.lyric;
                 } else if (json.lyric) {
                     lrcText = json.lyric;
+                } else if (json.data && json.data.lrc) {
+                    lrcText = json.data.lrc;
                 }
-
-                if (!lrcText) {
-                    // 没有歌词返回 null，不报错
-                    return null;
-                }
+                if (!lrcText) return null;
                 const parsed = parseLRC(lrcText);
                 lyricCache[songId] = parsed;
                 return parsed;
@@ -2323,7 +2356,7 @@
                 return parsed;
             }
 
-            // ---------- UI 更新（与原相同） ----------
+            // ---------- UI 更新 ----------
             function setPlayingState(playing) {
                 if (playing) {
                     progressFill.classList.add('playing');
@@ -2382,7 +2415,6 @@
                 if (idx >= lyricLines.length) idx = lyricLines.length - 1;
                 const prevIdx = idx - 1 >= 0 ? idx - 1 : 0;
                 const nextIdx = idx + 1 < lyricLines.length ? idx + 1 : lyricLines.length - 1;
-
                 lyricsLine1.textContent = lyricLines[prevIdx].text || '♪';
                 lyricsLine2.textContent = lyricLines[idx].text || '♪';
                 lyricsLine3.textContent = lyricLines[nextIdx].text || '♪';
@@ -2404,29 +2436,32 @@
                 });
             }
 
-            // ---------- 核心播放函数 ----------
+            // ---------- 核心播放 ----------
             async function loadAndPlay(index) {
                 if (index < 0 || index >= songList.length) return;
                 currentIdx = index;
                 const song = songList[index];
-
                 updateSongInfo();
                 highlightCurrentSong();
                 coverImg.src = song.cover || 'CD.jpg';
 
                 try {
                     const url = await fetchSongUrl(song.id);
+                    console.log('✅ 获取到播放地址:', url);
                     audio.src = url;
                     audio.load();
                     const playPromise = audio.play();
                     if (playPromise !== undefined) {
-                        playPromise.then(() => setPlayingState(true)).catch(() => setPlayingState(false));
+                        playPromise.then(() => setPlayingState(true)).catch((err) => {
+                            console.warn('自动播放被拦截，等待用户交互:', err);
+                            setPlayingState(false);
+                        });
                     }
                 } catch (e) {
-                    console.warn('获取播放地址失败:', e);
+                    console.error('❌ 获取播放地址失败:', e);
                     audio.src = '';
                     setPlayingState(false);
-                    songInfoEl.textContent = song.name + ' - 播放失败';
+                    songInfoEl.textContent = song.name + ' - 播放失败 (请检查控制台)';
                 }
 
                 try {
@@ -2447,16 +2482,18 @@
                 } else if (song.cover) {
                     coverImg.src = song.cover;
                 }
-
                 updateProgress();
                 applyWhiteToHighlights();
                 setTimeout(adjustLyricsIslandPosition, 100);
             }
 
-            // ---------- 播放控制 ----------
+            // ---------- 控制 ----------
             window.togglePlay = function() {
                 if (audio.paused) {
-                    audio.play().then(() => setPlayingState(true)).catch(() => setPlayingState(false));
+                    audio.play().then(() => setPlayingState(true)).catch((err) => {
+                        console.warn('播放失败:', err);
+                        setPlayingState(false);
+                    });
                 } else {
                     audio.pause();
                     setPlayingState(false);
@@ -2508,7 +2545,6 @@
                     window.next();
                 }
             };
-
             audio.ontimeupdate = function() {
                 updateProgress();
                 if (!audio.paused && audio.duration) {
@@ -2520,9 +2556,8 @@
                 const remaining = duration - audio.currentTime;
                 timeDisplay.innerText = `${fmt(audio.currentTime)} / ${fmt(duration)} / ${fmt(remaining)}`;
             };
-
-            audio.onerror = function() {
-                console.warn('音频错误');
+            audio.onerror = function(e) {
+                console.warn('音频错误:', e);
                 setPlayingState(false);
             };
 
@@ -2557,15 +2592,6 @@
             });
 
             // ---------- 歌曲列表 ----------
-            function closeListImmediate() {
-                songListEl.classList.remove('active', 'hiding');
-                songListEl.style.visibility = 'hidden';
-                songListEl.style.pointerEvents = 'none';
-                songListEl.style.animation = 'none';
-                void songListEl.offsetWidth;
-                songListEl.style.animation = '';
-            }
-
             function closeListWithAnimation() {
                 if (songListEl.classList.contains('active')) {
                     songListEl.classList.remove('active');
@@ -2580,7 +2606,6 @@
                     songListEl.addEventListener('animationend', onEnd, { once: true });
                 }
             }
-
             window.toggleList = function(e) {
                 e.stopPropagation();
                 if (songListEl.classList.contains('active')) {
@@ -2598,7 +2623,6 @@
                 void songListEl.offsetWidth;
                 songListEl.classList.add('active');
             };
-
             document.addEventListener('click', function(e) {
                 if (!player.contains(e.target) && !songListEl.contains(e.target)) {
                     if (songListEl.classList.contains('active')) closeListWithAnimation();
@@ -2665,7 +2689,7 @@
                 }
             });
 
-            // ---------- 弹窗控制 ----------
+            // ---------- 弹窗控制（简略） ----------
             const overlayEl = document.getElementById('modal-overlay');
             const modalEl = document.getElementById('modal');
             const headerEl = document.getElementById('modal-header');
@@ -2746,35 +2770,6 @@
                     modalEl.style.cursor = '';
                     isDraggingModal = false;
                 }
-            });
-            headerEl.addEventListener('touchstart', function(e) {
-                if (e.target.closest('.dot, #window-controls')) return;
-                if (!isModalOpen) return;
-                const touch = e.touches[0];
-                const rect = modalEl.getBoundingClientRect();
-                modalOffsetX = touch.clientX - rect.left;
-                modalOffsetY = touch.clientY - rect.top;
-                isDraggingModal = true;
-                e.preventDefault();
-            }, { passive: false });
-            document.addEventListener('touchmove', function(e) {
-                if (!isDraggingModal) return;
-                const touch = e.touches[0];
-                let newLeft = touch.clientX - modalOffsetX;
-                let newTop = touch.clientY - modalOffsetY;
-                const w = modalEl.offsetWidth,
-                    h = modalEl.offsetHeight;
-                newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - w));
-                newTop = Math.max(0, Math.min(newTop, window.innerHeight - h));
-                modalEl.style.position = 'fixed';
-                modalEl.style.left = newLeft + 'px';
-                modalEl.style.top = newTop + 'px';
-                modalEl.style.transform = 'none';
-                modalEl.style.margin = '0';
-                e.preventDefault();
-            }, { passive: false });
-            document.addEventListener('touchend', function() {
-                isDraggingModal = false;
             });
 
             // ---------- 主题切换 ----------
@@ -2937,7 +2932,6 @@
 
             let currentThumbIndex = 0;
             let appliedThumbIndex = 0;
-
             const thumbTrack = document.getElementById('thumb-track');
             const thumbDots = document.getElementById('thumb-dots');
             const thumbPrev = document.getElementById('thumb-prev');
@@ -2991,7 +2985,6 @@
                 document.documentElement.style.setProperty('--play-btn-bg', color);
                 document.documentElement.style.setProperty('--accent', color);
                 document.documentElement.style.setProperty('--nav-link-color', color);
-
                 document.querySelectorAll('#lyrics-island .lyrics-line:not(.current)').forEach(function(line) {
                     line.style.color = color;
                     if (line.classList.contains('prev') || line.classList.contains('next')) {
@@ -3045,15 +3038,12 @@
                 var color = THUMB_COLORS[key];
                 var title = THUMB_TITLES[key];
                 if (appliedThumbIndex === currentThumbIndex) return;
-
                 bgOverlay.style.backgroundImage = "url('" + key + "')";
                 bgOverlay.style.opacity = '0';
                 bgOverlay.classList.add('active');
                 void bgOverlay.offsetWidth;
                 bgOverlay.style.opacity = '1';
-
                 applyColorScheme(color);
-
                 var dots = thumbDots.querySelectorAll('span');
                 dots.forEach(function(dot, i) {
                     if (i === currentThumbIndex) {
@@ -3062,7 +3052,6 @@
                         dot.style.background = 'rgba(255,255,255,0.25)';
                     }
                 });
-
                 setTimeout(function() {
                     var imgTest = new Image();
                     imgTest.onload = function() {
@@ -3073,13 +3062,11 @@
                     };
                     imgTest.onerror = function() { console.warn('背景图片加载失败:', key); };
                     imgTest.src = key;
-
                     bgOverlay.style.opacity = '0';
                     setTimeout(function() {
                         bgOverlay.classList.remove('active');
                         bgOverlay.style.backgroundImage = '';
                     }, 1200);
-
                     appliedThumbIndex = currentThumbIndex;
                     modalSubtitle.textContent = '✓ ' + title;
                     setTimeout(function() {
@@ -3087,7 +3074,6 @@
                             modalSubtitle.textContent = title;
                         }
                     }, 1500);
-
                     setCookie('theme_key', key, 30);
                 }, 300);
             }
@@ -3101,7 +3087,7 @@
                 }
             }
 
-            // ---------- Cookie 工具 ----------
+            // ---------- Cookie ----------
             function setCookie(name, value, days) {
                 const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
                 document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
@@ -3118,7 +3104,6 @@
             const weatherIconEl = document.getElementById('weather-icon');
             const weatherTempEl = document.getElementById('weather-temp');
             const weatherDescEl = document.getElementById('weather-desc');
-
             let userTimeZone = 'Asia/Shanghai';
 
             function updateClock() {
@@ -3160,8 +3145,8 @@
             function getWeatherIconSVG(code) {
                 let icon = 'cloudy';
                 if (code === 113) icon = 'sunny';
-                else if ([176, 179, 182, 185, 293, 296, 299, 302, 305, 308, 311, 314, 317, 320, 323, 326, 329, 332, 335, 338, 350,
-                        353, 356, 359, 362, 365, 368, 371, 374, 377, 386, 389, 392, 395
+                else if ([176, 179, 182, 185, 293, 296, 299, 302, 305, 308, 311, 314, 317, 320, 323, 326, 329, 332, 335, 338,
+                        350, 353, 356, 359, 362, 365, 368, 371, 374, 377, 386, 389, 392, 395
                     ].includes(code)) {
                     if (code >= 200 && code < 300) icon = 'thunderstorm';
                     else if (code >= 300 && code < 600) icon = 'rainy';
@@ -3220,20 +3205,15 @@
                 if (!query) { input.focus(); return; }
                 window.open('https://cn.bing.com/search?q=' + encodeURIComponent(query), '_blank');
             };
-
-            // 清除按钮
             window.clearPcSearch = function() {
                 var input = document.getElementById('pc-search-input');
                 input.value = '';
                 input.focus();
                 document.getElementById('pc-clear-btn').style.display = 'none';
             };
-
             var pcInput = document.getElementById('pc-search-input');
             var pcBtn = document.getElementById('pc-search-btn');
             var clearBtn = document.getElementById('pc-clear-btn');
-
-            // 输入事件：显示/隐藏清除按钮
             pcInput.addEventListener('input', function() {
                 if (this.value.length > 0) {
                     clearBtn.style.display = 'flex';
@@ -3241,23 +3221,15 @@
                     clearBtn.style.display = 'none';
                 }
             });
-
-            // 失焦时也可隐藏（但保留显示逻辑由 input 事件控制）
             pcInput.addEventListener('blur', function() {
-                // 若失焦后无内容则隐藏，有内容则保留
                 if (this.value.length === 0) {
                     clearBtn.style.display = 'none';
                 }
             });
-
-            // 键盘回车搜索
             pcInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    performPcSearch();
-                }
+                if (e.key === 'Enter') { e.preventDefault();
+                    performPcSearch(); }
             });
-
             pcBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 performPcSearch();
@@ -3304,22 +3276,15 @@
                     if (list.length === 0) throw new Error('没有获取到歌曲');
                     songList = list;
                     console.log(`🎵 获取到 ${songList.length} 首歌曲（已排除 ${CONFIG.EXCLUDED_IDS.length} 首）`);
+                    console.log('📋 第一首歌信息:', songList[0]);
                     buildSongListUI();
                     document.getElementById('mode-icon').innerHTML = iconMap[0];
                     await loadAndPlay(0);
                 } catch (err) {
                     console.error('初始化播放器失败:', err);
                     songInfoEl.textContent = '⚠️ 加载失败: ' + err.message.slice(0, 60);
-                    // 显示占位列表
-                    songList = [{
-                        id: '0',
-                        name: '加载失败',
-                        artist: '请检查控制台',
-                        album: '',
-                        cover: 'CD.jpg',
-                        url: '',
-                        lyric: ''
-                    }];
+                    songList = [{ id: '0', name: '加载失败', artist: '请检查控制台', album: '', cover: 'CD.jpg', url: '',
+                        lyric: '' }];
                     buildSongListUI();
                 }
             }
@@ -3368,7 +3333,6 @@
                 initPlayer();
                 initAutoSwitch();
                 setTimeout(adjustLyricsIslandPosition, 100);
-                // 重写 loadAndPlay 以包含调整
                 const _loadAndPlay = loadAndPlay;
                 loadAndPlay = function(index) {
                     _loadAndPlay(index);
@@ -3382,7 +3346,6 @@
                 console.log('🔍 搜索框已加载 — 必应中国特供版（带清除按钮）');
             });
 
-            // 重写 next/prev 以使用新的 loadAndPlay
             const _next = window.next;
             window.next = function() {
                 if (songList.length === 0) return;
