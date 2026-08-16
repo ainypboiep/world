@@ -547,32 +547,35 @@
             opacity: 0.8;
         }
 
+        /* ===== 重新设计的PC搜索框：居中、大尺寸、类似Google ===== */
         #pc-app #pc-search-container {
             position: fixed;
-            bottom: 98px;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
             z-index: 49;
-            width: 480px;
-            max-width: 90vw;
+            width: min(720px, 90vw);
+            max-width: 760px;
             border-radius: 28px;
-            padding: 4px 6px 4px 18px;
+            padding: 4px 6px 4px 22px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            background: linear-gradient(135deg, var(--glass-bg1) 0%, var(--glass-bg2) 50%, var(--glass-bg3) 100%);
-            backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
-            -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow), 0 0 0 0 rgba(102, 204, 255, 0);
-            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease, transform 0.2s ease;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(32px) saturate(200%) brightness(1.08);
+            -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(1.08);
+            border: 1.5px solid rgba(255, 255, 255, 0.30);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25), 0 0 0 0 rgba(102, 204, 255, 0);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             will-change: transform, opacity;
             backface-visibility: hidden;
+            min-height: 52px;
         }
         #pc-app #pc-search-container:focus-within {
-            border-color: rgba(102, 204, 255, 0.6);
-            box-shadow: var(--glass-shadow), 0 0 0 3px rgba(102, 204, 255, 0.15);
-            transform: translateX(-50%) scale(1.01);
+            border-color: rgba(102, 204, 255, 0.60);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25), 0 0 0 4px rgba(102, 204, 255, 0.15);
+            background: rgba(255, 255, 255, 0.16);
+            transform: translate(-50%, -50%) scale(1.02);
         }
         #pc-app #pc-search-container .search-icon {
             display: flex;
@@ -581,7 +584,7 @@
             flex-shrink: 0;
             width: 22px;
             height: 22px;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.55);
             transition: color 0.3s ease;
         }
         #pc-app #pc-search-container .search-icon svg {
@@ -589,12 +592,12 @@
             height: 100%;
             fill: none;
             stroke: currentColor;
-            stroke-width: 2;
+            stroke-width: 2.2;
             stroke-linecap: round;
             stroke-linejoin: round;
         }
         #pc-app #pc-search-container:focus-within .search-icon {
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.85);
         }
         #pc-app #pc-search-input {
             flex: 1;
@@ -602,15 +605,15 @@
             border: none;
             outline: none;
             color: #fff;
-            font-size: 15px;
+            font-size: clamp(15px, 2.2vw, 20px);
             font-family: inherit;
-            padding: 10px 4px;
+            padding: 12px 4px;
             min-width: 0;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.4px;
             font-weight: 400;
         }
         #pc-app #pc-search-input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.40);
             font-weight: 300;
             letter-spacing: 0.5px;
         }
@@ -618,43 +621,153 @@
         #pc-app #pc-search-input::-webkit-search-cancel-button {
             display: none;
         }
+        /* 清除按钮 */
+        #pc-app .clear-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 22px;
+            cursor: pointer;
+            padding: 0 6px;
+            transition: color 0.2s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            line-height: 1;
+            flex-shrink: 0;
+            width: 32px;
+        }
+        #pc-app .clear-btn:hover {
+            color: #fff;
+            transform: scale(1.1);
+        }
+        #pc-app .clear-btn:active {
+            transform: scale(0.9);
+        }
         #pc-app .pc-search-btn {
             flex-shrink: 0;
             border: none;
-            border-radius: 22px;
-            padding: 8px 18px;
-            background: rgba(102, 204, 255, 0.18);
+            border-radius: 24px;
+            padding: 10px 24px;
+            background: rgba(102, 204, 255, 0.20);
             color: #fff;
-            font-size: 13px;
+            font-size: clamp(14px, 1.6vw, 17px);
             font-family: inherit;
             cursor: pointer;
             transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
             font-weight: 400;
             white-space: nowrap;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
         }
         #pc-app .pc-search-btn:hover {
-            background: rgba(102, 204, 255, 0.32);
+            background: rgba(102, 204, 255, 0.35);
             transform: scale(1.04);
-            box-shadow: 0 4px 16px rgba(102, 204, 255, 0.15);
+            box-shadow: 0 4px 20px rgba(102, 204, 255, 0.15);
         }
         #pc-app .pc-search-btn:active {
             transform: scale(0.94);
         }
         #pc-app .pc-search-btn svg {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             fill: none;
             stroke: currentColor;
-            stroke-width: 2;
+            stroke-width: 2.2;
             stroke-linecap: round;
             stroke-linejoin: round;
+        }
+
+        /* 移动端适配（PC搜索框在移动设备上的响应） */
+        @media (max-width: 768px) {
+            #pc-app #pc-search-container {
+                width: min(560px, 92vw);
+                min-height: 48px;
+                padding: 3px 4px 3px 18px;
+                border-radius: 24px;
+            }
+            #pc-app #pc-search-input {
+                font-size: 16px;
+                padding: 10px 4px;
+            }
+            #pc-app .pc-search-btn {
+                padding: 8px 18px;
+                font-size: 14px;
+            }
+            #pc-app .pc-search-btn svg {
+                width: 16px;
+                height: 16px;
+            }
+            #pc-app .clear-btn {
+                font-size: 20px;
+                width: 28px;
+            }
+        }
+        @media (max-width: 480px) {
+            #pc-app #pc-search-container {
+                width: min(440px, 96vw);
+                min-height: 42px;
+                padding: 2px 4px 2px 14px;
+                border-radius: 20px;
+            }
+            #pc-app #pc-search-input {
+                font-size: 14px;
+                padding: 8px 4px;
+            }
+            #pc-app .pc-search-btn {
+                padding: 6px 14px;
+                font-size: 12px;
+                border-radius: 20px;
+            }
+            #pc-app .pc-search-btn svg {
+                width: 14px;
+                height: 14px;
+            }
+            #pc-app #pc-search-container .search-icon {
+                width: 18px;
+                height: 18px;
+            }
+            #pc-app .clear-btn {
+                font-size: 18px;
+                width: 24px;
+                padding: 0 4px;
+            }
+        }
+        @media (max-width: 380px) {
+            #pc-app #pc-search-container {
+                width: 96vw;
+                min-height: 38px;
+                padding: 2px 4px 2px 12px;
+                border-radius: 18px;
+            }
+            #pc-app #pc-search-input {
+                font-size: 13px;
+                padding: 6px 4px;
+            }
+            #pc-app .pc-search-btn {
+                padding: 4px 12px;
+                font-size: 11px;
+                border-radius: 16px;
+            }
+            #pc-app .pc-search-btn svg {
+                width: 12px;
+                height: 12px;
+            }
+            #pc-app #pc-search-container .search-icon {
+                width: 16px;
+                height: 16px;
+            }
+            #pc-app .clear-btn {
+                font-size: 16px;
+                width: 20px;
+                padding: 0 2px;
+            }
         }
 
         #pc-app #gear-island {
@@ -1290,28 +1403,6 @@
             #pc-app .song-info {
                 font-size: 12px;
             }
-            #pc-app #pc-search-container {
-                width: 360px;
-                bottom: 88px;
-                padding: 3px 4px 3px 14px;
-                border-radius: 24px;
-            }
-            #pc-app #pc-search-input {
-                font-size: 14px;
-                padding: 8px 4px;
-            }
-            #pc-app .pc-search-btn {
-                padding: 6px 14px;
-                font-size: 12px;
-            }
-            #pc-app .pc-search-btn svg {
-                width: 14px;
-                height: 14px;
-            }
-            #pc-app #pc-search-container .search-icon {
-                width: 18px;
-                height: 18px;
-            }
             #pc-app .nav-links {
                 gap: 16px;
                 padding: 10px 20px;
@@ -1498,28 +1589,6 @@
             #pc-app .theme-icon-btn {
                 width: 24px;
                 height: 24px;
-            }
-            #pc-app #pc-search-container {
-                width: 280px;
-                bottom: 76px;
-                padding: 2px 4px 2px 12px;
-                border-radius: 20px;
-            }
-            #pc-app #pc-search-input {
-                font-size: 13px;
-                padding: 6px 4px;
-            }
-            #pc-app .pc-search-btn {
-                padding: 4px 12px;
-                font-size: 11px;
-            }
-            #pc-app .pc-search-btn svg {
-                width: 12px;
-                height: 12px;
-            }
-            #pc-app #pc-search-container .search-icon {
-                width: 16px;
-                height: 16px;
             }
             #pc-app .nav-links {
                 gap: 10px;
@@ -1927,11 +1996,13 @@
 
         <div id="song-list" class="liquid-glass"></div>
 
+        <!-- ===== 居中搜索框（带清除按钮） ===== -->
         <div id="pc-search-container">
             <span class="search-icon">
                 <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
             </span>
             <input type="text" id="pc-search-input" class="search-input" placeholder="在必应中搜索..." autocomplete="off" />
+            <button class="clear-btn" id="pc-clear-btn" style="display:none;" onclick="clearPcSearch()">✕</button>
             <button class="pc-search-btn" id="pc-search-btn" onclick="performPcSearch()">
                 <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
                 搜索
@@ -2110,26 +2181,53 @@
             const playSVG = `<path d="M8 5v14l11-7z"/>`;
             const pauseSVG = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
 
-            // ---------- 网易云 API（通过您的后端） ----------
+            // ---------- 增强的 API 解析（适配多种格式） ----------
             async function fetchArtistSongs(artistId) {
                 const url = `${CONFIG.API_BASE}/api/artist.s?uid=${artistId}`;
                 const resp = await fetch(url);
-                if (!resp.ok) throw new Error('获取歌手歌曲列表失败: ' + resp.status);
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
                 const json = await resp.json();
-                if (json.code !== 1 || !json.data || !json.data.list) {
-                    throw new Error('歌手歌曲列表数据异常: ' + JSON.stringify(json));
+                console.log('🎵 歌手原始返回:', json);  // 调试用
+
+                // 尝试多种可能的字段路径
+                let list = null;
+                // 1. 封装格式 { code: 1, data: { list: [...] } }
+                if (json.code === 1 && json.data && Array.isArray(json.data.list)) {
+                    list = json.data.list;
                 }
-                const list = json.data.list.filter(song => {
+                // 2. Binaryify 格式 { code: 200, hotSongs: [...] } 或 { songs: [...] }
+                else if (json.code === 200) {
+                    if (Array.isArray(json.hotSongs)) list = json.hotSongs;
+                    else if (Array.isArray(json.songs)) list = json.songs;
+                }
+                // 3. 其他常见格式
+                else if (Array.isArray(json.data)) {
+                    list = json.data;
+                } else if (Array.isArray(json.list)) {
+                    list = json.list;
+                } else if (Array.isArray(json)) {
+                    list = json;
+                }
+
+                if (!list || list.length === 0) {
+                    throw new Error('无法从返回数据中提取歌曲列表，请检查后端返回格式。返回内容: ' + JSON.stringify(json).slice(0, 200));
+                }
+
+                // 过滤排除的歌曲
+                const filtered = list.filter(song => {
                     const id = String(song.id);
                     return !CONFIG.EXCLUDED_IDS.includes(id);
                 });
-                if (list.length === 0) throw new Error('过滤后没有歌曲');
-                return list.map(song => ({
+
+                if (filtered.length === 0) throw new Error('过滤后没有歌曲');
+
+                // 标准化每条歌曲
+                return filtered.map(song => ({
                     id: String(song.id),
-                    name: song.name || '未知歌曲',
-                    artist: song.artist || '未知歌手',
-                    album: song.album || '未知专辑',
-                    cover: song.picUrl || song.cover || '',
+                    name: song.name || song.title || '未知歌曲',
+                    artist: (song.ar && song.ar[0] && song.ar[0].name) || song.artist || song.singer || '未知歌手',
+                    album: (song.al && song.al.name) || song.album || '未知专辑',
+                    cover: (song.al && song.al.picUrl) || song.picUrl || song.cover || song.albumCover || '',
                     url: '',
                     lyric: ''
                 }));
@@ -2139,29 +2237,57 @@
                 if (songUrlCache[songId]) return songUrlCache[songId];
                 const url = `${CONFIG.API_BASE}/api/music.163?mid=${songId}`;
                 const resp = await fetch(url);
-                if (!resp.ok) throw new Error('获取播放地址失败: ' + resp.status);
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
                 const json = await resp.json();
-                if (json.code !== 1 || !json.data || !json.data.url) {
-                    throw new Error('播放地址数据异常');
+                console.log('🔊 播放地址原始返回:', json);
+
+                let playUrl = null;
+                // 尝试多种字段
+                if (json.code === 1 && json.data && json.data.url) {
+                    playUrl = json.data.url;
+                } else if (json.code === 200 && json.data && Array.isArray(json.data) && json.data[0] && json.data[0].url) {
+                    playUrl = json.data[0].url;
+                } else if (json.url) {
+                    playUrl = json.url;
+                } else if (json.data && json.data.url) {
+                    playUrl = json.data.url;
                 }
-                songUrlCache[songId] = json.data.url;
-                if (json.data.cover && json.data.cover !== coverCache[songId]) {
+
+                if (!playUrl) {
+                    throw new Error('未获取到播放地址: ' + JSON.stringify(json));
+                }
+                songUrlCache[songId] = playUrl;
+                // 更新封面（如果有）
+                if (json.data && json.data.cover) {
                     coverCache[songId] = json.data.cover;
                 }
-                return json.data.url;
+                return playUrl;
             }
 
             async function fetchSongLyric(songId) {
                 if (lyricCache[songId]) return lyricCache[songId];
                 const url = `${CONFIG.API_BASE}/api/lyric.163?mid=${songId}`;
                 const resp = await fetch(url);
-                if (!resp.ok) throw new Error('获取歌词失败: ' + resp.status);
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
                 const json = await resp.json();
-                if (json.code !== 1 || !json.data) {
+                console.log('📃 歌词原始返回:', json);
+
+                let lrcText = null;
+                // 尝试多种字段
+                if (json.code === 1 && json.data && json.data.lyric) {
+                    lrcText = json.data.lyric;
+                } else if (json.code === 200 && json.lrc && json.lrc.lyric) {
+                    lrcText = json.lrc.lyric;
+                } else if (json.lrc && json.lrc.lyric) {
+                    lrcText = json.lrc.lyric;
+                } else if (json.lyric) {
+                    lrcText = json.lyric;
+                }
+
+                if (!lrcText) {
+                    // 没有歌词返回 null，不报错
                     return null;
                 }
-                const lrcText = json.data.lyric || json.data.lrc || '';
-                if (!lrcText) return null;
                 const parsed = parseLRC(lrcText);
                 lyricCache[songId] = parsed;
                 return parsed;
@@ -2197,7 +2323,7 @@
                 return parsed;
             }
 
-            // ---------- UI 更新 ----------
+            // ---------- UI 更新（与原相同） ----------
             function setPlayingState(playing) {
                 if (playing) {
                     progressFill.classList.add('playing');
@@ -3095,12 +3221,43 @@
                 window.open('https://cn.bing.com/search?q=' + encodeURIComponent(query), '_blank');
             };
 
+            // 清除按钮
+            window.clearPcSearch = function() {
+                var input = document.getElementById('pc-search-input');
+                input.value = '';
+                input.focus();
+                document.getElementById('pc-clear-btn').style.display = 'none';
+            };
+
             var pcInput = document.getElementById('pc-search-input');
             var pcBtn = document.getElementById('pc-search-btn');
-            pcInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') { e.preventDefault();
-                    performPcSearch(); }
+            var clearBtn = document.getElementById('pc-clear-btn');
+
+            // 输入事件：显示/隐藏清除按钮
+            pcInput.addEventListener('input', function() {
+                if (this.value.length > 0) {
+                    clearBtn.style.display = 'flex';
+                } else {
+                    clearBtn.style.display = 'none';
+                }
             });
+
+            // 失焦时也可隐藏（但保留显示逻辑由 input 事件控制）
+            pcInput.addEventListener('blur', function() {
+                // 若失焦后无内容则隐藏，有内容则保留
+                if (this.value.length === 0) {
+                    clearBtn.style.display = 'none';
+                }
+            });
+
+            // 键盘回车搜索
+            pcInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    performPcSearch();
+                }
+            });
+
             pcBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 performPcSearch();
@@ -3152,11 +3309,12 @@
                     await loadAndPlay(0);
                 } catch (err) {
                     console.error('初始化播放器失败:', err);
-                    songInfoEl.textContent = '⚠️ 加载失败，请检查网络或后端';
+                    songInfoEl.textContent = '⚠️ 加载失败: ' + err.message.slice(0, 60);
+                    // 显示占位列表
                     songList = [{
                         id: '0',
                         name: '加载失败',
-                        artist: '请检查网络',
+                        artist: '请检查控制台',
                         album: '',
                         cover: 'CD.jpg',
                         url: '',
@@ -3221,7 +3379,7 @@
                 window.songList = songList;
                 window.currentIdx = currentIdx;
                 console.log('🎵 PC播放器已启动 — 网易云音乐 (后端: ' + CONFIG.API_BASE + ')');
-                console.log('🔍 搜索框已加载 — 必应中国特供版');
+                console.log('🔍 搜索框已加载 — 必应中国特供版（带清除按钮）');
             });
 
             // 重写 next/prev 以使用新的 loadAndPlay
