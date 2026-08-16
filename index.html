@@ -2071,15 +2071,17 @@
                 return;
             } else {
                 window.__IS_MOBILE__ = false;
-                console.log('🖥️ PC端模式 — 网易云音乐播放器');
+                console.log('🖥️ PC端模式 — 网易云音乐播放器 (自定义后端)');
             }
 
-            // ---------- 2. PC 播放器 — 网易云音乐 ----------
-            // 配置
-            const ARTIST_ID = '1078425';
-            const EXCLUDED_IDS = ['32192205', '4886973', '500665207'];
+            // ---------- 2. 配置：使用您的后端域名 ----------
+            const CONFIG = {
+                API_BASE: 'https://163musicapi.bxfans.dpdns.org',   // 您的后端地址
+                ARTIST_ID: '1078425',
+                EXCLUDED_IDS: ['32192205', '4886973', '500665207']
+            };
 
-            // 状态
+            // ---------- 3. 播放器核心 ----------
             let songList = [];
             let currentIdx = 0;
             let mode = 0; // 0:顺序 1:单曲循环 2:随机
@@ -2108,19 +2110,18 @@
             const playSVG = `<path d="M8 5v14l11-7z"/>`;
             const pauseSVG = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
 
-            // ---------- 网易云 API ----------
+            // ---------- 网易云 API（通过您的后端） ----------
             async function fetchArtistSongs(artistId) {
-                const url = `https://api.uomg.com/api/artist.s?uid=${artistId}`;
+                const url = `${CONFIG.API_BASE}/api/artist.s?uid=${artistId}`;
                 const resp = await fetch(url);
                 if (!resp.ok) throw new Error('获取歌手歌曲列表失败: ' + resp.status);
                 const json = await resp.json();
                 if (json.code !== 1 || !json.data || !json.data.list) {
                     throw new Error('歌手歌曲列表数据异常: ' + JSON.stringify(json));
                 }
-                // 过滤排除的歌曲
                 const list = json.data.list.filter(song => {
                     const id = String(song.id);
-                    return !EXCLUDED_IDS.includes(id);
+                    return !CONFIG.EXCLUDED_IDS.includes(id);
                 });
                 if (list.length === 0) throw new Error('过滤后没有歌曲');
                 return list.map(song => ({
@@ -2136,7 +2137,7 @@
 
             async function fetchSongUrl(songId) {
                 if (songUrlCache[songId]) return songUrlCache[songId];
-                const url = `https://api.uomg.com/api/music.163?mid=${songId}`;
+                const url = `${CONFIG.API_BASE}/api/music.163?mid=${songId}`;
                 const resp = await fetch(url);
                 if (!resp.ok) throw new Error('获取播放地址失败: ' + resp.status);
                 const json = await resp.json();
@@ -2144,7 +2145,6 @@
                     throw new Error('播放地址数据异常');
                 }
                 songUrlCache[songId] = json.data.url;
-                // 同时更新封面（高清）
                 if (json.data.cover && json.data.cover !== coverCache[songId]) {
                     coverCache[songId] = json.data.cover;
                 }
@@ -2153,7 +2153,7 @@
 
             async function fetchSongLyric(songId) {
                 if (lyricCache[songId]) return lyricCache[songId];
-                const url = `https://api.uomg.com/api/lyric.163?mid=${songId}`;
+                const url = `${CONFIG.API_BASE}/api/lyric.163?mid=${songId}`;
                 const resp = await fetch(url);
                 if (!resp.ok) throw new Error('获取歌词失败: ' + resp.status);
                 const json = await resp.json();
@@ -2284,12 +2284,10 @@
                 currentIdx = index;
                 const song = songList[index];
 
-                // 更新UI
                 updateSongInfo();
                 highlightCurrentSong();
                 coverImg.src = song.cover || 'CD.jpg';
 
-                // 获取播放地址
                 try {
                     const url = await fetchSongUrl(song.id);
                     audio.src = url;
@@ -2305,7 +2303,6 @@
                     songInfoEl.textContent = song.name + ' - 播放失败';
                 }
 
-                // 获取歌词
                 try {
                     const lyric = await fetchSongLyric(song.id);
                     if (lyric && lyric.length > 0) {
@@ -2319,7 +2316,6 @@
                     updateLyricsDisplay('♪ 歌词加载失败', '♪ 请稍后重试', '♪');
                 }
 
-                // 更新封面（如果有高清）
                 if (coverCache[song.id]) {
                     coverImg.src = coverCache[song.id];
                 } else if (song.cover) {
@@ -3134,7 +3130,6 @@
                         if (idx !== currentIdx) {
                             loadAndPlay(idx);
                         } else {
-                            // 同一首歌，切换播放状态
                             window.togglePlay();
                         }
                         closeListWithAnimation();
@@ -3148,18 +3143,16 @@
             // ---------- 初始化 ----------
             async function initPlayer() {
                 try {
-                    const list = await fetchArtistSongs(ARTIST_ID);
+                    const list = await fetchArtistSongs(CONFIG.ARTIST_ID);
                     if (list.length === 0) throw new Error('没有获取到歌曲');
                     songList = list;
-                    console.log(`🎵 获取到 ${songList.length} 首歌曲（已排除 ${EXCLUDED_IDS.length} 首）`);
+                    console.log(`🎵 获取到 ${songList.length} 首歌曲（已排除 ${CONFIG.EXCLUDED_IDS.length} 首）`);
                     buildSongListUI();
                     document.getElementById('mode-icon').innerHTML = iconMap[0];
-                    // 加载第一首
                     await loadAndPlay(0);
                 } catch (err) {
                     console.error('初始化播放器失败:', err);
-                    songInfoEl.textContent = '⚠️ 加载失败，请刷新重试';
-                    // 显示占位列表
+                    songInfoEl.textContent = '⚠️ 加载失败，请检查网络或后端';
                     songList = [{
                         id: '0',
                         name: '加载失败',
@@ -3224,11 +3217,10 @@
                     setTimeout(adjustLyricsIslandPosition, 100);
                     applyWhiteToHighlights();
                 };
-                // 暴露给全局
                 window.loadAndPlay = loadAndPlay;
                 window.songList = songList;
                 window.currentIdx = currentIdx;
-                console.log('🎵 PC播放器已启动 — 网易云音乐 (艺术家ID: ' + ARTIST_ID + ')');
+                console.log('🎵 PC播放器已启动 — 网易云音乐 (后端: ' + CONFIG.API_BASE + ')');
                 console.log('🔍 搜索框已加载 — 必应中国特供版');
             });
 
