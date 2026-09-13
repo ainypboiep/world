@@ -13,10 +13,9 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="icon" type="image/png" href="favicon.png" />
 
-
     <style>
         /* ================================================================
-           全局样式 — 日系二次元 · 毛玻璃 · 响应式
+           全局共用样式（PC + 移动）
            ================================================================ */
         @font-face {
             font-family: '悠哉字体 Light';
@@ -30,32 +29,6 @@
             padding: 0;
         }
 
-        :root {
-            --accent: #66ccff;
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.25);
-            --glass-shadow: 0 12px 48px rgba(0, 0, 0, 0.30);
-            --text-primary: #fff;
-            --text-secondary: rgba(255, 255, 255, 0.75);
-            --bg-overlay: rgba(0, 0, 0, 0.30);
-            --player-bg: rgba(255, 255, 255, 0.07);
-            --list-item-hover: rgba(255, 255, 255, 0.08);
-            --modal-bg: rgba(255, 255, 255, 0.06);
-            --transition-speed: 0.5s;
-        }
-
-        [data-theme="dark"] {
-            --glass-bg: rgba(0, 0, 0, 0.35);
-            --glass-border: rgba(255, 255, 255, 0.10);
-            --glass-shadow: 0 12px 48px rgba(0, 0, 0, 0.60);
-            --text-primary: #e8e8e8;
-            --text-secondary: rgba(255, 255, 255, 0.60);
-            --bg-overlay: rgba(0, 0, 0, 0.60);
-            --player-bg: rgba(0, 0, 0, 0.30);
-            --list-item-hover: rgba(255, 255, 255, 0.05);
-            --modal-bg: rgba(0, 0, 0, 0.30);
-        }
-
         html,
         body {
             width: 100%;
@@ -63,52 +36,99 @@
             overflow: hidden;
             font-family: '悠哉字体 Light', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Microsoft JhengHei', sans-serif;
             background: #0b0e1a;
-            color: var(--text-primary);
+            color: #fff;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* ---------- 主容器 ---------- */
-        #app {
+        /* ===== 两套界面容器 ===== */
+        #pc-app,
+        #mobile-app {
             position: fixed;
             inset: 0;
             width: 100%;
             height: 100%;
-            background: url('722264.jpg') center/cover no-repeat;
-            transition: background-image 1.2s ease, filter 1.2s ease;
             overflow: hidden;
+            transition: opacity 0.4s ease;
         }
-        #app::before {
+        #pc-app {
+            z-index: 10;
+            opacity: 1;
+            display: block;
+        }
+        #mobile-app {
+            z-index: 20;
+            opacity: 0;
+            display: none;
+        }
+
+        .mode-mobile #pc-app {
+            opacity: 0;
+            pointer-events: none;
+            display: none;
+        }
+        .mode-mobile #mobile-app {
+            opacity: 1;
+            display: flex;
+        }
+
+        /* ================================================================
+           PC 版样式
+           ================================================================ */
+        #pc-app {
+            --accent: #66ccff;
+            --progress-height: 2px;
+            --glass-bg1: rgba(255, 255, 255, 0.095);
+            --glass-bg2: rgba(255, 255, 255, 0.042);
+            --glass-bg3: rgba(255, 255, 255, 0.063);
+            --glass-border: rgba(255, 255, 255, 0.45);
+            --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+            --text-color: #fff;
+            --bg-overlay: rgba(0, 0, 0, 0);
+            --theme-transition-bg: rgba(0, 0, 0, 0.75);
+            --nav-link-color: #66ccff;
+            --play-btn-bg: #66ccff;
+            --title-color: #66ccff;
+        }
+        #pc-app[data-theme="dark"] {
+            --glass-bg1: rgba(0, 0, 0, 0.45);
+            --glass-bg2: rgba(0, 0, 0, 0.25);
+            --glass-bg3: rgba(0, 0, 0, 0.35);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.8);
+            --text-color: #e0e0e0;
+            --bg-overlay: rgba(0, 0, 0, 0.65);
+            --theme-transition-bg: rgba(0, 0, 0, 0.85);
+        }
+        #pc-app {
+            background: url('722264.jpg') center/cover no-repeat;
+            transition: filter 1.2s ease;
+            position: relative;
+        }
+        #pc-app::before {
             content: '';
             position: fixed;
-            inset: 0;
-            background: var(--bg-overlay);
-            backdrop-filter: brightness(0.60) saturate(0.80);
-            -webkit-backdrop-filter: brightness(0.60) saturate(0.80);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 0;
-            transition: background 0.8s ease;
+            transition: opacity 1.2s ease;
+            opacity: 0;
+            background: var(--bg-overlay);
+            backdrop-filter: brightness(0.55) saturate(0.7);
+            -webkit-backdrop-filter: brightness(0.55) saturate(0.7);
         }
-        #app[data-theme="dark"]::before {
-            background: rgba(0, 0, 0, 0.55);
-            backdrop-filter: brightness(0.45) saturate(0.60);
-            -webkit-backdrop-filter: brightness(0.45) saturate(0.60);
-        }
-
-        /* ---------- 毛玻璃工具类 ---------- */
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(32px) saturate(180%) brightness(1.05);
-            -webkit-backdrop-filter: blur(32px) saturate(180%) brightness(1.05);
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow);
-            transition: background var(--transition-speed) ease,
-                border var(--transition-speed) ease,
-                box-shadow var(--transition-speed) ease;
+        #pc-app[data-theme="dark"]::before {
+            opacity: 1;
         }
 
-        /* ---------- 顶部：标题 ---------- */
-        #title-text {
+        #pc-app[data-theme="dark"] #header-overlay {
+            opacity: 0.15;
+            background: #1a1a2e;
+        }
+        #pc-app #title-text {
             position: absolute;
             top: 20px;
             width: 100%;
@@ -116,24 +136,18 @@
             font-weight: bold;
             pointer-events: none;
             line-height: 1.2;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.30);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
             z-index: 1;
             transition: color 0.6s ease;
         }
-        #title-text .line1 {
-            font-size: clamp(1.2rem, 2.5vw, 2.0rem);
-            letter-spacing: 0.1em;
-            color: var(--text-secondary);
+        #pc-app #title-text .line1 {
+            font-size: 1.8em;
         }
-        #title-text .line2 {
-            font-size: clamp(2.0rem, 4.5vw, 3.6rem);
-            letter-spacing: 0.08em;
-            color: var(--text-primary);
-            text-shadow: 0 0 40px rgba(102, 204, 255, 0.20);
+        #pc-app #title-text .line2 {
+            font-size: 2.6em;
         }
 
-        /* ---------- 右上：时间+天气 ---------- */
-        #top-right-info {
+        #pc-app #top-right-info {
             position: fixed;
             top: 16px;
             right: 16px;
@@ -141,180 +155,207 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            gap: 4px;
-            padding: 10px 18px;
+            gap: 6px;
+            padding: 12px 18px;
             border-radius: 20px;
-            min-width: 100px;
+            background: linear-gradient(135deg, var(--glass-bg1) 0%, var(--glass-bg2) 50%, var(--glass-bg3) 100%);
+            backdrop-filter: blur(30px) saturate(180%) brightness(1.05);
+            -webkit-backdrop-filter: blur(30px) saturate(180%) brightness(1.05);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            font-weight: 400;
+            min-width: 110px;
+            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease;
             pointer-events: none;
-            will-change: transform;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
         }
-        #top-right-info .time {
-            font-size: clamp(1.0rem, 1.6vw, 1.3rem);
-            font-weight: 500;
+        #pc-app #top-right-info .time {
+            font-size: 1.2rem;
             letter-spacing: 1px;
-            color: var(--text-primary);
-            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+            font-weight: 500;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.20);
+            transition: color 0.6s ease;
+            color: #fff !important;
         }
-        #top-right-info .weather {
+        #pc-app #top-right-info .weather {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: clamp(0.8rem, 1.2vw, 0.95rem);
-            color: var(--text-secondary);
+            gap: 8px;
+            font-size: 0.95rem;
+            transition: color 0.6s ease;
+            color: #fff !important;
         }
-        #top-right-info .weather-icon {
-            width: 26px;
-            height: 26px;
+        #pc-app #top-right-info .weather-icon {
+            width: 28px;
+            height: 28px;
             flex-shrink: 0;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        #top-right-info .weather-icon svg {
+        #pc-app #top-right-info .weather-icon svg {
             width: 100%;
             height: 100%;
             fill: currentColor;
         }
+        #pc-app #top-right-info .weather-temp {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        #pc-app #top-right-info .weather-desc {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-left: 2px;
+        }
 
-        /* ---------- 歌词岛 ---------- */
-        #lyrics-island {
+        #pc-app #lyrics-island {
             position: fixed;
             top: 16px;
             right: 146px;
             z-index: 1150;
-            padding: 10px 18px;
-            min-width: 160px;
-            max-width: 300px;
+            padding: 10px 16px;
+            min-width: 180px;
+            max-width: 280px;
             border-radius: 20px;
+            background: linear-gradient(135deg, var(--glass-bg1) 0%, var(--glass-bg2) 50%, var(--glass-bg3) 100%);
+            backdrop-filter: blur(30px) saturate(180%) brightness(1.05);
+            -webkit-backdrop-filter: blur(30px) saturate(180%) brightness(1.05);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease;
+            pointer-events: none;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            line-height: 1.7;
+            line-height: 1.6;
             text-align: center;
-            pointer-events: none;
-            will-change: transform;
-            transition: background var(--transition-speed) ease,
-                border var(--transition-speed) ease;
+            opacity: 0.9;
         }
-        #lyrics-island .lyrics-line {
-            width: 100%;
+        #pc-app #lyrics-island .lyrics-line {
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
-            transition: font-size 0.2s ease, opacity 0.2s ease, color 0.4s ease;
-            color: var(--text-secondary);
+            width: 100%;
+            transition: font-size 0.2s ease, opacity 0.2s ease, color 0.6s ease;
         }
-        #lyrics-island .lyrics-line.current {
-            font-size: clamp(1.0rem, 1.6vw, 1.3rem);
+        #pc-app #lyrics-island .lyrics-line.current {
+            font-size: 1.3rem;
             font-weight: 500;
-            color: var(--text-primary);
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
         }
-        #lyrics-island .lyrics-line.prev,
-        #lyrics-island .lyrics-line.next {
-            font-size: clamp(0.7rem, 1.0vw, 0.9rem);
-            opacity: 0.55;
+        #pc-app #lyrics-island .lyrics-line.prev,
+        #pc-app #lyrics-island .lyrics-line.next {
+            font-size: 0.9rem;
+            opacity: 0.6;
         }
-        #lyrics-island .lyrics-line.placeholder {
-            font-size: clamp(0.7rem, 1.0vw, 0.9rem);
-            opacity: 0.40;
+        #pc-app #lyrics-island .lyrics-line.placeholder {
+            font-size: 0.9rem;
+            opacity: 0.5;
             font-style: italic;
         }
 
-        /* ---------- 播放器 ---------- */
-        #player {
+        #pc-app .liquid-glass {
+            background: linear-gradient(135deg, var(--glass-bg1) 0%, var(--glass-bg2) 50%, var(--glass-bg3) 100%);
+            backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
+            -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease;
+        }
+
+        #pc-app #player {
             position: fixed;
             top: 130px;
             left: 20px;
-            width: 380px;
+            width: 350px;
             border-radius: 24px;
-            padding: 14px 18px;
+            padding: 14px 16px;
             z-index: 1000;
             display: flex;
             align-items: center;
             gap: 14px;
+            user-select: none;
+            will-change: left, top;
+            backface-visibility: hidden;
             cursor: grab;
             touch-action: none;
-            will-change: left, top;
-            transition: box-shadow 0.3s ease, background var(--transition-speed) ease,
-                border var(--transition-speed) ease;
-            background: var(--player-bg);
-            backdrop-filter: blur(40px) saturate(200%) brightness(1.04);
-            -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.04);
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow);
+            transition: box-shadow 0.3s ease, background 0.6s ease, border 0.6s ease;
         }
-        #player.dragging {
+        #pc-app #player.dragging {
             cursor: grabbing;
             z-index: 1002 !important;
-            box-shadow: 0 24px 72px rgba(0, 0, 0, 0.50);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.40);
         }
-
-        #art-box {
+        #pc-app #art-box {
             position: relative;
-            width: 60px;
-            height: 60px;
-            border-radius: 14px;
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
             overflow: hidden;
             flex-shrink: 0;
             background: #222;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
         }
-        #art-box img {
+        #pc-app #art-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
         }
 
-        .control-area {
+        #pc-app .control-area {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 2px;
             min-width: 0;
             justify-content: center;
         }
-        .song-info {
-            font-size: clamp(12px, 1.2vw, 14px);
+        #pc-app .song-info {
+            font-size: 13px;
             font-weight: 400;
             opacity: 0.85;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             line-height: 1.4;
-            color: var(--text-primary);
+            transition: color 0.6s ease;
             padding: 0 2px;
             letter-spacing: 0.3px;
-            transition: color 0.4s ease;
+        }
+        #pc-app[data-theme="dark"] .song-info {
+            opacity: 0.8;
         }
 
-        /* 进度条 */
-        #progress-container {
+        #pc-app #progress-container {
             position: relative;
             width: 100%;
-            height: 3px;
-            border-radius: 2px;
+            height: var(--progress-height);
+            border-radius: calc(var(--progress-height) / 2);
             background: rgba(255, 255, 255, 0.15);
             cursor: pointer;
             touch-action: none;
         }
-        #progress-fill {
+        #pc-app #progress-fill {
             position: absolute;
             top: 0;
             left: 0;
             height: 100%;
             width: 0%;
-            border-radius: 2px;
+            border-radius: calc(var(--progress-height) / 2);
             background: var(--accent);
             background: linear-gradient(90deg, var(--accent), #88ddff, var(--accent));
             background-size: 200% 100%;
+            background-position: 0% 0%;
             transition: none;
-            will-change: width;
-            box-shadow: 0 0 10px rgba(102, 204, 255, 0.30);
+            will-change: width, background-position;
+            box-shadow: 0 0 6px rgba(102, 204, 255, 0.4);
         }
-        #progress-fill.playing {
+        #pc-app #progress-fill.playing {
             animation: flowGradient 1.8s linear infinite, pulseGlow 1.2s ease-in-out infinite;
         }
         @keyframes flowGradient {
@@ -328,13 +369,13 @@
         @keyframes pulseGlow {
             0%,
             100% {
-                box-shadow: 0 0 6px rgba(102, 204, 255, 0.30);
+                box-shadow: 0 0 6px rgba(102, 204, 255, 0.4);
             }
             50% {
-                box-shadow: 0 0 18px rgba(102, 204, 255, 0.70), 0 0 40px rgba(102, 204, 255, 0.20);
+                box-shadow: 0 0 16px rgba(102, 204, 255, 0.8), 0 0 30px rgba(102, 204, 255, 0.3);
             }
         }
-        #progress {
+        #pc-app #progress {
             position: absolute;
             top: 0;
             left: 0;
@@ -347,164 +388,52 @@
             padding: 0;
             touch-action: none;
         }
-
-        #time-display {
+        #pc-app #time-display {
             font-size: 10px;
             text-align: right;
             font-variant-numeric: tabular-nums;
-            opacity: 0.60;
+            transition: color 0.6s ease;
+            opacity: 0.7;
             padding: 0 2px;
             line-height: 1.3;
             letter-spacing: 0.2px;
-            color: var(--text-secondary);
-            transition: color 0.4s ease;
+            color: #fff !important;
         }
-
-        .controls {
+        #pc-app .controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding-top: 2px;
-            gap: 2px;
-        }
-        .controls .md3-icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            padding: 0;
-            transition: opacity 0.2s, transform 0.15s;
-            color: var(--text-primary) !important;
-            border-radius: 50%;
-        }
-        .controls .md3-icon-btn:hover {
-            opacity: 0.75;
-        }
-        .controls .md3-icon-btn:active {
-            transform: scale(0.90);
-        }
-        .controls .md3-icon-btn svg {
-            width: 20px;
-            height: 20px;
-            stroke: currentColor;
-            stroke-width: 2;
-            fill: none;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-        #main-play-btn {
-            width: 34px !important;
-            height: 34px !important;
-            border: none !important;
-            border-radius: 50% !important;
-            background: var(--accent) !important;
-            color: #fff !important;
-            cursor: pointer !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            transition: transform 0.2s ease, background 0.3s ease;
-            box-shadow: 0 4px 16px rgba(102, 204, 255, 0.30);
-        }
-        #main-play-btn:active {
-            transform: scale(0.88);
-        }
-        #main-play-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-            stroke: none;
-        }
-        .btn-anim {
-            animation: playPulse 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        .mode-anim {
-            animation: modeFlip 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        @keyframes playPulse {
-            0% {
-                transform: scale(1);
-            }
-            30% {
-                transform: scale(1.30) rotate(12deg);
-            }
-            70% {
-                transform: scale(0.92) rotate(-8deg);
-            }
-            100% {
-                transform: scale(1) rotate(0deg);
-            }
-        }
-        @keyframes modeFlip {
-            0% {
-                transform: scale(1) rotate(0deg);
-            }
-            40% {
-                transform: scale(1.25) rotate(180deg);
-            }
-            70% {
-                transform: scale(0.88) rotate(320deg);
-            }
-            100% {
-                transform: scale(1) rotate(360deg);
-            }
-        }
-        #mode-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-        }
-        #mode-icon svg {
-            width: 20px;
-            height: 20px;
-            stroke: currentColor;
-            stroke-width: 1.8;
-            fill: none;
-            stroke-linecap: round;
-            stroke-linejoin: round;
         }
 
-        /* ---------- 歌曲列表 ---------- */
-        #song-list {
+        #pc-app #song-list {
             position: fixed;
-            width: 400px;
-            max-height: 280px;
+            width: 380px;
+            max-height: 260px;
             border-radius: 20px;
             overflow-y: auto;
             z-index: 999;
-            padding: 6px 0;
+            padding: 8px 0;
             visibility: hidden;
             pointer-events: none;
             opacity: 0;
             transform: scale(0.92) translateY(-8px);
             transform-origin: top center;
             will-change: transform, opacity;
-            transition: background var(--transition-speed) ease,
-                border var(--transition-speed) ease;
-            background: var(--glass-bg);
-            backdrop-filter: blur(40px) saturate(200%) brightness(1.04);
-            -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.04);
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow);
+            transition: background 0.6s ease, border 0.6s ease, box-shadow 0.6s ease;
         }
-        #song-list.active {
+        #pc-app #song-list.active {
             visibility: visible;
             pointer-events: auto;
-            animation: listPopIn 0.30s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation: listPopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
-        #song-list.hiding {
+        #pc-app #song-list.hiding {
             animation: listPopOut 0.25s ease-in forwards;
         }
         @keyframes listPopIn {
             0% {
                 opacity: 0;
-                transform: scale(0.88) translateY(-10px);
+                transform: scale(0.85) translateY(-12px);
             }
             100% {
                 opacity: 1;
@@ -518,142 +447,161 @@
             }
             100% {
                 opacity: 0;
-                transform: scale(0.92) translateY(-6px);
+                transform: scale(0.9) translateY(-8px);
             }
         }
-        #song-list::-webkit-scrollbar {
-            width: 4px;
-        }
-        #song-list::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        #song-list::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.20);
-            border-radius: 4px;
-        }
-        .song-item {
+        #pc-app .song-item {
             padding: 10px 18px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             cursor: pointer;
             font-size: 14px;
-            transition: background 0.15s, border-left 0.15s;
+            transition: background 0.2s, border-left 0.2s;
             border-left: 3px solid transparent;
             display: flex;
             align-items: center;
             gap: 10px;
-            color: var(--text-secondary);
         }
-        .song-item:hover {
-            background: var(--list-item-hover);
+        #pc-app .song-item:hover {
+            background: rgba(255, 255, 255, 0.08);
         }
-        .song-item .song-index {
+        #pc-app .song-item .song-index {
             font-size: 11px;
-            opacity: 0.35;
-            min-width: 26px;
+            opacity: 0.4;
+            min-width: 24px;
             text-align: right;
             font-variant-numeric: tabular-nums;
         }
-        .song-item .song-name {
+        #pc-app .song-item .song-name {
             flex: 1;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            transition: color 0.4s ease;
-            color: var(--text-secondary);
+            transition: color 0.6s ease;
         }
-        .song-item .song-artist {
+        #pc-app .song-item .song-artist {
             font-size: 12px;
-            opacity: 0.50;
+            opacity: 0.6;
             white-space: nowrap;
             max-width: 100px;
             overflow: hidden;
             text-overflow: ellipsis;
-            color: var(--text-secondary);
         }
-        .song-item.active-song {
-            background: rgba(102, 204, 255, 0.14);
+        #pc-app .song-item.active-song {
+            background: rgba(102, 204, 255, 0.18);
             border-left-color: var(--accent);
         }
-        .song-item.active-song .song-name {
-            color: var(--text-primary);
+        #pc-app .song-item.active-song .song-name {
+            color: #fff;
+        }
+        #pc-app #song-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        #pc-app #song-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #pc-app #song-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        #pc-app #song-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.35);
         }
 
-        /* ---------- 导航栏 ---------- */
-        .nav-links {
+        #pc-app .nav-links {
             position: fixed;
-            bottom: 32px;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: clamp(16px, 3vw, 36px);
-            padding: 12px 28px;
+            gap: 32px;
+            padding: 14px 36px;
             border-radius: 50px;
             z-index: 50;
             flex-wrap: wrap;
             justify-content: center;
             box-sizing: border-box;
-            transition: background var(--transition-speed) ease,
-                border var(--transition-speed) ease,
-                box-shadow 0.3s ease;
-            background: var(--glass-bg);
-            backdrop-filter: blur(32px) saturate(180%) brightness(1.04);
-            -webkit-backdrop-filter: blur(32px) saturate(180%) brightness(1.04);
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow);
+            cursor: default;
+            touch-action: auto;
+            transition: box-shadow 0.3s ease, background 0.6s ease, border 0.6s ease;
         }
-        .nav-links a {
+        #pc-app .nav-links a {
             text-decoration: none;
-            font-weight: 500;
-            transition: opacity 0.3s, color 0.4s ease;
+            font-weight: bold;
+            transition: opacity 0.3s, color 0.6s ease;
             white-space: nowrap;
-            color: var(--accent);
-            font-size: clamp(0.8rem, 1.2vw, 1.0rem);
-            letter-spacing: 0.04em;
+            pointer-events: auto;
         }
-        .nav-links a:hover {
-            opacity: 0.70;
+        #pc-app .nav-links a:hover {
+            opacity: 0.8;
         }
 
-        /* ---------- 搜索框 (居中) ---------- */
-        #search-container {
+        /* ===== PC 端底部 ICP 备案 ===== */
+        #pc-app #icp-footer {
+            position: fixed;
+            left: 50%;
+            bottom: 8px;
+            transform: translateX(-50%);
+            z-index: 50;
+            text-align: center;
+            white-space: nowrap;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.55);
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+            pointer-events: auto;
+            transition: color 0.6s ease;
+        }
+        #pc-app #icp-footer a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.25s ease, opacity 0.25s ease;
+        }
+        #pc-app #icp-footer a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        /* ===== 重新设计的PC搜索框：居中、大尺寸、类似Google ===== */
+        #pc-app #pc-search-container {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 49;
-            width: min(680px, 88vw);
+            width: min(720px, 90vw);
             max-width: 760px;
             border-radius: 28px;
             padding: 4px 6px 4px 22px;
             display: flex;
             align-items: center;
             gap: 4px;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(36px) saturate(200%) brightness(1.06);
-            -webkit-backdrop-filter: blur(36px) saturate(200%) brightness(1.06);
-            border: 1.5px solid rgba(255, 255, 255, 0.20);
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
-            transition: all 0.30s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            will-change: transform, opacity;
-            min-height: 50px;
-        }
-        #search-container:focus-within {
-            border-color: rgba(102, 204, 255, 0.50);
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25), 0 0 0 4px rgba(102, 204, 255, 0.10);
             background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(32px) saturate(200%) brightness(1.08);
+            -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(1.08);
+            border: 1.5px solid rgba(255, 255, 255, 0.30);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25), 0 0 0 0 rgba(102, 204, 255, 0);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            min-height: 52px;
+        }
+        #pc-app #pc-search-container:focus-within {
+            border-color: rgba(102, 204, 255, 0.60);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25), 0 0 0 4px rgba(102, 204, 255, 0.15);
+            background: rgba(255, 255, 255, 0.16);
             transform: translate(-50%, -50%) scale(1.02);
         }
-        #search-container .search-icon {
+        #pc-app #pc-search-container .search-icon {
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
             width: 22px;
             height: 22px;
-            color: rgba(255, 255, 255, 0.40);
+            color: rgba(255, 255, 255, 0.55);
             transition: color 0.3s ease;
         }
-        #search-container .search-icon svg {
+        #pc-app #pc-search-container .search-icon svg {
             width: 100%;
             height: 100%;
             fill: none;
@@ -662,36 +610,37 @@
             stroke-linecap: round;
             stroke-linejoin: round;
         }
-        #search-container:focus-within .search-icon {
-            color: rgba(255, 255, 255, 0.80);
+        #pc-app #pc-search-container:focus-within .search-icon {
+            color: rgba(255, 255, 255, 0.85);
         }
-        #search-input {
+        #pc-app #pc-search-input {
             flex: 1;
             background: transparent;
             border: none;
             outline: none;
-            color: var(--text-primary);
-            font-size: clamp(15px, 2.0vw, 19px);
+            color: #fff;
+            font-size: clamp(15px, 2.2vw, 20px);
             font-family: inherit;
             padding: 12px 4px;
             min-width: 0;
             letter-spacing: 0.4px;
             font-weight: 400;
         }
-        #search-input::placeholder {
-            color: rgba(255, 255, 255, 0.30);
+        #pc-app #pc-search-input::placeholder {
+            color: rgba(255, 255, 255, 0.40);
             font-weight: 300;
             letter-spacing: 0.5px;
         }
-        #search-input::-webkit-search-decoration,
-        #search-input::-webkit-search-cancel-button {
+        #pc-app #pc-search-input::-webkit-search-decoration,
+        #pc-app #pc-search-input::-webkit-search-cancel-button {
             display: none;
         }
-        .clear-btn {
+        /* 清除按钮 */
+        #pc-app .clear-btn {
             background: none;
             border: none;
-            color: rgba(255, 255, 255, 0.40);
-            font-size: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 22px;
             cursor: pointer;
             padding: 0 6px;
             transition: color 0.2s, transform 0.2s;
@@ -701,29 +650,29 @@
             height: 100%;
             line-height: 1;
             flex-shrink: 0;
-            width: 30px;
+            width: 32px;
         }
-        .clear-btn:hover {
+        #pc-app .clear-btn:hover {
             color: #fff;
-            transform: scale(1.10);
+            transform: scale(1.1);
         }
-        .clear-btn:active {
-            transform: scale(0.90);
+        #pc-app .clear-btn:active {
+            transform: scale(0.9);
         }
-        .search-btn {
+        #pc-app .pc-search-btn {
             flex-shrink: 0;
             border: none;
             border-radius: 24px;
             padding: 10px 24px;
-            background: rgba(102, 204, 255, 0.18);
-            color: var(--text-primary);
-            font-size: clamp(14px, 1.4vw, 17px);
+            background: rgba(102, 204, 255, 0.20);
+            color: #fff;
+            font-size: clamp(14px, 1.6vw, 17px);
             font-family: inherit;
             cursor: pointer;
             transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             letter-spacing: 0.6px;
             font-weight: 400;
             white-space: nowrap;
@@ -731,17 +680,17 @@
             align-items: center;
             gap: 6px;
         }
-        .search-btn:hover {
-            background: rgba(102, 204, 255, 0.32);
+        #pc-app .pc-search-btn:hover {
+            background: rgba(102, 204, 255, 0.35);
             transform: scale(1.04);
-            box-shadow: 0 4px 24px rgba(102, 204, 255, 0.12);
+            box-shadow: 0 4px 20px rgba(102, 204, 255, 0.15);
         }
-        .search-btn:active {
+        #pc-app .pc-search-btn:active {
             transform: scale(0.94);
         }
-        .search-btn svg {
-            width: 17px;
-            height: 17px;
+        #pc-app .pc-search-btn svg {
+            width: 18px;
+            height: 18px;
             fill: none;
             stroke: currentColor;
             stroke-width: 2.2;
@@ -749,50 +698,139 @@
             stroke-linejoin: round;
         }
 
-        /* ---------- 齿轮按钮 ---------- */
-        #gear-island {
+        /* 移动端适配（PC搜索框在移动设备上的响应） */
+        @media (max-width: 768px) {
+            #pc-app #pc-search-container {
+                width: min(560px, 92vw);
+                min-height: 48px;
+                padding: 3px 4px 3px 18px;
+                border-radius: 24px;
+            }
+            #pc-app #pc-search-input {
+                font-size: 16px;
+                padding: 10px 4px;
+            }
+            #pc-app .pc-search-btn {
+                padding: 8px 18px;
+                font-size: 14px;
+            }
+            #pc-app .pc-search-btn svg {
+                width: 16px;
+                height: 16px;
+            }
+            #pc-app .clear-btn {
+                font-size: 20px;
+                width: 28px;
+            }
+        }
+        @media (max-width: 480px) {
+            #pc-app #pc-search-container {
+                width: min(440px, 96vw);
+                min-height: 42px;
+                padding: 2px 4px 2px 14px;
+                border-radius: 20px;
+            }
+            #pc-app #pc-search-input {
+                font-size: 14px;
+                padding: 8px 4px;
+            }
+            #pc-app .pc-search-btn {
+                padding: 6px 14px;
+                font-size: 12px;
+                border-radius: 20px;
+            }
+            #pc-app .pc-search-btn svg {
+                width: 14px;
+                height: 14px;
+            }
+            #pc-app #pc-search-container .search-icon {
+                width: 18px;
+                height: 18px;
+            }
+            #pc-app .clear-btn {
+                font-size: 18px;
+                width: 24px;
+                padding: 0 4px;
+            }
+        }
+        @media (max-width: 380px) {
+            #pc-app #pc-search-container {
+                width: 96vw;
+                min-height: 38px;
+                padding: 2px 4px 2px 12px;
+                border-radius: 18px;
+            }
+            #pc-app #pc-search-input {
+                font-size: 13px;
+                padding: 6px 4px;
+            }
+            #pc-app .pc-search-btn {
+                padding: 4px 12px;
+                font-size: 11px;
+                border-radius: 16px;
+            }
+            #pc-app .pc-search-btn svg {
+                width: 12px;
+                height: 12px;
+            }
+            #pc-app #pc-search-container .search-icon {
+                width: 16px;
+                height: 16px;
+            }
+            #pc-app .clear-btn {
+                font-size: 16px;
+                width: 20px;
+                padding: 0 2px;
+            }
+        }
+
+        #pc-app #gear-island {
             position: fixed;
-            right: 28px;
-            bottom: 110px;
-            width: 56px;
-            height: 56px;
+            right: 32px;
+            bottom: 120px;
+            width: 62px;
+            height: 62px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             z-index: 1100;
-            transition: transform 0.25s ease, box-shadow 0.3s ease,
-                background var(--transition-speed) ease,
-                border var(--transition-speed) ease;
-            background: var(--glass-bg);
-            backdrop-filter: blur(40px) saturate(200%) brightness(1.04);
-            -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.04);
+            transition: transform 0.25s ease, box-shadow 0.3s ease, background 0.6s ease, border 0.6s ease;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.116) 0%, rgba(255, 255, 255, 0.042) 50%, rgba(255, 255, 255, 0.074) 100%);
+            backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
+            -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
             border: 1px solid var(--glass-border);
             box-shadow: var(--glass-shadow);
         }
-        #gear-island:hover {
-            transform: scale(1.08) rotate(18deg);
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.35);
+        #pc-app[data-theme="dark"] #gear-island {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.3) 100%);
+            border-color: rgba(255, 255, 255, 0.15);
         }
-        #gear-island:active {
-            transform: scale(0.90);
+        #pc-app #gear-island:hover {
+            transform: scale(1.08) rotate(12deg);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
         }
-        #gear-island svg {
-            width: 28px;
-            height: 28px;
-            color: var(--text-primary);
-            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.20));
+        #pc-app #gear-island:active {
+            transform: scale(0.92);
+        }
+        #pc-app #gear-island svg {
+            width: 32px;
+            height: 32px;
+            color: rgba(255, 255, 255, 0.92);
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.20));
             transition: transform 0.6s ease;
         }
-        #gear-island:hover svg {
+        #pc-app #gear-island:hover svg {
             transform: rotate(60deg);
         }
 
-        /* ---------- 弹窗 ---------- */
-        #modal-overlay {
+        #pc-app #modal-overlay {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 9998;
             display: flex;
             align-items: center;
@@ -801,63 +839,69 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.25s ease, visibility 0.25s ease;
-            background: rgba(0, 0, 0, 0.30);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            background: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
         }
-        #modal-overlay.visible {
+        #pc-app #modal-overlay.visible {
             pointer-events: auto;
             opacity: 1;
             visibility: visible;
         }
-        #modal {
+
+        #pc-app #modal {
             position: relative;
-            width: 540px;
+            width: 520px;
             max-width: 94vw;
-            min-height: 400px;
-            max-height: 82vh;
+            min-height: 420px;
+            max-height: 85vh;
             border-radius: 28px;
-            padding: 16px 24px 20px;
+            padding: 18px 24px 20px 24px;
             display: flex;
             flex-direction: column;
-            background: var(--modal-bg);
-            backdrop-filter: blur(56px) saturate(220%) brightness(1.06);
-            -webkit-backdrop-filter: blur(56px) saturate(220%) brightness(1.06);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.105) 0%, rgba(255, 255, 255, 0.037) 50%, rgba(255, 255, 255, 0.068) 100%);
+            backdrop-filter: blur(50px) saturate(220%) brightness(1.06);
+            -webkit-backdrop-filter: blur(50px) saturate(220%) brightness(1.06);
             border: 1px solid var(--glass-border);
-            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.50);
-            transform: scale(0.92) translateY(16px);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.60), inset 0 -1px 1px rgba(255, 255, 255, 0.15);
+            transform: scale(0.92) translateY(12px);
             opacity: 0;
-            transition: transform 0.38s cubic-bezier(0.1, 0.9, 0.2, 1),
-                opacity 0.32s cubic-bezier(0.1, 0.9, 0.2, 1);
+            transition: transform 0.38s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.32s cubic-bezier(0.1, 0.9, 0.2, 1);
             will-change: transform, opacity;
             user-select: none;
+            cursor: default;
             pointer-events: auto;
         }
-        #modal-overlay.visible #modal {
+        #pc-app #modal-overlay.visible #modal {
             transform: scale(1) translateY(0);
             opacity: 1;
         }
-        #modal.closing {
-            transform: scale(0.92) translateY(16px) !important;
+        #pc-app #modal.closing {
+            transform: scale(0.92) translateY(12px) !important;
             opacity: 0 !important;
-            transition: transform 0.32s cubic-bezier(0.1, 0.9, 0.2, 1),
-                opacity 0.28s cubic-bezier(0.1, 0.9, 0.2, 1);
+            transition: transform 0.32s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.28s cubic-bezier(0.1, 0.9, 0.2, 1);
+        }
+        #pc-app[data-theme="dark"] #modal {
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.3) 100%);
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
-        .modal-header {
+        #pc-app .modal-header {
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             flex-shrink: 0;
-            padding: 4px 0 6px;
+            padding: 4px 0 6px 0;
             min-height: 44px;
+            user-select: none;
             cursor: grab;
         }
-        .modal-header:active {
+        #pc-app .modal-header:active {
             cursor: grabbing;
         }
-        #window-controls {
+
+        #pc-app #window-controls {
             position: absolute;
             left: 0;
             top: 50%;
@@ -868,110 +912,117 @@
             z-index: 10;
             pointer-events: auto;
         }
-        .dot {
+        #pc-app .dot {
             width: 14px;
             height: 14px;
             border-radius: 50%;
             display: inline-block;
             transition: filter 0.2s, transform 0.15s;
+            cursor: default;
             box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.10);
             flex-shrink: 0;
         }
-        .dot.red {
+        #pc-app .dot.red {
             background: radial-gradient(circle at 35% 35%, #ff6b6b, #d32f2f);
             cursor: pointer;
         }
-        .dot.red:hover {
+        #pc-app .dot.red:hover {
             filter: brightness(1.15);
             transform: scale(1.12);
         }
-        .dot.red:active {
+        #pc-app .dot.red:active {
             transform: scale(0.88);
         }
-        .dot.yellow {
+        #pc-app .dot.yellow {
             background: radial-gradient(circle at 35% 35%, #ffd93d, #f9a825);
         }
-        .dot.green {
+        #pc-app .dot.green {
             background: radial-gradient(circle at 35% 35%, #6bcf7f, #2e7d32);
         }
 
-        .modal-title {
+        #pc-app .modal-title {
             font-size: 1.1rem;
             font-weight: 500;
-            color: var(--text-primary);
+            color: var(--text-color);
             letter-spacing: 2px;
             text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+            transition: color 0.6s ease;
             text-align: center;
             line-height: 1.2;
             pointer-events: none;
-            transition: color 0.4s ease;
         }
-        .modal-subtitle {
+        #pc-app[data-theme="dark"] .modal-title {
+            color: #e0e0e0;
+        }
+        #pc-app .modal-subtitle {
             text-align: center;
             font-size: 0.9rem;
             font-weight: 400;
-            color: var(--text-secondary);
-            opacity: 0.70;
+            color: var(--text-color);
+            opacity: 0.7;
             letter-spacing: 3px;
-            padding: 2px 0 10px;
-            transition: color 0.4s ease, opacity 0.4s ease;
+            padding: 2px 0 10px 0;
+            transition: color 0.6s ease, opacity 0.6s ease;
             flex-shrink: 0;
             min-height: 28px;
         }
+        #pc-app[data-theme="dark"] .modal-subtitle {
+            color: #e0e0e0;
+            opacity: 0.6;
+        }
 
-        /* 轮播 */
-        .thumb-carousel {
+        #pc-app .thumb-carousel {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 14px;
-            padding: 6px 0 4px;
-            min-height: 200px;
+            padding: 8px 0 6px 0;
+            min-height: 220px;
         }
-        .thumb-carousel .thumb-row {
+        #pc-app .thumb-carousel .thumb-row {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 16px;
+            gap: 18px;
             width: 100%;
             flex-shrink: 0;
         }
-        .thumb-carousel .thumb-wrapper {
+        #pc-app .thumb-carousel .thumb-wrapper {
             position: relative;
-            width: 280px;
-            height: 200px;
+            width: 300px;
+            height: 220px;
             overflow: hidden;
             border-radius: 16px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-            background: rgba(0, 0, 0, 0.20);
+            background: rgba(0, 0, 0, 0.2);
             flex-shrink: 0;
         }
-        .thumb-carousel .thumb-track {
+        #pc-app .thumb-carousel .thumb-track {
             display: flex;
             width: 100%;
             height: 100%;
             transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             will-change: transform;
         }
-        .thumb-carousel .thumb-track img {
+        #pc-app .thumb-carousel .thumb-track img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             flex-shrink: 0;
             display: block;
         }
-        .thumb-carousel .thumb-arrow {
-            width: 40px;
-            height: 40px;
+        #pc-app .thumb-carousel .thumb-arrow {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.30);
+            background: rgba(0, 0, 0, 0.35);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.10);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: #fff;
-            font-size: 26px;
+            font-size: 28px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -980,42 +1031,43 @@
             user-select: none;
             line-height: 1;
             padding: 0;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.20);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
             flex-shrink: 0;
         }
-        .thumb-carousel .thumb-arrow:hover {
-            background: rgba(0, 0, 0, 0.50);
+        #pc-app .thumb-carousel .thumb-arrow:hover {
+            background: rgba(0, 0, 0, 0.55);
             transform: scale(1.08);
         }
-        .thumb-carousel .thumb-arrow:active {
+        #pc-app .thumb-carousel .thumb-arrow:active {
             transform: scale(0.92);
         }
-        .thumb-carousel .thumb-dots {
+        #pc-app .thumb-carousel .thumb-dots {
             display: flex;
             gap: 8px;
             justify-content: center;
             flex-shrink: 0;
         }
-        .thumb-carousel .thumb-dots span {
+        #pc-app .thumb-carousel .thumb-dots span {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.20);
+            background: rgba(255, 255, 255, 0.25);
             transition: background 0.3s ease, transform 0.3s ease;
             cursor: pointer;
         }
-        .thumb-carousel .thumb-dots span.active {
-            background: var(--accent);
-            transform: scale(1.20);
+        #pc-app .thumb-carousel .thumb-dots span.active {
+            background: var(--accent, #66ccff);
+            transform: scale(1.2);
         }
-        .thumb-carousel .thumb-dots span:hover {
-            background: rgba(255, 255, 255, 0.40);
+        #pc-app .thumb-carousel .thumb-dots span:hover {
+            background: rgba(255, 255, 255, 0.5);
         }
-        .thumb-carousel .apply-btn {
+
+        #pc-app .thumb-carousel .apply-btn {
             padding: 8px 32px;
             border-radius: 30px;
             border: none;
-            background: var(--accent);
+            background: var(--accent, #66ccff);
             color: #fff;
             font-size: 0.95rem;
             font-weight: 500;
@@ -1024,22 +1076,21 @@
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
             letter-spacing: 1px;
             flex-shrink: 0;
-            font-family: inherit;
+            font-family: '悠哉字体 Light', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Microsoft JhengHei', sans-serif;
         }
-        .thumb-carousel .apply-btn:hover {
+        #pc-app .thumb-carousel .apply-btn:hover {
             transform: scale(1.04);
-            box-shadow: 0 6px 28px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
         }
-        .thumb-carousel .apply-btn:active {
+        #pc-app .thumb-carousel .apply-btn:active {
             transform: scale(0.96);
         }
 
-        /* 主题切换 */
-        #theme-switch-container {
+        #pc-app #theme-switch-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             flex-shrink: 0;
             padding-top: 14px;
             padding-bottom: 2px;
@@ -1048,7 +1099,7 @@
             border-top: 1px solid rgba(255, 255, 255, 0.06);
             margin-top: 6px;
         }
-        .theme-icon-btn {
+        #pc-app .theme-icon-btn {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1058,724 +1109,807 @@
             background: none;
             border: none;
             cursor: pointer;
-            color: rgba(255, 255, 255, 0.50);
+            color: rgba(255, 255, 255, 0.6);
             transition: color 0.3s, transform 0.3s, background 0.3s;
             padding: 0;
         }
-        .theme-icon-btn:hover {
-            transform: scale(1.10);
-            color: rgba(255, 255, 255, 0.85);
-            background: rgba(255, 255, 255, 0.06);
+        #pc-app .theme-icon-btn:hover {
+            transform: scale(1.1);
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.08);
         }
-        .theme-icon-btn svg {
-            width: 22px;
-            height: 22px;
+        #pc-app .theme-icon-btn svg {
+            width: 24px;
+            height: 24px;
             fill: currentColor;
         }
-        .theme-icon-btn.active {
-            color: rgba(255, 255, 255, 0.90);
+        #pc-app .theme-icon-btn.active {
+            color: rgba(255, 255, 255, 0.95);
         }
-        [data-theme="dark"] .theme-icon-btn.moon-icon {
+        #pc-app[data-theme="dark"] .theme-icon-btn.moon-icon {
             color: #ffd93d;
         }
-        [data-theme="light"] .theme-icon-btn.sun-icon {
+        #pc-app[data-theme="light"] .theme-icon-btn.sun-icon {
             color: #ffd93d;
         }
-        .theme-icon-btn.disabled {
-            opacity: 0.30 !important;
+        #pc-app .theme-icon-btn.disabled {
+            opacity: 0.3 !important;
             pointer-events: none !important;
+            cursor: not-allowed !important;
+        }
+        #pc-app .switch-track.disabled {
+            opacity: 0.3 !important;
+            pointer-events: none !important;
+            cursor: not-allowed !important;
+        }
+        #pc-app .switch-track.disabled .switch-thumb {
+            background: #888 !important;
         }
 
-        .switch-track {
+        #pc-app .switch-track {
             position: relative;
-            width: 38px;
+            width: 36px;
             height: 20px;
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.25);
             cursor: pointer;
             transition: background 0.3s ease, opacity 0.3s ease;
             flex-shrink: 0;
-            border: 1px solid rgba(255, 255, 255, 0.10);
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.20);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
         }
-        .switch-track.active {
+        #pc-app[data-theme="dark"] .switch-track {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+        #pc-app .switch-track.active {
             background: var(--accent);
             border-color: var(--accent);
         }
-        .switch-track.disabled {
-            opacity: 0.30 !important;
-            pointer-events: none !important;
+        #pc-app[data-theme="dark"] .switch-track.active {
+            background: var(--accent);
+            border-color: var(--accent);
         }
-        .switch-thumb {
+        #pc-app .switch-thumb {
             position: absolute;
             top: 2px;
             left: 2px;
             width: 14px;
             height: 14px;
             border-radius: 50%;
-            background: #fff;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-            transition: transform 0.30s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
             will-change: transform;
             pointer-events: none;
         }
-        .switch-track.active .switch-thumb {
-            transform: translateX(18px);
-            background: #fff;
+        #pc-app .switch-track.active .switch-thumb {
+            transform: translateX(16px);
+            background: #ffffff;
         }
-        .auto-switch-track {
+        #pc-app[data-theme="dark"] .switch-track.active .switch-thumb {
+            background: #ffffff;
+        }
+
+        #pc-app .auto-switch-track {
             position: relative;
-            width: 38px;
+            width: 36px;
             height: 20px;
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.25);
             cursor: pointer;
             transition: background 0.3s ease;
             flex-shrink: 0;
-            border: 1px solid rgba(255, 255, 255, 0.10);
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.20);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
         }
-        .auto-switch-track.active {
+        #pc-app[data-theme="dark"] .auto-switch-track {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+        #pc-app .auto-switch-track.active {
             background: var(--accent);
             border-color: var(--accent);
         }
-        .auto-switch-track .auto-switch-thumb {
+        #pc-app[data-theme="dark"] .auto-switch-track.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        #pc-app .auto-switch-track .auto-switch-thumb {
             position: absolute;
             top: 2px;
             left: 2px;
             width: 14px;
             height: 14px;
             border-radius: 50%;
-            background: #fff;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-            transition: transform 0.30s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
             will-change: transform;
             pointer-events: none;
         }
-        .auto-switch-track.active .auto-switch-thumb {
-            transform: translateX(18px);
-            background: #fff;
+        #pc-app .auto-switch-track.active .auto-switch-thumb {
+            transform: translateX(16px);
+            background: #ffffff;
         }
-        .auto-label {
-            color: var(--text-secondary);
+        #pc-app[data-theme="dark"] .auto-switch-track.active .auto-switch-thumb {
+            background: #ffffff;
+        }
+        #pc-app .auto-label {
+            color: var(--text-color);
             font-size: 0.85rem;
             white-space: nowrap;
-            transition: color 0.4s ease;
+            transition: color 0.6s ease;
         }
 
-        /* ---------- 背景切换过渡 ---------- */
-        #bg-transition-overlay {
+        #pc-app #theme-transition-overlay {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+            visibility: hidden;
+            opacity: 0;
+            background: transparent;
+            transition: opacity 0.01s;
+            will-change: clip-path, background;
+        }
+        #pc-app #theme-transition-overlay.animating {
+            pointer-events: auto;
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #pc-app #bg-transition-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 9997;
             pointer-events: none;
             opacity: 0;
-            transition: opacity 1.0s ease;
+            transition: opacity 1.2s ease;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }
-        #bg-transition-overlay.active {
+        #pc-app #bg-transition-overlay.active {
             opacity: 1;
         }
 
-        /* ---------- 响应式 ---------- */
-        @media (max-width: 768px) {
-            #player {
-                width: min(340px, 88vw);
-                padding: 12px 14px;
-                top: 110px;
-                left: 50%;
-                transform: translateX(-50%);
+        #pc-app .md3-icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            transition: opacity 0.2s;
+            color: #fff !important;
+        }
+        #pc-app .md3-icon-btn:hover {
+            opacity: 0.7;
+        }
+        #pc-app .md3-icon-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        @keyframes playPulse {
+            0% {
+                transform: scale(1);
             }
-            #player.dragging {
-                transform: none;
+            30% {
+                transform: scale(1.3) rotate(15deg);
             }
-            #art-box {
-                width: 50px;
-                height: 50px;
+            70% {
+                transform: scale(0.9) rotate(-10deg);
             }
-            #song-list {
-                width: min(360px, 92vw);
-                max-height: 220px;
+            100% {
+                transform: scale(1) rotate(0deg);
             }
-            #lyrics-island {
-                top: 10px;
-                right: 120px;
-                min-width: 100px;
-                max-width: 180px;
-                padding: 6px 12px;
+        }
+        @keyframes modeFlip {
+            0% {
+                transform: scale(1) rotate(0deg);
             }
-            #lyrics-island .lyrics-line.current {
-                font-size: 0.95rem;
+            40% {
+                transform: scale(1.3) rotate(180deg);
             }
-            #lyrics-island .lyrics-line.prev,
-            #lyrics-island .lyrics-line.next {
-                font-size: 0.7rem;
+            70% {
+                transform: scale(0.85) rotate(320deg);
             }
-            #top-right-info {
+            100% {
+                transform: scale(1) rotate(360deg);
+            }
+        }
+        #pc-app .btn-anim {
+            animation: playPulse 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        #pc-app .mode-anim {
+            animation: modeFlip 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @media (max-width: 640px) {
+            #pc-app #top-right-info {
                 top: 10px;
                 right: 10px;
                 padding: 8px 14px;
-                min-width: 70px;
+                min-width: 80px;
             }
-            #top-right-info .time {
+            #pc-app #top-right-info .time {
+                font-size: 1rem;
+            }
+            #pc-app #top-right-info .weather-icon {
+                width: 22px;
+                height: 22px;
+            }
+            #pc-app #top-right-info .weather-temp {
                 font-size: 0.95rem;
             }
-            #top-right-info .weather-icon {
-                width: 20px;
-                height: 20px;
+            #pc-app #lyrics-island {
+                top: 10px;
+                right: 120px;
+                min-width: 120px;
+                max-width: 200px;
+                padding: 6px 12px;
             }
-            #gear-island {
-                right: 16px;
-                bottom: 90px;
-                width: 48px;
-                height: 48px;
+            #pc-app #lyrics-island .lyrics-line.current {
+                font-size: 1.0rem;
             }
-            #gear-island svg {
-                width: 24px;
-                height: 24px;
+            #pc-app #lyrics-island .lyrics-line.prev,
+            #pc-app #lyrics-island .lyrics-line.next {
+                font-size: 0.75rem;
             }
-            #modal {
+            #pc-app #gear-island {
+                right: 18px;
+                bottom: 100px;
+                width: 52px;
+                height: 52px;
+            }
+            #pc-app #gear-island svg {
+                width: 26px;
+                height: 26px;
+            }
+            #pc-app #modal {
                 width: 94vw;
-                min-height: 340px;
-                padding: 14px 16px 16px;
+                min-height: 350px;
+                padding: 14px 16px 16px 16px;
             }
-            .thumb-carousel .thumb-wrapper {
+            #pc-app .modal-title {
+                font-size: 0.95rem;
+            }
+            #pc-app .modal-subtitle {
+                font-size: 0.8rem;
+            }
+            #pc-app .thumb-carousel .thumb-wrapper {
                 width: 220px;
                 height: 160px;
             }
-            .thumb-carousel .thumb-arrow {
-                width: 34px;
-                height: 34px;
+            #pc-app .thumb-carousel .thumb-arrow {
+                width: 36px;
+                height: 36px;
                 font-size: 22px;
             }
-            .nav-links {
-                gap: 14px;
-                padding: 10px 20px;
-                bottom: 20px;
+            #pc-app .thumb-carousel .thumb-row {
+                gap: 12px;
             }
-            .nav-links a {
-                font-size: 0.8rem;
+            #pc-app #player {
+                width: 300px;
+                padding: 12px 14px;
+                gap: 12px;
             }
-            #search-container {
-                width: min(520px, 92vw);
-                min-height: 44px;
-                padding: 3px 4px 3px 18px;
-                border-radius: 24px;
+            #pc-app #art-box {
+                width: 48px;
+                height: 48px;
             }
-            #search-input {
-                font-size: 15px;
-                padding: 10px 4px;
-            }
-            .search-btn {
-                padding: 8px 18px;
-                font-size: 14px;
-            }
-            .search-btn svg {
-                width: 15px;
-                height: 15px;
-            }
-            .clear-btn {
-                font-size: 18px;
-                width: 26px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #player {
-                width: min(280px, 94vw);
-                padding: 10px 12px;
-                gap: 10px;
-                top: 90px;
-            }
-            #art-box {
-                width: 42px;
-                height: 42px;
-            }
-            .song-info {
-                font-size: 11px;
-            }
-            #time-display {
-                font-size: 9px;
-            }
-            .controls .md3-icon-btn {
-                width: 24px;
-                height: 24px;
-            }
-            .controls .md3-icon-btn svg {
-                width: 17px;
-                height: 17px;
-            }
-            #main-play-btn {
-                width: 30px !important;
-                height: 30px !important;
-            }
-            #main-play-btn svg {
-                width: 15px;
-                height: 15px;
-            }
-            #song-list {
-                width: min(280px, 94vw);
-                max-height: 180px;
-            }
-            .song-item {
-                padding: 8px 12px;
+            #pc-app .song-info {
                 font-size: 12px;
             }
-            .song-item .song-artist {
-                max-width: 50px;
-                font-size: 10px;
+            #pc-app .nav-links {
+                gap: 16px;
+                padding: 10px 20px;
+                font-size: 0.85rem;
+                flex-wrap: wrap;
+                justify-content: center;
+                bottom: 20px;
             }
-            #lyrics-island {
-                top: 6px;
-                right: 80px;
-                min-width: 70px;
-                max-width: 130px;
-                padding: 4px 8px;
+            #pc-app #icp-footer {
+                bottom: 4px;
+                font-size: 0.68rem;
             }
-            #lyrics-island .lyrics-line.current {
-                font-size: 0.8rem;
+            #pc-app #song-list {
+                width: 320px;
+                max-height: 200px;
             }
-            #lyrics-island .lyrics-line.prev,
-            #lyrics-island .lyrics-line.next {
-                font-size: 0.6rem;
+            #pc-app .song-item {
+                padding: 8px 14px;
+                font-size: 13px;
             }
-            #top-right-info {
-                top: 6px;
-                right: 6px;
-                padding: 6px 10px;
-                min-width: 50px;
-                border-radius: 14px;
+            #pc-app .song-item .song-artist {
+                max-width: 70px;
+                font-size: 11px;
             }
-            #top-right-info .time {
-                font-size: 0.8rem;
+            #pc-app #theme-switch-container {
+                gap: 8px;
+                padding-top: 12px;
             }
-            #top-right-info .weather-icon {
-                width: 16px;
-                height: 16px;
+            #pc-app .switch-track,
+            #pc-app .auto-switch-track {
+                width: 32px;
+                height: 18px;
             }
-            #top-right-info .weather {
-                font-size: 0.7rem;
+            #pc-app .switch-thumb,
+            #pc-app .auto-switch-thumb {
+                width: 12px;
+                height: 12px;
+                top: 2px;
+                left: 2px;
             }
-            #gear-island {
-                right: 10px;
-                bottom: 72px;
-                width: 40px;
-                height: 40px;
+            #pc-app .switch-track.active .switch-thumb {
+                transform: translateX(14px);
             }
-            #gear-island svg {
+            #pc-app .auto-switch-track.active .auto-switch-thumb {
+                transform: translateX(14px);
+            }
+            #pc-app .theme-icon-btn svg {
                 width: 20px;
                 height: 20px;
             }
-            #modal {
-                width: 96vw;
-                min-height: 280px;
-                padding: 12px 12px 14px;
-                border-radius: 20px;
+            #pc-app .theme-icon-btn {
+                width: 28px;
+                height: 28px;
             }
-            .modal-title {
-                font-size: 0.9rem;
-            }
-            .modal-subtitle {
+            #pc-app .auto-label {
                 font-size: 0.75rem;
             }
-            .thumb-carousel .thumb-wrapper {
+            #pc-app #window-controls {
+                gap: 6px;
+            }
+            #pc-app .dot {
+                width: 12px;
+                height: 12px;
+            }
+            #pc-app #time-display {
+                font-size: 9px;
+            }
+        }
+        @media (max-width: 420px) {
+            #pc-app #top-right-info {
+                top: 6px;
+                right: 6px;
+                padding: 6px 10px;
+                min-width: 60px;
+                border-radius: 16px;
+            }
+            #pc-app #top-right-info .time {
+                font-size: 0.85rem;
+            }
+            #pc-app #top-right-info .weather-icon {
+                width: 18px;
+                height: 18px;
+            }
+            #pc-app #top-right-info .weather-temp {
+                font-size: 0.8rem;
+            }
+            #pc-app #top-right-info .weather-desc {
+                font-size: 0.65rem;
+            }
+            #pc-app #lyrics-island {
+                top: 6px;
+                right: 90px;
+                min-width: 90px;
+                max-width: 150px;
+                padding: 4px 8px;
+            }
+            #pc-app #lyrics-island .lyrics-line.current {
+                font-size: 0.85rem;
+            }
+            #pc-app #lyrics-island .lyrics-line.prev,
+            #pc-app #lyrics-island .lyrics-line.next {
+                font-size: 0.65rem;
+            }
+            #pc-app #player {
+                width: 260px;
+                gap: 10px;
+                padding: 10px 12px;
+            }
+            #pc-app #art-box {
+                width: 42px;
+                height: 42px;
+            }
+            #pc-app .song-info {
+                font-size: 11px;
+            }
+            #pc-app #modal {
+                width: 96vw;
+                min-height: 300px;
+                padding: 12px 12px 14px 12px;
+                border-radius: 20px;
+            }
+            #pc-app .modal-title {
+                font-size: 0.85rem;
+            }
+            #pc-app .modal-subtitle {
+                font-size: 0.7rem;
+            }
+            #pc-app .thumb-carousel .thumb-wrapper {
                 width: 160px;
                 height: 120px;
             }
-            .thumb-carousel .thumb-arrow {
-                width: 28px;
-                height: 28px;
+            #pc-app .thumb-carousel .thumb-arrow {
+                width: 30px;
+                height: 30px;
                 font-size: 18px;
             }
-            .thumb-carousel .apply-btn {
-                padding: 6px 20px;
+            #pc-app .thumb-carousel .thumb-row {
+                gap: 8px;
+            }
+            #pc-app .thumb-carousel .apply-btn {
+                padding: 6px 22px;
                 font-size: 0.8rem;
             }
-            .dot {
+            #pc-app .dot {
                 width: 10px;
                 height: 10px;
             }
-            #window-controls {
+            #pc-app #window-controls {
                 gap: 5px;
             }
-            .nav-links {
-                gap: 10px;
-                padding: 8px 14px;
-                bottom: 14px;
+            #pc-app #gear-island {
+                right: 12px;
+                bottom: 80px;
+                width: 44px;
+                height: 44px;
             }
-            .nav-links a {
-                font-size: 0.7rem;
-            }
-            #search-container {
-                width: min(400px, 96vw);
-                min-height: 38px;
-                padding: 2px 4px 2px 14px;
-                border-radius: 20px;
-            }
-            #search-input {
-                font-size: 13px;
-                padding: 8px 4px;
-            }
-            .search-btn {
-                padding: 6px 14px;
-                font-size: 12px;
-                border-radius: 18px;
-            }
-            .search-btn svg {
-                width: 13px;
-                height: 13px;
-            }
-            .clear-btn {
-                font-size: 16px;
+            #pc-app #gear-island svg {
                 width: 22px;
-                padding: 0 2px;
+                height: 22px;
             }
-            #search-container .search-icon {
-                width: 17px;
-                height: 17px;
-            }
-            #theme-switch-container {
+            #pc-app #theme-switch-container {
                 gap: 6px;
                 padding-top: 10px;
             }
-            .switch-track,
-            .auto-switch-track {
-                width: 30px;
+            #pc-app .switch-track,
+            #pc-app .auto-switch-track {
+                width: 28px;
                 height: 16px;
+                border-radius: 8px;
             }
-            .switch-thumb,
-            .auto-switch-thumb {
+            #pc-app .switch-thumb,
+            #pc-app .auto-switch-thumb {
                 width: 10px;
                 height: 10px;
                 top: 2px;
                 left: 2px;
             }
-            .switch-track.active .switch-thumb {
-                transform: translateX(14px);
+            #pc-app .switch-track.active .switch-thumb {
+                transform: translateX(12px);
             }
-            .auto-switch-track.active .auto-switch-thumb {
-                transform: translateX(14px);
+            #pc-app .auto-switch-track.active .auto-switch-thumb {
+                transform: translateX(12px);
             }
-            .theme-icon-btn {
-                width: 26px;
-                height: 26px;
-            }
-            .theme-icon-btn svg {
-                width: 18px;
-                height: 18px;
-            }
-            .auto-label {
-                font-size: 0.7rem;
-            }
-        }
-
-        @media (max-width: 380px) {
-            #player {
-                width: 96vw;
-                padding: 8px 10px;
-                top: 80px;
-                left: 2vw;
-                transform: none;
-                border-radius: 18px;
-            }
-            #art-box {
-                width: 36px;
-                height: 36px;
-            }
-            .song-info {
-                font-size: 10px;
-            }
-            #time-display {
-                font-size: 8px;
-            }
-            #search-container {
-                width: 96vw;
-                min-height: 34px;
-                padding: 2px 4px 2px 10px;
-                border-radius: 16px;
-            }
-            #search-input {
-                font-size: 12px;
-                padding: 6px 4px;
-            }
-            .search-btn {
-                padding: 4px 10px;
-                font-size: 11px;
-                border-radius: 14px;
-            }
-            .search-btn svg {
-                width: 11px;
-                height: 11px;
-            }
-            .clear-btn {
-                font-size: 14px;
-                width: 18px;
-            }
-            #search-container .search-icon {
-                width: 14px;
-                height: 14px;
-            }
-        }
-
-        /* 移动端专用 — 隐藏PC元素，显示移动端 */
-        #mobile-app {
-            display: none;
-        }
-        @media (max-width: 640px) {
-            #pc-app {
-                display: none !important;
-            }
-            #mobile-app {
-                display: flex !important;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                padding: 20px;
-                gap: clamp(16px, 4vh, 40px);
-                position: fixed;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                background: url('722264.jpg') center/cover no-repeat;
-                z-index: 30;
-            }
-            #mobile-app::before {
-                content: '';
-                position: absolute;
-                inset: 0;
-                background: radial-gradient(ellipse at 50% 40%, rgba(0, 0, 0, 0.10) 0%, rgba(0, 0, 0, 0.50) 100%);
-                pointer-events: none;
-            }
-            .mobile-title {
-                text-align: center;
-                line-height: 1.2;
-                pointer-events: none;
-                text-shadow: 0 2px 20px rgba(0, 0, 0, 0.50);
-                position: relative;
-                z-index: 2;
-                flex-shrink: 0;
-            }
-            .mobile-title .line1 {
-                font-size: clamp(1.2rem, 4.5vw, 2.2rem);
-                font-weight: 300;
-                letter-spacing: 0.06em;
-                color: rgba(255, 255, 255, 0.80);
-            }
-            .mobile-title .line2 {
-                font-size: clamp(2.2rem, 10vw, 4.5rem);
-                font-weight: 500;
-                letter-spacing: 0.10em;
-                color: #fff;
-                text-shadow: 0 0 40px rgba(102, 204, 255, 0.25);
-                margin-top: -0.05em;
-            }
-            #mobile-search-container {
-                position: relative;
-                z-index: 2;
-                width: min(520px, 88vw);
-                border-radius: 32px;
-                padding: 4px 6px 4px 20px;
-                display: flex;
-                align-items: center;
-                gap: 6px;
-                background: rgba(255, 255, 255, 0.08);
-                backdrop-filter: blur(32px) saturate(200%) brightness(1.06);
-                -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(1.06);
-                border: 1.5px solid rgba(255, 255, 255, 0.20);
-                box-shadow: 0 16px 56px rgba(0, 0, 0, 0.30);
-                transition: all 0.30s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-                flex-shrink: 0;
-                margin: 0 auto;
-            }
-            #mobile-search-container:focus-within {
-                border-color: rgba(102, 204, 255, 0.45);
-                box-shadow: 0 16px 56px rgba(0, 0, 0, 0.30), 0 0 0 4px rgba(102, 204, 255, 0.10);
-                transform: scale(1.02);
-                background: rgba(255, 255, 255, 0.12);
-            }
-            #mobile-search-container .search-icon {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-shrink: 0;
-                width: 22px;
-                height: 22px;
-                color: rgba(255, 255, 255, 0.40);
-                transition: color 0.3s ease;
-            }
-            #mobile-search-container .search-icon svg {
-                width: 100%;
-                height: 100%;
-                fill: none;
-                stroke: currentColor;
-                stroke-width: 2.2;
-                stroke-linecap: round;
-                stroke-linejoin: round;
-            }
-            #mobile-search-container:focus-within .search-icon {
-                color: rgba(255, 255, 255, 0.80);
-            }
-            #mobile-search-input {
-                flex: 1;
-                background: transparent;
-                border: none;
-                outline: none;
-                color: #fff;
-                font-size: clamp(15px, 3.5vw, 19px);
-                font-family: inherit;
-                padding: 12px 4px;
-                min-width: 0;
-                letter-spacing: 0.4px;
-                font-weight: 400;
-            }
-            #mobile-search-input::placeholder {
-                color: rgba(255, 255, 255, 0.30);
-                font-weight: 300;
-                letter-spacing: 0.5px;
-            }
-            #mobile-search-input::-webkit-search-decoration,
-            #mobile-search-input::-webkit-search-cancel-button {
-                display: none;
-            }
-            .mobile-search-btn {
-                flex-shrink: 0;
-                border: none;
-                border-radius: 24px;
-                padding: 10px 22px;
-                background: rgba(102, 204, 255, 0.18);
-                color: #fff;
-                font-size: clamp(13px, 2.5vw, 16px);
-                font-family: inherit;
-                cursor: pointer;
-                transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
-                backdrop-filter: blur(8px);
-                -webkit-backdrop-filter: blur(8px);
-                border: 1px solid rgba(255, 255, 255, 0.06);
-                letter-spacing: 0.6px;
-                font-weight: 400;
-                white-space: nowrap;
-                display: flex;
-                align-items: center;
-                gap: 6px;
-            }
-            .mobile-search-btn:active {
-                transform: scale(0.94);
-                background: rgba(102, 204, 255, 0.32);
-            }
-            .mobile-search-btn svg {
+            #pc-app .theme-icon-btn svg {
                 width: 16px;
                 height: 16px;
-                fill: none;
-                stroke: currentColor;
-                stroke-width: 2.2;
-                stroke-linecap: round;
-                stroke-linejoin: round;
             }
-            .mobile-footer {
-                position: absolute;
+            #pc-app .theme-icon-btn {
+                width: 24px;
+                height: 24px;
+            }
+            #pc-app .nav-links {
+                gap: 10px;
+                padding: 8px 14px;
+                font-size: 0.75rem;
                 bottom: 14px;
-                left: 0;
-                width: 100%;
-                text-align: center;
-                z-index: 2;
-                font-size: clamp(0.5rem, 1.2vw, 0.7rem);
-                color: rgba(255, 255, 255, 0.20);
-                letter-spacing: 0.10em;
-                pointer-events: none;
-                text-shadow: 0 1px 8px rgba(0, 0, 0, 0.40);
             }
-            #mobile-app {
-                opacity: 0;
-                animation: fadeInMobile 0.8s ease 0.2s forwards;
+            #pc-app #icp-footer {
+                bottom: 2px;
+                font-size: 0.6rem;
             }
-            @keyframes fadeInMobile {
-                0% {
-                    opacity: 0;
-                    transform: translateY(12px) scale(0.98);
-                }
-                100% {
-                    opacity: 1;
-                    transform: translateY(0) scale(1);
-                }
+            #pc-app #song-list {
+                width: 260px;
+                max-height: 160px;
+                padding: 6px 0;
             }
+            #pc-app .song-item {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            #pc-app .song-item .song-artist {
+                max-width: 50px;
+                font-size: 10px;
+            }
+            #pc-app .song-item .song-index {
+                min-width: 18px;
+                font-size: 10px;
+            }
+            #pc-app .auto-label {
+                font-size: 0.7rem;
+            }
+            #pc-app #time-display {
+                font-size: 8px;
+            }
+            #pc-app .controls .md3-icon-btn {
+                width: 24px;
+                height: 24px;
+            }
+            #pc-app .controls .md3-icon-btn svg {
+                width: 17px;
+                height: 17px;
+            }
+            #pc-app #main-play-btn {
+                width: 30px !important;
+                height: 30px !important;
+            }
+            #pc-app #main-play-btn svg {
+                width: 15px !important;
+                height: 15px !important;
+            }
+        }
+
+        /* ================================================================
+           移动版样式
+           ================================================================ */
+        #mobile-app {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            gap: clamp(20px, 5vh, 50px);
+            background: url('722264.jpg') center / cover no-repeat;
+            position: relative;
+        }
+        #mobile-app::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 40%, rgba(0, 0, 0, 0.10) 0%, rgba(0, 0, 0, 0.50) 100%);
+            pointer-events: none;
+        }
+        .mobile-title {
+            text-align: center;
+            line-height: 1.2;
+            pointer-events: none;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+            flex-shrink: 0;
+            margin-top: 0;
+        }
+        .mobile-title .line1 {
+            font-size: clamp(1.4rem, 5.5vw, 2.6rem);
+            font-weight: 300;
+            letter-spacing: 0.06em;
+            color: rgba(255, 255, 255, 0.85);
+            text-shadow: 0 0 30px rgba(102, 204, 255, 0.20);
+        }
+        .mobile-title .line2 {
+            font-size: clamp(2.6rem, 11vw, 5.2rem);
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            color: #fff;
+            text-shadow: 0 0 40px rgba(102, 204, 255, 0.30);
+            margin-top: -0.05em;
+        }
+
+        #mobile-app #mobile-search-container {
+            position: relative;
+            z-index: 2;
+            width: min(600px, 88vw);
+            border-radius: 36px;
+            padding: 6px 8px 6px 28px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.10);
+            backdrop-filter: blur(32px) saturate(200%) brightness(1.08);
+            -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(1.08);
+            border: 1.5px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 16px 56px rgba(0, 0, 0, 0.30), 0 0 0 0 rgba(102, 204, 255, 0);
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            flex-shrink: 0;
+            margin: 0 auto;
+        }
+        #mobile-app #mobile-search-container:focus-within {
+            border-color: rgba(102, 204, 255, 0.60);
+            box-shadow: 0 16px 56px rgba(0, 0, 0, 0.30), 0 0 0 4px rgba(102, 204, 255, 0.15);
+            transform: scale(1.02);
+            background: rgba(255, 255, 255, 0.14);
+        }
+        #mobile-app #mobile-search-container .search-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            color: rgba(255, 255, 255, 0.50);
+            transition: color 0.3s ease;
+        }
+        #mobile-app #mobile-search-container .search-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        #mobile-app #mobile-search-container:focus-within .search-icon {
+            color: rgba(255, 255, 255, 0.90);
+        }
+        #mobile-app #mobile-search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: clamp(16px, 4vw, 21px);
+            font-family: inherit;
+            padding: 14px 6px;
+            min-width: 0;
+            letter-spacing: 0.4px;
+            font-weight: 400;
+        }
+        #mobile-app #mobile-search-input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+            font-weight: 300;
+            letter-spacing: 0.6px;
+        }
+        #mobile-app #mobile-search-input::-webkit-search-decoration,
+        #mobile-app #mobile-search-input::-webkit-search-cancel-button {
+            display: none;
+        }
+        #mobile-app .mobile-search-btn {
+            flex-shrink: 0;
+            border: none;
+            border-radius: 28px;
+            padding: 12px 26px;
+            background: rgba(102, 204, 255, 0.20);
+            color: #fff;
+            font-size: clamp(14px, 3vw, 17px);
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            letter-spacing: 0.6px;
+            font-weight: 400;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        #mobile-app .mobile-search-btn:active {
+            transform: scale(0.94);
+            background: rgba(102, 204, 255, 0.35);
+        }
+        #mobile-app .mobile-search-btn svg {
+            width: 17px;
+            height: 17px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .mobile-footer {
+            position: absolute;
+            bottom: 16px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+            font-size: clamp(0.6rem, 1.4vw, 0.8rem);
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: 0.1em;
+            pointer-events: none;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+        }
+        .mobile-footer-title {
+            margin-bottom: 4px;
+        }
+        /* 移动端 ICP 备案链接 */
+        .mobile-footer a {
+            display: inline-block;
+            color: rgba(255, 255, 255, 0.32);
+            text-decoration: none;
+            pointer-events: auto; /* .mobile-footer 为 pointer-events:none，需单独打开 */
+            letter-spacing: 0.08em;
+            transition: color 0.25s ease;
+        }
+        .mobile-footer a:hover,
+        .mobile-footer a:active {
+            color: rgba(255, 255, 255, 0.65);
+            text-decoration: underline;
         }
 
         @media (max-width: 480px) {
             #mobile-app {
-                padding: 16px 12px 20px;
-                gap: clamp(14px, 3vh, 30px);
+                padding: 16px 14px 20px;
+                gap: clamp(16px, 4vh, 36px);
+            }
+            .mobile-title .line1 {
+                font-size: 1.2rem;
+            }
+            .mobile-title .line2 {
+                font-size: 2.2rem;
+            }
+            #mobile-app #mobile-search-container {
+                padding: 4px 6px 4px 20px;
+                border-radius: 30px;
+                width: min(520px, 92vw);
+            }
+            #mobile-app #mobile-search-input {
+                font-size: 15px;
+                padding: 12px 4px;
+            }
+            #mobile-app .mobile-search-btn {
+                padding: 10px 18px;
+                font-size: 13px;
+                border-radius: 24px;
+            }
+            #mobile-app .mobile-search-btn svg {
+                width: 15px;
+                height: 15px;
+            }
+            #mobile-app #mobile-search-container .search-icon {
+                width: 20px;
+                height: 20px;
+            }
+        }
+        @media (max-width: 380px) {
+            #mobile-app {
+                padding: 12px 10px 16px;
+                gap: clamp(12px, 3vh, 28px);
             }
             .mobile-title .line1 {
                 font-size: 1.0rem;
             }
             .mobile-title .line2 {
-                font-size: 2.0rem;
+                font-size: 1.8rem;
             }
-            #mobile-search-container {
-                padding: 3px 4px 3px 16px;
-                border-radius: 26px;
-                width: min(440px, 92vw);
+            #mobile-app #mobile-search-container {
+                padding: 3px 4px 3px 14px;
+                border-radius: 24px;
+                width: 94vw;
             }
-            #mobile-search-input {
-                font-size: 14px;
+            #mobile-app #mobile-search-input {
+                font-size: 13px;
                 padding: 10px 4px;
             }
-            .mobile-search-btn {
-                padding: 8px 16px;
-                font-size: 12px;
-                border-radius: 20px;
-            }
-            .mobile-search-btn svg {
-                width: 14px;
-                height: 14px;
-            }
-            #mobile-search-container .search-icon {
-                width: 18px;
-                height: 18px;
-            }
-        }
-
-        @media (max-width: 380px) {
-            #mobile-app {
-                padding: 12px 8px 16px;
-                gap: 12px;
-            }
-            .mobile-title .line1 {
-                font-size: 0.9rem;
-            }
-            .mobile-title .line2 {
-                font-size: 1.6rem;
-            }
-            #mobile-search-container {
-                padding: 2px 4px 2px 12px;
-                border-radius: 20px;
-                width: 96vw;
-            }
-            #mobile-search-input {
-                font-size: 12px;
-                padding: 8px 4px;
-            }
-            .mobile-search-btn {
-                padding: 6px 12px;
+            #mobile-app .mobile-search-btn {
+                padding: 8px 14px;
                 font-size: 11px;
-                border-radius: 16px;
+                border-radius: 20px;
             }
-            .mobile-search-btn svg {
-                width: 12px;
-                height: 12px;
+            #mobile-app .mobile-search-btn svg {
+                width: 13px;
+                height: 13px;
             }
-            #mobile-search-container .search-icon {
-                width: 15px;
-                height: 15px;
+            #mobile-app #mobile-search-container .search-icon {
+                width: 17px;
+                height: 17px;
             }
             .mobile-footer {
-                font-size: 0.45rem;
-                bottom: 8px;
+                font-size: 0.5rem;
+                bottom: 10px;
             }
         }
-
         @media (max-height: 480px) and (orientation: landscape) {
             #mobile-app {
                 flex-direction: row;
@@ -1790,42 +1924,54 @@
                 margin-top: 0;
             }
             .mobile-title .line1 {
-                font-size: 0.9rem;
+                font-size: 1.0rem;
             }
             .mobile-title .line2 {
-                font-size: 1.4rem;
+                font-size: 1.6rem;
             }
-            #mobile-search-container {
-                width: min(440px, 76vw);
-                padding: 3px 4px 3px 14px;
-                border-radius: 24px;
+            #mobile-app #mobile-search-container {
+                width: min(500px, 80vw);
+                padding: 4px 6px 4px 18px;
+                border-radius: 28px;
                 flex-shrink: 0;
             }
-            #mobile-search-input {
-                font-size: 13px;
+            #mobile-app #mobile-search-input {
+                font-size: 14px;
                 padding: 8px 4px;
             }
-            .mobile-search-btn {
-                padding: 6px 14px;
-                font-size: 11px;
+            #mobile-app .mobile-search-btn {
+                padding: 8px 16px;
+                font-size: 12px;
             }
             .mobile-footer {
                 display: none;
             }
         }
-
-        /* ---------- 暗色模式适配移动端 ---------- */
         @media (prefers-color-scheme: dark) {
             #mobile-app::before {
                 background: radial-gradient(ellipse at 50% 40%, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.55) 100%);
             }
-            #mobile-search-container {
-                background: rgba(0, 0, 0, 0.20);
-                border-color: rgba(255, 255, 255, 0.10);
+            #mobile-app #mobile-search-container {
+                background: rgba(0, 0, 0, 0.22);
+                border-color: rgba(255, 255, 255, 0.12);
             }
-            #mobile-search-container:focus-within {
-                background: rgba(0, 0, 0, 0.28);
-                border-color: rgba(102, 204, 255, 0.35);
+            #mobile-app #mobile-search-container:focus-within {
+                background: rgba(0, 0, 0, 0.30);
+                border-color: rgba(102, 204, 255, 0.40);
+            }
+        }
+        #mobile-app {
+            opacity: 0;
+            animation: fadeInMobile 1.2s ease 0.2s forwards;
+        }
+        @keyframes fadeInMobile {
+            0% {
+                opacity: 0;
+                transform: translateY(12px) scale(0.98);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
             }
         }
     </style>
@@ -1833,193 +1979,239 @@
 <body>
 
     <!-- ============================================================== -->
-    <!-- PC 端界面 (桌面) -->
+    <!-- PC 端界面 -->
     <!-- ============================================================== -->
-    <div id="pc-app">
-        <div id="app" data-theme="light">
+    <div id="pc-app" data-theme="light">
 
-            <div id="header-overlay"></div>
-            <div id="title-text">
-                <div class="line1">来了,</div>
-                <div class="line2">バラモン！</div>
-            </div>
-
-            <!-- 右上：时间+天气 -->
-            <div id="top-right-info" class="glass">
-                <div class="time" id="clock">--:--:--</div>
-                <div class="weather" id="weather-info">
-                    <span class="weather-icon" id="weather-icon"></span>
-                    <span class="weather-temp" id="weather-temp">--°C</span>
-                    <span class="weather-desc" id="weather-desc"></span>
-                </div>
-            </div>
-
-            <!-- 歌词岛 -->
-            <div id="lyrics-island" class="glass">
-                <div class="lyrics-line placeholder" id="lyrics-line-1">♪ 等待歌词...</div>
-                <div class="lyrics-line current" id="lyrics-line-2">♪ 加载中...</div>
-                <div class="lyrics-line placeholder" id="lyrics-line-3">♪ 请播放歌曲</div>
-            </div>
-
-            <!-- 播放器 -->
-            <div id="player" class="glass">
-                <div id="art-box">
-                    <img src="CD.jpg" alt="cover" id="cover-img" onerror="this.src='CD.jpg'" />
-                </div>
-                <div class="control-area">
-                    <div class="song-info" id="song-info">加载中...</div>
-                    <div id="progress-container">
-                        <div id="progress-fill"></div>
-                        <input type="range" id="progress" value="0" step="0.001" />
-                    </div>
-                    <div id="time-display">00:00 / 00:00 / 00:00</div>
-                    <div class="controls">
-                        <button onclick="prevSong()" class="md3-icon-btn" title="上一首">
-                            <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-                        </button>
-                        <button id="main-play-btn" onclick="togglePlay()" title="播放/暂停">
-                            <svg id="play-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        </button>
-                        <button onclick="nextSong()" class="md3-icon-btn" title="下一首">
-                            <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
-                        </button>
-                        <button id="mode-btn" onclick="changeMode()" class="md3-icon-btn" title="切换播放模式" style="transform-origin:center;">
-                            <span id="mode-icon" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;"></span>
-                        </button>
-                        <button onclick="toggleList(event)" class="md3-icon-btn" title="歌单" style="font-size:18px;font-weight:300;">☰</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 歌曲列表 -->
-            <div id="song-list" class="glass"></div>
-
-            <!-- 搜索框 -->
-            <div id="search-container">
-                <span class="search-icon">
-                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                </span>
-                <input type="text" id="search-input" placeholder="在必应中搜索..." autocomplete="off" />
-                <button class="clear-btn" id="clear-btn" style="display:none;" onclick="clearSearch()">✕</button>
-                <button class="search-btn" id="search-btn" onclick="performSearch()">
-                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                    搜索
-                </button>
-            </div>
-
-            <!-- 导航 -->
-            <div class="nav-links glass" id="navLinks">
-                <a href="md.html">世界</a>
-                <a href="https://bxfans.github.io/Tube/">萌Chat（开发中）</a>
-                <a href="https://bxfans.github.io/Gptt/">智人TV（开发中）</a>
-                <a href="re.html">ACGNリソース</a>
-            </div>
-
-            <!-- 齿轮（设置） -->
-            <div id="gear-island" onclick="openModal()" title="パーソナライズ">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
-                    <circle cx="12" cy="12" r="3" />
-                </svg>
-            </div>
-
-            <!-- 背景过渡 -->
-            <div id="bg-transition-overlay"></div>
-
-            <!-- 弹窗 -->
-            <div id="modal-overlay" onclick="closeModalViaOverlay(event)">
-                <div id="modal" class="glass" onclick="event.stopPropagation();">
-                    <div class="modal-header" id="modal-header">
-                        <div id="window-controls">
-                            <span class="dot red" onclick="closeModal()" title="关闭"></span>
-                            <span class="dot yellow" title="最小化（装饰）"></span>
-                            <span class="dot green" title="最大化（装饰）"></span>
-                        </div>
-                        <span class="modal-title">パーソナライズ</span>
-                    </div>
-                    <div class="modal-subtitle" id="modal-subtitle">海边のミク</div>
-                    <div class="thumb-carousel">
-                        <div class="thumb-row">
-                            <button class="thumb-arrow prev" id="thumb-prev" aria-label="上一张">‹</button>
-                            <div class="thumb-wrapper">
-                                <div class="thumb-track" id="thumb-track">
-                                    <img src="722264.jpg" alt="海边のミク" data-key="722264.jpg" onerror="this.style.display='none'" />
-                                    <img src="miku2.jpg" alt="桜ミク" data-key="miku2.jpg" onerror="this.style.display='none'" />
-                                    <img src="蝶云.png" alt="洛天依-蝶变" data-key="蝶云.png" onerror="this.style.display='none'" />
-                                    <img src="nacho.png" alt="猫羽雫" data-key="nacho.png" onerror="this.style.display='none'" />
-                                </div>
-                            </div>
-                            <button class="thumb-arrow next" id="thumb-next" aria-label="下一张">›</button>
-                        </div>
-                        <div class="thumb-dots" id="thumb-dots">
-                            <span data-index="0" class="active"></span>
-                            <span data-index="1"></span>
-                            <span data-index="2"></span>
-                            <span data-index="3"></span>
-                        </div>
-                        <button class="apply-btn" id="apply-theme-btn">应用</button>
-                    </div>
-                    <div id="theme-switch-container">
-                        <button class="theme-icon-btn moon-icon" id="moon-btn" onclick="setTheme('dark')" title="暗黑模式">
-                            <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.5 5.5 0 0 1-7.54-7.54A9.01 9.01 0 0 0 12 3z"/></svg>
-                        </button>
-                        <div class="switch-track active" id="switch-track" onclick="toggleTheme()">
-                            <div class="switch-thumb" id="switch-thumb"></div>
-                        </div>
-                        <button class="theme-icon-btn sun-icon active" id="sun-btn" onclick="setTheme('light')" title="明亮模式">
-                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-                        </button>
-                        <span class="auto-label">根据设备设置</span>
-                        <div class="auto-switch-track active" id="auto-switch-track" title="开启后自动跟随系统主题">
-                            <div class="auto-switch-thumb" id="auto-switch-thumb"></div>
-                            <input type="checkbox" id="auto-theme-checkbox" checked style="opacity:0;width:0;height:0;position:absolute;pointer-events:none;" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 音频 -->
-            <audio id="audio"></audio>
+        <div id="header-overlay"></div>
+        <div id="title-text">
+            <div class="line1">来了,</div>
+            <div class="line2">バラモン！</div>
         </div>
+
+        <div id="top-right-info" class="liquid-glass">
+            <div class="time" id="clock">--:--:--</div>
+            <div class="weather" id="weather-info">
+                <span class="weather-icon" id="weather-icon"></span>
+                <span class="weather-temp" id="weather-temp">--°C</span>
+                <span class="weather-desc" id="weather-desc"></span>
+            </div>
+        </div>
+
+        <div id="lyrics-island" class="liquid-glass">
+            <div class="lyrics-line placeholder" id="lyrics-line-1">♪ 等待歌词...</div>
+            <div class="lyrics-line current" id="lyrics-line-2">♪ 加载中...</div>
+            <div class="lyrics-line placeholder" id="lyrics-line-3">♪ 请播放歌曲</div>
+        </div>
+
+        <div id="player" class="liquid-glass">
+            <div id="art-box">
+                <img src="CD.jpg" alt="cover" id="cover-img" onerror="this.src='CD.jpg'" />
+            </div>
+            <div class="control-area">
+                <div class="song-info" id="song-info">加载中...</div>
+                <div id="progress-container">
+                    <div id="progress-fill"></div>
+                    <input type="range" id="progress" value="0" step="0.001" />
+                </div>
+                <div id="time-display">00:00 / 00:00 / 00:00</div>
+                <div class="controls">
+                    <button onclick="prev()" class="md3-icon-btn">
+                        <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                    </button>
+                    <button id="main-play-btn" onclick="togglePlay()" style="border:none; color:#000; width:34px; height:34px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transform-origin:center;">
+                        <svg id="play-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                    <button onclick="next()" class="md3-icon-btn">
+                        <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+                    </button>
+                    <button id="mode-btn" onclick="changeMode()" class="md3-icon-btn" title="切换播放模式" style="transform-origin:center;">
+                        <span id="mode-icon" style="display:flex; align-items:center; justify-content:center; width:100%; height:100%;"></span>
+                    </button>
+                    <button onclick="toggleList(event)" class="md3-icon-btn" style="font-size:18px; font-weight:300;">☰</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="song-list" class="liquid-glass"></div>
+
+        <!-- ===== 居中搜索框（带清除按钮） ===== -->
+        <div id="pc-search-container">
+            <span class="search-icon">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </span>
+            <input type="text" id="pc-search-input" class="search-input" placeholder="在必应中搜索..." autocomplete="off" />
+            <button class="clear-btn" id="pc-clear-btn" style="display:none;" onclick="clearPcSearch()">✕</button>
+            <button class="pc-search-btn" id="pc-search-btn" onclick="performPcSearch()">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                搜索
+            </button>
+        </div>
+
+        <div class="nav-links liquid-glass" id="navLinks">
+            <a href="md.html">世界</a>
+            <a href="https://bxfans.github.io/Tube/">萌Chat（开发中）</a>
+            <a href="https://bxfans.github.io/Gptt/">智人TV（开发中）</a>
+            <a href="re.html">ACGNリソース</a>
+        </div>
+
+        <!-- ===== PC 端底部 ICP 备案 ===== -->
+        <div id="icp-footer">
+            <a href="https://icp.gov.moe/?keyword=20260864" target="_blank" rel="noopener">萌ICP备20260864号</a>
+        </div>
+
+        <div id="gear-island" onclick="openModal()" title="パーソナライズ">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                <circle cx="12" cy="12" r="3" />
+            </svg>
+        </div>
+
+        <div id="bg-transition-overlay"></div>
+
+        <div id="modal-overlay" onclick="closeModalViaOverlay(event)">
+            <div id="modal" class="liquid-glass" onclick="event.stopPropagation();">
+                <div class="modal-header" id="modal-header">
+                    <div id="window-controls">
+                        <span class="dot red" onclick="closeModal()" title="关闭"></span>
+                        <span class="dot yellow" title="最小化（装饰）"></span>
+                        <span class="dot green" title="最大化（装饰）"></span>
+                    </div>
+                    <span class="modal-title">パーソナライズ</span>
+                </div>
+                <div class="modal-subtitle" id="modal-subtitle">海边のミク</div>
+                <div class="thumb-carousel">
+                    <div class="thumb-row">
+                        <button class="thumb-arrow prev" id="thumb-prev" aria-label="上一张">‹</button>
+                        <div class="thumb-wrapper">
+                            <div class="thumb-track" id="thumb-track">
+                                <img src="722264.jpg" alt="海边のミク" data-key="722264.jpg" onerror="this.style.display='none'" />
+                                <img src="miku2.jpg" alt="桜ミク" data-key="miku2.jpg" onerror="this.style.display='none'" />
+                                <img src="蝶云.png" alt="洛天依-蝶变" data-key="蝶云.png" onerror="this.style.display='none'" />
+                                <img src="nacho.png" alt="猫羽雫" data-key="nacho.png" onerror="this.style.display='none'" />
+                            </div>
+                        </div>
+                        <button class="thumb-arrow next" id="thumb-next" aria-label="下一张">›</button>
+                    </div>
+                    <div class="thumb-dots" id="thumb-dots">
+                        <span data-index="0" class="active"></span>
+                        <span data-index="1"></span>
+                        <span data-index="2"></span>
+                        <span data-index="3"></span>
+                    </div>
+                    <button class="apply-btn" id="apply-theme-btn">应用</button>
+                </div>
+                <div id="theme-switch-container">
+                    <button class="theme-icon-btn moon-icon" id="moon-btn" onclick="setTheme('dark')" title="暗黑模式">
+                        <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.5 5.5 0 0 1-7.54-7.54A9.01 9.01 0 0 0 12 3z"/></svg>
+                    </button>
+                    <div class="switch-track active" id="switch-track" onclick="toggleTheme()">
+                        <div class="switch-thumb" id="switch-thumb"></div>
+                    </div>
+                    <button class="theme-icon-btn sun-icon active" id="sun-btn" onclick="setTheme('light')" title="明亮模式">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    </button>
+                    <span class="auto-label">根据设备设置</span>
+                    <div class="auto-switch-track active" id="auto-switch-track" title="开启后自动跟随系统主题">
+                        <div class="auto-switch-thumb" id="auto-switch-thumb"></div>
+                        <input type="checkbox" id="auto-theme-checkbox" checked style="opacity:0; width:0; height:0; position:absolute; pointer-events:none;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="theme-transition-overlay"></div>
+
+        <audio id="audio"></audio>
     </div>
 
     <!-- ============================================================== -->
-    <!-- 移动端界面 (手机/平板) -->
+    <!-- 移动端界面 -->
     <!-- ============================================================== -->
     <div id="mobile-app">
         <div class="mobile-title">
             <div class="line1">来了,</div>
             <div class="line2">バラモン！</div>
         </div>
+
         <div id="mobile-search-container">
             <span class="search-icon">
                 <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
             </span>
-            <input type="text" id="mobile-search-input" placeholder="在必应中搜索..." autocomplete="off" />
+            <input type="text" id="mobile-search-input" class="search-input" placeholder="在必应中搜索..." autocomplete="off" />
             <button class="mobile-search-btn" id="mobile-search-btn" onclick="performMobileSearch()">
                 <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
                 搜索
             </button>
         </div>
-        <div class="mobile-footer">✦ 幻想的な星明かり ✦</div>
+
+        <!-- ===== 移动端底部：站名 + ICP 备案 ===== -->
+        <div class="mobile-footer">
+            <div class="mobile-footer-title">✦ 幻想的な星明かり ✦</div>
+            <a href="https://icp.gov.moe/?keyword=20260864" target="_blank" rel="noopener">萌ICP备20260864号</a>
+        </div>
     </div>
 
     <!-- ============================================================== -->
-    <!-- 脚本：重写版 — 使用您自己的后端域名                           -->
+    <!-- 脚本：完整修复版（使用公共 API api.music.imiru.app） -->
     <!-- ============================================================== -->
     <script>
         (function() {
             'use strict';
 
-            // ---------- 配置 ----------
-            // ★★★ 已切换为您自己的后端域名 ★★★
-            const API_BASE = 'https://163musicapi.bxfans.dpdns.org';
+            // 防重复初始化
+            if (window.__PC_APP_INITIALIZED__) {
+                console.warn('⚠️ 已初始化，跳过重复执行');
+                return;
+            }
+            window.__PC_APP_INITIALIZED__ = true;
 
-            const ARTIST_ID = '1078425';
-            const EXCLUDED_IDS = ['32192205', '4886973', '500665207'];
+            // ---------- 1. UA 检测 ----------
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile/i.test(navigator.userAgent);
+            if (isMobile) {
+                document.body.classList.add('mode-mobile');
+                window.__IS_MOBILE__ = true;
+                console.log('📱 移动端模式已激活');
+                window.performMobileSearch = function() {
+                    var input = document.getElementById('mobile-search-input');
+                    var query = input.value.trim();
+                    if (!query) { input.focus(); return; }
+                    window.open('https://cn.bing.com/search?q=' + encodeURIComponent(query), '_blank');
+                };
+                var mobileInput = document.getElementById('mobile-search-input');
+                var mobileBtn = document.getElementById('mobile-search-btn');
+                mobileInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') { e.preventDefault();
+                        performMobileSearch(); }
+                });
+                mobileBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    performMobileSearch();
+                });
+                mobileInput.addEventListener('touchstart', function() { this.focus(); }, { passive: true });
+                return;
+            } else {
+                window.__IS_MOBILE__ = false;
+                console.log('🖥️ PC端模式 — 使用公共 API (api.music.imiru.app)');
+            }
 
-            // ---------- DOM 引用 ----------
-            const app = document.getElementById('app');
+            // ---------- 2. 配置 ----------
+            const CONFIG = {
+                API_BASE: 'https://api.music.imiru.app',
+                ARTIST_ID: '1078425',
+                EXCLUDED_IDS: ['32192205', '4886973', '500665207']
+            };
+
+            // ---------- 3. 播放器核心 ----------
+            let songList = [];
+            let currentIdx = 0;
+            let mode = 0;
+            let isDraggingProgress = false;
+            let lyricLines = [];
+            let songUrlCache = {};
+            let lyricCache = {};
+            let coverCache = {};
+
             const audio = document.getElementById('audio');
             const playIcon = document.getElementById('play-icon');
             const songListEl = document.getElementById('song-list');
@@ -2034,51 +2226,45 @@
             const lyricsLine2 = document.getElementById('lyrics-line-2');
             const lyricsLine3 = document.getElementById('lyrics-line-3');
             const modeBtn = document.getElementById('mode-btn');
-            const modeIcon = document.getElementById('mode-icon');
-            const clockEl = document.getElementById('clock');
-            const weatherIconEl = document.getElementById('weather-icon');
-            const weatherTempEl = document.getElementById('weather-temp');
-            const weatherDescEl = document.getElementById('weather-desc');
-            const searchInput = document.getElementById('search-input');
-            const clearBtn = document.getElementById('clear-btn');
-            const searchBtn = document.getElementById('search-btn');
-
-            // ---------- 状态 ----------
-            let songList = [];
-            let currentIdx = 0;
-            let mode = 0; // 0:顺序 1:单曲循环 2:随机
-            let isDraggingProgress = false;
-            let lyricLines = [];
-            let songUrlCache = {};
-            let lyricCache = {};
-            let coverCache = {};
-            let isPlayerReady = false;
 
             const playSVG = `<path d="M8 5v14l11-7z"/>`;
             const pauseSVG = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
 
-            // ---------- API 封装 (使用您自己的后端) ----------
-            async function apiFetch(endpoint) {
-                const url = `${API_BASE}${endpoint}`;
-                const resp = await fetch(url);
-                if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
-                return resp.json();
-            }
-
+            // ---------- API 函数 ----------
             async function fetchArtistSongs(artistId) {
-                const json = await apiFetch(`/artist/songs?uid=${artistId}`);
+                const url = `${CONFIG.API_BASE}/artist/songs?uid=${artistId}`;
+                const resp = await fetch(url);
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                const json = await resp.json();
+                console.log('🎵 歌手原始返回:', json);
+
+                // 兼容多种返回格式
                 let list = json.data?.songs || json.songs || json.data?.list || json.list || json.data || [];
                 if (!Array.isArray(list)) list = [];
-                const filtered = list.filter(s => !EXCLUDED_IDS.includes(String(s.id)));
+
+                // 过滤排除歌曲
+                const filtered = list.filter(song => {
+                    const id = String(song.id);
+                    return !CONFIG.EXCLUDED_IDS.includes(id);
+                });
+
                 return filtered.map(song => {
+                    // 提取歌手名
                     let artistName = '未知歌手';
-                    if (song.ar && Array.isArray(song.ar) && song.ar[0]?.name) artistName = song.ar[0].name;
-                    else if (song.artists && Array.isArray(song.artists) && song.artists[0]?.name) artistName = song
-                        .artists[0].name;
-                    else if (song.artist && typeof song.artist === 'string') artistName = song.artist;
-                    else if (song.artist?.name) artistName = song.artist.name;
-                    else if (song.singer) artistName = song.singer;
+                    if (song.ar && Array.isArray(song.ar) && song.ar[0]?.name) {
+                        artistName = song.ar[0].name;
+                    } else if (song.artists && Array.isArray(song.artists) && song.artists[0]?.name) {
+                        artistName = song.artists[0].name;
+                    } else if (song.artist && typeof song.artist === 'string') {
+                        artistName = song.artist;
+                    } else if (song.artist && song.artist.name) {
+                        artistName = song.artist.name;
+                    } else if (song.singer) {
+                        artistName = song.singer;
+                    }
+                    // 专辑
                     let albumName = song.al?.name || song.album || '未知专辑';
+                    // 封面
                     let coverUrl = song.al?.picUrl || song.picUrl || song.cover || '';
                     return {
                         id: String(song.id),
@@ -2094,17 +2280,26 @@
 
             async function fetchSongUrl(songId) {
                 if (songUrlCache[songId]) return songUrlCache[songId];
-                const json = await apiFetch(`/song/url?id=${songId}`);
+                const url = `${CONFIG.API_BASE}/song/url?id=${songId}`;
+                const resp = await fetch(url);
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                const json = await resp.json();
+                console.log('🔊 播放地址返回:', json);
                 let playUrl = json.data?.url || json.url || '';
                 if (!playUrl) throw new Error('未获取到播放地址');
                 songUrlCache[songId] = playUrl;
+                // 尝试提取封面（如果存在）
                 if (json.data?.cover) coverCache[songId] = json.data.cover;
                 return playUrl;
             }
 
             async function fetchSongLyric(songId) {
                 if (lyricCache[songId]) return lyricCache[songId];
-                const json = await apiFetch(`/lyric?id=${songId}`);
+                const url = `${CONFIG.API_BASE}/lyric?id=${songId}`;
+                const resp = await fetch(url);
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                const json = await resp.json();
+                console.log('📃 歌词返回:', json);
                 let lyricText = json.data?.lyric || json.lyric || json.lrc?.lyric || '';
                 if (!lyricText) return null;
                 const parsed = parseLRC(lyricText);
@@ -2144,13 +2339,9 @@
 
             // ---------- UI 更新 ----------
             function setPlayingState(playing) {
-                if (playing) {
-                    progressFill.classList.add('playing');
-                    playIcon.innerHTML = pauseSVG;
-                } else {
-                    progressFill.classList.remove('playing');
-                    playIcon.innerHTML = playSVG;
-                }
+                if (playing) { progressFill.classList.add('playing');
+                    playIcon.innerHTML = pauseSVG; } else { progressFill.classList.remove('playing');
+                    playIcon.innerHTML = playSVG; }
             }
 
             function updateProgress() {
@@ -2173,14 +2364,15 @@
             function highlightCurrentSong() {
                 const items = songListEl.querySelectorAll('.song-item');
                 items.forEach((item, index) => {
-                    item.classList.toggle('active-song', index === currentIdx);
+                    if (index === currentIdx) item.classList.add('active-song');
+                    else item.classList.remove('active-song');
                 });
             }
 
             function updateLyricsDisplay(line1, line2, line3) {
-                lyricsLine1.textContent = line1 || '';
-                lyricsLine2.textContent = line2 || '';
-                lyricsLine3.textContent = line3 || '';
+                lyricsLine1.textContent = line1;
+                lyricsLine2.textContent = line2;
+                lyricsLine3.textContent = line3;
                 lyricsLine1.className = 'lyrics-line placeholder';
                 lyricsLine2.className = 'lyrics-line current placeholder';
                 lyricsLine3.className = 'lyrics-line placeholder';
@@ -2198,26 +2390,32 @@
                     else break;
                 }
                 if (idx >= lyricLines.length) idx = lyricLines.length - 1;
-                const prevIdx = Math.max(0, idx - 1);
-                const nextIdx = Math.min(lyricLines.length - 1, idx + 1);
-                lyricsLine1.textContent = lyricLines[prevIdx]?.text || '♪';
-                lyricsLine2.textContent = lyricLines[idx]?.text || '♪';
-                lyricsLine3.textContent = lyricLines[nextIdx]?.text || '♪';
+                const prevIdx = idx - 1 >= 0 ? idx - 1 : 0;
+                const nextIdx = idx + 1 < lyricLines.length ? idx + 1 : lyricLines.length - 1;
+                lyricsLine1.textContent = lyricLines[prevIdx].text || '♪';
+                lyricsLine2.textContent = lyricLines[idx].text || '♪';
+                lyricsLine3.textContent = lyricLines[nextIdx].text || '♪';
                 lyricsLine1.className = 'lyrics-line prev';
                 lyricsLine2.className = 'lyrics-line current';
                 lyricsLine3.className = 'lyrics-line next';
                 if (prevIdx === idx) lyricsLine1.textContent = '';
                 if (nextIdx === idx) lyricsLine3.textContent = '';
-                lyricsLine2.style.color = '#fff';
-                lyricsLine2.style.textShadow = '0 0 20px rgba(255,255,255,0.40)';
+            }
+
+            function applyWhiteToHighlights() {
+                document.querySelectorAll('#lyrics-island .lyrics-line.current').forEach(el => {
+                    el.style.color = '#fff';
+                    el.style.textShadow = '0 0 16px rgba(255,255,255,0.6)';
+                });
+                if (songInfoEl) songInfoEl.style.color = '#fff';
+                document.querySelectorAll('.song-item.active-song .song-name').forEach(el => {
+                    el.style.color = '#fff';
+                });
             }
 
             // ---------- 核心播放 ----------
             async function loadAndPlay(index) {
-                if (index < 0 || index >= songList.length) {
-                    console.warn('索引无效:', index);
-                    return;
-                }
+                if (index < 0 || index >= songList.length) return;
                 currentIdx = index;
                 const song = songList[index];
                 updateSongInfo();
@@ -2226,38 +2424,51 @@
 
                 try {
                     const url = await fetchSongUrl(song.id);
+                    console.log('✅ 获取到播放地址:', url);
                     audio.src = url;
                     audio.load();
                     const playPromise = audio.play();
                     if (playPromise !== undefined) {
-                        playPromise.then(() => setPlayingState(true)).catch(() => setPlayingState(false));
+                        playPromise.then(() => setPlayingState(true)).catch((err) => {
+                            console.warn('自动播放被拦截，等待用户交互:', err);
+                            setPlayingState(false);
+                        });
                     }
                 } catch (e) {
                     console.error('❌ 获取播放地址失败:', e);
                     audio.src = '';
                     setPlayingState(false);
-                    songInfoEl.textContent = song.name + ' - 播放失败';
+                    songInfoEl.textContent = song.name + ' - 播放失败 (请检查控制台)';
                 }
 
                 try {
                     const lyric = await fetchSongLyric(song.id);
-                    lyricLines = lyric || [];
-                    if (lyricLines.length === 0) updateLyricsDisplay('♪ 无歌词', '♪ 无歌词', '♪ 无歌词');
+                    if (lyric && lyric.length > 0) {
+                        lyricLines = lyric;
+                    } else {
+                        lyricLines = [];
+                        updateLyricsDisplay('♪ 无歌词', '♪ 无歌词', '♪ 无歌词');
+                    }
                 } catch (e) {
                     lyricLines = [];
                     updateLyricsDisplay('♪ 歌词加载失败', '♪ 请稍后重试', '♪');
                 }
 
-                if (coverCache[song.id]) coverImg.src = coverCache[song.id];
+                if (coverCache[song.id]) {
+                    coverImg.src = coverCache[song.id];
+                }
                 updateProgress();
+                applyWhiteToHighlights();
                 setTimeout(adjustLyricsIslandPosition, 100);
             }
 
             // ---------- 播放控制 ----------
             window.togglePlay = function() {
-                if (!isPlayerReady || songList.length === 0) return;
                 if (audio.paused) {
-                    audio.play().then(() => setPlayingState(true)).catch(() => setPlayingState(false));
+                    audio.play().then(() => setPlayingState(true)).catch((err) => {
+                        console.warn('播放失败:', err);
+                        setPlayingState(false);
+                    });
                 } else {
                     audio.pause();
                     setPlayingState(false);
@@ -2265,13 +2476,13 @@
                 triggerAnimation(mainPlayBtn, 'btn-anim', 450);
             };
 
-            window.prevSong = function() {
+            window.prev = function() {
                 if (songList.length === 0) return;
                 currentIdx = (currentIdx - 1 + songList.length) % songList.length;
                 loadAndPlay(currentIdx);
             };
 
-            window.nextSong = function() {
+            window.next = function() {
                 if (songList.length === 0) return;
                 if (mode === 2) {
                     currentIdx = Math.floor(Math.random() * songList.length);
@@ -2281,7 +2492,7 @@
                 loadAndPlay(currentIdx);
             };
 
-            const modeIcons = [
+            const iconMap = [
                 `<svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4" /><path d="M3 11v-2a4 4 0 0 1 4-4h14" /><path d="M7 22l-4-4 4-4" /><path d="M21 13v2a4 4 0 0 1-4 4H3" /></svg>`,
                 `<svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4" /><path d="M3 11v-2a4 4 0 0 1 4-4h14" /><path d="M7 22l-4-4 4-4" /><path d="M21 13v2a4 4 0 0 1-4 4H3" /><path d="M12 10v4" /><path d="M12 14h1.5" /></svg>`,
                 `<svg viewBox="0 0 24 24"><path d="M21 7h-4a3 3 0 0 0-3 3v4a3 3 0 0 1-3 3H3" /><path d="M21 17h-4a3 3 0 0 1-3-3v-4a3 3 0 0 0-3-3H3" /><path d="M3 7h4" /><path d="M3 17h4" /></svg>`
@@ -2289,7 +2500,7 @@
 
             window.changeMode = function() {
                 mode = (mode + 1) % 3;
-                modeIcon.innerHTML = modeIcons[mode];
+                document.getElementById('mode-icon').innerHTML = iconMap[mode];
                 triggerAnimation(modeBtn, 'mode-anim', 550);
             };
 
@@ -2303,47 +2514,35 @@
 
             // ---------- 音频事件 ----------
             audio.onended = function() {
-                if (mode === 1) {
-                    audio.play().catch(() => {});
-                } else {
-                    window.nextSong();
-                }
+                if (mode === 1) { audio.play().catch(() => {}); } else { window.next(); }
             };
-
             audio.ontimeupdate = function() {
                 updateProgress();
                 if (!audio.paused && audio.duration) {
                     updateLyrics();
+                    applyWhiteToHighlights();
                 }
                 const fmt = (s) => new Date(s * 1000).toISOString().substr(14, 5);
                 const duration = audio.duration || 0;
                 const remaining = duration - audio.currentTime;
                 timeDisplay.innerText = `${fmt(audio.currentTime)} / ${fmt(duration)} / ${fmt(remaining)}`;
             };
-
             audio.onerror = function(e) {
                 console.warn('音频错误:', e);
                 setPlayingState(false);
             };
 
-            audio.oncanplay = function() {
-                isPlayerReady = true;
-            };
-
             // ---------- 进度条 ----------
-            progressBar.addEventListener('mousedown', () => { isDraggingProgress = true;
+            progressBar.addEventListener('mousedown', function() { isDraggingProgress = true;
                 progressFill.classList.remove('playing'); });
-            progressBar.addEventListener('touchstart', () => { isDraggingProgress = true;
+            progressBar.addEventListener('touchstart', function() { isDraggingProgress = true;
                 progressFill.classList.remove('playing'); }, { passive: true });
-            document.addEventListener('mouseup', () => {
+            const endProgressDrag = function() {
                 isDraggingProgress = false;
                 if (!audio.paused) progressFill.classList.add('playing');
-            });
-            document.addEventListener('touchend', () => {
-                isDraggingProgress = false;
-                if (!audio.paused) progressFill.classList.add('playing');
-            });
-
+            };
+            document.addEventListener('mouseup', endProgressDrag);
+            document.addEventListener('touchend', endProgressDrag);
             progressBar.oninput = function() {
                 const val = parseFloat(progressBar.value);
                 if (audio.duration) {
@@ -2351,7 +2550,6 @@
                     progressFill.style.width = val + '%';
                 }
             };
-
             document.getElementById('progress-container').addEventListener('click', function(e) {
                 if (e.target === progressBar) return;
                 const rect = this.getBoundingClientRect();
@@ -2373,12 +2571,12 @@
                         songListEl.classList.remove('hiding');
                         songListEl.style.visibility = 'hidden';
                         songListEl.style.pointerEvents = 'none';
+                        songListEl.style.animation = '';
                         songListEl.removeEventListener('animationend', onEnd);
                     };
                     songListEl.addEventListener('animationend', onEnd, { once: true });
                 }
             }
-
             window.toggleList = function(e) {
                 e.stopPropagation();
                 if (songListEl.classList.contains('active')) {
@@ -2389,15 +2587,13 @@
                 const rect = player.getBoundingClientRect();
                 const isAbove = rect.top > window.innerHeight / 2;
                 songListEl.style.left = rect.left + 'px';
-                songListEl.style.top = isAbove ?
-                    (rect.top - Math.min(songListEl.scrollHeight + 30, 300) + 'px') :
-                    (rect.top + 90 + 'px');
+                songListEl.style.top = isAbove ? (rect.top - Math.min(songListEl.scrollHeight + 30, 280) + 'px') : (rect.top +
+                    90 + 'px');
                 songListEl.style.visibility = 'visible';
                 songListEl.style.pointerEvents = 'auto';
                 void songListEl.offsetWidth;
                 songListEl.classList.add('active');
             };
-
             document.addEventListener('click', function(e) {
                 if (!player.contains(e.target) && !songListEl.contains(e.target)) {
                     if (songListEl.classList.contains('active')) closeListWithAnimation();
@@ -2408,7 +2604,6 @@
             let isDraggingPlayer = false;
             let playerOffsetX = 0,
                 playerOffsetY = 0;
-
             player.addEventListener('mousedown', function(e) {
                 if (e.target.closest('button, input, #main-play-btn, #progress-container')) return;
                 isDraggingPlayer = true;
@@ -2418,7 +2613,6 @@
                 player.classList.add('dragging');
                 e.preventDefault();
             });
-
             document.addEventListener('mousemove', function(e) {
                 if (!isDraggingPlayer) return;
                 let newLeft = e.clientX - playerOffsetX;
@@ -2430,14 +2624,12 @@
                 player.style.left = newLeft + 'px';
                 player.style.top = newTop + 'px';
             });
-
             document.addEventListener('mouseup', function() {
                 if (isDraggingPlayer) {
                     player.classList.remove('dragging');
                     isDraggingPlayer = false;
                 }
             });
-
             player.addEventListener('touchstart', function(e) {
                 if (e.target.closest('button, input, #main-play-btn, #progress-container')) return;
                 const touch = e.touches[0];
@@ -2448,7 +2640,6 @@
                 player.classList.add('dragging');
                 e.preventDefault();
             }, { passive: false });
-
             document.addEventListener('touchmove', function(e) {
                 if (!isDraggingPlayer) return;
                 const touch = e.touches[0];
@@ -2462,7 +2653,6 @@
                 player.style.top = newTop + 'px';
                 e.preventDefault();
             }, { passive: false });
-
             document.addEventListener('touchend', function() {
                 if (isDraggingPlayer) {
                     player.classList.remove('dragging');
@@ -2470,13 +2660,12 @@
                 }
             });
 
-            // ---------- 弹窗 ----------
+            // ---------- 弹窗控制 ----------
             const overlayEl = document.getElementById('modal-overlay');
             const modalEl = document.getElementById('modal');
             const headerEl = document.getElementById('modal-header');
             let isModalOpen = false,
                 isClosing = false;
-
             window.openModal = function() {
                 if (isModalOpen || isClosing) return;
                 isModalOpen = true;
@@ -2487,23 +2676,22 @@
                 updateAutoSwitchUI(autoThemeEnabled);
                 updateThumbPosition();
             };
-
             window.closeModal = function() {
                 if (!isModalOpen || isClosing) return;
                 isClosing = true;
                 modalEl.classList.add('closing');
-                const onEnd = function() {
-                    modalEl.removeEventListener('transitionend', onEnd);
+                const onTransitionEnd = function() {
+                    modalEl.removeEventListener('transitionend', onTransitionEnd);
                     overlayEl.classList.remove('visible');
                     modalEl.classList.remove('closing');
                     isModalOpen = false;
                     isClosing = false;
                     document.body.style.overflow = '';
                 };
-                modalEl.addEventListener('transitionend', onEnd);
-                setTimeout(() => {
+                modalEl.addEventListener('transitionend', onTransitionEnd);
+                setTimeout(function() {
                     if (isClosing) {
-                        modalEl.removeEventListener('transitionend', onEnd);
+                        modalEl.removeEventListener('transitionend', onTransitionEnd);
                         overlayEl.classList.remove('visible');
                         modalEl.classList.remove('closing');
                         isModalOpen = false;
@@ -2512,11 +2700,9 @@
                     }
                 }, 500);
             };
-
             window.closeModalViaOverlay = function(e) {
                 if (e.target === overlayEl) closeModal();
             };
-
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && isModalOpen) closeModal();
             });
@@ -2525,7 +2711,6 @@
             let isDraggingModal = false;
             let modalOffsetX = 0,
                 modalOffsetY = 0;
-
             headerEl.addEventListener('mousedown', function(e) {
                 if (e.target.closest('.dot, #window-controls')) return;
                 if (!isModalOpen) return;
@@ -2536,7 +2721,6 @@
                 modalEl.style.cursor = 'grabbing';
                 e.preventDefault();
             });
-
             document.addEventListener('mousemove', function(e) {
                 if (!isDraggingModal) return;
                 let newLeft = e.clientX - modalOffsetX;
@@ -2551,7 +2735,6 @@
                 modalEl.style.transform = 'none';
                 modalEl.style.margin = '0';
             });
-
             document.addEventListener('mouseup', function() {
                 if (isDraggingModal) {
                     modalEl.style.cursor = '';
@@ -2562,6 +2745,7 @@
             // ---------- 主题切换 ----------
             let currentTheme = 'light';
             let isTransitioning = false;
+            const transitionOverlay = document.getElementById('theme-transition-overlay');
             const switchTrack = document.getElementById('switch-track');
             const moonBtn = document.getElementById('moon-btn');
             const sunBtn = document.getElementById('sun-btn');
@@ -2573,13 +2757,16 @@
             const manualControls = [moonBtn, switchTrack, sunBtn];
 
             function setManualControlsDisabled(disabled) {
-                manualControls.forEach(el => el.classList.toggle('disabled', disabled));
+                manualControls.forEach(el => {
+                    if (disabled) el.classList.add('disabled');
+                    else el.classList.remove('disabled');
+                });
             }
 
             function applySystemTheme() {
                 if (autoThemeEnabled) {
                     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                    setTheme(prefersDark ? 'dark' : 'light', true);
+                    setTheme(prefersDark ? 'dark' : 'light');
                 }
             }
 
@@ -2599,34 +2786,26 @@
                 }
             }
 
-            function setTheme(theme, silent = false) {
-                if (theme === currentTheme && !silent) return;
-                if (isTransitioning) return;
+            function setTheme(theme) {
+                if (theme === currentTheme || isTransitioning) return;
                 const toDark = theme === 'dark';
-                const waveColor = toDark ? 'rgba(128,128,128,0.12)' : 'rgba(255,255,255,0.12)';
+                const waveColor = toDark ? 'rgba(128,128,128,0.15)' : 'rgba(255,255,255,0.15)';
                 const gearRect = gearBtn.getBoundingClientRect();
                 const cx = gearRect.left + gearRect.width / 2;
                 const cy = gearRect.top + gearRect.height / 2;
                 isTransitioning = true;
-
-                const overlay = document.getElementById('theme-transition-overlay');
-                if (!overlay) {
-                    applyThemeDirect(theme);
-                    isTransitioning = false;
-                    return;
-                }
+                const overlay = transitionOverlay;
                 overlay.style.background = waveColor;
                 overlay.style.clipPath = `circle(0% at ${cx}px ${cy}px)`;
                 overlay.classList.add('animating');
                 overlay.style.visibility = 'visible';
                 overlay.style.opacity = '1';
                 void overlay.offsetWidth;
-                overlay.style.transition = 'clip-path 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                overlay.style.transition = 'clip-path 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
                 overlay.style.clipPath = `circle(150% at ${cx}px ${cy}px)`;
-
-                const onEnd = function() {
-                    overlay.removeEventListener('transitionend', onEnd);
-                    applyThemeDirect(theme);
+                const onTransitionEnd = function() {
+                    overlay.removeEventListener('transitionend', onTransitionEnd);
+                    applyTheme(theme);
                     overlay.style.transition = 'none';
                     overlay.classList.remove('animating');
                     overlay.style.visibility = 'hidden';
@@ -2635,11 +2814,11 @@
                     overlay.style.background = 'transparent';
                     isTransitioning = false;
                 };
-                overlay.addEventListener('transitionend', onEnd);
-                setTimeout(() => {
+                overlay.addEventListener('transitionend', onTransitionEnd);
+                setTimeout(function() {
                     if (isTransitioning) {
-                        overlay.removeEventListener('transitionend', onEnd);
-                        applyThemeDirect(theme);
+                        overlay.removeEventListener('transitionend', onTransitionEnd);
+                        applyTheme(theme);
                         overlay.style.transition = 'none';
                         overlay.classList.remove('animating');
                         overlay.style.visibility = 'hidden';
@@ -2651,10 +2830,10 @@
                 }, 1200);
             }
 
-            function applyThemeDirect(theme) {
-                app.setAttribute('data-theme', theme);
-                currentTheme = theme;
-                updateSwitchUI(theme);
+            function toggleTheme() {
+                if (isTransitioning || autoThemeEnabled) return;
+                const target = currentTheme === 'light' ? 'dark' : 'light';
+                setTheme(target);
             }
 
             function updateSwitchUI(theme) {
@@ -2669,14 +2848,11 @@
                 }
             }
 
-            function toggleTheme() {
-                if (isTransitioning || autoThemeEnabled) return;
-                const target = currentTheme === 'light' ? 'dark' : 'light';
-                setTheme(target);
+            function applyTheme(theme) {
+                document.getElementById('pc-app').setAttribute('data-theme', theme);
+                currentTheme = theme;
+                updateSwitchUI(theme);
             }
-
-            window.toggleTheme = toggleTheme;
-            window.setTheme = setTheme;
 
             function updateAutoSwitchUI(enabled) {
                 if (enabled) {
@@ -2711,18 +2887,8 @@
 
             // ---------- 主题图片轮播 ----------
             const THUMB_IMAGES = ['722264.jpg', 'miku2.jpg', '蝶云.png', 'nacho.png'];
-            const THUMB_TITLES = {
-                '722264.jpg': '海边のミク',
-                'miku2.jpg': '桜ミク',
-                '蝶云.png': '洛天依-蝶变',
-                'nacho.png': '猫羽雫'
-            };
-            const THUMB_COLORS = {
-                '722264.jpg': '#66ccff',
-                'miku2.jpg': '#FFC0CB',
-                '蝶云.png': '#32CD32',
-                'nacho.png': '#B6D5E9'
-            };
+            const THUMB_TITLES = { '722264.jpg': '海边のミク', 'miku2.jpg': '桜ミク', '蝶云.png': '洛天依-蝶变', 'nacho.png': '猫羽雫' };
+            const THUMB_COLORS = { '722264.jpg': '#66ccff', 'miku2.jpg': '#FFC0CB', '蝶云.png': '#32CD32', 'nacho.png': '#B6D5E9' };
             let currentThumbIndex = 0,
                 appliedThumbIndex = 0;
             const thumbTrack = document.getElementById('thumb-track');
@@ -2745,12 +2911,13 @@
                 const offset = -currentThumbIndex * 100;
                 thumbTrack.style.transform = `translateX(${offset}%)`;
                 const dots = thumbDots.querySelectorAll('span');
-                dots.forEach((dot, i) => dot.classList.toggle('active', i === currentThumbIndex));
+                dots.forEach((dot, i) => { dot.classList.toggle('active', i === currentThumbIndex); });
                 const key = THUMB_IMAGES[currentThumbIndex];
                 modalSubtitle.textContent = THUMB_TITLES[key] || '主题';
                 const color = THUMB_COLORS[key];
                 dots.forEach((dot, i) => {
-                    dot.style.background = i === currentThumbIndex ? color : 'rgba(255,255,255,0.20)';
+                    if (i === currentThumbIndex) dot.style.background = color;
+                    else dot.style.background = 'rgba(255,255,255,0.25)';
                 });
             }
 
@@ -2765,35 +2932,44 @@
                 titleText.style.color = color;
                 navLinks.querySelectorAll('a').forEach(a => { a.style.color = color; });
                 mainPlayBtn.style.background = color;
+                document.documentElement.style.setProperty('--play-btn-bg', color);
                 document.documentElement.style.setProperty('--accent', color);
+                document.documentElement.style.setProperty('--nav-link-color', color);
+                document.querySelectorAll('#lyrics-island .lyrics-line:not(.current)').forEach(line => {
+                    line.style.color = color;
+                    if (line.classList.contains('prev') || line.classList.contains('next')) line.style.opacity =
+                        '0.6';
+                    else if (line.classList.contains('placeholder')) line.style.opacity = '0.5';
+                });
+                document.querySelectorAll('#song-list .song-item:not(.active-song) .song-name').forEach(el => {
+                    el.style.color = color;
+                });
                 progressFill.style.background = `linear-gradient(90deg, ${color}, #88ddff, ${color})`;
                 applyBtn.style.background = color;
-                const activeTrack = document.querySelector('.switch-track.active');
-                if (activeTrack) {
-                    activeTrack.style.background = color;
-                    activeTrack.style.borderColor = color;
+                var switchTrackActive = document.querySelector('.switch-track.active');
+                if (switchTrackActive) {
+                    switchTrackActive.style.background = color;
+                    switchTrackActive.style.borderColor = color;
                 }
-                const autoActive = document.querySelector('.auto-switch-track.active');
-                if (autoActive) {
-                    autoActive.style.background = color;
-                    autoActive.style.borderColor = color;
+                var autoSwitchTrackActive = document.querySelector('.auto-switch-track.active');
+                if (autoSwitchTrackActive) {
+                    autoSwitchTrackActive.style.background = color;
+                    autoSwitchTrackActive.style.borderColor = color;
                 }
-                document.querySelectorAll('#lyrics-island .lyrics-line.current').forEach(el => {
-                    el.style.color = '#fff';
-                    el.style.textShadow = '0 0 20px rgba(255,255,255,0.40)';
-                });
+                applyWhiteToHighlights();
             }
 
             function applyThemeByKey(key) {
-                if (!THUMB_IMAGES.includes(key)) key = '722264.jpg';
-                const color = THUMB_COLORS[key];
-                const title = THUMB_TITLES[key];
-                const imgTest = new Image();
+                var index = THUMB_IMAGES.indexOf(key);
+                if (index === -1) key = '722264.jpg';
+                var color = THUMB_COLORS[key];
+                var title = THUMB_TITLES[key];
+                var imgTest = new Image();
                 imgTest.onload = function() {
-                    app.style.backgroundImage = "url('" + key + "')";
-                    app.style.backgroundSize = 'cover';
-                    app.style.backgroundPosition = 'center';
-                    app.style.backgroundRepeat = 'no-repeat';
+                    document.getElementById('pc-app').style.backgroundImage = "url('" + key + "')";
+                    document.getElementById('pc-app').style.backgroundSize = 'cover';
+                    document.getElementById('pc-app').style.backgroundPosition = 'center';
+                    document.getElementById('pc-app').style.backgroundRepeat = 'no-repeat';
                 };
                 imgTest.onerror = function() { console.warn('背景图片加载失败:', key); };
                 imgTest.src = key;
@@ -2806,41 +2982,39 @@
             }
 
             function applyCurrentTheme() {
-                const key = THUMB_IMAGES[currentThumbIndex];
-                const color = THUMB_COLORS[key];
-                const title = THUMB_TITLES[key];
+                var key = THUMB_IMAGES[currentThumbIndex];
+                var color = THUMB_COLORS[key];
+                var title = THUMB_TITLES[key];
                 if (appliedThumbIndex === currentThumbIndex) return;
-
                 bgOverlay.style.backgroundImage = "url('" + key + "')";
                 bgOverlay.style.opacity = '0';
                 bgOverlay.classList.add('active');
                 void bgOverlay.offsetWidth;
                 bgOverlay.style.opacity = '1';
-
                 applyColorScheme(color);
-                const dots = thumbDots.querySelectorAll('span');
+                var dots = thumbDots.querySelectorAll('span');
                 dots.forEach((dot, i) => {
-                    dot.style.background = i === currentThumbIndex ? color : 'rgba(255,255,255,0.20)';
+                    if (i === currentThumbIndex) dot.style.background = color;
+                    else dot.style.background = 'rgba(255,255,255,0.25)';
                 });
-
-                setTimeout(() => {
-                    const imgTest = new Image();
+                setTimeout(function() {
+                    var imgTest = new Image();
                     imgTest.onload = function() {
-                        app.style.backgroundImage = "url('" + key + "')";
-                        app.style.backgroundSize = 'cover';
-                        app.style.backgroundPosition = 'center';
-                        app.style.backgroundRepeat = 'no-repeat';
+                        document.getElementById('pc-app').style.backgroundImage = "url('" + key + "')";
+                        document.getElementById('pc-app').style.backgroundSize = 'cover';
+                        document.getElementById('pc-app').style.backgroundPosition = 'center';
+                        document.getElementById('pc-app').style.backgroundRepeat = 'no-repeat';
                     };
                     imgTest.onerror = function() { console.warn('背景图片加载失败:', key); };
                     imgTest.src = key;
                     bgOverlay.style.opacity = '0';
-                    setTimeout(() => {
+                    setTimeout(function() {
                         bgOverlay.classList.remove('active');
                         bgOverlay.style.backgroundImage = '';
                     }, 1200);
                     appliedThumbIndex = currentThumbIndex;
                     modalSubtitle.textContent = '✓ ' + title;
-                    setTimeout(() => {
+                    setTimeout(function() {
                         if (currentThumbIndex === appliedThumbIndex) modalSubtitle.textContent = title;
                     }, 1500);
                     setCookie('theme_key', key, 30);
@@ -2848,7 +3022,7 @@
             }
 
             function initDefaultTheme() {
-                const savedKey = getCookie('theme_key');
+                var savedKey = getCookie('theme_key');
                 if (savedKey && THUMB_IMAGES.includes(savedKey)) applyThemeByKey(savedKey);
                 else applyThemeByKey('722264.jpg');
             }
@@ -2861,10 +3035,15 @@
 
             function getCookie(name) {
                 const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-                return match ? decodeURIComponent(match[2]) : null;
+                if (match) return decodeURIComponent(match[2]);
+                return null;
             }
 
             // ---------- 时间 / 天气 ----------
+            const clockEl = document.getElementById('clock');
+            const weatherIconEl = document.getElementById('weather-icon');
+            const weatherTempEl = document.getElementById('weather-temp');
+            const weatherDescEl = document.getElementById('weather-desc');
             let userTimeZone = 'Asia/Shanghai';
 
             function updateClock() {
@@ -2887,7 +3066,6 @@
             }
             updateClock();
             setInterval(updateClock, 1000);
-
             fetch('https://ipapi.co/json/')
                 .then(r => r.json())
                 .then(d => { if (d.timezone) { userTimeZone = d.timezone;
@@ -2936,17 +3114,14 @@
                     .then(r => r.json())
                     .then(json => {
                         const current = json.current_condition[0];
-                        const data = {
-                            temp: current.temp_C,
-                            desc: current.weatherDesc[0].value,
-                            code: parseInt(current.weatherCode),
-                            timestamp: Date.now()
-                        };
+                        const data = { temp: current.temp_C, desc: current.weatherDesc[0].value, code: parseInt(
+                                current.weatherCode), timestamp: Date.now() };
                         localStorage.setItem(WEATHER_CACHE_KEY, JSON.stringify(data));
                         updateWeatherUI(data);
                     })
                     .catch(() => {
-                        updateWeatherUI({ temp: '22', desc: '多云', code: 119 });
+                        const fallback = { temp: '22', desc: '多云', code: 119, timestamp: Date.now() };
+                        updateWeatherUI(fallback);
                     });
             }
             fetchWeather();
@@ -2954,73 +3129,59 @@
 
             // ---------- 歌词岛位置自适应 ----------
             function adjustLyricsIslandPosition() {
-                const timeInfo = document.getElementById('top-right-info');
+                var timeInfo = document.getElementById('top-right-info');
                 if (!timeInfo) return;
-                const rect = timeInfo.getBoundingClientRect();
-                const island = document.getElementById('lyrics-island');
+                var rect = timeInfo.getBoundingClientRect();
+                var island = document.getElementById('lyrics-island');
                 if (!island) return;
                 island.style.top = rect.top + 'px';
                 island.style.right = (window.innerWidth - rect.left + 12) + 'px';
             }
 
-            // ---------- 搜索 ----------
-            window.performSearch = function() {
-                const query = searchInput.value.trim();
-                if (!query) { searchInput.focus(); return; }
-                window.open('https://cn.bing.com/search?q=' + encodeURIComponent(query), '_blank');
-            };
-
-            window.clearSearch = function() {
-                searchInput.value = '';
-                searchInput.focus();
-                clearBtn.style.display = 'none';
-            };
-
-            searchInput.addEventListener('input', function() {
-                clearBtn.style.display = this.value.length > 0 ? 'flex' : 'none';
-            });
-
-            searchInput.addEventListener('blur', function() {
-                if (this.value.length === 0) clearBtn.style.display = 'none';
-            });
-
-            searchInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') { e.preventDefault();
-                    performSearch(); }
-            });
-
-            searchBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                performSearch();
-            });
-
-            // ---------- 移动端搜索 ----------
-            window.performMobileSearch = function() {
-                const input = document.getElementById('mobile-search-input');
-                const query = input.value.trim();
+            // ---------- 桌面端搜索 ----------
+            window.performPcSearch = function() {
+                var input = document.getElementById('pc-search-input');
+                var query = input.value.trim();
                 if (!query) { input.focus(); return; }
                 window.open('https://cn.bing.com/search?q=' + encodeURIComponent(query), '_blank');
             };
-
-            const mobileInput = document.getElementById('mobile-search-input');
-            const mobileBtn = document.getElementById('mobile-search-btn');
-            mobileInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') { e.preventDefault();
-                    performMobileSearch(); }
+            window.clearPcSearch = function() {
+                var input = document.getElementById('pc-search-input');
+                input.value = '';
+                input.focus();
+                document.getElementById('pc-clear-btn').style.display = 'none';
+            };
+            var pcInput = document.getElementById('pc-search-input');
+            var pcBtn = document.getElementById('pc-search-btn');
+            var clearBtn = document.getElementById('pc-clear-btn');
+            pcInput.addEventListener('input', function() {
+                if (this.value.length > 0) clearBtn.style.display = 'flex';
+                else clearBtn.style.display = 'none';
             });
-            mobileBtn.addEventListener('click', function(e) {
+            pcInput.addEventListener('blur', function() {
+                if (this.value.length === 0) clearBtn.style.display = 'none';
+            });
+            pcInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') { e.preventDefault();
+                    performPcSearch(); }
+            });
+            pcBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-                performMobileSearch();
+                performPcSearch();
             });
 
             // ---------- 构建歌曲列表 ----------
             function buildSongListUI() {
                 songListEl.innerHTML = '';
-                if (!songList || songList.length === 0) {
+                if (!songList || !Array.isArray(songList) || songList.length === 0) {
                     songListEl.innerHTML = '<div class="song-item" style="color:#aaa;padding:12px;">暂无歌曲数据</div>';
                     return;
                 }
                 songList.forEach((song, index) => {
+                    if (!song || typeof song !== 'object') {
+                        console.warn('跳过无效歌曲项:', song);
+                        return;
+                    }
                     const div = document.createElement('div');
                     div.className = 'song-item';
                     div.dataset.index = index;
@@ -3051,18 +3212,19 @@
             // ---------- 初始化 ----------
             async function initPlayer() {
                 try {
-                    const list = await fetchArtistSongs(ARTIST_ID);
+                    const list = await fetchArtistSongs(CONFIG.ARTIST_ID);
                     if (list.length === 0) throw new Error('没有获取到歌曲');
                     songList = list;
-                    console.log(`🎵 获取到 ${songList.length} 首歌曲`);
+                    console.log(`🎵 获取到 ${songList.length} 首歌曲（已排除 ${CONFIG.EXCLUDED_IDS.length} 首）`);
+                    console.log('📋 第一首歌信息:', songList[0]);
                     buildSongListUI();
-                    modeIcon.innerHTML = modeIcons[0];
+                    document.getElementById('mode-icon').innerHTML = iconMap[0];
                     await loadAndPlay(0);
-                    isPlayerReady = true;
                 } catch (err) {
-                    console.error('❌ 初始化失败:', err);
+                    console.error('初始化播放器失败:', err);
                     songInfoEl.textContent = '⚠️ 加载失败: ' + err.message.slice(0, 60);
-                    songList = [{ id: '0', name: '加载失败', artist: '请检查控制台', album: '', cover: 'CD.jpg' }];
+                    songList = [{ id: '0', name: '加载失败', artist: '请检查控制台', album: '', cover: 'CD.jpg', url: '',
+                        lyric: '' }];
                     buildSongListUI();
                 }
             }
@@ -3078,15 +3240,12 @@
             });
             applyBtn.addEventListener('click', function(e) { e.stopPropagation();
                 applyCurrentTheme(); });
-
             document.addEventListener('keydown', function(e) {
                 if (isModalOpen) {
                     if (e.key === 'ArrowLeft') { e.preventDefault();
                         goToThumb(currentThumbIndex - 1); } else if (e.key === 'ArrowRight') { e.preventDefault();
                         goToThumb(currentThumbIndex + 1); } else if (e.key === 'Enter' && !e.target.closest(
-                            'input, textarea, button')) {
-                        applyCurrentTheme();
-                    }
+                            'input, textarea, button')) { applyCurrentTheme(); }
                 }
             });
 
@@ -3101,23 +3260,32 @@
                 initPlayer();
                 initAutoSwitch();
                 setTimeout(adjustLyricsIslandPosition, 100);
-
-                window.__player = {
-                    songList,
-                    currentIdx,
-                    mode,
-                    loadAndPlay,
-                    togglePlay,
-                    prevSong,
-                    nextSong,
-                    changeMode
+                const _loadAndPlay = loadAndPlay;
+                loadAndPlay = function(index) {
+                    _loadAndPlay(index);
+                    setTimeout(adjustLyricsIslandPosition, 100);
+                    applyWhiteToHighlights();
                 };
-                console.log('🎵 播放器已启动 (后端: ' + API_BASE + ')');
-                console.log('🔍 搜索框已加载 — 必应中国特供版');
+                window.loadAndPlay = loadAndPlay;
+                window.songList = songList;
+                window.currentIdx = currentIdx;
+                console.log('🎵 PC播放器已启动 — 使用公共 API (api.music.imiru.app)');
+                console.log('🔍 搜索框已加载 — 必应中国特供版（带清除按钮）');
             });
 
-            window.addEventListener('resize', adjustLyricsIslandPosition);
-            window.addEventListener('scroll', adjustLyricsIslandPosition);
+            const _next = window.next;
+            window.next = function() {
+                if (songList.length === 0) return;
+                if (mode === 2) currentIdx = Math.floor(Math.random() * songList.length);
+                else currentIdx = (currentIdx + 1) % songList.length;
+                loadAndPlay(currentIdx);
+            };
+            const _prev = window.prev;
+            window.prev = function() {
+                if (songList.length === 0) return;
+                currentIdx = (currentIdx - 1 + songList.length) % songList.length;
+                loadAndPlay(currentIdx);
+            };
 
         })();
     </script>
