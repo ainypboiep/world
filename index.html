@@ -38,7 +38,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   --nav-link-color:#66ccff;
   --play-btn-bg:#66ccff;
   --title-color:#66ccff;
-  /* 轻量文字阴影 */
   --tglow:0 1px 2px rgba(0,0,0,0.42);
   --tglow-strong:0 1px 3px rgba(0,0,0,0.50),0 2px 8px rgba(0,0,0,0.22);
   --tglow-soft:0 1px 2px rgba(0,0,0,0.36);
@@ -53,8 +52,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   --theme-transition-bg:rgba(0,0,0,0.85);
 }
 #pc-app{background:url('722264.jpg') center/cover no-repeat;transition:filter 1.2s ease;position:relative;}
-
-/* 背景暗化遮罩：适度降低背景亮度 */
 #pc-app::before{
   content:'';position:fixed;top:0;left:0;width:100%;height:100%;
   pointer-events:none;z-index:0;
@@ -129,6 +126,46 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .nav-links{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);display:flex;gap:32px;padding:14px 36px;border-radius:50px;z-index:50;flex-wrap:wrap;justify-content:center;box-sizing:border-box;cursor:default;touch-action:auto;transition:box-shadow .3s ease,background .6s ease,border .6s ease;}
 #pc-app .nav-links a{text-decoration:none;font-weight:bold;transition:opacity .3s,color .6s ease;white-space:nowrap;pointer-events:auto;text-shadow:var(--tglow-soft);}
 #pc-app .nav-links a:hover{opacity:.8;}
+
+/* ===== 左下角 GitHub 玻璃岛 ===== */
+#pc-app #github-island{
+  position:fixed;
+  left:32px;
+  bottom:40px;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:50;
+  background:linear-gradient(135deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);
+  backdrop-filter:blur(40px) saturate(200%) brightness(1.05);
+  -webkit-backdrop-filter:blur(40px) saturate(200%) brightness(1.05);
+  border:1px solid var(--glass-border);
+  box-shadow:var(--glass-shadow);
+  transition:transform .25s ease,box-shadow .3s ease,background .6s ease,border .6s ease;
+  text-decoration:none;
+  -webkit-tap-highlight-color:transparent;
+}
+#pc-app #github-island:hover{
+  transform:scale(1.1) rotate(-6deg);
+  box-shadow:0 12px 40px rgba(0,0,0,.35);
+}
+#pc-app #github-island:active{
+  transform:scale(0.94);
+}
+#pc-app #github-island svg{
+  width:28px;
+  height:28px;
+  fill:rgba(255,255,255,.92);
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.5));
+  transition:fill .3s ease;
+}
+#pc-app #github-island:hover svg{
+  fill:#fff;
+}
 
 #pc-app #icp-footer{position:fixed;left:50%;bottom:8px;transform:translateX(-50%);z-index:50;text-align:center;white-space:nowrap;font-size:.75rem;letter-spacing:.5px;color:rgba(255,255,255,.7);text-shadow:0 1px 2px rgba(0,0,0,.7);pointer-events:auto;transition:color .6s ease;}
 #pc-app #icp-footer a{color:inherit;text-decoration:none;transition:color .25s ease,opacity .25s ease;}
@@ -278,6 +315,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #pc-app #art-box{width:48px;height:48px;}
   #pc-app .song-info{font-size:12px;}
   #pc-app .nav-links{gap:16px;padding:10px 20px;font-size:.85rem;flex-wrap:wrap;justify-content:center;bottom:20px;}
+  #pc-app #github-island{left:18px;bottom:20px;width:44px;height:44px;}
+  #pc-app #github-island svg{width:24px;height:24px;}
   #pc-app #icp-footer{bottom:4px;font-size:.68rem;}
   #pc-app #song-list{width:320px;max-height:200px;}
   #pc-app .song-item{padding:8px 14px;font-size:13px;}
@@ -325,6 +364,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #pc-app .theme-icon-btn svg{width:16px;height:16px;}
   #pc-app .theme-icon-btn{width:24px;height:24px;}
   #pc-app .nav-links{gap:10px;padding:8px 14px;font-size:.75rem;bottom:14px;}
+  #pc-app #github-island{left:12px;bottom:14px;width:38px;height:38px;}
+  #pc-app #github-island svg{width:20px;height:20px;}
   #pc-app #icp-footer{bottom:2px;font-size:.6rem;}
   #pc-app #song-list{width:260px;max-height:160px;padding:6px 0;}
   #pc-app .song-item{padding:6px 12px;font-size:12px;}
@@ -359,6 +400,38 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #mobile-app .mobile-search-btn:active{transform:scale(0.94);background:rgba(102,204,255,.35);}
 #mobile-app .mobile-search-btn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));}
 
+/* ===== 移动端左下角 GitHub 玻璃岛 ===== */
+#mobile-app #mobile-github-island{
+  position:absolute;
+  left:16px;
+  bottom:16px;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:3;
+  background:linear-gradient(135deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.04) 50%,rgba(255,255,255,.07) 100%);
+  backdrop-filter:blur(32px) saturate(200%) brightness(1.08);
+  -webkit-backdrop-filter:blur(32px) saturate(200%) brightness(1.08);
+  border:1.5px solid rgba(255,255,255,.35);
+  box-shadow:0 8px 28px rgba(0,0,0,.30);
+  text-decoration:none;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .25s ease,box-shadow .3s ease;
+}
+#mobile-app #mobile-github-island:active{
+  transform:scale(0.92);
+}
+#mobile-app #mobile-github-island svg{
+  width:24px;
+  height:24px;
+  fill:rgba(255,255,255,.9);
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.45));
+}
+
 .mobile-footer{position:absolute;bottom:16px;left:0;width:100%;text-align:center;z-index:2;font-size:clamp(.6rem,1.4vw,.8rem);color:rgba(255,255,255,.55);letter-spacing:.1em;pointer-events:none;text-shadow:0 1px 3px rgba(0,0,0,.7);}
 .mobile-footer-title{margin-bottom:4px;}
 .mobile-footer a{display:inline-block;color:rgba(255,255,255,.62);text-decoration:none;pointer-events:auto;letter-spacing:.08em;transition:color .25s ease;}
@@ -373,6 +446,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #mobile-app .mobile-search-btn{padding:10px 18px;font-size:13px;border-radius:24px;}
   #mobile-app .mobile-search-btn svg{width:15px;height:15px;}
   #mobile-app #mobile-search-container .search-icon{width:20px;height:20px;}
+  #mobile-app #mobile-github-island{left:12px;bottom:12px;width:40px;height:40px;}
+  #mobile-app #mobile-github-island svg{width:22px;height:22px;}
 }
 @media (max-width:380px){
   #mobile-app{padding:12px 10px 16px;gap:clamp(12px,3vh,28px);}
@@ -383,6 +458,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #mobile-app .mobile-search-btn{padding:8px 14px;font-size:11px;border-radius:20px;}
   #mobile-app .mobile-search-btn svg{width:13px;height:13px;}
   #mobile-app #mobile-search-container .search-icon{width:17px;height:17px;}
+  #mobile-app #mobile-github-island{left:10px;bottom:10px;width:36px;height:36px;}
+  #mobile-app #mobile-github-island svg{width:20px;height:20px;}
   .mobile-footer{font-size:.5rem;bottom:10px;}
 }
 @media (max-height:480px) and (orientation:landscape){
@@ -394,6 +471,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #mobile-app #mobile-search-input{font-size:14px;padding:8px 4px;}
   #mobile-app .mobile-search-btn{padding:8px 16px;font-size:12px;}
   .mobile-footer{display:none;}
+  #mobile-app #mobile-github-island{left:12px;bottom:10px;width:38px;height:38px;}
+  #mobile-app #mobile-github-island svg{width:20px;height:20px;}
 }
 #mobile-app{opacity:0;animation:fadeInMobile 1.2s ease .2s forwards;}
 @keyframes fadeInMobile{0%{opacity:0;transform:translateY(12px) scale(0.98);}100%{opacity:1;transform:translateY(0) scale(1);}}
@@ -473,6 +552,13 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
     <a href="https://bxfans.github.io/Gptt/">智人TV（开发中）</a>
     <a href="re.html">ACGNリソース</a>
   </div>
+
+  <!-- ===== 左下角 GitHub 玻璃岛 ===== -->
+  <a id="github-island" href="https://github.com/ainypboiep/world" target="_blank" rel="noopener" title="GitHub 仓库">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+    </svg>
+  </a>
 
   <div id="icp-footer">
     <a href="https://icp.gov.moe/?keyword=20260864" target="_blank" rel="noopener">萌ICP备20260864号</a>
@@ -559,6 +645,13 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
       搜索
     </button>
   </div>
+
+  <!-- ===== 移动端左下角 GitHub 玻璃岛 ===== -->
+  <a id="mobile-github-island" href="https://github.com/ainypboiep/world" target="_blank" rel="noopener" title="GitHub 仓库">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+    </svg>
+  </a>
 
   <div class="mobile-footer">
     <div class="mobile-footer-title">✦ 幻想的な星明かり ✦</div>
@@ -1608,6 +1701,7 @@ window.addEventListener('load',function(){
   window.currentIdx=currentIdx;
   console.log('🎵 PC播放器已启动 — 使用公共 API (api.music.imiru.app)');
   console.log('🔍 搜索框已加载 — 必应中国特供版（带清除按钮）');
+  console.log('🐙 GitHub 玻璃岛已加载 — https://github.com/ainypboiep/world');
 });
 
 })();
