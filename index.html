@@ -15,7 +15,6 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light','Hiragino Kaku Gothic ProN','Hiragino Sans','Microsoft JhengHei',sans-serif;background:#0b0e1a;color:#fff;user-select:none;-webkit-tap-highlight-color:transparent;}
 
-/* ============ 全局玻璃透明度控制 ============ */
 :root{
   --glass-mult:1;
   --glass-shadow-mult:1;
@@ -86,7 +85,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app #title-text .line1{font-size:1.8em;}
 #pc-app #title-text .line2{font-size:2.6em;}
 
-/* 所有玻璃面板共用 backdrop 与阴影 */
 #pc-app .liquid-glass,
 #pc-app #top-right-info,
 #pc-app #lyrics-island,
@@ -261,82 +259,34 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .modal-subtitle{text-align:center;font-size:.9rem;font-weight:400;color:var(--text-color);opacity:.8;letter-spacing:3px;padding:2px 0 10px 0;transition:color .6s ease,opacity .6s ease;flex-shrink:0;min-height:28px;}
 #pc-app[data-theme="dark"] .modal-subtitle{color:#e0e0e0;opacity:.75;}
 
-/* ===== 弹窗主体：左侧图标栏 + 右侧内容 ===== */
-#pc-app .modal-body{
-  display:flex;
-  flex:1;
-  gap:18px;
-  padding:4px 0 0 0;
-  min-height:0;
-}
+#pc-app .modal-body{display:flex;flex:1;gap:18px;padding:4px 0 0 0;min-height:0;}
 #pc-app .modal-sidebar{
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  padding:8px 6px;
-  flex-shrink:0;
+  position:relative;display:flex;flex-direction:column;gap:14px;padding:8px 6px;flex-shrink:0;
   background:rgba(255,255,255,calc(0.04 * var(--glass-mult)));
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,calc(0.10 * var(--glass-mult)));
+  border-radius:16px;border:1px solid rgba(255,255,255,calc(0.10 * var(--glass-mult)));
 }
-#pc-app .sidebar-icon{
-  position:relative;
-  z-index:1;
-  width:42px;height:42px;border-radius:12px;
-  background:transparent;
-  border:1px solid transparent;
-  color:rgba(255,255,255,.68);
-  cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:color 0.25s ease, background 0.25s ease;
-  padding:0;
-  outline:none;
-}
+#pc-app .sidebar-icon{position:relative;z-index:1;width:42px;height:42px;border-radius:12px;background:transparent;border:1px solid transparent;color:rgba(255,255,255,.68);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color 0.25s ease, background 0.25s ease;padding:0;outline:none;}
 #pc-app .sidebar-icon svg{width:24px;height:24px;transition:transform .3s ease;}
-#pc-app .sidebar-icon:hover{
-  color:#fff;
-  background:rgba(255,255,255,calc(0.08 * var(--glass-mult)));
-}
+#pc-app .sidebar-icon:hover{color:#fff;background:rgba(255,255,255,calc(0.08 * var(--glass-mult)));}
 #pc-app .sidebar-icon.active{color:#fff;background:transparent;border-color:transparent;}
 #pc-app .sidebar-icon.active svg{transform:scale(1.05);}
 
-/* 史莱姆滑动指示器 */
 #pc-app .sidebar-indicator{
-  position:absolute;
-  left:6px;top:8px;
-  width:42px;height:42px;
-  border-radius:12px;
+  position:absolute;left:6px;top:8px;width:42px;height:42px;border-radius:12px;
   background:rgba(102,204,255,0.22);
   border:1px solid var(--accent, #66ccff);
-  box-shadow:
-      0 4px 16px rgba(102,204,255,0.30),
-      inset 0 1px 1px rgba(255,255,255,0.35);
-  pointer-events:none;
-  z-index:0;
+  box-shadow:0 4px 16px rgba(102,204,255,0.30), inset 0 1px 1px rgba(255,255,255,0.35);
+  pointer-events:none;z-index:0;
   transition:
       top 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
       left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
       width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
       height 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-      background 0.3s ease,
-      border-color 0.3s ease,
-      box-shadow 0.3s ease;
+      background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-#pc-app .modal-content{
-  flex:1;
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  min-height:0;
-}
-#pc-app .tab-panel{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  min-height:440px;
-}
+#pc-app .modal-content{flex:1;min-width:0;display:flex;flex-direction:column;min-height:0;}
+#pc-app .tab-panel{flex:1;display:flex;flex-direction:column;min-height:440px;}
 #pc-app .tab-panel[hidden]{display:none;}
 
 #pc-app .thumb-carousel{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:10px 0 14px 0;min-height:220px;}
@@ -355,81 +305,15 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .thumb-carousel .apply-btn:hover{transform:scale(1.04);box-shadow:0 6px 24px rgba(0,0,0,.28);}
 #pc-app .thumb-carousel .apply-btn:active{transform:scale(0.96);}
 
-/* ===== 透明效果调节面板 ===== */
-#pc-app .transparency-panel{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:32px;
-  padding:20px 8px;
-}
-#pc-app .transparency-title{
-  font-size:1.05rem;
-  letter-spacing:3px;
-  color:#fff;
-  text-align:center;
-}
-#pc-app .transparency-slider-row{
-  position:relative;
-  display:flex;
-  align-items:center;
-  gap:18px;
-  width:100%;
-  padding:0 12px;
-}
-#pc-app .transparency-slider-track{
-  position:relative;
-  flex:1;
-  height:3px;
-  border-radius:1.5px;
-  background:rgba(255,255,255,.28);
-  cursor:pointer;
-}
-#pc-app .transparency-slider-fill{
-  position:absolute;
-  top:0;left:0;
-  height:100%;
-  width:70%;
-  border-radius:1.5px;
-  background:linear-gradient(90deg,var(--accent,#66ccff),#88ddff,var(--accent,#66ccff));
-  background-size:200% 100%;
-  background-position:0% 0%;
-  will-change:width,background-position;
-  box-shadow:0 0 6px rgba(102,204,255,.45);
-  animation:flowGradient 1.8s linear infinite,pulseGlow 1.2s ease-in-out infinite;
-  pointer-events:none;
-  transition:none;
-}
-#pc-app .transparency-slider-track input[type="range"]{
-  position:absolute;
-  top:-8px;
-  left:0;
-  width:100%;
-  height:calc(100% + 16px);
-  opacity:0;
-  cursor:pointer;
-  margin:0;padding:0;
-  z-index:3;
-}
-#pc-app .transparency-value{
-  min-width:52px;
-  text-align:right;
-  font-size:1.05rem;
-  font-weight:500;
-  letter-spacing:.5px;
-  font-variant-numeric:tabular-nums;
-  color:#fff;
-  transition:color .3s ease;
-}
+#pc-app .transparency-panel{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;padding:20px 8px;}
+#pc-app .transparency-title{font-size:1.05rem;letter-spacing:3px;color:#fff;text-align:center;}
+#pc-app .transparency-slider-row{position:relative;display:flex;align-items:center;gap:18px;width:100%;padding:0 12px;}
+#pc-app .transparency-slider-track{position:relative;flex:1;height:3px;border-radius:1.5px;background:rgba(255,255,255,.28);cursor:pointer;}
+#pc-app .transparency-slider-fill{position:absolute;top:0;left:0;height:100%;width:70%;border-radius:1.5px;background:linear-gradient(90deg,var(--accent,#66ccff),#88ddff,var(--accent,#66ccff));background-size:200% 100%;background-position:0% 0%;will-change:width,background-position;box-shadow:0 0 6px rgba(102,204,255,.45);animation:flowGradient 1.8s linear infinite,pulseGlow 1.2s ease-in-out infinite;pointer-events:none;transition:none;}
+#pc-app .transparency-slider-track input[type="range"]{position:absolute;top:-8px;left:0;width:100%;height:calc(100% + 16px);opacity:0;cursor:pointer;margin:0;padding:0;z-index:3;}
+#pc-app .transparency-value{min-width:52px;text-align:right;font-size:1.05rem;font-weight:500;letter-spacing:.5px;font-variant-numeric:tabular-nums;color:#fff;transition:color .3s ease;}
 
-#pc-app #theme-switch-container{
-  display:flex;align-items:center;justify-content:center;gap:16px;flex-shrink:0;
-  padding-top:20px;padding-bottom:2px;flex-wrap:wrap;pointer-events:auto;
-  border-top:1px solid rgba(255,255,255,calc(0.08 * var(--glass-mult)));
-  margin-top:12px;
-}
+#pc-app #theme-switch-container{display:flex;align-items:center;justify-content:center;gap:16px;flex-shrink:0;padding-top:20px;padding-bottom:2px;flex-wrap:wrap;pointer-events:auto;border-top:1px solid rgba(255,255,255,calc(0.08 * var(--glass-mult)));margin-top:12px;}
 #pc-app .theme-icon-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);transition:color .3s,transform .3s,background .3s;padding:0;}
 #pc-app .theme-icon-btn:hover{transform:scale(1.1);color:rgba(255,255,255,.95);background:rgba(255,255,255,.08);}
 #pc-app .theme-icon-btn svg{width:24px;height:24px;fill:currentColor;}
@@ -587,6 +471,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #mobile-app #mobile-search-input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:clamp(16px,4vw,21px);font-family:inherit;padding:14px 6px;min-width:0;letter-spacing:.4px;font-weight:400;}
 #mobile-app #mobile-search-input::placeholder{color:rgba(255,255,255,.5);font-weight:300;letter-spacing:.6px;}
 #mobile-app #mobile-search-input::-webkit-search-decoration,#mobile-app #mobile-search-input::-webkit-search-cancel-button{display:none;}
+#mobile-app .mobile-clear-btn{background:none;border:none;color:rgba(255,255,255,.6);font-size:22px;cursor:pointer;padding:0 6px;transition:color .2s,transform .2s;display:flex;align-items:center;justify-content:center;height:100%;line-height:1;flex-shrink:0;width:34px;}
+#mobile-app .mobile-clear-btn:hover,.mobile-app .mobile-clear-btn:active{color:#fff;transform:scale(1.1);}
 #mobile-app .mobile-search-btn{flex-shrink:0;border:none;border-radius:28px;padding:12px 26px;background:rgba(102,204,255,.20);color:#fff;font-size:clamp(14px,3vw,17px);font-family:inherit;cursor:pointer;transition:background .25s ease,transform .2s ease,box-shadow .25s ease;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08);letter-spacing:.6px;font-weight:400;white-space:nowrap;display:flex;align-items:center;gap:6px;}
 #mobile-app .mobile-search-btn:active{transform:scale(0.94);background:rgba(102,204,255,.35);}
 #mobile-app .mobile-search-btn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
@@ -614,6 +500,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #mobile-app .mobile-search-btn{padding:10px 18px;font-size:13px;border-radius:24px;}
   #mobile-app .mobile-search-btn svg{width:15px;height:15px;}
   #mobile-app #mobile-search-container .search-icon{width:20px;height:20px;}
+  #mobile-app .mobile-clear-btn{font-size:18px;width:28px;padding:0 4px;}
   #mobile-app #mobile-github-island{left:12px;bottom:12px;width:40px;height:40px;}
   #mobile-app #mobile-github-island svg{width:22px;height:22px;}
 }
@@ -626,6 +513,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #mobile-app .mobile-search-btn{padding:8px 14px;font-size:11px;border-radius:20px;}
   #mobile-app .mobile-search-btn svg{width:13px;height:13px;}
   #mobile-app #mobile-search-container .search-icon{width:17px;height:17px;}
+  #mobile-app .mobile-clear-btn{font-size:16px;width:24px;padding:0 3px;}
   #mobile-app #mobile-github-island{left:10px;bottom:10px;width:36px;height:36px;}
   #mobile-app #mobile-github-island svg{width:20px;height:20px;}
   .mobile-footer{font-size:.5rem;bottom:10px;}
@@ -706,7 +594,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
     <span class="search-icon">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
     </span>
-    <input type="text" id="pc-search-input" class="search-input" placeholder="在必应中搜索..." autocomplete="off" />
+    <input type="text" id="pc-search-input" class="search-input" placeholder="在Yandex中搜索..." autocomplete="off" />
     <button class="clear-btn" id="pc-clear-btn" style="display:none;" onclick="clearPcSearch()">✕</button>
     <button class="pc-search-btn" id="pc-search-btn" onclick="performPcSearch()">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -851,7 +739,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
     <span class="search-icon">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
     </span>
-    <input type="text" id="mobile-search-input" class="search-input" placeholder="在必应中搜索..." autocomplete="off" />
+    <input type="text" id="mobile-search-input" class="search-input" placeholder="在Yandex中搜索..." autocomplete="off" />
+    <button class="mobile-clear-btn" id="mobile-clear-btn" style="display:none;" onclick="clearMobileSearch()">✕</button>
     <button class="mobile-search-btn" id="mobile-search-btn" onclick="performMobileSearch()">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
       搜索
@@ -877,6 +766,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 if(window.__PC_APP_INITIALIZED__){console.warn('⚠️ 已初始化，跳过重复执行');return;}
 window.__PC_APP_INITIALIZED__=true;
 
+const YANDEX_SEARCH_URL='https://yandex.com/search/?text=';
+
 /* =========================================================
    全局玻璃透明度（0-100，默认 70）
    ========================================================= */
@@ -888,7 +779,6 @@ function applyGlassIntensity(value){
   value=Math.max(0,Math.min(100,parseInt(value,10)||0));
   glassIntensity=value;
 
-  /* ---- 不透明度倍数 ---- */
   let mult;
   if(value===0){
     mult=0;
@@ -902,7 +792,6 @@ function applyGlassIntensity(value){
   }
   document.documentElement.style.setProperty('--glass-mult',mult.toFixed(4));
 
-  /* ---- 阴影倍数 ---- */
   let shadowMult;
   if(value===0){
     shadowMult=0;
@@ -911,7 +800,6 @@ function applyGlassIntensity(value){
   }
   document.documentElement.style.setProperty('--glass-shadow-mult',shadowMult.toFixed(4));
 
-  /* ---- 模糊 / 饱和度 / 亮度随强度缩放 ---- */
   let bf;
   if(value===0){
     bf='none';
@@ -924,7 +812,6 @@ function applyGlassIntensity(value){
   }
   document.documentElement.style.setProperty('--glass-backdrop',bf);
 
-  /* ---- UI 元素（PC 专属） ---- */
   const fill=document.getElementById('transparency-fill');
   const range=document.getElementById('transparency-range');
   const valEl=document.getElementById('transparency-value');
@@ -964,19 +851,39 @@ if(isMobile){
   document.body.classList.add('mode-mobile');
   window.__IS_MOBILE__=true;
   console.log('📱 移动端模式已激活');
+
+  /* ----- 移动端搜索：Yandex ----- */
   window.performMobileSearch=function(){
     var input=document.getElementById('mobile-search-input');
     var query=input.value.trim();
     if(!query){input.focus();return;}
-    window.open('https://cn.bing.com/search?q='+encodeURIComponent(query),'_blank');
+    window.open(YANDEX_SEARCH_URL+encodeURIComponent(query),'_blank');
   };
+  window.clearMobileSearch=function(){
+    var input=document.getElementById('mobile-search-input');
+    input.value='';
+    input.focus();
+    var btn=document.getElementById('mobile-clear-btn');
+    if(btn)btn.style.display='none';
+  };
+
   var mobileInput=document.getElementById('mobile-search-input');
   var mobileBtn=document.getElementById('mobile-search-btn');
+  var mobileClearBtn=document.getElementById('mobile-clear-btn');
+
   mobileInput.addEventListener('keydown',function(e){
     if(e.key==='Enter'){e.preventDefault();performMobileSearch();}
   });
   mobileBtn.addEventListener('click',function(e){
     e.preventDefault();performMobileSearch();
+  });
+  mobileInput.addEventListener('input',function(){
+    if(mobileClearBtn){
+      mobileClearBtn.style.display=this.value.length>0?'flex':'none';
+    }
+  });
+  mobileInput.addEventListener('blur',function(){
+    if(mobileClearBtn && this.value.length===0)mobileClearBtn.style.display='none';
   });
   mobileInput.addEventListener('touchstart',function(){this.focus();},{passive:true});
 
@@ -1953,12 +1860,12 @@ function adjustLyricsIslandPosition(){
   island.style.right=(window.innerWidth-rect.left+12)+'px';
 }
 
-/* ---------- 桌面端搜索 ---------- */
+/* ---------- 桌面端搜索：Yandex ---------- */
 window.performPcSearch=function(){
   var input=document.getElementById('pc-search-input');
   var query=input.value.trim();
   if(!query){input.focus();return;}
-  window.open('https://cn.bing.com/search?q='+encodeURIComponent(query),'_blank');
+  window.open(YANDEX_SEARCH_URL+encodeURIComponent(query),'_blank');
 };
 window.clearPcSearch=function(){
   var input=document.getElementById('pc-search-input');
@@ -2077,7 +1984,7 @@ window.addEventListener('load',function(){
   window.songList=songList;
   window.currentIdx=currentIdx;
   console.log('🎵 PC播放器已启动 — 使用公共 API (api.music.imiru.app)');
-  console.log('🔍 搜索框已加载 — 必应中国特供版（带清除按钮）');
+  console.log('🔍 搜索框已加载 — Yandex（带清除按钮）');
   console.log('🐙 GitHub 玻璃岛已加载 — https://github.com/ainypboiep/world');
   console.log('🎚️ 全局透明效果已加载 — 默认 70/100');
 });
