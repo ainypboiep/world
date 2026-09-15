@@ -17,8 +17,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 
 /* ============ 全局玻璃透明度控制 ============ */
 :root{
-  --glass-mult:1;          /* 面板 alpha 缩放 */
-  --glass-shadow-mult:1;   /* 阴影缩放 */
+  --glass-mult:1;
+  --glass-shadow-mult:1;
   --glass-backdrop:blur(40px) saturate(200%) brightness(1.05);
 }
 
@@ -41,7 +41,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   --glass-bg3:rgba(255,255,255,calc(0.063 * var(--glass-mult)));
   --glass-border:rgba(255,255,255,calc(0.45 * var(--glass-mult)));
 
-  /* 窗口/玻璃岛阴影 —— 随强度缩放，0 时自动消失 */
   --glass-shadow:
       0 calc(16px * var(--glass-shadow-mult)) calc(48px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.30 * var(--glass-shadow-mult))),
       0 calc(4px  * var(--glass-shadow-mult)) calc(12px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.18 * var(--glass-shadow-mult)));
@@ -348,7 +347,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .thumb-carousel .thumb-arrow{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s ease,transform .2s ease;user-select:none;line-height:1;padding:0;box-shadow:0 2px 12px rgba(0,0,0,.22);flex-shrink:0;}
 #pc-app .thumb-carousel .thumb-arrow:hover{background:rgba(0,0,0,.55);transform:scale(1.08);}
 #pc-app .thumb-carousel .thumb-arrow:active{transform:scale(0.92);}
-#pc-app .thumb-carousel .thumb-dots{display:flex;gap:10px;justify-content:center;flex-shrink:0;margin-top:4px;}
+#pc-app .thumb-carousel .thumb-dots{display:flex;gap:10px;justify-content:center;flex-shrink:0;margin-top:4px;flex-wrap:wrap;max-width:100%;}
 #pc-app .thumb-carousel .thumb-dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);transition:background .3s ease,transform .3s ease;cursor:pointer;}
 #pc-app .thumb-carousel .thumb-dots span.active{background:var(--accent,#66ccff);transform:scale(1.2);}
 #pc-app .thumb-carousel .thumb-dots span:hover{background:rgba(255,255,255,.5);}
@@ -784,6 +783,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
                     <img src="miku2.jpg" alt="桜ミク" data-key="miku2.jpg" onerror="this.style.display='none'" />
                     <img src="蝶云.png" alt="洛天依-蝶变" data-key="蝶云.png" onerror="this.style.display='none'" />
                     <img src="nacho.png" alt="猫羽雫" data-key="nacho.png" onerror="this.style.display='none'" />
+                    <img src="airi.png" alt="桃井爱莉" data-key="airi.png" onerror="this.style.display='none'" />
+                    <img src="hua.jpg" alt="常磐华乃" data-key="hua.jpg" onerror="this.style.display='none'" />
+                    <img src="zao.jpg" alt="东风谷早苗" data-key="zao.jpg" onerror="this.style.display='none'" />
                   </div>
                 </div>
                 <button class="thumb-arrow next" id="thumb-next" aria-label="下一张">›</button>
@@ -793,6 +795,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
                 <span data-index="1"></span>
                 <span data-index="2"></span>
                 <span data-index="3"></span>
+                <span data-index="4"></span>
+                <span data-index="5"></span>
+                <span data-index="6"></span>
               </div>
               <button class="apply-btn" id="apply-theme-btn">应用</button>
             </div>
@@ -892,7 +897,7 @@ function applyGlassIntensity(value){
     mult=Math.pow(n,3);
     if(value>70){
       const extra=(value-70)/30;
-      mult*=1+extra*1.4;   // 100 时约 7 倍
+      mult*=1+extra*1.4;
     }
   }
   document.documentElement.style.setProperty('--glass-mult',mult.toFixed(4));
@@ -902,19 +907,19 @@ function applyGlassIntensity(value){
   if(value===0){
     shadowMult=0;
   }else{
-    shadowMult=value/70;   // 70→1，100→1.43
+    shadowMult=value/70;
   }
   document.documentElement.style.setProperty('--glass-shadow-mult',shadowMult.toFixed(4));
 
   /* ---- 模糊 / 饱和度 / 亮度随强度缩放 ---- */
   let bf;
   if(value===0){
-    bf='none';             // 完全透明
+    bf='none';
   }else{
     const t=value/100;
-    const blurPx=t*40;                        // 0~40px
-    const satPct=100+t*100;                   // 100~200%
-    const brightVal=1+t*0.05;                 // 1.0~1.05
+    const blurPx=t*40;
+    const satPct=100+t*100;
+    const brightVal=1+t*0.05;
     bf='blur('+blurPx.toFixed(1)+'px) saturate('+satPct.toFixed(0)+'%) brightness('+brightVal.toFixed(3)+')';
   }
   document.documentElement.style.setProperty('--glass-backdrop',bf);
@@ -975,7 +980,6 @@ if(isMobile){
   });
   mobileInput.addEventListener('touchstart',function(){this.focus();},{passive:true});
 
-  /* 移动端只应用玻璃透明度，不初始化 PC 播放器 */
   initGlassIntensity();
   return;
 }else{
@@ -1177,7 +1181,6 @@ function updateLyrics(){
   if(nextIdx===idx)lyricsLine3.textContent='';
 }
 
-/* 无文字阴影：仅确保高亮字为纯白 */
 function applyWhiteToHighlights(){
   document.querySelectorAll('#lyrics-island .lyrics-line.current').forEach(el=>{
     el.style.color='#fff';
@@ -1499,7 +1502,6 @@ function initModalTabs(){
 
   function moveIndicator(activeIcon){
     if(!indicator||!sidebar||!activeIcon)return;
-    /* offsetLeft / offsetTop 不受父级 transform 影响，避免弹窗缩放入场时抖动 */
     indicator.style.left=activeIcon.offsetLeft+'px';
     indicator.style.top=activeIcon.offsetTop+'px';
     indicator.style.width=activeIcon.offsetWidth+'px';
@@ -1619,7 +1621,6 @@ function toggleTheme(){
   setTheme(target);
 }
 
-/* ⚠️ 关键：暴露到全局，供 HTML 内联 onclick 调用 */
 window.setTheme=setTheme;
 window.toggleTheme=toggleTheme;
 
@@ -1671,9 +1672,26 @@ function initAutoSwitch(){
 function syncSwitchUI(){updateSwitchUI(currentTheme);}
 
 /* ---------- 主题图片轮播 ---------- */
-const THUMB_IMAGES=['722264.jpg','miku2.jpg','蝶云.png','nacho.png'];
-const THUMB_TITLES={'722264.jpg':'海边のミク','miku2.jpg':'桜ミク','蝶云.png':'洛天依-蝶变','nacho.png':'猫羽雫'};
-const THUMB_COLORS={'722264.jpg':'#66ccff','miku2.jpg':'#FFC0CB','蝶云.png':'#32CD32','nacho.png':'#B6D5E9'};
+const THUMB_IMAGES=['722264.jpg','miku2.jpg','蝶云.png','nacho.png','airi.png','hua.jpg','zao.jpg'];
+const THUMB_TITLES={
+  '722264.jpg':'海边のミク',
+  'miku2.jpg':'桜ミク',
+  '蝶云.png':'洛天依-蝶变',
+  'nacho.png':'猫羽雫',
+  'airi.png':'桃井爱莉',
+  'hua.jpg':'常磐华乃',
+  'zao.jpg':'东风谷早苗'
+};
+const THUMB_COLORS={
+  '722264.jpg':'#66ccff',
+  'miku2.jpg':'#FFC0CB',
+  '蝶云.png':'#32CD32',
+  'nacho.png':'#B6D5E9',
+  'airi.png':'#f6829d',
+  'hua.jpg':'#feb7bb',
+  'zao.jpg':'#e2e2a8'
+};
+
 let currentThumbIndex=0,appliedThumbIndex=0;
 const thumbTrack=document.getElementById('thumb-track');
 const thumbDots=document.getElementById('thumb-dots');
@@ -1723,7 +1741,6 @@ function applyColorScheme(color){
   navLinks.querySelectorAll('a').forEach(a=>{a.style.color=color;});
   mainPlayBtn.style.background=color;
 
-  /* ⚠️ 同时写入 :root 与 #pc-app 元素，#pc-app 自身 CSS 变量会覆盖 html 上的同名变量 */
   document.documentElement.style.setProperty('--play-btn-bg',color);
   document.documentElement.style.setProperty('--accent',color);
   document.documentElement.style.setProperty('--nav-link-color',color);
@@ -1758,7 +1775,6 @@ function applyColorScheme(color){
     autoSwitchTrackActive.style.borderColor=color;
   }
 
-  /* 同步左侧栏指示器颜色 */
   const indicator=document.getElementById('sidebar-indicator');
   if(indicator){
     const rgb=hexToRgb(color);
