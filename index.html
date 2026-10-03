@@ -1705,6 +1705,9 @@ const MD3_ROLES=[
   ['surfaceTint','surface-tint'],
 ];
 
+/* =========================================================
+   ★ 从图片提取主种子色相（Monet 风格）
+   ========================================================= */
 function extractSeedHct(imageUrl){
   return new Promise(function(resolve){
     const img=new Image();
@@ -1748,6 +1751,46 @@ function extractSeedHct(imageUrl){
   });
 }
 
+/* =========================================================
+   ★ 预计算 MD3 种子色（后台运行，与当前视觉样式无关）
+   --------------------------------------------------------
+   只要壁纸加载完成，就立即提取主色调并缓存。
+   等到用户切换到 MD3E 时，refreshMd3Scheme 可直接复用缓存，
+   实现零延迟应用动态取色。
+   ========================================================= */
+async function precomputeMd3Seed(imageUrl){
+  if(!imageUrl)return null;
+  // 已缓存同一张图片的种子色，直接命中
+  if(__md3SeedHct && __md3SeedHct.__src===imageUrl){
+    return __md3SeedHct;
+  }
+
+  // 等待 Material Color Utilities 加载完成
+  if(!window.__MCU_READY__){
+    await new Promise(function(resolve){
+      if(window.__MCU_READY__){resolve();return;}
+      window.addEventListener('mcu-ready',function(){resolve();},{once:true});
+    });
+  }
+
+  const hct=await extractSeedHct(imageUrl);
+  const MCU=window.__MCU__;
+  let seed=hct;
+  if(!seed && MCU){
+    // 提取失败时回退到 MD3 Baseline 主色
+    seed=MCU.Hct.fromInt(MCU.argbFromHex('#6750A4'));
+  }
+  if(seed){
+    seed.__src=imageUrl;
+    __md3SeedHct=seed;
+    console.log('🎨 MD3 种子色已后台预计算:', imageUrl);
+  }
+  return __md3SeedHct;
+}
+
+/* =========================================================
+   ★ 生成并应用 MD3 色彩方案（写入 CSS 变量）
+   ========================================================= */
 function generateMd3Scheme(seedHct,isDark){
   const MCU=window.__MCU__;
   if(!MCU||!seedHct)return;
@@ -1776,6 +1819,10 @@ function generateMd3Scheme(seedHct,isDark){
   }catch(e){}
 }
 
+/* =========================================================
+   ★ 应用 MD3E 方案（仅当前样式为 md3e 时才实际生效）
+   - 复用后台预计算的种子色，通常已就绪，零延迟
+   ========================================================= */
 async function refreshMd3Scheme(){
   if(currentVisualStyle!=='md3e')return;
   const app=document.getElementById('pc-app');
@@ -1786,27 +1833,16 @@ async function refreshMd3Scheme(){
     if(m&&m[1])url=m[1];
   }catch(e){}
 
-  if(!__md3SeedHct||__md3SeedHct.__src!==url){
-    const hct=await extractSeedHct(url);
-    const MCU=window.__MCU__;
-    let seed=hct;
-    if(!seed&&MCU){
-      seed=MCU.Hct.fromInt(MCU.argbFromHex('#6750A4'));
-    }
-    if(seed){
-      seed.__src=url;
-      __md3SeedHct=seed;
-    }
-  }
-
-  if(__md3SeedHct){
-    generateMd3Scheme(__md3SeedHct,document.getElementById('pc-app').getAttribute('data-theme')==='dark');
+  // 优先使用已缓存的种子色（后台预计算）
+  const seed=await precomputeMd3Seed(url);
+  if(seed){
+    generateMd3Scheme(seed,app.getAttribute('data-theme')==='dark');
   }
 }
 
 /**
  * ★ 根据视觉样式控制“全局透明效果”卡片的显隐
- *    - MD3E 模式：卡片折叠隐藏（MD3E 不使用毛玻璃透明度）
+ *    - MD3E 模式：卡片折叠隐藏
  *    - Glass 模式：卡片展开
  *    - skipTransition=true 时跳过过渡（用于初始化）
  */
@@ -1844,6 +1880,7 @@ function applyVisualStyle(style){
   updateTransparencyCardVisibility(style,false);
 
   if(style==='md3e'){
+    // ★ 种子已由后台预计算，通常立即可用
     refreshMd3Scheme();
   }else{
     MD3_ROLES.forEach(function(pair){
@@ -1872,10 +1909,17 @@ function initVisualStyle(){
 
   updateTransparencyCardVisibility(saved,true);
 
-  if(saved==='md3e'){
-    if(window.__MCU_READY__)refreshMd3Scheme();
-    else window.addEventListener('mcu-ready',refreshMd3Scheme,{once:true});
-  }
+  // ★ 无论当前样式是什么，都先根据当前壁纸预计算种子色
+  //   （如果用户保存的样式就是 md3e，则直接用预计算结果应用方案）
+  const currentKey=THUMB_IMAGES[appliedThumbIndex]||'722264.jpg';
+  precomputeMd3Seed(currentKey).then(function(){
+    if(currentVisualStyle==='md3e'){
+      const seed=__md3SeedHct;
+      if(seed){
+        generateMd3Scheme(seed,document.getElementById('pc-app').getAttribute('data-theme')==='dark');
+      }
+    }
+  });
 }
 
 /* ---------- 1. UA 检测 ---------- */
@@ -1970,7 +2014,6 @@ async function fetchArtistSongs(artistId){
   const json=await resp.json();
   console.log('🎵 歌手原始返回:',json);
 
-  // 增强版 API 可能返回 { songs: [...] } 或 { data: { songs: [...] } }
   let list=(json.data&&json.data.songs)||json.songs||(json.data&&json.data.list)||json.list||json.data||[];
   if(!Array.isArray(list))list=[];
 
@@ -2002,7 +2045,6 @@ async function fetchArtistSongs(artistId){
 
 async function fetchSongUrl(songId){
   if(songUrlCache[songId])return songUrlCache[songId];
-  // 使用 /song/url/v1 获取增强音质
   const url=CONFIG.API_BASE+'/song/url/v1?id='+songId+'&level=exhigh';
   const resp=await fetch(url);
   if(!resp.ok)throw new Error('HTTP '+resp.status);
@@ -2033,7 +2075,6 @@ async function fetchSongLyric(songId){
   if(!resp.ok)throw new Error('HTTP '+resp.status);
   const json=await resp.json();
   console.log('📃 歌词返回:',json);
-  // 增强版可能返回 { lrc: { lyric: "..." } } 或 { lyric: "..." }
   let lyricText=(json.data&&json.data.lyric)||json.lyric||(json.lrc&&json.lrc.lyric)||(json.data&&json.data.lrc&&json.data.lrc.lyric)||'';
   if(!lyricText)return null;
   const parsed=parseLRC(lyricText);
@@ -2164,7 +2205,6 @@ async function loadAndPlay(index){
   highlightCurrentSong();
   coverImg.src=song.cover||'CD.jpg';
 
-  // 封面兜底：如果列表没有封面，尝试从 song/detail 获取
   if(!song.cover){
     const cover=await fetchSongCover(song.id);
     if(cover){song.cover=cover;coverImg.src=cover;}
@@ -2779,7 +2819,14 @@ function applyThemeByKey(key){
     document.getElementById('pc-app').style.backgroundSize='cover';
     document.getElementById('pc-app').style.backgroundPosition='center';
     document.getElementById('pc-app').style.backgroundRepeat='no-repeat';
-    if(currentVisualStyle==='md3e')refreshMd3Scheme();
+
+    // ★★ 核心改动：无论当前视觉样式，壁纸一加载完就在后台预计算取色
+    precomputeMd3Seed(key).then(function(seed){
+      // 若当前恰好是 MD3E 模式，立即应用已算好的方案
+      if(currentVisualStyle==='md3e' && seed){
+        generateMd3Scheme(seed,document.getElementById('pc-app').getAttribute('data-theme')==='dark');
+      }
+    });
   };
   imgTest.onerror=function(){console.warn('背景图片加载失败:',key);};
   imgTest.src=key;
@@ -2814,7 +2861,13 @@ function applyCurrentTheme(){
       document.getElementById('pc-app').style.backgroundSize='cover';
       document.getElementById('pc-app').style.backgroundPosition='center';
       document.getElementById('pc-app').style.backgroundRepeat='no-repeat';
-      if(currentVisualStyle==='md3e')refreshMd3Scheme();
+
+      // ★★ 核心改动：无论当前视觉样式，壁纸一加载完就在后台预计算取色
+      precomputeMd3Seed(key).then(function(seed){
+        if(currentVisualStyle==='md3e' && seed){
+          generateMd3Scheme(seed,document.getElementById('pc-app').getAttribute('data-theme')==='dark');
+        }
+      });
     };
     imgTest.onerror=function(){console.warn('背景图片加载失败:',key);};
     imgTest.src=key;
@@ -3070,6 +3123,7 @@ window.addEventListener('load',function(){
   console.log('📂 主题名称已限制在个性化子项中');
   console.log('🧩 透明效果面板已优化为卡片式布局');
   console.log('✨ MD3E 模式下“全局透明效果”卡片会自动折叠隐藏');
+  console.log('🚀 MD3 取色：壁纸加载完成即在后台自动预计算，切换样式零延迟');
 });
 
 })();
