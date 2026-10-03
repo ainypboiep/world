@@ -256,7 +256,19 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .dot.green{background:radial-gradient(circle at 35% 35%,#6bcf7f,#2e7d32);}
 #pc-app .modal-title{font-size:1.1rem;font-weight:500;color:var(--text-color);letter-spacing:2px;transition:color .6s ease;text-align:center;line-height:1.2;pointer-events:none;}
 #pc-app[data-theme="dark"] .modal-title{color:#e0e0e0;}
-#pc-app .modal-subtitle{text-align:center;font-size:.9rem;font-weight:400;color:var(--text-color);opacity:.8;letter-spacing:3px;padding:2px 0 10px 0;transition:color .6s ease,opacity .6s ease;flex-shrink:0;min-height:28px;}
+
+#pc-app .modal-subtitle{
+  text-align:center;
+  font-size:.9rem;
+  font-weight:400;
+  color:var(--text-color);
+  opacity:.8;
+  letter-spacing:3px;
+  padding:4px 0 12px 0;
+  transition:color .6s ease,opacity .6s ease;
+  flex-shrink:0;
+  min-height:28px;
+}
 #pc-app[data-theme="dark"] .modal-subtitle{color:#e0e0e0;opacity:.75;}
 
 #pc-app .modal-body{display:flex;flex:1;gap:18px;padding:4px 0 0 0;min-height:0;}
@@ -305,13 +317,125 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .thumb-carousel .apply-btn:hover{transform:scale(1.04);box-shadow:0 6px 24px rgba(0,0,0,.28);}
 #pc-app .thumb-carousel .apply-btn:active{transform:scale(0.96);}
 
-#pc-app .transparency-panel{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;padding:20px 8px;}
-#pc-app .transparency-title{font-size:1.05rem;letter-spacing:3px;color:#fff;text-align:center;}
-#pc-app .transparency-slider-row{position:relative;display:flex;align-items:center;gap:18px;width:100%;padding:0 12px;}
+/* ===== 视觉样式选择器（通用按钮样式） ===== */
+#pc-app .visual-style-options{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:2px;
+}
+#pc-app .visual-style-btn{
+  padding:9px 26px;
+  border-radius:9999px;
+  border:1px solid rgba(255,255,255,calc(0.25 * var(--glass-mult)));
+  background:rgba(255,255,255,calc(0.08 * var(--glass-mult)));
+  color:rgba(255,255,255,.82);
+  font-family:inherit;
+  font-size:.88rem;
+  cursor:pointer;
+  transition:background .25s ease,color .25s ease,border-color .25s ease,transform .2s ease,box-shadow .25s ease;
+  letter-spacing:1px;
+  outline:none;
+}
+#pc-app .visual-style-btn:hover{
+  background:rgba(255,255,255,calc(0.14 * var(--glass-mult)));
+  color:#fff;
+  transform:translateY(-1px);
+}
+#pc-app .visual-style-btn:active{transform:scale(.95);}
+#pc-app .visual-style-btn.active{
+  background:var(--accent,#66ccff);
+  border-color:var(--accent,#66ccff);
+  color:#fff;
+  box-shadow:0 4px 16px rgba(102,204,255,0.32);
+}
+
+/* ================================================================
+   ★ 设置面板布局（透明效果标签页）
+   ================================================================ */
+#pc-app .settings-container{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  padding:6px 4px;
+  min-height:0;
+  overflow-y:auto;
+}
+#pc-app .settings-container::-webkit-scrollbar{width:4px;}
+#pc-app .settings-container::-webkit-scrollbar-track{background:transparent;}
+#pc-app .settings-container::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:4px;}
+#pc-app .settings-container::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.35);}
+
+#pc-app .settings-card{
+  background:rgba(255,255,255,calc(0.05 * var(--glass-mult)));
+  border:1px solid rgba(255,255,255,calc(0.10 * var(--glass-mult)));
+  border-radius:18px;
+  padding:18px 20px 20px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  flex-shrink:0;
+  margin-bottom:14px;
+  overflow:hidden;
+  max-height:500px;
+  transform:translateY(0);
+  opacity:1;
+  transition:
+    background .6s ease,
+    border-color .35s ease,
+    border-width .35s ease,
+    max-height .5s cubic-bezier(.2,.8,.2,1),
+    opacity .35s ease,
+    padding .4s cubic-bezier(.2,.8,.2,1),
+    margin .45s cubic-bezier(.2,.8,.2,1),
+    transform .4s cubic-bezier(.2,.8,.2,1);
+}
+#pc-app .settings-card:last-child{margin-bottom:0;}
+
+/* ★ 折叠状态：MD3E 模式下“全局透明效果”卡片自动隐藏 */
+#pc-app .settings-card.collapsed{
+  max-height:0;
+  opacity:0;
+  padding-top:0;
+  padding-bottom:0;
+  margin-bottom:0;
+  border-top-width:0;
+  border-bottom-width:0;
+  transform:translateY(-8px);
+  pointer-events:none;
+}
+
+#pc-app .settings-card-title{
+  font-size:.95rem;
+  font-weight:500;
+  letter-spacing:2px;
+  color:#fff;
+  margin:0;
+  transition:color .6s ease;
+}
+
+#pc-app .settings-card-desc{
+  font-size:.72rem;
+  color:rgba(255,255,255,.5);
+  letter-spacing:.5px;
+  line-height:1.4;
+  margin-bottom:4px;
+  transition:color .6s ease;
+}
+
+#pc-app .settings-card .transparency-slider-row{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-top:4px;
+  padding:0;
+}
 #pc-app .transparency-slider-track{position:relative;flex:1;height:3px;border-radius:1.5px;background:rgba(255,255,255,.28);cursor:pointer;}
 #pc-app .transparency-slider-fill{position:absolute;top:0;left:0;height:100%;width:70%;border-radius:1.5px;background:linear-gradient(90deg,var(--accent,#66ccff),#88ddff,var(--accent,#66ccff));background-size:200% 100%;background-position:0% 0%;will-change:width,background-position;box-shadow:0 0 6px rgba(102,204,255,.45);animation:flowGradient 1.8s linear infinite,pulseGlow 1.2s ease-in-out infinite;pointer-events:none;transition:none;}
 #pc-app .transparency-slider-track input[type="range"]{position:absolute;top:-8px;left:0;width:100%;height:calc(100% + 16px);opacity:0;cursor:pointer;margin:0;padding:0;z-index:3;}
-#pc-app .transparency-value{min-width:52px;text-align:right;font-size:1.05rem;font-weight:500;letter-spacing:.5px;font-variant-numeric:tabular-nums;color:#fff;transition:color .3s ease;}
+#pc-app .transparency-value{min-width:44px;text-align:right;font-size:1.05rem;font-weight:500;letter-spacing:.5px;font-variant-numeric:tabular-nums;color:#fff;transition:color .3s ease;}
 
 #pc-app #theme-switch-container{display:flex;align-items:center;justify-content:center;gap:16px;flex-shrink:0;padding-top:20px;padding-bottom:2px;flex-wrap:wrap;pointer-events:auto;border-top:1px solid rgba(255,255,255,calc(0.08 * var(--glass-mult)));margin-top:12px;}
 #pc-app .theme-icon-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);transition:color .3s,transform .3s,background .3s;padding:0;}
@@ -361,7 +485,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #pc-app #gear-island svg{width:26px;height:26px;}
   #pc-app #modal{width:94vw;min-height:520px;padding:18px 18px 20px 18px;}
   #pc-app .modal-title{font-size:.95rem;}
-  #pc-app .modal-subtitle{font-size:.8rem;}
+  #pc-app .modal-subtitle{font-size:.8rem;letter-spacing:2px;padding:2px 0 10px 0;}
   #pc-app .modal-body{gap:12px;}
   #pc-app .modal-sidebar{gap:10px;padding:6px 4px;}
   #pc-app .sidebar-icon,
@@ -371,8 +495,10 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #pc-app .thumb-carousel .thumb-wrapper{width:240px;height:170px;}
   #pc-app .thumb-carousel .thumb-arrow{width:32px;height:32px;font-size:18px;}
   #pc-app .thumb-carousel .thumb-row{gap:10px;}
-  #pc-app .transparency-title{font-size:.92rem;letter-spacing:2px;}
-  #pc-app .transparency-value{font-size:.95rem;min-width:44px;}
+  #pc-app .settings-card{padding:14px 16px 16px 16px;gap:6px;border-radius:16px;margin-bottom:12px;}
+  #pc-app .settings-card-title{font-size:.85rem;letter-spacing:1.5px;}
+  #pc-app .settings-card-desc{font-size:.68rem;}
+  #pc-app .transparency-value{font-size:.95rem;min-width:38px;}
   #pc-app #theme-switch-container{gap:10px;padding-top:14px;}
   #pc-app #player{width:300px;padding:12px 14px;gap:12px;}
   #pc-app #art-box{width:48px;height:48px;}
@@ -409,7 +535,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #pc-app .song-info{font-size:11px;}
   #pc-app #modal{width:96vw;min-height:460px;padding:14px 14px 16px 14px;border-radius:20px;}
   #pc-app .modal-title{font-size:.85rem;}
-  #pc-app .modal-subtitle{font-size:.7rem;}
+  #pc-app .modal-subtitle{font-size:.7rem;letter-spacing:1.5px;}
   #pc-app .modal-body{gap:10px;}
   #pc-app .sidebar-icon,
   #pc-app .sidebar-indicator{width:32px;height:32px;border-radius:9px;}
@@ -419,8 +545,10 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #pc-app .thumb-carousel .thumb-arrow{width:28px;height:28px;font-size:16px;}
   #pc-app .thumb-carousel .thumb-row{gap:8px;}
   #pc-app .thumb-carousel .apply-btn{padding:6px 22px;font-size:.8rem;}
-  #pc-app .transparency-title{font-size:.85rem;}
-  #pc-app .transparency-value{font-size:.85rem;min-width:38px;}
+  #pc-app .settings-card{padding:12px 14px 14px 14px;gap:5px;border-radius:14px;margin-bottom:10px;}
+  #pc-app .settings-card-title{font-size:.8rem;letter-spacing:1px;}
+  #pc-app .settings-card-desc{font-size:.65rem;}
+  #pc-app .transparency-value{font-size:.85rem;min-width:34px;}
   #pc-app .dot{width:10px;height:10px;}
   #pc-app #window-controls{gap:5px;}
   #pc-app #gear-island{right:12px;bottom:80px;width:44px;height:44px;}
@@ -445,6 +573,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #pc-app .controls .md3-icon-btn svg{width:17px;height:17px;}
   #pc-app #main-play-btn{width:30px!important;height:30px!important;}
   #pc-app #main-play-btn svg{width:15px!important;height:15px!important;}
+  #pc-app .visual-style-btn{padding:7px 18px;font-size:.78rem;}
 }
 @media (max-height:720px){
   #pc-app #modal{min-height:520px;}
@@ -472,7 +601,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #mobile-app #mobile-search-input::placeholder{color:rgba(255,255,255,.5);font-weight:300;letter-spacing:.6px;}
 #mobile-app #mobile-search-input::-webkit-search-decoration,#mobile-app #mobile-search-input::-webkit-search-cancel-button{display:none;}
 #mobile-app .mobile-clear-btn{background:none;border:none;color:rgba(255,255,255,.6);font-size:22px;cursor:pointer;padding:0 6px;transition:color .2s,transform .2s;display:flex;align-items:center;justify-content:center;height:100%;line-height:1;flex-shrink:0;width:34px;}
-#mobile-app .mobile-clear-btn:hover,.mobile-app .mobile-clear-btn:active{color:#fff;transform:scale(1.1);}
+#mobile-app .mobile-clear-btn:hover,#mobile-app .mobile-clear-btn:active{color:#fff;transform:scale(1.1);}
 #mobile-app .mobile-search-btn{flex-shrink:0;border:none;border-radius:28px;padding:12px 26px;background:rgba(102,204,255,.20);color:#fff;font-size:clamp(14px,3vw,17px);font-family:inherit;cursor:pointer;transition:background .25s ease,transform .2s ease,box-shadow .25s ease;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08);letter-spacing:.6px;font-weight:400;white-space:nowrap;display:flex;align-items:center;gap:6px;}
 #mobile-app .mobile-search-btn:active{transform:scale(0.94);background:rgba(102,204,255,.35);}
 #mobile-app .mobile-search-btn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
@@ -532,12 +661,642 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 }
 #mobile-app{opacity:0;animation:fadeInMobile 1.2s ease .2s forwards;}
 @keyframes fadeInMobile{0%{opacity:0;transform:translateY(12px) scale(0.98);}100%{opacity:1;transform:translateY(0) scale(1);}}
+
+/* ===== 全控件果冻拖拽反馈 ===== */
+@keyframes jellySettle {
+  0%{scale:1 1; rotate:0deg}
+  22%{scale:1.10 .90; rotate:var(--jelly-tilt, 0deg)}
+  48%{scale:.93 1.08; rotate:calc(var(--jelly-tilt, 0deg) * -.55)}
+  72%{scale:1.04 .97; rotate:calc(var(--jelly-tilt, 0deg) * .25)}
+  100%{scale:1 1; rotate:0deg}
+}
+.jelly-interactive{
+  transform-origin:center;
+  transition:translate .18s cubic-bezier(.2,.8,.2,1), rotate .18s ease;
+  will-change:translate,rotate,scale;
+  -webkit-tap-highlight-color:transparent;
+}
+.jelly-interactive.jelly-grabbed{
+  transition:translate .06s linear, rotate .08s linear;
+  filter:drop-shadow(0 7px 12px rgba(0,0,0,.18));
+}
+.jelly-interactive.jelly-release{
+  animation:jellySettle .62s cubic-bezier(.2,.9,.25,1.25);
+}
+@media (prefers-reduced-motion:reduce){
+  .jelly-interactive,.jelly-interactive.jelly-grabbed{transition:none}
+  .jelly-interactive.jelly-release{animation:none}
+}
+
+/* ================================================================
+   ★ Google MD3E 视觉样式 —— 完全动态取色（Material You / Monet）
+   ================================================================ */
+
+#pc-app[data-visual-style="md3e"]{
+  --md-sys-color-primary:#6750A4;
+  --md-sys-color-on-primary:#FFFFFF;
+  --md-sys-color-primary-container:#EADDFF;
+  --md-sys-color-on-primary-container:#21005D;
+  --md-sys-color-secondary:#625B71;
+  --md-sys-color-on-secondary:#FFFFFF;
+  --md-sys-color-secondary-container:#E8DEF8;
+  --md-sys-color-on-secondary-container:#1D192B;
+  --md-sys-color-tertiary:#7D5260;
+  --md-sys-color-on-tertiary:#FFFFFF;
+  --md-sys-color-tertiary-container:#FFD8E4;
+  --md-sys-color-on-tertiary-container:#31111D;
+  --md-sys-color-error:#B3261E;
+  --md-sys-color-on-error:#FFFFFF;
+  --md-sys-color-error-container:#F9DEDC;
+  --md-sys-color-on-error-container:#410E0B;
+  --md-sys-color-background:#FEF7FF;
+  --md-sys-color-on-background:#1D1B20;
+  --md-sys-color-surface:#FEF7FF;
+  --md-sys-color-on-surface:#1D1B20;
+  --md-sys-color-surface-variant:#E7E0EC;
+  --md-sys-color-on-surface-variant:#49454F;
+  --md-sys-color-surface-dim:#DED8E1;
+  --md-sys-color-surface-bright:#FEF7FF;
+  --md-sys-color-surface-container-lowest:#FFFFFF;
+  --md-sys-color-surface-container-low:#F7F2FA;
+  --md-sys-color-surface-container:#F3EDF7;
+  --md-sys-color-surface-container-high:#ECE6F0;
+  --md-sys-color-surface-container-highest:#E6E0E9;
+  --md-sys-color-outline:#79747E;
+  --md-sys-color-outline-variant:#CAC4D0;
+  --md-sys-color-inverse-surface:#322F35;
+  --md-sys-color-inverse-on-surface:#F5EFF7;
+  --md-sys-color-inverse-primary:#D0BCFF;
+  --md-sys-color-shadow:#000000;
+  --md-sys-color-scrim:#000000;
+}
+
+#pc-app[data-visual-style="md3e"]::before{
+  background:rgba(0,0,0,0.30);
+  backdrop-filter:brightness(0.82) saturate(0.90) blur(6px);
+  -webkit-backdrop-filter:brightness(0.82) saturate(0.90) blur(6px);
+}
+#pc-app[data-visual-style="md3e"][data-theme="dark"]::before{
+  background:rgba(0,0,0,0.50);
+  backdrop-filter:brightness(0.62) saturate(0.80) blur(6px);
+  -webkit-backdrop-filter:brightness(0.62) saturate(0.80) blur(6px);
+}
+#pc-app[data-visual-style="md3e"] #header-overlay{opacity:0!important;}
+
+#pc-app[data-visual-style="md3e"] .liquid-glass,
+#pc-app[data-visual-style="md3e"] #top-right-info,
+#pc-app[data-visual-style="md3e"] #lyrics-island,
+#pc-app[data-visual-style="md3e"] #player,
+#pc-app[data-visual-style="md3e"] #song-list,
+#pc-app[data-visual-style="md3e"] #pc-search-container,
+#pc-app[data-visual-style="md3e"] #modal,
+#pc-app[data-visual-style="md3e"] .nav-links{
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  border:none!important;
+  background:var(--md-sys-color-surface-container)!important;
+  box-shadow:0 1px 2px rgba(0,0,0,.14),0 2px 6px rgba(0,0,0,.06)!important;
+  transition:background .35s ease,color .35s ease,box-shadow .35s ease!important;
+}
+#pc-app[data-visual-style="md3e"] #player{
+  background:var(--md-sys-color-surface-container-high)!important;
+  border-radius:28px!important;
+}
+#pc-app[data-visual-style="md3e"] #song-list{
+  background:var(--md-sys-color-surface-container-high)!important;
+  border-radius:28px!important;
+}
+#pc-app[data-visual-style="md3e"] #pc-search-container{
+  background:var(--md-sys-color-surface-container-highest)!important;
+  border-radius:28px!important;
+}
+#pc-app[data-visual-style="md3e"] #modal{
+  background:var(--md-sys-color-surface-container-high)!important;
+  border-radius:28px!important;
+}
+#pc-app[data-visual-style="md3e"] #top-right-info,
+#pc-app[data-visual-style="md3e"] #lyrics-island{
+  background:var(--md-sys-color-surface-container-high)!important;
+  border-radius:24px!important;
+}
+#pc-app[data-visual-style="md3e"] .nav-links{
+  background:var(--md-sys-color-surface-container-high)!important;
+  border-radius:32px!important;
+}
+
+#pc-app[data-visual-style="md3e"] #gear-island,
+#pc-app[data-visual-style="md3e"] #github-island{
+  background:var(--md-sys-color-primary-container)!important;
+  border:none!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.16)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+#pc-app[data-visual-style="md3e"] #gear-island svg{
+  color:var(--md-sys-color-on-primary-container)!important;
+}
+#pc-app[data-visual-style="md3e"] #github-island svg{
+  fill:var(--md-sys-color-on-primary-container)!important;
+}
+
+#pc-app[data-visual-style="md3e"] #top-right-info .time,
+#pc-app[data-visual-style="md3e"] #top-right-info .weather{
+  color:var(--md-sys-color-on-surface)!important;
+}
+#pc-app[data-visual-style="md3e"] #top-right-info .weather-desc{
+  color:var(--md-sys-color-on-surface-variant)!important;
+  opacity:1!important;
+}
+
+#pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.current{
+  color:var(--md-sys-color-primary)!important;
+  font-weight:600;
+}
+#pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.prev,
+#pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.next{
+  color:var(--md-sys-color-on-surface-variant)!important;
+  opacity:1!important;
+}
+#pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.placeholder{
+  color:var(--md-sys-color-on-surface-variant)!important;
+  opacity:.7!important;
+}
+
+#pc-app[data-visual-style="md3e"] #art-box{
+  border-radius:16px;
+  background:var(--md-sys-color-surface-container-highest);
+}
+#pc-app[data-visual-style="md3e"] .song-info{
+  color:var(--md-sys-color-on-surface)!important;
+  font-weight:500;
+}
+#pc-app[data-visual-style="md3e"] #time-display{
+  color:var(--md-sys-color-on-surface-variant)!important;
+  opacity:1!important;
+}
+#pc-app[data-visual-style="md3e"] #progress-container{
+  background:var(--md-sys-color-surface-variant)!important;
+  height:4px!important;
+  border-radius:2px!important;
+}
+#pc-app[data-visual-style="md3e"] #progress-fill{
+  background:var(--md-sys-color-primary)!important;
+  box-shadow:none!important;
+  animation:none!important;
+  border-radius:2px!important;
+}
+
+#pc-app[data-visual-style="md3e"] #main-play-btn{
+  background:var(--md-sys-color-primary)!important;
+  color:var(--md-sys-color-on-primary)!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.18)!important;
+  width:38px!important;
+  height:38px!important;
+}
+#pc-app[data-visual-style="md3e"] #main-play-btn svg{
+  fill:currentColor!important;
+}
+
+#pc-app[data-visual-style="md3e"] .md3-icon-btn{
+  color:var(--md-sys-color-on-surface-variant)!important;
+  border-radius:9999px;
+  transition:background .2s ease,color .2s ease;
+}
+#pc-app[data-visual-style="md3e"] .md3-icon-btn:hover{
+  background:var(--md-sys-color-surface-container-highest);
+  color:var(--md-sys-color-on-surface)!important;
+  opacity:1;
+}
+
+#pc-app[data-visual-style="md3e"] .song-item{
+  border-bottom:1px solid var(--md-sys-color-outline-variant)!important;
+  border-left:none!important;
+  color:var(--md-sys-color-on-surface);
+}
+#pc-app[data-visual-style="md3e"] .song-item:hover{
+  background:var(--md-sys-color-surface-container-highest)!important;
+}
+#pc-app[data-visual-style="md3e"] .song-item .song-index{
+  color:var(--md-sys-color-on-surface-variant);
+  opacity:1!important;
+}
+#pc-app[data-visual-style="md3e"] .song-item .song-name{
+  color:var(--md-sys-color-on-surface)!important;
+}
+#pc-app[data-visual-style="md3e"] .song-item .song-artist{
+  color:var(--md-sys-color-on-surface-variant)!important;
+  opacity:1!important;
+}
+#pc-app[data-visual-style="md3e"] .song-item.active-song{
+  background:var(--md-sys-color-secondary-container)!important;
+  border-left:none!important;
+}
+#pc-app[data-visual-style="md3e"] .song-item.active-song .song-name{
+  color:var(--md-sys-color-on-secondary-container)!important;
+  font-weight:600;
+}
+#pc-app[data-visual-style="md3e"] .song-item.active-song .song-artist,
+#pc-app[data-visual-style="md3e"] .song-item.active-song .song-index{
+  color:var(--md-sys-color-on-secondary-container)!important;
+}
+#pc-app[data-visual-style="md3e"] #song-list::-webkit-scrollbar-thumb{
+  background:var(--md-sys-color-outline-variant);
+}
+
+#pc-app[data-visual-style="md3e"] #pc-search-container{
+  border:1px solid var(--md-sys-color-outline-variant)!important;
+  border-radius:9999px!important;
+}
+#pc-app[data-visual-style="md3e"] #pc-search-container:focus-within{
+  border-color:var(--md-sys-color-primary)!important;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--md-sys-color-primary) 18%,transparent)!important;
+  transform:translate(-50%,-50%)!important;
+}
+#pc-app[data-visual-style="md3e"] #pc-search-container .search-icon{
+  color:var(--md-sys-color-on-surface-variant)!important;
+}
+#pc-app[data-visual-style="md3e"] #pc-search-input{
+  color:var(--md-sys-color-on-surface)!important;
+}
+#pc-app[data-visual-style="md3e"] #pc-search-input::placeholder{
+  color:var(--md-sys-color-on-surface-variant)!important;
+  opacity:1!important;
+}
+#pc-app[data-visual-style="md3e"] .clear-btn{
+  color:var(--md-sys-color-on-surface-variant)!important;
+}
+#pc-app[data-visual-style="md3e"] .clear-btn:hover{
+  color:var(--md-sys-color-on-surface)!important;
+}
+#pc-app[data-visual-style="md3e"] .pc-search-btn{
+  background:var(--md-sys-color-primary)!important;
+  color:var(--md-sys-color-on-primary)!important;
+  border-radius:9999px!important;
+  border:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  box-shadow:0 1px 2px rgba(0,0,0,.12)!important;
+}
+#pc-app[data-visual-style="md3e"] .pc-search-btn:hover{
+  background:color-mix(in srgb,var(--md-sys-color-primary) 88%,var(--md-sys-color-on-primary))!important;
+  box-shadow:0 2px 8px rgba(0,0,0,.2)!important;
+  transform:scale(1.02);
+}
+
+#pc-app[data-visual-style="md3e"] .nav-links a{
+  color:var(--md-sys-color-on-surface-variant)!important;
+  font-weight:500!important;
+  padding:6px 12px;
+  border-radius:9999px;
+  transition:background .2s ease,color .2s ease!important;
+}
+#pc-app[data-visual-style="md3e"] .nav-links a:hover{
+  background:var(--md-sys-color-secondary-container)!important;
+  color:var(--md-sys-color-on-secondary-container)!important;
+  opacity:1!important;
+}
+
+#pc-app[data-visual-style="md3e"] #title-text{
+  text-shadow:0 2px 12px rgba(0,0,0,.55);
+}
+
+#pc-app[data-visual-style="md3e"] .modal-title{
+  color:var(--md-sys-color-on-surface)!important;
+}
+#pc-app[data-visual-style="md3e"] .modal-subtitle{
+  color:var(--md-sys-color-on-surface-variant)!important;
+  opacity:1!important;
+}
+#pc-app[data-visual-style="md3e"] .modal-sidebar{
+  background:var(--md-sys-color-surface-container-highest)!important;
+  border:none!important;
+  border-radius:20px!important;
+}
+#pc-app[data-visual-style="md3e"] .sidebar-icon{
+  color:var(--md-sys-color-on-surface-variant)!important;
+}
+#pc-app[data-visual-style="md3e"] .sidebar-icon:hover{
+  background:color-mix(in srgb,var(--md-sys-color-on-surface) 8%,transparent)!important;
+  color:var(--md-sys-color-on-surface)!important;
+}
+#pc-app[data-visual-style="md3e"] .sidebar-icon.active{
+  color:var(--md-sys-color-on-secondary-container)!important;
+  background:transparent!important;
+}
+#pc-app[data-visual-style="md3e"] .sidebar-indicator{
+  background:var(--md-sys-color-secondary-container)!important;
+  border:none!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.12)!important;
+}
+
+#pc-app[data-visual-style="md3e"] .settings-card{
+  background:var(--md-sys-color-surface-container)!important;
+  border-color:var(--md-sys-color-outline-variant)!important;
+}
+#pc-app[data-visual-style="md3e"] .settings-card-title{
+  color:var(--md-sys-color-on-surface)!important;
+}
+#pc-app[data-visual-style="md3e"] .settings-card-desc{
+  color:var(--md-sys-color-on-surface-variant)!important;
+}
+#pc-app[data-visual-style="md3e"] .visual-style-btn{
+  background:transparent!important;
+  border:1px solid var(--md-sys-color-outline)!important;
+  color:var(--md-sys-color-on-surface-variant)!important;
+}
+#pc-app[data-visual-style="md3e"] .visual-style-btn:hover{
+  background:color-mix(in srgb,var(--md-sys-color-on-surface) 8%,transparent)!important;
+  color:var(--md-sys-color-on-surface)!important;
+}
+#pc-app[data-visual-style="md3e"] .visual-style-btn.active{
+  background:var(--md-sys-color-primary)!important;
+  border-color:var(--md-sys-color-primary)!important;
+  color:var(--md-sys-color-on-primary)!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.16)!important;
+}
+#pc-app[data-visual-style="md3e"] .transparency-slider-track{
+  background:var(--md-sys-color-surface-variant)!important;
+}
+#pc-app[data-visual-style="md3e"] .transparency-slider-fill{
+  background:var(--md-sys-color-primary)!important;
+  box-shadow:none!important;
+  animation:none!important;
+}
+#pc-app[data-visual-style="md3e"] .transparency-value{
+  color:var(--md-sys-color-on-surface)!important;
+}
+
+/* ================================================================
+   ★ MD3E 开关 —— Pixel 风格（Android 17 / Material 3 Expressive）
+   ================================================================ */
+#pc-app[data-visual-style="md3e"] #theme-switch-container{
+  border-top-color:var(--md-sys-color-outline-variant)!important;
+}
+
+#pc-app[data-visual-style="md3e"] .switch-track,
+#pc-app[data-visual-style="md3e"] .auto-switch-track{
+  width:52px!important;
+  height:32px!important;
+  border-radius:16px!important;
+  background:var(--md-sys-color-surface-container-highest)!important;
+  border:2px solid var(--md-sys-color-outline)!important;
+  box-shadow:none!important;
+  transition:background .25s cubic-bezier(.2,.8,.2,1),
+             border-color .25s cubic-bezier(.2,.8,.2,1)!important;
+}
+#pc-app[data-visual-style="md3e"] .switch-track.active,
+#pc-app[data-visual-style="md3e"] .auto-switch-track.active{
+  background:var(--md-sys-color-primary)!important;
+  border-color:var(--md-sys-color-primary)!important;
+}
+
+#pc-app[data-visual-style="md3e"] .switch-thumb,
+#pc-app[data-visual-style="md3e"] .auto-switch-thumb{
+  width:16px!important;
+  height:16px!important;
+  top:6px!important;
+  left:6px!important;
+  border-radius:50%!important;
+  background:var(--md-sys-color-outline)!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.22)!important;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),
+             width .35s cubic-bezier(.2,.8,.2,1),
+             height .35s cubic-bezier(.2,.8,.2,1),
+             top .35s cubic-bezier(.2,.8,.2,1),
+             left .35s cubic-bezier(.2,.8,.2,1),
+             background .25s ease!important;
+}
+#pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb,
+#pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb{
+  transform:translateX(20px)!important;
+  width:24px!important;
+  height:24px!important;
+  top:2px!important;
+  left:2px!important;
+  background:var(--md-sys-color-on-primary)!important;
+  box-shadow:0 1px 4px rgba(0,0,0,.28)!important;
+}
+
+#pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb::after,
+#pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb::after{
+  content:''!important;
+  position:absolute;
+  inset:0;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236750A4' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center/14px 14px no-repeat;
+}
+#pc-app[data-visual-style="md3e"] .switch-thumb::after,
+#pc-app[data-visual-style="md3e"] .auto-switch-thumb::after{
+  content:none!important;
+}
+
+#pc-app[data-visual-style="md3e"] .theme-icon-btn{
+  color:var(--md-sys-color-on-surface-variant)!important;
+}
+#pc-app[data-visual-style="md3e"] .theme-icon-btn:hover{
+  background:var(--md-sys-color-surface-container-highest)!important;
+  color:var(--md-sys-color-on-surface)!important;
+}
+#pc-app[data-visual-style="md3e"] .theme-icon-btn.active{
+  color:var(--md-sys-color-primary)!important;
+}
+#pc-app[data-visual-style="md3e"][data-theme="dark"] .theme-icon-btn.moon-icon,
+#pc-app[data-visual-style="md3e"][data-theme="light"] .theme-icon-btn.sun-icon{
+  color:var(--md-sys-color-primary)!important;
+}
+
+/* ================================================================
+   ★ MD3E 波浪形进度条 —— Pixel 媒体控件风格（Android 17）
+   ================================================================ */
+#pc-app[data-visual-style="md3e"] #progress-container{
+  height:24px!important;
+  border-radius:12px!important;
+  background:transparent!important;
+  overflow:visible!important;
+  position:relative!important;
+}
+#pc-app[data-visual-style="md3e"] #progress-fill{
+  display:none!important;
+}
+#pc-app[data-visual-style="md3e"] #progress-container::before{
+  content:'';
+  position:absolute;
+  left:0;
+  right:0;
+  top:50%;
+  transform:translateY(-50%);
+  height:4px;
+  border-radius:2px;
+  background:var(--md-sys-color-surface-variant);
+  pointer-events:none;
+}
+#pc-app[data-visual-style="md3e"] #progress-container::after{
+  content:'';
+  position:absolute;
+  left:0;
+  top:50%;
+  transform:translateY(-50%);
+  height:4px;
+  width:var(--wave-width,0%);
+  border-radius:2px;
+  background:var(--md-sys-color-primary);
+  pointer-events:none;
+  overflow:hidden;
+  transition:width .1s linear;
+}
+#pc-app[data-visual-style="md3e"] #progress-container .wave-overlay{
+  display:block!important;
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:var(--wave-width,0%);
+  overflow:hidden;
+  border-radius:2px;
+  pointer-events:none;
+}
+#pc-app[data-visual-style="md3e"] #progress-container .wave-overlay::before{
+  content:'';
+  position:absolute;
+  left:0;
+  top:50%;
+  transform:translateY(-50%);
+  width:200%;
+  height:20px;
+  background:repeating-linear-gradient(
+    90deg,
+    var(--md-sys-color-primary) 0px,
+    var(--md-sys-color-primary) 18px,
+    color-mix(in srgb,var(--md-sys-color-primary) 60%,var(--md-sys-color-surface-container)) 18px,
+    color-mix(in srgb,var(--md-sys-color-primary) 60%,var(--md-sys-color-surface-container)) 36px
+  );
+  animation:waveScroll 1.8s linear infinite;
+  border-radius:50%;
+  opacity:.85;
+}
+@keyframes waveScroll{
+  0%{transform:translateY(-50%) translateX(0)}
+  100%{transform:translateY(-50%) translateX(-36px)}
+}
+#pc-app[data-visual-style="md3e"] #progress-container.paused .wave-overlay::before{
+  animation-play-state:paused;
+  opacity:.4;
+}
+#pc-app[data-visual-style="md3e"] #progress{
+  position:absolute!important;
+  top:0!important;
+  left:0!important;
+  width:100%!important;
+  height:100%!important;
+  opacity:0!important;
+  cursor:pointer!important;
+  z-index:10!important;
+  margin:0!important;
+  padding:0!important;
+  touch-action:none!important;
+}
+
+#pc-app[data-visual-style="md3e"] .thumb-carousel .apply-btn{
+  background:var(--md-sys-color-primary)!important;
+  color:var(--md-sys-color-on-primary)!important;
+  border-radius:9999px!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.16)!important;
+}
+#pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-arrow{
+  background:var(--md-sys-color-surface-container-highest)!important;
+  color:var(--md-sys-color-on-surface)!important;
+  border:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+#pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-wrapper{
+  border-radius:20px!important;
+  box-shadow:0 1px 4px rgba(0,0,0,.18)!important;
+}
+#pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-dots span{
+  background:var(--md-sys-color-outline-variant)!important;
+}
+#pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-dots span.active{
+  background:var(--md-sys-color-primary)!important;
+}
+
+#pc-app[data-visual-style="md3e"] #icp-footer{
+  color:rgba(255,255,255,.78)!important;
+}
+
+#pc-app[data-visual-style="md3e"] #progress-fill.playing{
+  animation:none!important;
+}
+
+@media (max-width:640px){
+  #pc-app[data-visual-style="md3e"] .switch-track,
+  #pc-app[data-visual-style="md3e"] .auto-switch-track{
+    width:44px!important;
+    height:26px!important;
+    border-radius:13px!important;
+  }
+  #pc-app[data-visual-style="md3e"] .switch-thumb,
+  #pc-app[data-visual-style="md3e"] .auto-switch-thumb{
+    width:14px!important;
+    height:14px!important;
+    top:4px!important;
+    left:4px!important;
+  }
+  #pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb,
+  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb{
+    transform:translateX(14px)!important;
+    width:20px!important;
+    height:20px!important;
+    top:1px!important;
+    left:1px!important;
+  }
+  #pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb::after,
+  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb::after{
+    background-size:12px 12px!important;
+  }
+  #pc-app[data-visual-style="md3e"] #progress-container{
+    height:20px!important;
+  }
+}
+@media (max-width:420px){
+  #pc-app[data-visual-style="md3e"] .switch-track,
+  #pc-app[data-visual-style="md3e"] .auto-switch-track{
+    width:38px!important;
+    height:22px!important;
+    border-radius:11px!important;
+  }
+  #pc-app[data-visual-style="md3e"] .switch-thumb,
+  #pc-app[data-visual-style="md3e"] .auto-switch-thumb{
+    width:12px!important;
+    height:12px!important;
+    top:3px!important;
+    left:3px!important;
+  }
+  #pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb,
+  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb{
+    transform:translateX(12px)!important;
+    width:16px!important;
+    height:16px!important;
+    top:1px!important;
+    left:1px!important;
+  }
+  #pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb::after,
+  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb::after{
+    background-size:10px 10px!important;
+  }
+  #pc-app[data-visual-style="md3e"] #progress-container{
+    height:18px!important;
+  }
+  #pc-app[data-visual-style="md3e"] #progress-container .wave-overlay::before{
+    height:14px!important;
+  }
+}
+
 </style>
 </head>
 <body>
 
 <!-- ============ PC 端界面 ============ -->
-<div id="pc-app" data-theme="light">
+<div id="pc-app" data-theme="light" data-visual-style="glass">
   <div id="header-overlay"></div>
   <div id="title-text">
     <div class="line1">来了,</div>
@@ -567,6 +1326,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
       <div class="song-info" id="song-info">加载中...</div>
       <div id="progress-container">
         <div id="progress-fill"></div>
+        <div class="wave-overlay"></div>
         <input type="range" id="progress" value="0" step="0.001" />
       </div>
       <div id="time-display">00:00 / 00:00 / 00:00</div>
@@ -638,7 +1398,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
         </div>
         <span class="modal-title">パーソナライズ</span>
       </div>
-      <div class="modal-subtitle" id="modal-subtitle">海边のミク</div>
 
       <div class="modal-body">
         <div class="modal-sidebar">
@@ -661,7 +1420,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
         </div>
 
         <div class="modal-content">
+          <!-- 个性化面板：主题名称移到这里 -->
           <div class="tab-panel" data-panel="personalize">
+            <div class="modal-subtitle" id="modal-subtitle">海边のミク</div>
             <div class="thumb-carousel">
               <div class="thumb-row">
                 <button class="thumb-arrow prev" id="thumb-prev" aria-label="上一张">‹</button>
@@ -707,15 +1468,27 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
             </div>
           </div>
 
+          <!-- 透明效果面板：MD3E 下“全局透明效果”卡片自动折叠 -->
           <div class="tab-panel" data-panel="transparency" hidden>
-            <div class="transparency-panel">
-              <div class="transparency-title">调节全局透明效果</div>
-              <div class="transparency-slider-row">
-                <div class="transparency-slider-track">
-                  <div class="transparency-slider-fill" id="transparency-fill"></div>
-                  <input type="range" id="transparency-range" min="0" max="100" value="70" step="1" />
+            <div class="settings-container">
+              <div class="settings-card">
+                <div class="settings-card-title">视觉样式</div>
+                <div class="settings-card-desc">选择界面的视觉风格</div>
+                <div class="visual-style-options">
+                  <button class="visual-style-btn active" data-style="glass">Glass</button>
+                  <button class="visual-style-btn" data-style="md3e">Google MD3E</button>
                 </div>
-                <div class="transparency-value" id="transparency-value">70</div>
+              </div>
+              <div class="settings-card" id="transparency-card">
+                <div class="settings-card-title">全局透明效果</div>
+                <div class="settings-card-desc">调节毛玻璃的模糊强度</div>
+                <div class="transparency-slider-row">
+                  <div class="transparency-slider-track">
+                    <div class="transparency-slider-fill" id="transparency-fill"></div>
+                    <input type="range" id="transparency-range" min="0" max="100" value="70" step="1" />
+                  </div>
+                  <div class="transparency-value" id="transparency-value">70</div>
+                </div>
               </div>
             </div>
           </div>
@@ -758,6 +1531,34 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
     <a href="https://icp.gov.moe/?keyword=20260864" target="_blank" rel="noopener">萌ICP备20260864号</a>
   </div>
 </div>
+
+<!-- ============ Material Color Utilities（动态取色核心） ============ -->
+<script type="module">
+import {
+  Hct,
+  TonalPalette,
+  DynamicScheme,
+  Variant,
+  SchemeTonalSpot,
+  MaterialDynamicColors,
+  argbFromHex,
+  hexFromArgb,
+} from 'https://esm.sh/@material/material-color-utilities@0.3.0';
+
+window.__MCU__ = {
+  Hct,
+  TonalPalette,
+  DynamicScheme,
+  Variant,
+  SchemeTonalSpot,
+  MaterialDynamicColors,
+  argbFromHex,
+  hexFromArgb,
+};
+window.__MCU_READY__ = true;
+window.dispatchEvent(new Event('mcu-ready'));
+console.log('🎨 Material Color Utilities 已就绪');
+</script>
 
 <!-- ============ 脚本 ============ -->
 <script>
@@ -845,6 +1646,238 @@ function initGlassIntensity(){
   }
 }
 
+/* =========================================================
+   ★ 视觉样式：glass / md3e（Material You 动态取色）
+   ========================================================= */
+const VISUAL_STYLE_KEY='visual_style';
+let currentVisualStyle='glass';
+let __md3SeedHct=null;
+
+const MD3_ROLES=[
+  ['primary','primary'],
+  ['onPrimary','on-primary'],
+  ['primaryContainer','primary-container'],
+  ['onPrimaryContainer','on-primary-container'],
+  ['primaryFixed','primary-fixed'],
+  ['primaryFixedDim','primary-fixed-dim'],
+  ['onPrimaryFixed','on-primary-fixed'],
+  ['onPrimaryFixedVariant','on-primary-fixed-variant'],
+  ['secondary','secondary'],
+  ['onSecondary','on-secondary'],
+  ['secondaryContainer','secondary-container'],
+  ['onSecondaryContainer','on-secondary-container'],
+  ['secondaryFixed','secondary-fixed'],
+  ['secondaryFixedDim','secondary-fixed-dim'],
+  ['onSecondaryFixed','on-secondary-fixed'],
+  ['onSecondaryFixedVariant','on-secondary-fixed-variant'],
+  ['tertiary','tertiary'],
+  ['onTertiary','on-tertiary'],
+  ['tertiaryContainer','tertiary-container'],
+  ['onTertiaryContainer','on-tertiary-container'],
+  ['tertiaryFixed','tertiary-fixed'],
+  ['tertiaryFixedDim','tertiary-fixed-dim'],
+  ['onTertiaryFixed','on-tertiary-fixed'],
+  ['onTertiaryFixedVariant','on-tertiary-fixed-variant'],
+  ['error','error'],
+  ['onError','on-error'],
+  ['errorContainer','error-container'],
+  ['onErrorContainer','on-error-container'],
+  ['background','background'],
+  ['onBackground','on-background'],
+  ['surface','surface'],
+  ['onSurface','on-surface'],
+  ['surfaceVariant','surface-variant'],
+  ['onSurfaceVariant','on-surface-variant'],
+  ['surfaceDim','surface-dim'],
+  ['surfaceBright','surface-bright'],
+  ['surfaceContainerLowest','surface-container-lowest'],
+  ['surfaceContainerLow','surface-container-low'],
+  ['surfaceContainer','surface-container'],
+  ['surfaceContainerHigh','surface-container-high'],
+  ['surfaceContainerHighest','surface-container-highest'],
+  ['outline','outline'],
+  ['outlineVariant','outline-variant'],
+  ['inverseSurface','inverse-surface'],
+  ['inverseOnSurface','inverse-on-surface'],
+  ['inversePrimary','inverse-primary'],
+  ['shadow','shadow'],
+  ['scrim','scrim'],
+  ['surfaceTint','surface-tint'],
+];
+
+function extractSeedHct(imageUrl){
+  return new Promise(function(resolve){
+    const img=new Image();
+    img.crossOrigin='anonymous';
+    img.onload=function(){
+      try{
+        const MCU=window.__MCU__;
+        if(!MCU){resolve(null);return;}
+        const size=48;
+        const canvas=document.createElement('canvas');
+        canvas.width=size;canvas.height=size;
+        const ctx=canvas.getContext('2d',{willReadFrequently:true});
+        ctx.drawImage(img,0,0,size,size);
+        const data=ctx.getImageData(0,0,size,size).data;
+
+        const bins=new Float32Array(36);
+        for(let i=0;i<data.length;i+=4){
+          const a=data[i+3];
+          if(a<128)continue;
+          const argb=(0xff<<24)|(data[i]<<16)|(data[i+1]<<8)|data[i+2];
+          let hct;
+          try{hct=MCU.Hct.fromInt(argb);}catch(e){continue;}
+          if(hct.chroma<12)continue;
+          const bin=Math.floor(hct.hue/10)%36;
+          bins[bin]+=hct.chroma*hct.chroma;
+        }
+
+        let maxBin=-1,maxVal=0;
+        for(let i=0;i<36;i++){
+          if(bins[i]>maxVal){maxVal=bins[i];maxBin=i;}
+        }
+        if(maxBin<0){resolve(null);return;}
+        const hue=maxBin*10+5;
+        resolve(MCU.Hct.from(hue,48,50));
+      }catch(e){
+        resolve(null);
+      }
+    };
+    img.onerror=function(){resolve(null);};
+    img.src=imageUrl;
+  });
+}
+
+function generateMd3Scheme(seedHct,isDark){
+  const MCU=window.__MCU__;
+  if(!MCU||!seedHct)return;
+  let scheme;
+  try{
+    scheme=new MCU.SchemeTonalSpot(seedHct,!!isDark,0);
+  }catch(e){
+    console.warn('MD3E: 生成方案失败',e);
+    return;
+  }
+  const app=document.getElementById('pc-app');
+  MD3_ROLES.forEach(function(pair){
+    const mcuName=pair[0],cssName=pair[1];
+    const dc=MCU.MaterialDynamicColors[mcuName];
+    if(!dc)return;
+    try{
+      const argb=dc.getArgb(scheme);
+      app.style.setProperty('--md-sys-color-'+cssName,MCU.hexFromArgb(argb));
+    }catch(e){}
+  });
+
+  try{
+    const primaryHex=MCU.hexFromArgb(MCU.MaterialDynamicColors.primary.getArgb(scheme));
+    app.style.setProperty('--accent',primaryHex);
+    app.style.setProperty('--play-btn-bg',primaryHex);
+  }catch(e){}
+}
+
+async function refreshMd3Scheme(){
+  if(currentVisualStyle!=='md3e')return;
+  const app=document.getElementById('pc-app');
+  let url='722264.jpg';
+  try{
+    const bg=getComputedStyle(app).backgroundImage;
+    const m=bg.match(/url\(["']?([^"')]+)["']?\)/);
+    if(m&&m[1])url=m[1];
+  }catch(e){}
+
+  if(!__md3SeedHct||__md3SeedHct.__src!==url){
+    const hct=await extractSeedHct(url);
+    const MCU=window.__MCU__;
+    let seed=hct;
+    if(!seed&&MCU){
+      seed=MCU.Hct.fromInt(MCU.argbFromHex('#6750A4'));
+    }
+    if(seed){
+      seed.__src=url;
+      __md3SeedHct=seed;
+    }
+  }
+
+  if(__md3SeedHct){
+    generateMd3Scheme(__md3SeedHct,document.getElementById('pc-app').getAttribute('data-theme')==='dark');
+  }
+}
+
+/**
+ * ★ 根据视觉样式控制“全局透明效果”卡片的显隐
+ *    - MD3E 模式：卡片折叠隐藏（MD3E 不使用毛玻璃透明度）
+ *    - Glass 模式：卡片展开
+ *    - skipTransition=true 时跳过过渡（用于初始化）
+ */
+function updateTransparencyCardVisibility(style,skipTransition){
+  const card=document.getElementById('transparency-card');
+  if(!card)return;
+
+  const shouldCollapse=(style==='md3e');
+
+  if(skipTransition){
+    const prevTransition=card.style.transition;
+    card.style.transition='none';
+    if(shouldCollapse)card.classList.add('collapsed');
+    else card.classList.remove('collapsed');
+    void card.offsetWidth;
+    card.style.transition=prevTransition||'';
+  }else{
+    if(shouldCollapse)card.classList.add('collapsed');
+    else card.classList.remove('collapsed');
+  }
+}
+
+function applyVisualStyle(style){
+  if(style!=='glass'&&style!=='md3e')style='glass';
+  currentVisualStyle=style;
+  const app=document.getElementById('pc-app');
+  app.setAttribute('data-visual-style',style);
+
+  document.querySelectorAll('.visual-style-btn').forEach(function(btn){
+    btn.classList.toggle('active',btn.dataset.style===style);
+  });
+
+  try{localStorage.setItem(VISUAL_STYLE_KEY,style);}catch(e){}
+
+  updateTransparencyCardVisibility(style,false);
+
+  if(style==='md3e'){
+    refreshMd3Scheme();
+  }else{
+    MD3_ROLES.forEach(function(pair){
+      app.style.removeProperty('--md-sys-color-'+pair[1]);
+    });
+    const key=THUMB_IMAGES[appliedThumbIndex]||'722264.jpg';
+    applyColorScheme(THUMB_COLORS[key]||'#66ccff');
+  }
+}
+
+function initVisualStyle(){
+  let saved='glass';
+  try{
+    const v=localStorage.getItem(VISUAL_STYLE_KEY);
+    if(v==='md3e'||v==='glass')saved=v;
+  }catch(e){}
+  currentVisualStyle=saved;
+  document.getElementById('pc-app').setAttribute('data-visual-style',saved);
+  document.querySelectorAll('.visual-style-btn').forEach(function(btn){
+    btn.classList.toggle('active',btn.dataset.style===saved);
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      applyVisualStyle(this.dataset.style);
+    });
+  });
+
+  updateTransparencyCardVisibility(saved,true);
+
+  if(saved==='md3e'){
+    if(window.__MCU_READY__)refreshMd3Scheme();
+    else window.addEventListener('mcu-ready',refreshMd3Scheme,{once:true});
+  }
+}
+
 /* ---------- 1. UA 检测 ---------- */
 const isMobile=/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile/i.test(navigator.userAgent);
 if(isMobile){
@@ -852,7 +1885,6 @@ if(isMobile){
   window.__IS_MOBILE__=true;
   console.log('📱 移动端模式已激活');
 
-  /* ----- 移动端搜索：Yandex ----- */
   window.performMobileSearch=function(){
     var input=document.getElementById('mobile-search-input');
     var query=input.value.trim();
@@ -891,12 +1923,12 @@ if(isMobile){
   return;
 }else{
   window.__IS_MOBILE__=false;
-  console.log('🖥️ PC端模式 — 使用公共 API (api.music.imiru.app)');
+  console.log('🖥️ PC端模式 — 使用公共 API (ncm.landdy.cn)');
 }
 
 /* ---------- 2. 配置 ---------- */
 const CONFIG={
-  API_BASE:'https://api.music.imiru.app',
+  API_BASE:'https://ncm.landdy.cn',
   ARTIST_ID:'1078425',
   EXCLUDED_IDS:['32192205','4886973','500665207']
 };
@@ -925,18 +1957,20 @@ const lyricsLine1=document.getElementById('lyrics-line-1');
 const lyricsLine2=document.getElementById('lyrics-line-2');
 const lyricsLine3=document.getElementById('lyrics-line-3');
 const modeBtn=document.getElementById('mode-btn');
+const progressContainer=document.getElementById('progress-container');
 
 const playSVG='<path d="M8 5v14l11-7z"/>';
 const pauseSVG='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
 
 /* ---------- API 函数 ---------- */
 async function fetchArtistSongs(artistId){
-  const url=CONFIG.API_BASE+'/artist/songs?uid='+artistId;
+  const url=CONFIG.API_BASE+'/artist/songs?id='+artistId;
   const resp=await fetch(url);
   if(!resp.ok)throw new Error('HTTP '+resp.status);
   const json=await resp.json();
   console.log('🎵 歌手原始返回:',json);
 
+  // 增强版 API 可能返回 { songs: [...] } 或 { data: { songs: [...] } }
   let list=(json.data&&json.data.songs)||json.songs||(json.data&&json.data.list)||json.list||json.data||[];
   if(!Array.isArray(list))list=[];
 
@@ -968,16 +2002,28 @@ async function fetchArtistSongs(artistId){
 
 async function fetchSongUrl(songId){
   if(songUrlCache[songId])return songUrlCache[songId];
-  const url=CONFIG.API_BASE+'/song/url?id='+songId;
+  // 使用 /song/url/v1 获取增强音质
+  const url=CONFIG.API_BASE+'/song/url/v1?id='+songId+'&level=exhigh';
   const resp=await fetch(url);
   if(!resp.ok)throw new Error('HTTP '+resp.status);
   const json=await resp.json();
   console.log('🔊 播放地址返回:',json);
-  let playUrl=(json.data&&json.data.url)||json.url||'';
+  let playUrl=(json.data&&json.data[0]&&json.data[0].url)||json.url||(json.data&&json.data.url)||'';
   if(!playUrl)throw new Error('未获取到播放地址');
   songUrlCache[songId]=playUrl;
-  if(json.data&&json.data.cover)coverCache[songId]=json.data.cover;
   return playUrl;
+}
+
+async function fetchSongCover(songId){
+  try{
+    const url=CONFIG.API_BASE+'/song/detail?ids='+songId;
+    const resp=await fetch(url);
+    const json=await resp.json();
+    const song=json.songs&&json.songs[0];
+    return (song&&song.al&&song.al.picUrl)||(song&&song.album&&song.album.picUrl)||'';
+  }catch(e){
+    return '';
+  }
 }
 
 async function fetchSongLyric(songId){
@@ -987,7 +2033,8 @@ async function fetchSongLyric(songId){
   if(!resp.ok)throw new Error('HTTP '+resp.status);
   const json=await resp.json();
   console.log('📃 歌词返回:',json);
-  let lyricText=(json.data&&json.data.lyric)||json.lyric||(json.lrc&&json.lrc.lyric)||'';
+  // 增强版可能返回 { lrc: { lyric: "..." } } 或 { lyric: "..." }
+  let lyricText=(json.data&&json.data.lyric)||json.lyric||(json.lrc&&json.lrc.lyric)||(json.data&&json.data.lrc&&json.data.lrc.lyric)||'';
   if(!lyricText)return null;
   const parsed=parseLRC(lyricText);
   lyricCache[songId]=parsed;
@@ -1026,8 +2073,15 @@ function parseLRC(lrcText){
 
 /* ---------- UI 更新 ---------- */
 function setPlayingState(playing){
-  if(playing){progressFill.classList.add('playing');playIcon.innerHTML=pauseSVG;}
-  else{progressFill.classList.remove('playing');playIcon.innerHTML=playSVG;}
+  if(playing){
+    progressFill.classList.add('playing');
+    progressContainer.classList.remove('paused');
+    playIcon.innerHTML=pauseSVG;
+  }else{
+    progressFill.classList.remove('playing');
+    progressContainer.classList.add('paused');
+    playIcon.innerHTML=playSVG;
+  }
 }
 
 function updateProgress(){
@@ -1036,8 +2090,10 @@ function updateProgress(){
     const percent=(audio.currentTime/audio.duration)*100;
     progressBar.value=percent;
     progressFill.style.width=percent+'%';
+    progressContainer.style.setProperty('--wave-width',percent+'%');
   }else{
     progressFill.style.width='0%';
+    progressContainer.style.setProperty('--wave-width','0%');
   }
 }
 
@@ -1089,6 +2145,7 @@ function updateLyrics(){
 }
 
 function applyWhiteToHighlights(){
+  if(currentVisualStyle==='md3e')return;
   document.querySelectorAll('#lyrics-island .lyrics-line.current').forEach(el=>{
     el.style.color='#fff';
   });
@@ -1106,6 +2163,12 @@ async function loadAndPlay(index){
   updateSongInfo();
   highlightCurrentSong();
   coverImg.src=song.cover||'CD.jpg';
+
+  // 封面兜底：如果列表没有封面，尝试从 song/detail 获取
+  if(!song.cover){
+    const cover=await fetchSongCover(song.id);
+    if(cover){song.cover=cover;coverImg.src=cover;}
+  }
 
   try{
     const url=await fetchSongUrl(song.id);
@@ -1209,11 +2272,11 @@ audio.onerror=function(e){
 };
 
 /* ---------- 进度条 ---------- */
-progressBar.addEventListener('mousedown',function(){isDraggingProgress=true;progressFill.classList.remove('playing');});
-progressBar.addEventListener('touchstart',function(){isDraggingProgress=true;progressFill.classList.remove('playing');},{passive:true});
+progressBar.addEventListener('mousedown',function(){isDraggingProgress=true;progressFill.classList.remove('playing');progressContainer.classList.add('paused');});
+progressBar.addEventListener('touchstart',function(){isDraggingProgress=true;progressFill.classList.remove('playing');progressContainer.classList.add('paused');},{passive:true});
 const endProgressDrag=function(){
   isDraggingProgress=false;
-  if(!audio.paused)progressFill.classList.add('playing');
+  if(!audio.paused){progressFill.classList.add('playing');progressContainer.classList.remove('paused');}
 };
 document.addEventListener('mouseup',endProgressDrag);
 document.addEventListener('touchend',endProgressDrag);
@@ -1222,9 +2285,10 @@ progressBar.oninput=function(){
   if(audio.duration){
     audio.currentTime=(val/100)*audio.duration;
     progressFill.style.width=val+'%';
+    progressContainer.style.setProperty('--wave-width',val+'%');
   }
 };
-document.getElementById('progress-container').addEventListener('click',function(e){
+progressContainer.addEventListener('click',function(e){
   if(e.target===progressBar)return;
   const rect=this.getBoundingClientRect();
   const x=(e.clientX-rect.left)/rect.width;
@@ -1233,6 +2297,7 @@ document.getElementById('progress-container').addEventListener('click',function(
   if(audio.duration){
     audio.currentTime=(val/100)*audio.duration;
     progressFill.style.width=val+'%';
+    progressContainer.style.setProperty('--wave-width',val+'%');
   }
 });
 
@@ -1547,6 +2612,10 @@ function applyTheme(theme){
   document.getElementById('pc-app').setAttribute('data-theme',theme);
   currentTheme=theme;
   updateSwitchUI(theme);
+  if(currentVisualStyle==='md3e'){
+    if(window.__MCU_READY__)refreshMd3Scheme();
+    else window.addEventListener('mcu-ready',refreshMd3Scheme,{once:true});
+  }
 }
 
 function updateAutoSwitchUI(enabled){
@@ -1644,6 +2713,11 @@ function hexToRgb(hex){
 }
 
 function applyColorScheme(color){
+  if(currentVisualStyle==='md3e'){
+    titleText.style.color=color;
+    return;
+  }
+
   titleText.style.color=color;
   navLinks.querySelectorAll('a').forEach(a=>{a.style.color=color;});
   mainPlayBtn.style.background=color;
@@ -1705,6 +2779,7 @@ function applyThemeByKey(key){
     document.getElementById('pc-app').style.backgroundSize='cover';
     document.getElementById('pc-app').style.backgroundPosition='center';
     document.getElementById('pc-app').style.backgroundRepeat='no-repeat';
+    if(currentVisualStyle==='md3e')refreshMd3Scheme();
   };
   imgTest.onerror=function(){console.warn('背景图片加载失败:',key);};
   imgTest.src=key;
@@ -1739,6 +2814,7 @@ function applyCurrentTheme(){
       document.getElementById('pc-app').style.backgroundSize='cover';
       document.getElementById('pc-app').style.backgroundPosition='center';
       document.getElementById('pc-app').style.backgroundRepeat='no-repeat';
+      if(currentVisualStyle==='md3e')refreshMd3Scheme();
     };
     imgTest.onerror=function(){console.warn('背景图片加载失败:',key);};
     imgTest.src=key;
@@ -1967,6 +3043,7 @@ document.addEventListener('DOMContentLoaded',function(){
   initDefaultTheme();
   initModalTabs();
   initGlassIntensity();
+  initVisualStyle();
   setTimeout(adjustLyricsIslandPosition,50);
 });
 
@@ -1983,12 +3060,63 @@ window.addEventListener('load',function(){
   window.loadAndPlay=loadAndPlay;
   window.songList=songList;
   window.currentIdx=currentIdx;
-  console.log('🎵 PC播放器已启动 — 使用公共 API (api.music.imiru.app)');
+  console.log('🎵 PC播放器已启动 — 使用公共 API (ncm.landdy.cn)');
   console.log('🔍 搜索框已加载 — Yandex（带清除按钮）');
   console.log('🐙 GitHub 玻璃岛已加载 — https://github.com/ainypboiep/world');
   console.log('🎚️ 全局透明效果已加载 — 默认 70/100');
+  console.log('🎨 视觉样式：glass（默认）/ md3e（Material You 动态取色）');
+  console.log('🔘 MD3E 开关：Pixel 风格（Android 17）');
+  console.log('🌊 MD3E 进度条：波浪形（Pixel 媒体控件风格）');
+  console.log('📂 主题名称已限制在个性化子项中');
+  console.log('🧩 透明效果面板已优化为卡片式布局');
+  console.log('✨ MD3E 模式下“全局透明效果”卡片会自动折叠隐藏');
 });
 
+})();
+</script>
+
+
+<script>
+/* 轻量果冻手感：控件按下后随指针微移，松开时弹性回位 */
+(function(){
+  const selector = '#pc-app button, #pc-app a, #pc-app input, #pc-app .song-item, #pc-app .sidebar-icon, #pc-app .thumb-dots span, #pc-app .switch-track, #pc-app .auto-switch-track, #mobile-app button, #mobile-app a, #mobile-app input';
+  let active = null;
+  document.querySelectorAll(selector).forEach(el => el.classList.add('jelly-interactive'));
+  document.addEventListener('pointerdown', e => {
+    const el=e.target.closest(selector);
+    if(!el || e.button!==0) return;
+    active={el,x:e.clientX,y:e.clientY};
+    el.classList.remove('jelly-release');
+    el.classList.add('jelly-grabbed');
+    el.style.setProperty('--jelly-tilt','0deg');
+    el.setPointerCapture?.(e.pointerId);
+  });
+  document.addEventListener('pointermove', e => {
+    if(!active) return;
+    const dx=e.clientX-active.x, dy=e.clientY-active.y;
+    const x=Math.max(-18,Math.min(18,dx*.22));
+    const y=Math.max(-14,Math.min(14,dy*.22));
+    const tilt=Math.max(-12,Math.min(12,dx*.35));
+    active.el.style.translate=x+'px '+y+'px';
+    active.el.style.rotate=tilt+'deg';
+    active.el.style.setProperty('--jelly-tilt',tilt+'deg');
+  });
+  function release(){
+    if(!active) return;
+    const el=active.el;
+    el.classList.remove('jelly-grabbed');
+    el.style.translate='0px 0px';
+    el.style.rotate='0deg';
+    el.classList.remove('jelly-release');
+    void el.offsetWidth;
+    el.classList.add('jelly-release');
+    active=null;
+  }
+  document.addEventListener('pointerup',release);
+  document.addEventListener('pointercancel',release);
+  document.addEventListener('animationend',e=>{
+    if(e.animationName==='jellySettle') e.target.classList.remove('jelly-release');
+  });
 })();
 </script>
 
