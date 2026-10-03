@@ -21,29 +21,22 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   --glass-backdrop:blur(40px) saturate(200%) brightness(1.05);
 }
 
-/* ===== 两套界面容器 ===== */
 #pc-app,#mobile-app{position:fixed;inset:0;width:100%;height:100%;overflow:hidden;transition:opacity .4s ease;}
 #pc-app{z-index:10;opacity:1;display:block;}
 #mobile-app{z-index:20;opacity:0;display:none;}
 .mode-mobile #pc-app{opacity:0;pointer-events:none;display:none;}
 .mode-mobile #mobile-app{opacity:1;display:flex;}
 
-/* ================================================================
-   PC 版样式
-   ================================================================ */
 #pc-app{
   --accent:#66ccff;
   --progress-height:2px;
-
   --glass-bg1:rgba(255,255,255,calc(0.095 * var(--glass-mult)));
   --glass-bg2:rgba(255,255,255,calc(0.042 * var(--glass-mult)));
   --glass-bg3:rgba(255,255,255,calc(0.063 * var(--glass-mult)));
   --glass-border:rgba(255,255,255,calc(0.45 * var(--glass-mult)));
-
   --glass-shadow:
       0 calc(16px * var(--glass-shadow-mult)) calc(48px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.30 * var(--glass-shadow-mult))),
       0 calc(4px  * var(--glass-shadow-mult)) calc(12px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.18 * var(--glass-shadow-mult)));
-
   --text-color:#fff;
   --theme-transition-bg:rgba(0,0,0,0.75);
   --nav-link-color:#66ccff;
@@ -55,11 +48,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   --glass-bg2:rgba(0,0,0,calc(0.25 * var(--glass-mult)));
   --glass-bg3:rgba(0,0,0,calc(0.35 * var(--glass-mult)));
   --glass-border:rgba(255,255,255,calc(0.15 * var(--glass-mult)));
-
   --glass-shadow:
       0 calc(16px * var(--glass-shadow-mult)) calc(48px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.65 * var(--glass-shadow-mult))),
       0 calc(4px  * var(--glass-shadow-mult)) calc(12px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.40 * var(--glass-shadow-mult)));
-
   --text-color:#e0e0e0;
   --theme-transition-bg:rgba(0,0,0,0.85);
 }
@@ -77,14 +68,11 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   backdrop-filter:brightness(0.65) saturate(0.78);
   -webkit-backdrop-filter:brightness(0.65) saturate(0.78);
 }
-
 #pc-app #header-overlay{position:absolute;top:0;left:0;width:100%;height:110px;background:#fdeeef;opacity:0.30;pointer-events:none;z-index:1;transition:opacity .8s ease;}
 #pc-app[data-theme="dark"] #header-overlay{opacity:0.10;background:#1a1a2e;}
-
 #pc-app #title-text{position:absolute;top:20px;width:100%;text-align:center;font-weight:bold;pointer-events:none;line-height:1.2;z-index:1;transition:color .6s ease;}
 #pc-app #title-text .line1{font-size:1.8em;}
 #pc-app #title-text .line2{font-size:2.6em;}
-
 #pc-app .liquid-glass,
 #pc-app #top-right-info,
 #pc-app #lyrics-island,
@@ -98,7 +86,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   -webkit-backdrop-filter:var(--glass-backdrop);
   box-shadow:var(--glass-shadow);
 }
-
 #pc-app #top-right-info{position:fixed;top:16px;right:16px;z-index:1200;display:flex;flex-direction:column;align-items:flex-end;gap:6px;padding:12px 18px;border-radius:20px;background:linear-gradient(135deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);border:1px solid var(--glass-border);font-weight:400;min-width:110px;transition:background .6s ease,border .6s ease,box-shadow .6s ease;pointer-events:none;will-change:transform,opacity;backface-visibility:hidden;}
 #pc-app #top-right-info .time{font-size:1.2rem;letter-spacing:1px;font-weight:500;transition:color .6s ease;color:#fff!important;}
 #pc-app #top-right-info .weather{display:flex;align-items:center;gap:8px;font-size:.95rem;transition:color .6s ease;color:#fff!important;}
@@ -106,24 +93,19 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app #top-right-info .weather-icon svg{width:100%;height:100%;fill:currentColor;}
 #pc-app #top-right-info .weather-temp{font-size:1.1rem;font-weight:500;}
 #pc-app #top-right-info .weather-desc{font-size:.75rem;opacity:.85;margin-left:2px;}
-
 #pc-app #lyrics-island{position:fixed;top:16px;right:146px;z-index:1150;padding:10px 16px;min-width:180px;max-width:280px;border-radius:20px;background:linear-gradient(135deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);border:1px solid var(--glass-border);transition:background .6s ease,border .6s ease,box-shadow .6s ease;pointer-events:none;will-change:transform,opacity;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.6;text-align:center;opacity:0.95;}
 #pc-app #lyrics-island .lyrics-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;transition:font-size .2s ease,opacity .2s ease,color .6s ease;}
 #pc-app #lyrics-island .lyrics-line.current{font-size:1.3rem;font-weight:500;}
 #pc-app #lyrics-island .lyrics-line.prev,#pc-app #lyrics-island .lyrics-line.next{font-size:.9rem;opacity:.75;}
 #pc-app #lyrics-island .lyrics-line.placeholder{font-size:.9rem;opacity:.65;font-style:italic;}
-
 #pc-app .liquid-glass{background:linear-gradient(135deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);border:1px solid var(--glass-border);transition:background .6s ease,border .6s ease,box-shadow .6s ease;}
-
 #pc-app #player{position:fixed;top:130px;left:20px;width:350px;border-radius:24px;padding:14px 16px;z-index:1000;display:flex;align-items:center;gap:14px;user-select:none;will-change:left,top;backface-visibility:hidden;cursor:grab;touch-action:none;transition:box-shadow .3s ease,background .6s ease,border .6s ease;}
 #pc-app #player.dragging{cursor:grabbing;z-index:1002!important;}
 #pc-app #art-box{position:relative;width:56px;height:56px;border-radius:12px;overflow:hidden;flex-shrink:0;background:#222;}
 #pc-app #art-box img{width:100%;height:100%;object-fit:cover;display:block;}
-
 #pc-app .control-area{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0;justify-content:center;}
 #pc-app .song-info{font-size:13px;font-weight:400;opacity:.95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.4;transition:color .6s ease;padding:0 2px;letter-spacing:.3px;}
 #pc-app[data-theme="dark"] .song-info{opacity:.9;}
-
 #pc-app #progress-container{position:relative;width:100%;height:var(--progress-height);border-radius:calc(var(--progress-height)/2);background:rgba(255,255,255,.22);cursor:pointer;touch-action:none;}
 #pc-app #progress-fill{position:absolute;top:0;left:0;height:100%;width:0%;border-radius:calc(var(--progress-height)/2);background:var(--accent);background:linear-gradient(90deg,var(--accent),#88ddff,var(--accent));background-size:200% 100%;background-position:0% 0%;transition:none;will-change:width,background-position;box-shadow:0 0 6px rgba(102,204,255,.4);}
 #pc-app #progress-fill.playing{animation:flowGradient 1.8s linear infinite,pulseGlow 1.2s ease-in-out infinite;}
@@ -132,7 +114,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app #progress{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2;margin:0;padding:0;touch-action:none;}
 #pc-app #time-display{font-size:10px;text-align:right;font-variant-numeric:tabular-nums;transition:color .6s ease;opacity:.9;padding:0 2px;line-height:1.3;letter-spacing:.2px;color:#fff!important;}
 #pc-app .controls{display:flex;justify-content:space-between;align-items:center;padding-top:2px;}
-
 #pc-app #song-list{position:fixed;width:380px;max-height:260px;border-radius:20px;overflow-y:auto;z-index:999;padding:8px 0;visibility:hidden;pointer-events:none;opacity:0;transform:scale(0.92) translateY(-8px);transform-origin:top center;will-change:transform,opacity;transition:background .6s ease,border .6s ease,box-shadow .6s ease;}
 #pc-app #song-list.active{visibility:visible;pointer-events:auto;animation:listPopIn .35s cubic-bezier(0.34,1.56,0.64,1) forwards;}
 #pc-app #song-list.hiding{animation:listPopOut .25s ease-in forwards;}
@@ -149,32 +130,18 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app #song-list::-webkit-scrollbar-track{background:transparent;}
 #pc-app #song-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:4px;}
 #pc-app #song-list::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.35);}
-
 #pc-app .nav-links{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);display:flex;gap:32px;padding:14px 36px;border-radius:50px;z-index:50;flex-wrap:wrap;justify-content:center;box-sizing:border-box;cursor:default;touch-action:auto;transition:box-shadow .3s ease,background .6s ease,border .6s ease;}
 #pc-app .nav-links a{text-decoration:none;font-weight:bold;transition:opacity .3s,color .6s ease;white-space:nowrap;pointer-events:auto;}
 #pc-app .nav-links a:hover{opacity:.8;}
-
-#pc-app #github-island{
-  position:fixed;left:32px;bottom:40px;width:52px;height:52px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:50;
-  background:linear-gradient(135deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);
-  border:1px solid var(--glass-border);
-  transition:transform .25s ease,box-shadow .3s ease,background .6s ease,border .6s ease;
-  text-decoration:none;-webkit-tap-highlight-color:transparent;
-}
+#pc-app #github-island{position:fixed;left:32px;bottom:40px;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:50;background:linear-gradient(135deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);border:1px solid var(--glass-border);transition:transform .25s ease,box-shadow .3s ease,background .6s ease,border .6s ease;text-decoration:none;-webkit-tap-highlight-color:transparent;}
 #pc-app #github-island:hover{transform:scale(1.1) rotate(-6deg);}
 #pc-app #github-island:active{transform:scale(0.94);}
 #pc-app #github-island svg{width:28px;height:28px;fill:rgba(255,255,255,.92);transition:fill .3s ease;}
 #pc-app #github-island:hover svg{fill:#fff;}
-
 #pc-app #icp-footer{position:fixed;left:50%;bottom:8px;transform:translateX(-50%);z-index:50;text-align:center;white-space:nowrap;font-size:.75rem;letter-spacing:.5px;color:rgba(255,255,255,.7);pointer-events:auto;transition:color .6s ease;}
 #pc-app #icp-footer a{color:inherit;text-decoration:none;transition:color .25s ease,opacity .25s ease;}
 #pc-app #icp-footer a:hover{color:#fff;text-decoration:underline;}
-
-#pc-app #pc-search-container{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:49;width:min(720px,90vw);max-width:760px;border-radius:28px;padding:4px 6px 4px 22px;display:flex;align-items:center;gap:4px;
-  background:linear-gradient(135deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);
-  border:1.5px solid var(--glass-border);
-  transition:all .3s cubic-bezier(0.25,0.46,0.45,0.94);will-change:transform,opacity;backface-visibility:hidden;min-height:52px;}
+#pc-app #pc-search-container{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:49;width:min(720px,90vw);max-width:760px;border-radius:28px;padding:4px 6px 4px 22px;display:flex;align-items:center;gap:4px;background:linear-gradient(135deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);border:1.5px solid var(--glass-border);transition:all .3s cubic-bezier(0.25,0.46,0.45,0.94);will-change:transform,opacity;backface-visibility:hidden;min-height:52px;}
 #pc-app #pc-search-container:focus-within{border-color:rgba(102,204,255,.60);box-shadow:var(--glass-shadow),0 0 0 4px rgba(102,204,255,.15);transform:translate(-50%,-50%) scale(1.02);}
 #pc-app #pc-search-container .search-icon{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:22px;height:22px;color:rgba(255,255,255,.62);transition:color .3s ease;}
 #pc-app #pc-search-container .search-icon svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
@@ -189,7 +156,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .pc-search-btn:hover{background:rgba(102,204,255,.35);transform:scale(1.04);box-shadow:0 4px 20px rgba(102,204,255,.15);}
 #pc-app .pc-search-btn:active{transform:scale(0.94);}
 #pc-app .pc-search-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
-
 @media (max-width:768px){
   #pc-app #pc-search-container{width:min(560px,92vw);min-height:48px;padding:3px 4px 3px 18px;border-radius:24px;}
   #pc-app #pc-search-input{font-size:16px;padding:10px 4px;}
@@ -213,38 +179,16 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #pc-app #pc-search-container .search-icon{width:16px;height:16px;}
   #pc-app .clear-btn{font-size:16px;width:20px;padding:0 2px;}
 }
-
-#pc-app #gear-island{position:fixed;right:32px;bottom:120px;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1100;transition:transform .25s ease,box-shadow .3s ease,background .6s ease,border .6s ease;
-  background:linear-gradient(135deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);
-  border:1px solid var(--glass-border);}
+#pc-app #gear-island{position:fixed;right:32px;bottom:120px;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1100;transition:transform .25s ease,box-shadow .3s ease,background .6s ease,border .6s ease;background:linear-gradient(135deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);border:1px solid var(--glass-border);}
 #pc-app #gear-island:hover{transform:scale(1.08) rotate(12deg);}
 #pc-app #gear-island:active{transform:scale(0.92);}
 #pc-app #gear-island svg{width:32px;height:32px;color:rgba(255,255,255,.92);transition:transform .6s ease;}
 #pc-app #gear-island:hover svg{transform:rotate(60deg);}
-
 #pc-app #modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:9998;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease;background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
 #pc-app #modal-overlay.visible{pointer-events:auto;opacity:1;visibility:visible;}
-
-#pc-app #modal{
-  position:relative;
-  width:600px;max-width:94vw;
-  min-height:620px;max-height:88vh;
-  border-radius:28px;
-  padding:22px 28px 24px 28px;
-  display:flex;flex-direction:column;
-  background:linear-gradient(145deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);
-  border:1px solid var(--glass-border);
-  box-shadow:
-      var(--glass-shadow),
-      inset 0 1px 1px rgba(255,255,255,calc(0.60 * var(--glass-mult))),
-      inset 0 -1px 1px rgba(255,255,255,calc(0.15 * var(--glass-mult)));
-  transform:scale(0.92) translateY(12px);opacity:0;
-  transition:transform .38s cubic-bezier(0.1,0.9,0.2,1),opacity .32s cubic-bezier(0.1,0.9,0.2,1);
-  will-change:transform,opacity;user-select:none;cursor:default;pointer-events:auto;
-}
+#pc-app #modal{position:relative;width:600px;max-width:94vw;min-height:620px;max-height:88vh;border-radius:28px;padding:22px 28px 24px 28px;display:flex;flex-direction:column;background:linear-gradient(145deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);border:1px solid var(--glass-border);box-shadow:var(--glass-shadow),inset 0 1px 1px rgba(255,255,255,calc(0.60 * var(--glass-mult))),inset 0 -1px 1px rgba(255,255,255,calc(0.15 * var(--glass-mult)));transform:scale(0.92) translateY(12px);opacity:0;transition:transform .38s cubic-bezier(0.1,0.9,0.2,1),opacity .32s cubic-bezier(0.1,0.9,0.2,1);will-change:transform,opacity;user-select:none;cursor:default;pointer-events:auto;}
 #pc-app #modal-overlay.visible #modal{transform:scale(1) translateY(0);opacity:1;}
 #pc-app #modal.closing{transform:scale(0.92) translateY(12px)!important;opacity:0!important;transition:transform .32s cubic-bezier(0.1,0.9,0.2,1),opacity .28s cubic-bezier(0.1,0.9,0.2,1);}
-
 #pc-app .modal-header{display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;padding:4px 0 6px 0;min-height:44px;user-select:none;cursor:grab;}
 #pc-app .modal-header:active{cursor:grabbing;}
 #pc-app #window-controls{position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;gap:8px;align-items:center;z-index:10;pointer-events:auto;}
@@ -256,51 +200,19 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .dot.green{background:radial-gradient(circle at 35% 35%,#6bcf7f,#2e7d32);}
 #pc-app .modal-title{font-size:1.1rem;font-weight:500;color:var(--text-color);letter-spacing:2px;transition:color .6s ease;text-align:center;line-height:1.2;pointer-events:none;}
 #pc-app[data-theme="dark"] .modal-title{color:#e0e0e0;}
-
-#pc-app .modal-subtitle{
-  text-align:center;
-  font-size:.9rem;
-  font-weight:400;
-  color:var(--text-color);
-  opacity:.8;
-  letter-spacing:3px;
-  padding:4px 0 12px 0;
-  transition:color .6s ease,opacity .6s ease;
-  flex-shrink:0;
-  min-height:28px;
-}
+#pc-app .modal-subtitle{text-align:center;font-size:.9rem;font-weight:400;color:var(--text-color);opacity:.8;letter-spacing:3px;padding:4px 0 12px 0;transition:color .6s ease,opacity .6s ease;flex-shrink:0;min-height:28px;}
 #pc-app[data-theme="dark"] .modal-subtitle{color:#e0e0e0;opacity:.75;}
-
 #pc-app .modal-body{display:flex;flex:1;gap:18px;padding:4px 0 0 0;min-height:0;}
-#pc-app .modal-sidebar{
-  position:relative;display:flex;flex-direction:column;gap:14px;padding:8px 6px;flex-shrink:0;
-  background:rgba(255,255,255,calc(0.04 * var(--glass-mult)));
-  border-radius:16px;border:1px solid rgba(255,255,255,calc(0.10 * var(--glass-mult)));
-}
+#pc-app .modal-sidebar{position:relative;display:flex;flex-direction:column;gap:14px;padding:8px 6px;flex-shrink:0;background:rgba(255,255,255,calc(0.04 * var(--glass-mult)));border-radius:16px;border:1px solid rgba(255,255,255,calc(0.10 * var(--glass-mult)));}
 #pc-app .sidebar-icon{position:relative;z-index:1;width:42px;height:42px;border-radius:12px;background:transparent;border:1px solid transparent;color:rgba(255,255,255,.68);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color 0.25s ease, background 0.25s ease;padding:0;outline:none;}
 #pc-app .sidebar-icon svg{width:24px;height:24px;transition:transform .3s ease;}
 #pc-app .sidebar-icon:hover{color:#fff;background:rgba(255,255,255,calc(0.08 * var(--glass-mult)));}
 #pc-app .sidebar-icon.active{color:#fff;background:transparent;border-color:transparent;}
 #pc-app .sidebar-icon.active svg{transform:scale(1.05);}
-
-#pc-app .sidebar-indicator{
-  position:absolute;left:6px;top:8px;width:42px;height:42px;border-radius:12px;
-  background:rgba(102,204,255,0.22);
-  border:1px solid var(--accent, #66ccff);
-  box-shadow:0 4px 16px rgba(102,204,255,0.30), inset 0 1px 1px rgba(255,255,255,0.35);
-  pointer-events:none;z-index:0;
-  transition:
-      top 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-      left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-      width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-      height 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-      background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
+#pc-app .sidebar-indicator{position:absolute;left:6px;top:8px;width:42px;height:42px;border-radius:12px;background:rgba(102,204,255,0.22);border:1px solid var(--accent, #66ccff);box-shadow:0 4px 16px rgba(102,204,255,0.30), inset 0 1px 1px rgba(255,255,255,0.35);pointer-events:none;z-index:0;transition:top 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),height 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;}
 #pc-app .modal-content{flex:1;min-width:0;display:flex;flex-direction:column;min-height:0;}
 #pc-app .tab-panel{flex:1;display:flex;flex-direction:column;min-height:440px;}
 #pc-app .tab-panel[hidden]{display:none;}
-
 #pc-app .thumb-carousel{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:10px 0 14px 0;min-height:220px;}
 #pc-app .thumb-carousel .thumb-row{display:flex;align-items:center;justify-content:center;gap:16px;width:100%;flex-shrink:0;}
 #pc-app .thumb-carousel .thumb-wrapper{position:relative;width:320px;height:220px;overflow:hidden;border-radius:18px;background:rgba(0,0,0,.2);flex-shrink:0;box-shadow:0 8px 32px rgba(0,0,0,0.30);}
@@ -316,127 +228,26 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .thumb-carousel .apply-btn{padding:8px 32px;border-radius:30px;border:none;background:var(--accent,#66ccff);color:#fff;font-size:.95rem;font-weight:500;cursor:pointer;transition:background .3s ease,transform .2s ease,box-shadow .3s ease;box-shadow:0 4px 16px rgba(0,0,0,.18);letter-spacing:1px;flex-shrink:0;font-family:'悠哉字体 Light','Hiragino Kaku Gothic ProN','Hiragino Sans','Microsoft JhengHei',sans-serif;}
 #pc-app .thumb-carousel .apply-btn:hover{transform:scale(1.04);box-shadow:0 6px 24px rgba(0,0,0,.28);}
 #pc-app .thumb-carousel .apply-btn:active{transform:scale(0.96);}
-
-/* ===== 视觉样式选择器（通用按钮样式） ===== */
-#pc-app .visual-style-options{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:2px;
-}
-#pc-app .visual-style-btn{
-  padding:9px 26px;
-  border-radius:9999px;
-  border:1px solid rgba(255,255,255,calc(0.25 * var(--glass-mult)));
-  background:rgba(255,255,255,calc(0.08 * var(--glass-mult)));
-  color:rgba(255,255,255,.82);
-  font-family:inherit;
-  font-size:.88rem;
-  cursor:pointer;
-  transition:background .25s ease,color .25s ease,border-color .25s ease,transform .2s ease,box-shadow .25s ease;
-  letter-spacing:1px;
-  outline:none;
-}
-#pc-app .visual-style-btn:hover{
-  background:rgba(255,255,255,calc(0.14 * var(--glass-mult)));
-  color:#fff;
-  transform:translateY(-1px);
-}
+#pc-app .visual-style-options{display:flex;gap:10px;flex-wrap:wrap;margin-top:2px;}
+#pc-app .visual-style-btn{padding:9px 26px;border-radius:9999px;border:1px solid rgba(255,255,255,calc(0.25 * var(--glass-mult)));background:rgba(255,255,255,calc(0.08 * var(--glass-mult)));color:rgba(255,255,255,.82);font-family:inherit;font-size:.88rem;cursor:pointer;transition:background .25s ease,color .25s ease,border-color .25s ease,transform .2s ease,box-shadow .25s ease;letter-spacing:1px;outline:none;}
+#pc-app .visual-style-btn:hover{background:rgba(255,255,255,calc(0.14 * var(--glass-mult)));color:#fff;transform:translateY(-1px);}
 #pc-app .visual-style-btn:active{transform:scale(.95);}
-#pc-app .visual-style-btn.active{
-  background:var(--accent,#66ccff);
-  border-color:var(--accent,#66ccff);
-  color:#fff;
-  box-shadow:0 4px 16px rgba(102,204,255,0.32);
-}
-
-/* ================================================================
-   ★ 设置面板布局（透明效果标签页）
-   ================================================================ */
-#pc-app .settings-container{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  gap:0;
-  padding:6px 4px;
-  min-height:0;
-  overflow-y:auto;
-}
+#pc-app .visual-style-btn.active{background:var(--accent,#66ccff);border-color:var(--accent,#66ccff);color:#fff;box-shadow:0 4px 16px rgba(102,204,255,0.32);}
+#pc-app .settings-container{flex:1;display:flex;flex-direction:column;gap:0;padding:6px 4px;min-height:0;overflow-y:auto;}
 #pc-app .settings-container::-webkit-scrollbar{width:4px;}
 #pc-app .settings-container::-webkit-scrollbar-track{background:transparent;}
 #pc-app .settings-container::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:4px;}
 #pc-app .settings-container::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.35);}
-
-#pc-app .settings-card{
-  background:rgba(255,255,255,calc(0.05 * var(--glass-mult)));
-  border:1px solid rgba(255,255,255,calc(0.10 * var(--glass-mult)));
-  border-radius:18px;
-  padding:18px 20px 20px 20px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  flex-shrink:0;
-  margin-bottom:14px;
-  overflow:hidden;
-  max-height:500px;
-  transform:translateY(0);
-  opacity:1;
-  transition:
-    background .6s ease,
-    border-color .35s ease,
-    border-width .35s ease,
-    max-height .5s cubic-bezier(.2,.8,.2,1),
-    opacity .35s ease,
-    padding .4s cubic-bezier(.2,.8,.2,1),
-    margin .45s cubic-bezier(.2,.8,.2,1),
-    transform .4s cubic-bezier(.2,.8,.2,1);
-}
+#pc-app .settings-card{background:rgba(255,255,255,calc(0.05 * var(--glass-mult)));border:1px solid rgba(255,255,255,calc(0.10 * var(--glass-mult)));border-radius:18px;padding:18px 20px 20px 20px;display:flex;flex-direction:column;gap:8px;flex-shrink:0;margin-bottom:14px;overflow:hidden;max-height:500px;transform:translateY(0);opacity:1;transition:background .6s ease,border-color .35s ease,border-width .35s ease,max-height .5s cubic-bezier(.2,.8,.2,1),opacity .35s ease,padding .4s cubic-bezier(.2,.8,.2,1),margin .45s cubic-bezier(.2,.8,.2,1),transform .4s cubic-bezier(.2,.8,.2,1);}
 #pc-app .settings-card:last-child{margin-bottom:0;}
-
-/* ★ 折叠状态：MD3E 模式下“全局透明效果”卡片自动隐藏 */
-#pc-app .settings-card.collapsed{
-  max-height:0;
-  opacity:0;
-  padding-top:0;
-  padding-bottom:0;
-  margin-bottom:0;
-  border-top-width:0;
-  border-bottom-width:0;
-  transform:translateY(-8px);
-  pointer-events:none;
-}
-
-#pc-app .settings-card-title{
-  font-size:.95rem;
-  font-weight:500;
-  letter-spacing:2px;
-  color:#fff;
-  margin:0;
-  transition:color .6s ease;
-}
-
-#pc-app .settings-card-desc{
-  font-size:.72rem;
-  color:rgba(255,255,255,.5);
-  letter-spacing:.5px;
-  line-height:1.4;
-  margin-bottom:4px;
-  transition:color .6s ease;
-}
-
-#pc-app .settings-card .transparency-slider-row{
-  position:relative;
-  display:flex;
-  align-items:center;
-  gap:16px;
-  margin-top:4px;
-  padding:0;
-}
+#pc-app .settings-card.collapsed{max-height:0;opacity:0;padding-top:0;padding-bottom:0;margin-bottom:0;border-top-width:0;border-bottom-width:0;transform:translateY(-8px);pointer-events:none;}
+#pc-app .settings-card-title{font-size:.95rem;font-weight:500;letter-spacing:2px;color:#fff;margin:0;transition:color .6s ease;}
+#pc-app .settings-card-desc{font-size:.72rem;color:rgba(255,255,255,.5);letter-spacing:.5px;line-height:1.4;margin-bottom:4px;transition:color .6s ease;}
+#pc-app .settings-card .transparency-slider-row{position:relative;display:flex;align-items:center;gap:16px;margin-top:4px;padding:0;}
 #pc-app .transparency-slider-track{position:relative;flex:1;height:3px;border-radius:1.5px;background:rgba(255,255,255,.28);cursor:pointer;}
 #pc-app .transparency-slider-fill{position:absolute;top:0;left:0;height:100%;width:70%;border-radius:1.5px;background:linear-gradient(90deg,var(--accent,#66ccff),#88ddff,var(--accent,#66ccff));background-size:200% 100%;background-position:0% 0%;will-change:width,background-position;box-shadow:0 0 6px rgba(102,204,255,.45);animation:flowGradient 1.8s linear infinite,pulseGlow 1.2s ease-in-out infinite;pointer-events:none;transition:none;}
 #pc-app .transparency-slider-track input[type="range"]{position:absolute;top:-8px;left:0;width:100%;height:calc(100% + 16px);opacity:0;cursor:pointer;margin:0;padding:0;z-index:3;}
 #pc-app .transparency-value{min-width:44px;text-align:right;font-size:1.05rem;font-weight:500;letter-spacing:.5px;font-variant-numeric:tabular-nums;color:#fff;transition:color .3s ease;}
-
 #pc-app #theme-switch-container{display:flex;align-items:center;justify-content:center;gap:16px;flex-shrink:0;padding-top:20px;padding-bottom:2px;flex-wrap:wrap;pointer-events:auto;border-top:1px solid rgba(255,255,255,calc(0.08 * var(--glass-mult)));margin-top:12px;}
 #pc-app .theme-icon-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);transition:color .3s,transform .3s,background .3s;padding:0;}
 #pc-app .theme-icon-btn:hover{transform:scale(1.1);color:rgba(255,255,255,.95);background:rgba(255,255,255,.08);}
@@ -458,21 +269,17 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .auto-switch-track .auto-switch-thumb{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .3s cubic-bezier(0.34,1.56,0.64,1),background .3s;will-change:transform;pointer-events:none;}
 #pc-app .auto-switch-track.active .auto-switch-thumb{transform:translateX(16px);background:#fff;}
 #pc-app .auto-label{color:var(--text-color);font-size:.85rem;white-space:nowrap;transition:color .6s ease;}
-
 #pc-app #theme-transition-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;pointer-events:none;visibility:hidden;opacity:0;background:transparent;transition:opacity .01s;will-change:clip-path,background;}
 #pc-app #theme-transition-overlay.animating{pointer-events:auto;visibility:visible;opacity:1;}
 #pc-app #bg-transition-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:9997;pointer-events:none;opacity:0;transition:opacity 1.2s ease;background-size:cover;background-position:center;background-repeat:no-repeat;}
 #pc-app #bg-transition-overlay.active{opacity:1;}
-
 #pc-app .md3-icon-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:28px;height:28px;padding:0;transition:opacity .2s;color:#fff!important;}
 #pc-app .md3-icon-btn:hover{opacity:.7;}
 #pc-app .md3-icon-btn svg{width:20px;height:20px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
-
 @keyframes playPulse{0%{transform:scale(1);}30%{transform:scale(1.3) rotate(15deg);}70%{transform:scale(0.9) rotate(-10deg);}100%{transform:scale(1) rotate(0deg);}}
 @keyframes modeFlip{0%{transform:scale(1) rotate(0deg);}40%{transform:scale(1.3) rotate(180deg);}70%{transform:scale(0.85) rotate(320deg);}100%{transform:scale(1) rotate(360deg);}}
 #pc-app .btn-anim{animation:playPulse .45s cubic-bezier(0.34,1.56,0.64,1) forwards;}
 #pc-app .mode-anim{animation:modeFlip .55s cubic-bezier(0.34,1.56,0.64,1) forwards;}
-
 @media (max-width:640px){
   #pc-app #top-right-info{top:10px;right:10px;padding:8px 14px;min-width:80px;}
   #pc-app #top-right-info .time{font-size:1rem;}
@@ -579,20 +386,12 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #pc-app #modal{min-height:520px;}
   #pc-app .tab-panel{min-height:360px;}
 }
-
-/* ================================================================
-   移动版样式
-   ================================================================ */
 #mobile-app{flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:clamp(20px,5vh,50px);background:url('722264.jpg') center/cover no-repeat;position:relative;}
 #mobile-app::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(0,0,0,.20) 0%,rgba(0,0,0,.62) 100%);pointer-events:none;}
 .mobile-title{text-align:center;line-height:1.2;pointer-events:none;position:relative;z-index:2;flex-shrink:0;margin-top:0;}
 .mobile-title .line1{font-size:clamp(1.4rem,5.5vw,2.6rem);font-weight:300;letter-spacing:.06em;color:rgba(255,255,255,.92);}
 .mobile-title .line2{font-size:clamp(2.6rem,11vw,5.2rem);font-weight:500;letter-spacing:.1em;color:#fff;margin-top:-.05em;}
-
-#mobile-app #mobile-search-container{position:relative;z-index:2;width:min(600px,88vw);border-radius:36px;padding:6px 8px 6px 28px;display:flex;align-items:center;gap:8px;
-  background:linear-gradient(135deg,rgba(255,255,255,calc(0.10 * var(--glass-mult))) 0%,rgba(255,255,255,calc(0.04 * var(--glass-mult))) 50%,rgba(255,255,255,calc(0.07 * var(--glass-mult))) 100%);
-  border:1.5px solid rgba(255,255,255,calc(0.35 * var(--glass-mult)));
-  transition:all .35s cubic-bezier(0.25,0.46,0.45,0.94);flex-shrink:0;margin:0 auto;}
+#mobile-app #mobile-search-container{position:relative;z-index:2;width:min(600px,88vw);border-radius:36px;padding:6px 8px 6px 28px;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(255,255,255,calc(0.10 * var(--glass-mult))) 0%,rgba(255,255,255,calc(0.04 * var(--glass-mult))) 50%,rgba(255,255,255,calc(0.07 * var(--glass-mult))) 100%);border:1.5px solid rgba(255,255,255,calc(0.35 * var(--glass-mult)));transition:all .35s cubic-bezier(0.25,0.46,0.45,0.94);flex-shrink:0;margin:0 auto;}
 #mobile-app #mobile-search-container:focus-within{border-color:rgba(102,204,255,.60);box-shadow:var(--glass-shadow),0 0 0 4px rgba(102,204,255,.15);transform:scale(1.02);}
 #mobile-app #mobile-search-container .search-icon{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:24px;height:24px;color:rgba(255,255,255,.6);transition:color .3s ease;}
 #mobile-app #mobile-search-container .search-icon svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
@@ -605,21 +404,13 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #mobile-app .mobile-search-btn{flex-shrink:0;border:none;border-radius:28px;padding:12px 26px;background:rgba(102,204,255,.20);color:#fff;font-size:clamp(14px,3vw,17px);font-family:inherit;cursor:pointer;transition:background .25s ease,transform .2s ease,box-shadow .25s ease;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08);letter-spacing:.6px;font-weight:400;white-space:nowrap;display:flex;align-items:center;gap:6px;}
 #mobile-app .mobile-search-btn:active{transform:scale(0.94);background:rgba(102,204,255,.35);}
 #mobile-app .mobile-search-btn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
-
-#mobile-app #mobile-github-island{
-  position:absolute;left:16px;bottom:16px;width:44px;height:44px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;
-  background:linear-gradient(135deg,rgba(255,255,255,calc(0.10 * var(--glass-mult))) 0%,rgba(255,255,255,calc(0.04 * var(--glass-mult))) 50%,rgba(255,255,255,calc(0.07 * var(--glass-mult))) 100%);
-  border:1.5px solid rgba(255,255,255,calc(0.35 * var(--glass-mult)));
-  text-decoration:none;-webkit-tap-highlight-color:transparent;transition:transform .25s ease,box-shadow .3s ease;}
+#mobile-app #mobile-github-island{position:absolute;left:16px;bottom:16px;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;background:linear-gradient(135deg,rgba(255,255,255,calc(0.10 * var(--glass-mult))) 0%,rgba(255,255,255,calc(0.04 * var(--glass-mult))) 50%,rgba(255,255,255,calc(0.07 * var(--glass-mult))) 100%);border:1.5px solid rgba(255,255,255,calc(0.35 * var(--glass-mult)));text-decoration:none;-webkit-tap-highlight-color:transparent;transition:transform .25s ease,box-shadow .3s ease;}
 #mobile-app #mobile-github-island:active{transform:scale(0.92);}
 #mobile-app #mobile-github-island svg{width:24px;height:24px;fill:rgba(255,255,255,.9);}
-
 .mobile-footer{position:absolute;bottom:16px;left:0;width:100%;text-align:center;z-index:2;font-size:clamp(.6rem,1.4vw,.8rem);color:rgba(255,255,255,.55);letter-spacing:.1em;pointer-events:none;}
 .mobile-footer-title{margin-bottom:4px;}
 .mobile-footer a{display:inline-block;color:rgba(255,255,255,.62);text-decoration:none;pointer-events:auto;letter-spacing:.08em;transition:color .25s ease;}
 .mobile-footer a:hover,.mobile-footer a:active{color:#fff;text-decoration:underline;}
-
 @media (max-width:480px){
   #mobile-app{padding:16px 14px 20px;gap:clamp(16px,4vh,36px);}
   .mobile-title .line1{font-size:1.2rem;}
@@ -662,87 +453,38 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #mobile-app{opacity:0;animation:fadeInMobile 1.2s ease .2s forwards;}
 @keyframes fadeInMobile{0%{opacity:0;transform:translateY(12px) scale(0.98);}100%{opacity:1;transform:translateY(0) scale(1);}}
 
-/* ===== 全控件果冻拖拽反馈 ===== */
-@keyframes jellySettle {
-  0%{scale:1 1; rotate:0deg}
-  22%{scale:1.10 .90; rotate:var(--jelly-tilt, 0deg)}
-  48%{scale:.93 1.08; rotate:calc(var(--jelly-tilt, 0deg) * -.55)}
-  72%{scale:1.04 .97; rotate:calc(var(--jelly-tilt, 0deg) * .25)}
-  100%{scale:1 1; rotate:0deg}
-}
-.jelly-interactive{
-  transform-origin:center;
-  transition:translate .18s cubic-bezier(.2,.8,.2,1), rotate .18s ease;
-  will-change:translate,rotate,scale;
-  -webkit-tap-highlight-color:transparent;
-}
-.jelly-interactive.jelly-grabbed{
-  transition:translate .06s linear, rotate .08s linear;
-  filter:drop-shadow(0 7px 12px rgba(0,0,0,.18));
-}
-.jelly-interactive.jelly-release{
-  animation:jellySettle .62s cubic-bezier(.2,.9,.25,1.25);
-}
-@media (prefers-reduced-motion:reduce){
-  .jelly-interactive,.jelly-interactive.jelly-grabbed{transition:none}
-  .jelly-interactive.jelly-release{animation:none}
-}
+@keyframes jellySettle{0%{scale:1 1;rotate:0deg}22%{scale:1.10 .90;rotate:var(--jelly-tilt, 0deg)}48%{scale:.93 1.08;rotate:calc(var(--jelly-tilt, 0deg) * -.55)}72%{scale:1.04 .97;rotate:calc(var(--jelly-tilt, 0deg) * .25)}100%{scale:1 1;rotate:0deg}}
+.jelly-interactive{transform-origin:center;transition:translate .18s cubic-bezier(.2,.8,.2,1), rotate .18s ease;will-change:translate,rotate,scale;-webkit-tap-highlight-color:transparent;}
+.jelly-interactive.jelly-grabbed{transition:translate .06s linear, rotate .08s linear;filter:drop-shadow(0 7px 12px rgba(0,0,0,.18));}
+.jelly-interactive.jelly-release{animation:jellySettle .62s cubic-bezier(.2,.9,.25,1.25);}
+@media (prefers-reduced-motion:reduce){.jelly-interactive,.jelly-interactive.jelly-grabbed{transition:none}.jelly-interactive.jelly-release{animation:none}}
 
-/* ================================================================
-   ★ Google MD3E 视觉样式 —— 完全动态取色（Material You / Monet）
-   ================================================================ */
-
+/* ============================================================
+   MD3E 视觉样式
+   ============================================================ */
 #pc-app[data-visual-style="md3e"]{
-  --md-sys-color-primary:#6750A4;
-  --md-sys-color-on-primary:#FFFFFF;
-  --md-sys-color-primary-container:#EADDFF;
-  --md-sys-color-on-primary-container:#21005D;
-  --md-sys-color-secondary:#625B71;
-  --md-sys-color-on-secondary:#FFFFFF;
-  --md-sys-color-secondary-container:#E8DEF8;
-  --md-sys-color-on-secondary-container:#1D192B;
-  --md-sys-color-tertiary:#7D5260;
-  --md-sys-color-on-tertiary:#FFFFFF;
-  --md-sys-color-tertiary-container:#FFD8E4;
-  --md-sys-color-on-tertiary-container:#31111D;
-  --md-sys-color-error:#B3261E;
-  --md-sys-color-on-error:#FFFFFF;
-  --md-sys-color-error-container:#F9DEDC;
-  --md-sys-color-on-error-container:#410E0B;
-  --md-sys-color-background:#FEF7FF;
-  --md-sys-color-on-background:#1D1B20;
-  --md-sys-color-surface:#FEF7FF;
-  --md-sys-color-on-surface:#1D1B20;
-  --md-sys-color-surface-variant:#E7E0EC;
-  --md-sys-color-on-surface-variant:#49454F;
-  --md-sys-color-surface-dim:#DED8E1;
-  --md-sys-color-surface-bright:#FEF7FF;
-  --md-sys-color-surface-container-lowest:#FFFFFF;
-  --md-sys-color-surface-container-low:#F7F2FA;
-  --md-sys-color-surface-container:#F3EDF7;
-  --md-sys-color-surface-container-high:#ECE6F0;
+  --md-sys-color-primary:#6750A4;--md-sys-color-on-primary:#FFFFFF;
+  --md-sys-color-primary-container:#EADDFF;--md-sys-color-on-primary-container:#21005D;
+  --md-sys-color-secondary:#625B71;--md-sys-color-on-secondary:#FFFFFF;
+  --md-sys-color-secondary-container:#E8DEF8;--md-sys-color-on-secondary-container:#1D192B;
+  --md-sys-color-tertiary:#7D5260;--md-sys-color-on-tertiary:#FFFFFF;
+  --md-sys-color-tertiary-container:#FFD8E4;--md-sys-color-on-tertiary-container:#31111D;
+  --md-sys-color-error:#B3261E;--md-sys-color-on-error:#FFFFFF;
+  --md-sys-color-error-container:#F9DEDC;--md-sys-color-on-error-container:#410E0B;
+  --md-sys-color-background:#FEF7FF;--md-sys-color-on-background:#1D1B20;
+  --md-sys-color-surface:#FEF7FF;--md-sys-color-on-surface:#1D1B20;
+  --md-sys-color-surface-variant:#E7E0EC;--md-sys-color-on-surface-variant:#49454F;
+  --md-sys-color-surface-dim:#DED8E1;--md-sys-color-surface-bright:#FEF7FF;
+  --md-sys-color-surface-container-lowest:#FFFFFF;--md-sys-color-surface-container-low:#F7F2FA;
+  --md-sys-color-surface-container:#F3EDF7;--md-sys-color-surface-container-high:#ECE6F0;
   --md-sys-color-surface-container-highest:#E6E0E9;
-  --md-sys-color-outline:#79747E;
-  --md-sys-color-outline-variant:#CAC4D0;
-  --md-sys-color-inverse-surface:#322F35;
-  --md-sys-color-inverse-on-surface:#F5EFF7;
-  --md-sys-color-inverse-primary:#D0BCFF;
-  --md-sys-color-shadow:#000000;
-  --md-sys-color-scrim:#000000;
+  --md-sys-color-outline:#79747E;--md-sys-color-outline-variant:#CAC4D0;
+  --md-sys-color-inverse-surface:#322F35;--md-sys-color-inverse-on-surface:#F5EFF7;
+  --md-sys-color-inverse-primary:#D0BCFF;--md-sys-color-shadow:#000000;--md-sys-color-scrim:#000000;
 }
-
-#pc-app[data-visual-style="md3e"]::before{
-  background:rgba(0,0,0,0.30);
-  backdrop-filter:brightness(0.82) saturate(0.90) blur(6px);
-  -webkit-backdrop-filter:brightness(0.82) saturate(0.90) blur(6px);
-}
-#pc-app[data-visual-style="md3e"][data-theme="dark"]::before{
-  background:rgba(0,0,0,0.50);
-  backdrop-filter:brightness(0.62) saturate(0.80) blur(6px);
-  -webkit-backdrop-filter:brightness(0.62) saturate(0.80) blur(6px);
-}
+#pc-app[data-visual-style="md3e"]::before{background:rgba(0,0,0,0.30);backdrop-filter:brightness(0.82) saturate(0.90) blur(6px);-webkit-backdrop-filter:brightness(0.82) saturate(0.90) blur(6px);}
+#pc-app[data-visual-style="md3e"][data-theme="dark"]::before{background:rgba(0,0,0,0.50);backdrop-filter:brightness(0.62) saturate(0.80) blur(6px);-webkit-backdrop-filter:brightness(0.62) saturate(0.80) blur(6px);}
 #pc-app[data-visual-style="md3e"] #header-overlay{opacity:0!important;}
-
 #pc-app[data-visual-style="md3e"] .liquid-glass,
 #pc-app[data-visual-style="md3e"] #top-right-info,
 #pc-app[data-visual-style="md3e"] #lyrics-island,
@@ -750,552 +492,134 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app[data-visual-style="md3e"] #song-list,
 #pc-app[data-visual-style="md3e"] #pc-search-container,
 #pc-app[data-visual-style="md3e"] #modal,
-#pc-app[data-visual-style="md3e"] .nav-links{
-  backdrop-filter:none!important;
-  -webkit-backdrop-filter:none!important;
-  border:none!important;
-  background:var(--md-sys-color-surface-container)!important;
-  box-shadow:0 1px 2px rgba(0,0,0,.14),0 2px 6px rgba(0,0,0,.06)!important;
-  transition:background .35s ease,color .35s ease,box-shadow .35s ease!important;
-}
-#pc-app[data-visual-style="md3e"] #player{
-  background:var(--md-sys-color-surface-container-high)!important;
-  border-radius:28px!important;
-}
-#pc-app[data-visual-style="md3e"] #song-list{
-  background:var(--md-sys-color-surface-container-high)!important;
-  border-radius:28px!important;
-}
-#pc-app[data-visual-style="md3e"] #pc-search-container{
-  background:var(--md-sys-color-surface-container-highest)!important;
-  border-radius:28px!important;
-}
-#pc-app[data-visual-style="md3e"] #modal{
-  background:var(--md-sys-color-surface-container-high)!important;
-  border-radius:28px!important;
-}
+#pc-app[data-visual-style="md3e"] .nav-links{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:none!important;background:var(--md-sys-color-surface-container)!important;box-shadow:0 1px 2px rgba(0,0,0,.14),0 2px 6px rgba(0,0,0,.06)!important;transition:background .35s ease,color .35s ease,box-shadow .35s ease!important;}
+#pc-app[data-visual-style="md3e"] #player{background:var(--md-sys-color-surface-container-high)!important;border-radius:28px!important;}
+#pc-app[data-visual-style="md3e"] #song-list{background:var(--md-sys-color-surface-container-high)!important;border-radius:28px!important;}
+#pc-app[data-visual-style="md3e"] #pc-search-container{background:var(--md-sys-color-surface-container-highest)!important;border-radius:28px!important;}
+#pc-app[data-visual-style="md3e"] #modal{background:var(--md-sys-color-surface-container-high)!important;border-radius:28px!important;}
 #pc-app[data-visual-style="md3e"] #top-right-info,
-#pc-app[data-visual-style="md3e"] #lyrics-island{
-  background:var(--md-sys-color-surface-container-high)!important;
-  border-radius:24px!important;
-}
-#pc-app[data-visual-style="md3e"] .nav-links{
-  background:var(--md-sys-color-surface-container-high)!important;
-  border-radius:32px!important;
-}
-
+#pc-app[data-visual-style="md3e"] #lyrics-island{background:var(--md-sys-color-surface-container-high)!important;border-radius:24px!important;}
+#pc-app[data-visual-style="md3e"] .nav-links{background:var(--md-sys-color-surface-container-high)!important;border-radius:32px!important;}
 #pc-app[data-visual-style="md3e"] #gear-island,
-#pc-app[data-visual-style="md3e"] #github-island{
-  background:var(--md-sys-color-primary-container)!important;
-  border:none!important;
-  box-shadow:0 1px 3px rgba(0,0,0,.16)!important;
-  backdrop-filter:none!important;
-  -webkit-backdrop-filter:none!important;
-}
-#pc-app[data-visual-style="md3e"] #gear-island svg{
-  color:var(--md-sys-color-on-primary-container)!important;
-}
-#pc-app[data-visual-style="md3e"] #github-island svg{
-  fill:var(--md-sys-color-on-primary-container)!important;
-}
-
+#pc-app[data-visual-style="md3e"] #github-island{background:var(--md-sys-color-primary-container)!important;border:none!important;box-shadow:0 1px 3px rgba(0,0,0,.16)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+#pc-app[data-visual-style="md3e"] #gear-island svg{color:var(--md-sys-color-on-primary-container)!important;}
+#pc-app[data-visual-style="md3e"] #github-island svg{fill:var(--md-sys-color-on-primary-container)!important;}
 #pc-app[data-visual-style="md3e"] #top-right-info .time,
-#pc-app[data-visual-style="md3e"] #top-right-info .weather{
-  color:var(--md-sys-color-on-surface)!important;
-}
-#pc-app[data-visual-style="md3e"] #top-right-info .weather-desc{
-  color:var(--md-sys-color-on-surface-variant)!important;
-  opacity:1!important;
-}
-
-#pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.current{
-  color:var(--md-sys-color-primary)!important;
-  font-weight:600;
-}
+#pc-app[data-visual-style="md3e"] #top-right-info .weather{color:var(--md-sys-color-on-surface)!important;}
+#pc-app[data-visual-style="md3e"] #top-right-info .weather-desc{color:var(--md-sys-color-on-surface-variant)!important;opacity:1!important;}
+#pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.current{color:var(--md-sys-color-primary)!important;font-weight:600;}
 #pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.prev,
-#pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.next{
-  color:var(--md-sys-color-on-surface-variant)!important;
-  opacity:1!important;
-}
-#pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.placeholder{
-  color:var(--md-sys-color-on-surface-variant)!important;
-  opacity:.7!important;
-}
-
-#pc-app[data-visual-style="md3e"] #art-box{
-  border-radius:16px;
-  background:var(--md-sys-color-surface-container-highest);
-}
-#pc-app[data-visual-style="md3e"] .song-info{
-  color:var(--md-sys-color-on-surface)!important;
-  font-weight:500;
-}
-#pc-app[data-visual-style="md3e"] #time-display{
-  color:var(--md-sys-color-on-surface-variant)!important;
-  opacity:1!important;
-}
-#pc-app[data-visual-style="md3e"] #progress-container{
-  background:var(--md-sys-color-surface-variant)!important;
-  height:4px!important;
-  border-radius:2px!important;
-}
-#pc-app[data-visual-style="md3e"] #progress-fill{
-  background:var(--md-sys-color-primary)!important;
-  box-shadow:none!important;
-  animation:none!important;
-  border-radius:2px!important;
-}
-
-#pc-app[data-visual-style="md3e"] #main-play-btn{
-  background:var(--md-sys-color-primary)!important;
-  color:var(--md-sys-color-on-primary)!important;
-  box-shadow:0 1px 3px rgba(0,0,0,.18)!important;
-  width:38px!important;
-  height:38px!important;
-}
-#pc-app[data-visual-style="md3e"] #main-play-btn svg{
-  fill:currentColor!important;
-}
-
-#pc-app[data-visual-style="md3e"] .md3-icon-btn{
-  color:var(--md-sys-color-on-surface-variant)!important;
-  border-radius:9999px;
-  transition:background .2s ease,color .2s ease;
-}
-#pc-app[data-visual-style="md3e"] .md3-icon-btn:hover{
-  background:var(--md-sys-color-surface-container-highest);
-  color:var(--md-sys-color-on-surface)!important;
-  opacity:1;
-}
-
-#pc-app[data-visual-style="md3e"] .song-item{
-  border-bottom:1px solid var(--md-sys-color-outline-variant)!important;
-  border-left:none!important;
-  color:var(--md-sys-color-on-surface);
-}
-#pc-app[data-visual-style="md3e"] .song-item:hover{
-  background:var(--md-sys-color-surface-container-highest)!important;
-}
-#pc-app[data-visual-style="md3e"] .song-item .song-index{
-  color:var(--md-sys-color-on-surface-variant);
-  opacity:1!important;
-}
-#pc-app[data-visual-style="md3e"] .song-item .song-name{
-  color:var(--md-sys-color-on-surface)!important;
-}
-#pc-app[data-visual-style="md3e"] .song-item .song-artist{
-  color:var(--md-sys-color-on-surface-variant)!important;
-  opacity:1!important;
-}
-#pc-app[data-visual-style="md3e"] .song-item.active-song{
-  background:var(--md-sys-color-secondary-container)!important;
-  border-left:none!important;
-}
-#pc-app[data-visual-style="md3e"] .song-item.active-song .song-name{
-  color:var(--md-sys-color-on-secondary-container)!important;
-  font-weight:600;
-}
+#pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.next{color:var(--md-sys-color-on-surface-variant)!important;opacity:1!important;}
+#pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.placeholder{color:var(--md-sys-color-on-surface-variant)!important;opacity:.7!important;}
+#pc-app[data-visual-style="md3e"] #art-box{border-radius:16px;background:var(--md-sys-color-surface-container-highest);}
+#pc-app[data-visual-style="md3e"] .song-info{color:var(--md-sys-color-on-surface)!important;font-weight:500;}
+#pc-app[data-visual-style="md3e"] #time-display{color:var(--md-sys-color-on-surface-variant)!important;opacity:1!important;}
+#pc-app[data-visual-style="md3e"] #progress-container{background:var(--md-sys-color-surface-variant)!important;height:4px!important;border-radius:2px!important;}
+#pc-app[data-visual-style="md3e"] #progress-fill{background:var(--md-sys-color-primary)!important;box-shadow:none!important;animation:none!important;border-radius:2px!important;}
+#pc-app[data-visual-style="md3e"] #main-play-btn{background:var(--md-sys-color-primary)!important;color:var(--md-sys-color-on-primary)!important;box-shadow:0 1px 3px rgba(0,0,0,.18)!important;width:38px!important;height:38px!important;}
+#pc-app[data-visual-style="md3e"] #main-play-btn svg{fill:currentColor!important;}
+#pc-app[data-visual-style="md3e"] .md3-icon-btn{color:var(--md-sys-color-on-surface-variant)!important;border-radius:9999px;transition:background .2s ease,color .2s ease;}
+#pc-app[data-visual-style="md3e"] .md3-icon-btn:hover{background:var(--md-sys-color-surface-container-highest);color:var(--md-sys-color-on-surface)!important;opacity:1;}
+#pc-app[data-visual-style="md3e"] .song-item{border-bottom:1px solid var(--md-sys-color-outline-variant)!important;border-left:none!important;color:var(--md-sys-color-on-surface);}
+#pc-app[data-visual-style="md3e"] .song-item:hover{background:var(--md-sys-color-surface-container-highest)!important;}
+#pc-app[data-visual-style="md3e"] .song-item .song-index{color:var(--md-sys-color-on-surface-variant);opacity:1!important;}
+#pc-app[data-visual-style="md3e"] .song-item .song-name{color:var(--md-sys-color-on-surface)!important;}
+#pc-app[data-visual-style="md3e"] .song-item .song-artist{color:var(--md-sys-color-on-surface-variant)!important;opacity:1!important;}
+#pc-app[data-visual-style="md3e"] .song-item.active-song{background:var(--md-sys-color-secondary-container)!important;border-left:none!important;}
+#pc-app[data-visual-style="md3e"] .song-item.active-song .song-name{color:var(--md-sys-color-on-secondary-container)!important;font-weight:600;}
 #pc-app[data-visual-style="md3e"] .song-item.active-song .song-artist,
-#pc-app[data-visual-style="md3e"] .song-item.active-song .song-index{
-  color:var(--md-sys-color-on-secondary-container)!important;
-}
-#pc-app[data-visual-style="md3e"] #song-list::-webkit-scrollbar-thumb{
-  background:var(--md-sys-color-outline-variant);
-}
-
-#pc-app[data-visual-style="md3e"] #pc-search-container{
-  border:1px solid var(--md-sys-color-outline-variant)!important;
-  border-radius:9999px!important;
-}
-#pc-app[data-visual-style="md3e"] #pc-search-container:focus-within{
-  border-color:var(--md-sys-color-primary)!important;
-  box-shadow:0 0 0 3px color-mix(in srgb,var(--md-sys-color-primary) 18%,transparent)!important;
-  transform:translate(-50%,-50%)!important;
-}
-#pc-app[data-visual-style="md3e"] #pc-search-container .search-icon{
-  color:var(--md-sys-color-on-surface-variant)!important;
-}
-#pc-app[data-visual-style="md3e"] #pc-search-input{
-  color:var(--md-sys-color-on-surface)!important;
-}
-#pc-app[data-visual-style="md3e"] #pc-search-input::placeholder{
-  color:var(--md-sys-color-on-surface-variant)!important;
-  opacity:1!important;
-}
-#pc-app[data-visual-style="md3e"] .clear-btn{
-  color:var(--md-sys-color-on-surface-variant)!important;
-}
-#pc-app[data-visual-style="md3e"] .clear-btn:hover{
-  color:var(--md-sys-color-on-surface)!important;
-}
-#pc-app[data-visual-style="md3e"] .pc-search-btn{
-  background:var(--md-sys-color-primary)!important;
-  color:var(--md-sys-color-on-primary)!important;
-  border-radius:9999px!important;
-  border:none!important;
-  backdrop-filter:none!important;
-  -webkit-backdrop-filter:none!important;
-  box-shadow:0 1px 2px rgba(0,0,0,.12)!important;
-}
-#pc-app[data-visual-style="md3e"] .pc-search-btn:hover{
-  background:color-mix(in srgb,var(--md-sys-color-primary) 88%,var(--md-sys-color-on-primary))!important;
-  box-shadow:0 2px 8px rgba(0,0,0,.2)!important;
-  transform:scale(1.02);
-}
-
-#pc-app[data-visual-style="md3e"] .nav-links a{
-  color:var(--md-sys-color-on-surface-variant)!important;
-  font-weight:500!important;
-  padding:6px 12px;
-  border-radius:9999px;
-  transition:background .2s ease,color .2s ease!important;
-}
-#pc-app[data-visual-style="md3e"] .nav-links a:hover{
-  background:var(--md-sys-color-secondary-container)!important;
-  color:var(--md-sys-color-on-secondary-container)!important;
-  opacity:1!important;
-}
-
-#pc-app[data-visual-style="md3e"] #title-text{
-  text-shadow:0 2px 12px rgba(0,0,0,.55);
-}
-
-#pc-app[data-visual-style="md3e"] .modal-title{
-  color:var(--md-sys-color-on-surface)!important;
-}
-#pc-app[data-visual-style="md3e"] .modal-subtitle{
-  color:var(--md-sys-color-on-surface-variant)!important;
-  opacity:1!important;
-}
-#pc-app[data-visual-style="md3e"] .modal-sidebar{
-  background:var(--md-sys-color-surface-container-highest)!important;
-  border:none!important;
-  border-radius:20px!important;
-}
-#pc-app[data-visual-style="md3e"] .sidebar-icon{
-  color:var(--md-sys-color-on-surface-variant)!important;
-}
-#pc-app[data-visual-style="md3e"] .sidebar-icon:hover{
-  background:color-mix(in srgb,var(--md-sys-color-on-surface) 8%,transparent)!important;
-  color:var(--md-sys-color-on-surface)!important;
-}
-#pc-app[data-visual-style="md3e"] .sidebar-icon.active{
-  color:var(--md-sys-color-on-secondary-container)!important;
-  background:transparent!important;
-}
-#pc-app[data-visual-style="md3e"] .sidebar-indicator{
-  background:var(--md-sys-color-secondary-container)!important;
-  border:none!important;
-  box-shadow:0 1px 3px rgba(0,0,0,.12)!important;
-}
-
-#pc-app[data-visual-style="md3e"] .settings-card{
-  background:var(--md-sys-color-surface-container)!important;
-  border-color:var(--md-sys-color-outline-variant)!important;
-}
-#pc-app[data-visual-style="md3e"] .settings-card-title{
-  color:var(--md-sys-color-on-surface)!important;
-}
-#pc-app[data-visual-style="md3e"] .settings-card-desc{
-  color:var(--md-sys-color-on-surface-variant)!important;
-}
-#pc-app[data-visual-style="md3e"] .visual-style-btn{
-  background:transparent!important;
-  border:1px solid var(--md-sys-color-outline)!important;
-  color:var(--md-sys-color-on-surface-variant)!important;
-}
-#pc-app[data-visual-style="md3e"] .visual-style-btn:hover{
-  background:color-mix(in srgb,var(--md-sys-color-on-surface) 8%,transparent)!important;
-  color:var(--md-sys-color-on-surface)!important;
-}
-#pc-app[data-visual-style="md3e"] .visual-style-btn.active{
-  background:var(--md-sys-color-primary)!important;
-  border-color:var(--md-sys-color-primary)!important;
-  color:var(--md-sys-color-on-primary)!important;
-  box-shadow:0 1px 3px rgba(0,0,0,.16)!important;
-}
-#pc-app[data-visual-style="md3e"] .transparency-slider-track{
-  background:var(--md-sys-color-surface-variant)!important;
-}
-#pc-app[data-visual-style="md3e"] .transparency-slider-fill{
-  background:var(--md-sys-color-primary)!important;
-  box-shadow:none!important;
-  animation:none!important;
-}
-#pc-app[data-visual-style="md3e"] .transparency-value{
-  color:var(--md-sys-color-on-surface)!important;
-}
-
-/* ================================================================
-   ★ MD3E 开关 —— Pixel 风格（Android 17 / Material 3 Expressive）
-   ================================================================ */
-#pc-app[data-visual-style="md3e"] #theme-switch-container{
-  border-top-color:var(--md-sys-color-outline-variant)!important;
-}
-
+#pc-app[data-visual-style="md3e"] .song-item.active-song .song-index{color:var(--md-sys-color-on-secondary-container)!important;}
+#pc-app[data-visual-style="md3e"] #song-list::-webkit-scrollbar-thumb{background:var(--md-sys-color-outline-variant);}
+#pc-app[data-visual-style="md3e"] #pc-search-container{border:1px solid var(--md-sys-color-outline-variant)!important;border-radius:9999px!important;}
+#pc-app[data-visual-style="md3e"] #pc-search-container:focus-within{border-color:var(--md-sys-color-primary)!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--md-sys-color-primary) 18%,transparent)!important;transform:translate(-50%,-50%)!important;}
+#pc-app[data-visual-style="md3e"] #pc-search-container .search-icon{color:var(--md-sys-color-on-surface-variant)!important;}
+#pc-app[data-visual-style="md3e"] #pc-search-input{color:var(--md-sys-color-on-surface)!important;}
+#pc-app[data-visual-style="md3e"] #pc-search-input::placeholder{color:var(--md-sys-color-on-surface-variant)!important;opacity:1!important;}
+#pc-app[data-visual-style="md3e"] .clear-btn{color:var(--md-sys-color-on-surface-variant)!important;}
+#pc-app[data-visual-style="md3e"] .clear-btn:hover{color:var(--md-sys-color-on-surface)!important;}
+#pc-app[data-visual-style="md3e"] .pc-search-btn{background:var(--md-sys-color-primary)!important;color:var(--md-sys-color-on-primary)!important;border-radius:9999px!important;border:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:0 1px 2px rgba(0,0,0,.12)!important;}
+#pc-app[data-visual-style="md3e"] .pc-search-btn:hover{background:color-mix(in srgb,var(--md-sys-color-primary) 88%,var(--md-sys-color-on-primary))!important;box-shadow:0 2px 8px rgba(0,0,0,.2)!important;transform:scale(1.02);}
+#pc-app[data-visual-style="md3e"] .nav-links a{color:var(--md-sys-color-on-surface-variant)!important;font-weight:500!important;padding:6px 12px;border-radius:9999px;transition:background .2s ease,color .2s ease!important;}
+#pc-app[data-visual-style="md3e"] .nav-links a:hover{background:var(--md-sys-color-secondary-container)!important;color:var(--md-sys-color-on-secondary-container)!important;opacity:1!important;}
+#pc-app[data-visual-style="md3e"] #title-text{text-shadow:0 2px 12px rgba(0,0,0,.55);}
+#pc-app[data-visual-style="md3e"] .modal-title{color:var(--md-sys-color-on-surface)!important;}
+#pc-app[data-visual-style="md3e"] .modal-subtitle{color:var(--md-sys-color-on-surface-variant)!important;opacity:1!important;}
+#pc-app[data-visual-style="md3e"] .modal-sidebar{background:var(--md-sys-color-surface-container-highest)!important;border:none!important;border-radius:20px!important;}
+#pc-app[data-visual-style="md3e"] .sidebar-icon{color:var(--md-sys-color-on-surface-variant)!important;}
+#pc-app[data-visual-style="md3e"] .sidebar-icon:hover{background:color-mix(in srgb,var(--md-sys-color-on-surface) 8%,transparent)!important;color:var(--md-sys-color-on-surface)!important;}
+#pc-app[data-visual-style="md3e"] .sidebar-icon.active{color:var(--md-sys-color-on-secondary-container)!important;background:transparent!important;}
+#pc-app[data-visual-style="md3e"] .sidebar-indicator{background:var(--md-sys-color-secondary-container)!important;border:none!important;box-shadow:0 1px 3px rgba(0,0,0,.12)!important;}
+#pc-app[data-visual-style="md3e"] .settings-card{background:var(--md-sys-color-surface-container)!important;border-color:var(--md-sys-color-outline-variant)!important;}
+#pc-app[data-visual-style="md3e"] .settings-card-title{color:var(--md-sys-color-on-surface)!important;}
+#pc-app[data-visual-style="md3e"] .settings-card-desc{color:var(--md-sys-color-on-surface-variant)!important;}
+#pc-app[data-visual-style="md3e"] .visual-style-btn{background:transparent!important;border:1px solid var(--md-sys-color-outline)!important;color:var(--md-sys-color-on-surface-variant)!important;}
+#pc-app[data-visual-style="md3e"] .visual-style-btn:hover{background:color-mix(in srgb,var(--md-sys-color-on-surface) 8%,transparent)!important;color:var(--md-sys-color-on-surface)!important;}
+#pc-app[data-visual-style="md3e"] .visual-style-btn.active{background:var(--md-sys-color-primary)!important;border-color:var(--md-sys-color-primary)!important;color:var(--md-sys-color-on-primary)!important;box-shadow:0 1px 3px rgba(0,0,0,.16)!important;}
+#pc-app[data-visual-style="md3e"] .transparency-slider-track{background:var(--md-sys-color-surface-variant)!important;}
+#pc-app[data-visual-style="md3e"] .transparency-slider-fill{background:var(--md-sys-color-primary)!important;box-shadow:none!important;animation:none!important;}
+#pc-app[data-visual-style="md3e"] .transparency-value{color:var(--md-sys-color-on-surface)!important;}
+#pc-app[data-visual-style="md3e"] #theme-switch-container{border-top-color:var(--md-sys-color-outline-variant)!important;}
 #pc-app[data-visual-style="md3e"] .switch-track,
-#pc-app[data-visual-style="md3e"] .auto-switch-track{
-  width:52px!important;
-  height:32px!important;
-  border-radius:16px!important;
-  background:var(--md-sys-color-surface-container-highest)!important;
-  border:2px solid var(--md-sys-color-outline)!important;
-  box-shadow:none!important;
-  transition:background .25s cubic-bezier(.2,.8,.2,1),
-             border-color .25s cubic-bezier(.2,.8,.2,1)!important;
-}
+#pc-app[data-visual-style="md3e"] .auto-switch-track{width:52px!important;height:32px!important;border-radius:16px!important;background:var(--md-sys-color-surface-container-highest)!important;border:2px solid var(--md-sys-color-outline)!important;box-shadow:none!important;transition:background .25s cubic-bezier(.2,.8,.2,1),border-color .25s cubic-bezier(.2,.8,.2,1)!important;}
 #pc-app[data-visual-style="md3e"] .switch-track.active,
-#pc-app[data-visual-style="md3e"] .auto-switch-track.active{
-  background:var(--md-sys-color-primary)!important;
-  border-color:var(--md-sys-color-primary)!important;
-}
-
+#pc-app[data-visual-style="md3e"] .auto-switch-track.active{background:var(--md-sys-color-primary)!important;border-color:var(--md-sys-color-primary)!important;}
 #pc-app[data-visual-style="md3e"] .switch-thumb,
-#pc-app[data-visual-style="md3e"] .auto-switch-thumb{
-  width:16px!important;
-  height:16px!important;
-  top:6px!important;
-  left:6px!important;
-  border-radius:50%!important;
-  background:var(--md-sys-color-outline)!important;
-  box-shadow:0 1px 3px rgba(0,0,0,.22)!important;
-  transition:transform .35s cubic-bezier(.2,.8,.2,1),
-             width .35s cubic-bezier(.2,.8,.2,1),
-             height .35s cubic-bezier(.2,.8,.2,1),
-             top .35s cubic-bezier(.2,.8,.2,1),
-             left .35s cubic-bezier(.2,.8,.2,1),
-             background .25s ease!important;
-}
+#pc-app[data-visual-style="md3e"] .auto-switch-thumb{width:16px!important;height:16px!important;top:6px!important;left:6px!important;border-radius:50%!important;background:var(--md-sys-color-outline)!important;box-shadow:0 1px 3px rgba(0,0,0,.22)!important;transition:transform .35s cubic-bezier(.2,.8,.2,1),width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1),top .35s cubic-bezier(.2,.8,.2,1),left .35s cubic-bezier(.2,.8,.2,1),background .25s ease!important;}
 #pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb,
-#pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb{
-  transform:translateX(20px)!important;
-  width:24px!important;
-  height:24px!important;
-  top:2px!important;
-  left:2px!important;
-  background:var(--md-sys-color-on-primary)!important;
-  box-shadow:0 1px 4px rgba(0,0,0,.28)!important;
-}
-
+#pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb{transform:translateX(20px)!important;width:24px!important;height:24px!important;top:2px!important;left:2px!important;background:var(--md-sys-color-on-primary)!important;box-shadow:0 1px 4px rgba(0,0,0,.28)!important;}
 #pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb::after,
-#pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb::after{
-  content:''!important;
-  position:absolute;
-  inset:0;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236750A4' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center/14px 14px no-repeat;
-}
+#pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb::after{content:''!important;position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236750A4' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center/14px 14px no-repeat;}
 #pc-app[data-visual-style="md3e"] .switch-thumb::after,
-#pc-app[data-visual-style="md3e"] .auto-switch-thumb::after{
-  content:none!important;
-}
-
-#pc-app[data-visual-style="md3e"] .theme-icon-btn{
-  color:var(--md-sys-color-on-surface-variant)!important;
-}
-#pc-app[data-visual-style="md3e"] .theme-icon-btn:hover{
-  background:var(--md-sys-color-surface-container-highest)!important;
-  color:var(--md-sys-color-on-surface)!important;
-}
-#pc-app[data-visual-style="md3e"] .theme-icon-btn.active{
-  color:var(--md-sys-color-primary)!important;
-}
+#pc-app[data-visual-style="md3e"] .auto-switch-thumb::after{content:none!important;}
+#pc-app[data-visual-style="md3e"] .theme-icon-btn{color:var(--md-sys-color-on-surface-variant)!important;}
+#pc-app[data-visual-style="md3e"] .theme-icon-btn:hover{background:var(--md-sys-color-surface-container-highest)!important;color:var(--md-sys-color-on-surface)!important;}
+#pc-app[data-visual-style="md3e"] .theme-icon-btn.active{color:var(--md-sys-color-primary)!important;}
 #pc-app[data-visual-style="md3e"][data-theme="dark"] .theme-icon-btn.moon-icon,
-#pc-app[data-visual-style="md3e"][data-theme="light"] .theme-icon-btn.sun-icon{
-  color:var(--md-sys-color-primary)!important;
-}
-
-/* ================================================================
-   ★ MD3E 波浪形进度条 —— Pixel 媒体控件风格（Android 17）
-   ================================================================ */
-#pc-app[data-visual-style="md3e"] #progress-container{
-  height:24px!important;
-  border-radius:12px!important;
-  background:transparent!important;
-  overflow:visible!important;
-  position:relative!important;
-}
-#pc-app[data-visual-style="md3e"] #progress-fill{
-  display:none!important;
-}
-#pc-app[data-visual-style="md3e"] #progress-container::before{
-  content:'';
-  position:absolute;
-  left:0;
-  right:0;
-  top:50%;
-  transform:translateY(-50%);
-  height:4px;
-  border-radius:2px;
-  background:var(--md-sys-color-surface-variant);
-  pointer-events:none;
-}
-#pc-app[data-visual-style="md3e"] #progress-container::after{
-  content:'';
-  position:absolute;
-  left:0;
-  top:50%;
-  transform:translateY(-50%);
-  height:4px;
-  width:var(--wave-width,0%);
-  border-radius:2px;
-  background:var(--md-sys-color-primary);
-  pointer-events:none;
-  overflow:hidden;
-  transition:width .1s linear;
-}
-#pc-app[data-visual-style="md3e"] #progress-container .wave-overlay{
-  display:block!important;
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  width:var(--wave-width,0%);
-  overflow:hidden;
-  border-radius:2px;
-  pointer-events:none;
-}
-#pc-app[data-visual-style="md3e"] #progress-container .wave-overlay::before{
-  content:'';
-  position:absolute;
-  left:0;
-  top:50%;
-  transform:translateY(-50%);
-  width:200%;
-  height:20px;
-  background:repeating-linear-gradient(
-    90deg,
-    var(--md-sys-color-primary) 0px,
-    var(--md-sys-color-primary) 18px,
-    color-mix(in srgb,var(--md-sys-color-primary) 60%,var(--md-sys-color-surface-container)) 18px,
-    color-mix(in srgb,var(--md-sys-color-primary) 60%,var(--md-sys-color-surface-container)) 36px
-  );
-  animation:waveScroll 1.8s linear infinite;
-  border-radius:50%;
-  opacity:.85;
-}
-@keyframes waveScroll{
-  0%{transform:translateY(-50%) translateX(0)}
-  100%{transform:translateY(-50%) translateX(-36px)}
-}
-#pc-app[data-visual-style="md3e"] #progress-container.paused .wave-overlay::before{
-  animation-play-state:paused;
-  opacity:.4;
-}
-#pc-app[data-visual-style="md3e"] #progress{
-  position:absolute!important;
-  top:0!important;
-  left:0!important;
-  width:100%!important;
-  height:100%!important;
-  opacity:0!important;
-  cursor:pointer!important;
-  z-index:10!important;
-  margin:0!important;
-  padding:0!important;
-  touch-action:none!important;
-}
-
-#pc-app[data-visual-style="md3e"] .thumb-carousel .apply-btn{
-  background:var(--md-sys-color-primary)!important;
-  color:var(--md-sys-color-on-primary)!important;
-  border-radius:9999px!important;
-  box-shadow:0 1px 3px rgba(0,0,0,.16)!important;
-}
-#pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-arrow{
-  background:var(--md-sys-color-surface-container-highest)!important;
-  color:var(--md-sys-color-on-surface)!important;
-  border:none!important;
-  backdrop-filter:none!important;
-  -webkit-backdrop-filter:none!important;
-}
-#pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-wrapper{
-  border-radius:20px!important;
-  box-shadow:0 1px 4px rgba(0,0,0,.18)!important;
-}
-#pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-dots span{
-  background:var(--md-sys-color-outline-variant)!important;
-}
-#pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-dots span.active{
-  background:var(--md-sys-color-primary)!important;
-}
-
-#pc-app[data-visual-style="md3e"] #icp-footer{
-  color:rgba(255,255,255,.78)!important;
-}
-
-#pc-app[data-visual-style="md3e"] #progress-fill.playing{
-  animation:none!important;
-}
-
+#pc-app[data-visual-style="md3e"][data-theme="light"] .theme-icon-btn.sun-icon{color:var(--md-sys-color-primary)!important;}
+#pc-app[data-visual-style="md3e"] #progress-container{height:24px!important;border-radius:12px!important;background:transparent!important;overflow:visible!important;position:relative!important;}
+#pc-app[data-visual-style="md3e"] #progress-fill{display:none!important;}
+#pc-app[data-visual-style="md3e"] #progress-container::before{content:'';position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:4px;border-radius:2px;background:var(--md-sys-color-surface-variant);pointer-events:none;}
+#pc-app[data-visual-style="md3e"] #progress-container::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);height:4px;width:var(--wave-width,0%);border-radius:2px;background:var(--md-sys-color-primary);pointer-events:none;overflow:hidden;transition:width .1s linear;}
+#pc-app[data-visual-style="md3e"] #progress-container .wave-overlay{display:block!important;position:absolute;left:0;top:0;bottom:0;width:var(--wave-width,0%);overflow:hidden;border-radius:2px;pointer-events:none;}
+#pc-app[data-visual-style="md3e"] #progress-container .wave-overlay::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:200%;height:20px;background:repeating-linear-gradient(90deg,var(--md-sys-color-primary) 0px,var(--md-sys-color-primary) 18px,color-mix(in srgb,var(--md-sys-color-primary) 60%,var(--md-sys-color-surface-container)) 18px,color-mix(in srgb,var(--md-sys-color-primary) 60%,var(--md-sys-color-surface-container)) 36px);animation:waveScroll 1.8s linear infinite;border-radius:50%;opacity:.85;}
+@keyframes waveScroll{0%{transform:translateY(-50%) translateX(0)}100%{transform:translateY(-50%) translateX(-36px)}}
+#pc-app[data-visual-style="md3e"] #progress-container.paused .wave-overlay::before{animation-play-state:paused;opacity:.4;}
+#pc-app[data-visual-style="md3e"] #progress{position:absolute!important;top:0!important;left:0!important;width:100%!important;height:100%!important;opacity:0!important;cursor:pointer!important;z-index:10!important;margin:0!important;padding:0!important;touch-action:none!important;}
+#pc-app[data-visual-style="md3e"] .thumb-carousel .apply-btn{background:var(--md-sys-color-primary)!important;color:var(--md-sys-color-on-primary)!important;border-radius:9999px!important;box-shadow:0 1px 3px rgba(0,0,0,.16)!important;}
+#pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-arrow{background:var(--md-sys-color-surface-container-highest)!important;color:var(--md-sys-color-on-surface)!important;border:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+#pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-wrapper{border-radius:20px!important;box-shadow:0 1px 4px rgba(0,0,0,.18)!important;}
+#pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-dots span{background:var(--md-sys-color-outline-variant)!important;}
+#pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-dots span.active{background:var(--md-sys-color-primary)!important;}
+#pc-app[data-visual-style="md3e"] #icp-footer{color:rgba(255,255,255,.78)!important;}
+#pc-app[data-visual-style="md3e"] #progress-fill.playing{animation:none!important;}
 @media (max-width:640px){
   #pc-app[data-visual-style="md3e"] .switch-track,
-  #pc-app[data-visual-style="md3e"] .auto-switch-track{
-    width:44px!important;
-    height:26px!important;
-    border-radius:13px!important;
-  }
+  #pc-app[data-visual-style="md3e"] .auto-switch-track{width:44px!important;height:26px!important;border-radius:13px!important;}
   #pc-app[data-visual-style="md3e"] .switch-thumb,
-  #pc-app[data-visual-style="md3e"] .auto-switch-thumb{
-    width:14px!important;
-    height:14px!important;
-    top:4px!important;
-    left:4px!important;
-  }
+  #pc-app[data-visual-style="md3e"] .auto-switch-thumb{width:14px!important;height:14px!important;top:4px!important;left:4px!important;}
   #pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb,
-  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb{
-    transform:translateX(14px)!important;
-    width:20px!important;
-    height:20px!important;
-    top:1px!important;
-    left:1px!important;
-  }
+  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb{transform:translateX(14px)!important;width:20px!important;height:20px!important;top:1px!important;left:1px!important;}
   #pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb::after,
-  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb::after{
-    background-size:12px 12px!important;
-  }
-  #pc-app[data-visual-style="md3e"] #progress-container{
-    height:20px!important;
-  }
+  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb::after{background-size:12px 12px!important;}
+  #pc-app[data-visual-style="md3e"] #progress-container{height:20px!important;}
 }
 @media (max-width:420px){
   #pc-app[data-visual-style="md3e"] .switch-track,
-  #pc-app[data-visual-style="md3e"] .auto-switch-track{
-    width:38px!important;
-    height:22px!important;
-    border-radius:11px!important;
-  }
+  #pc-app[data-visual-style="md3e"] .auto-switch-track{width:38px!important;height:22px!important;border-radius:11px!important;}
   #pc-app[data-visual-style="md3e"] .switch-thumb,
-  #pc-app[data-visual-style="md3e"] .auto-switch-thumb{
-    width:12px!important;
-    height:12px!important;
-    top:3px!important;
-    left:3px!important;
-  }
+  #pc-app[data-visual-style="md3e"] .auto-switch-thumb{width:12px!important;height:12px!important;top:3px!important;left:3px!important;}
   #pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb,
-  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb{
-    transform:translateX(12px)!important;
-    width:16px!important;
-    height:16px!important;
-    top:1px!important;
-    left:1px!important;
-  }
+  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb{transform:translateX(12px)!important;width:16px!important;height:16px!important;top:1px!important;left:1px!important;}
   #pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb::after,
-  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb::after{
-    background-size:10px 10px!important;
-  }
-  #pc-app[data-visual-style="md3e"] #progress-container{
-    height:18px!important;
-  }
-  #pc-app[data-visual-style="md3e"] #progress-container .wave-overlay::before{
-    height:14px!important;
-  }
+  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb::after{background-size:10px 10px!important;}
+  #pc-app[data-visual-style="md3e"] #progress-container{height:18px!important;}
+  #pc-app[data-visual-style="md3e"] #progress-container .wave-overlay::before{height:14px!important;}
 }
 
 </style>
 </head>
 <body>
 
-<!-- ============ PC 端界面 ============ -->
 <div id="pc-app" data-theme="light" data-visual-style="glass">
   <div id="header-overlay"></div>
   <div id="title-text">
@@ -1331,18 +655,12 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
       </div>
       <div id="time-display">00:00 / 00:00 / 00:00</div>
       <div class="controls">
-        <button onclick="prev()" class="md3-icon-btn">
-          <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-        </button>
+        <button onclick="prev()" class="md3-icon-btn"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
         <button id="main-play-btn" onclick="togglePlay()" style="border:none; color:#000; width:34px; height:34px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transform-origin:center;">
           <svg id="play-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </button>
-        <button onclick="next()" class="md3-icon-btn">
-          <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
-        </button>
-        <button id="mode-btn" onclick="changeMode()" class="md3-icon-btn" title="切换播放模式" style="transform-origin:center;">
-          <span id="mode-icon" style="display:flex; align-items:center; justify-content:center; width:100%; height:100%;"></span>
-        </button>
+        <button onclick="next()" class="md3-icon-btn"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
+        <button id="mode-btn" onclick="changeMode()" class="md3-icon-btn" title="切换播放模式" style="transform-origin:center;"><span id="mode-icon" style="display:flex; align-items:center; justify-content:center; width:100%; height:100%;"></span></button>
         <button onclick="toggleList(event)" class="md3-icon-btn" style="font-size:18px; font-weight:300;">☰</button>
       </div>
     </div>
@@ -1351,15 +669,10 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   <div id="song-list" class="liquid-glass"></div>
 
   <div id="pc-search-container">
-    <span class="search-icon">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-    </span>
+    <span class="search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
     <input type="text" id="pc-search-input" class="search-input" placeholder="在Yandex中搜索..." autocomplete="off" />
     <button class="clear-btn" id="pc-clear-btn" style="display:none;" onclick="clearPcSearch()">✕</button>
-    <button class="pc-search-btn" id="pc-search-btn" onclick="performPcSearch()">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-      搜索
-    </button>
+    <button class="pc-search-btn" id="pc-search-btn" onclick="performPcSearch()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>搜索</button>
   </div>
 
   <div class="nav-links liquid-glass" id="navLinks">
@@ -1370,14 +683,10 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   </div>
 
   <a id="github-island" href="https://github.com/ainypboiep/world" target="_blank" rel="noopener" title="GitHub 仓库">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-    </svg>
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
   </a>
 
-  <div id="icp-footer">
-    <a href="https://icp.gov.moe/?keyword=20260864" target="_blank" rel="noopener">萌ICP备20260864号</a>
-  </div>
+  <div id="icp-footer"><a href="https://icp.gov.moe/?keyword=20260864" target="_blank" rel="noopener">萌ICP备20260864号</a></div>
 
   <div id="gear-island" onclick="openModal()" title="パーソナライズ">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -1404,23 +713,17 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
           <div class="sidebar-indicator" id="sidebar-indicator"></div>
           <button class="sidebar-icon active" data-tab="personalize" title="个性化">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="3"/>
-              <line x1="7.5" y1="10" x2="16.5" y2="10"/>
-              <circle cx="10.5" cy="10" r="1.8" fill="currentColor"/>
-              <line x1="7.5" y1="15" x2="16.5" y2="15"/>
-              <circle cx="14" cy="15" r="1.8" fill="currentColor"/>
+              <rect x="3" y="3" width="18" height="18" rx="3"/><line x1="7.5" y1="10" x2="16.5" y2="10"/><circle cx="10.5" cy="10" r="1.8" fill="currentColor"/><line x1="7.5" y1="15" x2="16.5" y2="15"/><circle cx="14" cy="15" r="1.8" fill="currentColor"/>
             </svg>
           </button>
           <button class="sidebar-icon" data-tab="transparency" title="透明效果">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="4" y="4" width="16" height="16" rx="4.5"/>
-              <path d="M6 15 L14.5 5.5" opacity="0.55" stroke-width="1.3"/>
+              <rect x="4" y="4" width="16" height="16" rx="4.5"/><path d="M6 15 L14.5 5.5" opacity="0.55" stroke-width="1.3"/>
             </svg>
           </button>
         </div>
 
         <div class="modal-content">
-          <!-- 个性化面板 -->
           <div class="tab-panel" data-panel="personalize">
             <div class="modal-subtitle" id="modal-subtitle">海边のミク</div>
             <div class="thumb-carousel">
@@ -1440,26 +743,15 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
                 <button class="thumb-arrow next" id="thumb-next" aria-label="下一张">›</button>
               </div>
               <div class="thumb-dots" id="thumb-dots">
-                <span data-index="0" class="active"></span>
-                <span data-index="1"></span>
-                <span data-index="2"></span>
-                <span data-index="3"></span>
-                <span data-index="4"></span>
-                <span data-index="5"></span>
-                <span data-index="6"></span>
+                <span data-index="0" class="active"></span><span data-index="1"></span><span data-index="2"></span>
+                <span data-index="3"></span><span data-index="4"></span><span data-index="5"></span><span data-index="6"></span>
               </div>
               <button class="apply-btn" id="apply-theme-btn">应用</button>
             </div>
             <div id="theme-switch-container">
-              <button class="theme-icon-btn moon-icon" id="moon-btn" onclick="setTheme('dark')" title="暗黑模式">
-                <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.5 5.5 0 0 1-7.54-7.54A9.01 9.01 0 0 0 12 3z"/></svg>
-              </button>
-              <div class="switch-track active" id="switch-track" onclick="toggleTheme()">
-                <div class="switch-thumb" id="switch-thumb"></div>
-              </div>
-              <button class="theme-icon-btn sun-icon active" id="sun-btn" onclick="setTheme('light')" title="明亮模式">
-                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-              </button>
+              <button class="theme-icon-btn moon-icon" id="moon-btn" onclick="setTheme('dark')" title="暗黑模式"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.5 5.5 0 0 1-7.54-7.54A9.01 9.01 0 0 0 12 3z"/></svg></button>
+              <div class="switch-track active" id="switch-track" onclick="toggleTheme()"><div class="switch-thumb" id="switch-thumb"></div></div>
+              <button class="theme-icon-btn sun-icon active" id="sun-btn" onclick="setTheme('light')" title="明亮模式"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
               <span class="auto-label">根据设备设置</span>
               <div class="auto-switch-track active" id="auto-switch-track" title="开启后自动跟随系统主题">
                 <div class="auto-switch-thumb" id="auto-switch-thumb"></div>
@@ -1468,7 +760,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
             </div>
           </div>
 
-          <!-- 透明效果面板 -->
           <div class="tab-panel" data-panel="transparency" hidden>
             <div class="settings-container">
               <div class="settings-card">
@@ -1501,38 +792,21 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   <audio id="audio"></audio>
 </div>
 
-<!-- ============ 移动端界面 ============ -->
 <div id="mobile-app">
-  <div class="mobile-title">
-    <div class="line1">来了,</div>
-    <div class="line2">バラモン！</div>
-  </div>
-
+  <div class="mobile-title"><div class="line1">来了,</div><div class="line2">バラモン！</div></div>
   <div id="mobile-search-container">
-    <span class="search-icon">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-    </span>
+    <span class="search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
     <input type="text" id="mobile-search-input" class="search-input" placeholder="在Yandex中搜索..." autocomplete="off" />
     <button class="mobile-clear-btn" id="mobile-clear-btn" style="display:none;" onclick="clearMobileSearch()">✕</button>
-    <button class="mobile-search-btn" id="mobile-search-btn" onclick="performMobileSearch()">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-      搜索
-    </button>
+    <button class="mobile-search-btn" id="mobile-search-btn" onclick="performMobileSearch()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>搜索</button>
   </div>
-
   <a id="mobile-github-island" href="https://github.com/ainypboiep/world" target="_blank" rel="noopener" title="GitHub 仓库">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-    </svg>
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
   </a>
-
-  <div class="mobile-footer">
-    <div class="mobile-footer-title">✦ 幻想的な星明かり ✦</div>
-    <a href="https://icp.gov.moe/?keyword=20260864" target="_blank" rel="noopener">萌ICP备20260864号</a>
-  </div>
+  <div class="mobile-footer"><div class="mobile-footer-title">✦ 幻想的な星明かり ✦</div><a href="https://icp.gov.moe/?keyword=20260864" target="_blank" rel="noopener">萌ICP备20260864号</a></div>
 </div>
 
-<!-- ============ Material Color Utilities ============ -->
+<!-- ============ Material Color Utilities（仅用于生成方案，不再用于提取色相） ============ -->
 <script type="module">
 import {
   Hct,
@@ -1570,7 +844,7 @@ window.__PC_APP_INITIALIZED__=true;
 const YANDEX_SEARCH_URL='https://yandex.com/search/?text=';
 
 /* =========================================================
-   全局玻璃透明度（0-100，默认 70）
+   全局玻璃透明度
    ========================================================= */
 const GLASS_KEY='glass_intensity';
 const DEFAULT_GLASS=70;
@@ -1581,35 +855,23 @@ function applyGlassIntensity(value){
   glassIntensity=value;
 
   let mult;
-  if(value===0){
-    mult=0;
-  }else{
+  if(value===0){mult=0;}
+  else{
     const n=value/70;
     mult=Math.pow(n,3);
-    if(value>70){
-      const extra=(value-70)/30;
-      mult*=1+extra*1.4;
-    }
+    if(value>70){const extra=(value-70)/30;mult*=1+extra*1.4;}
   }
   document.documentElement.style.setProperty('--glass-mult',mult.toFixed(4));
 
   let shadowMult;
-  if(value===0){
-    shadowMult=0;
-  }else{
-    shadowMult=value/70;
-  }
+  if(value===0){shadowMult=0;}else{shadowMult=value/70;}
   document.documentElement.style.setProperty('--glass-shadow-mult',shadowMult.toFixed(4));
 
   let bf;
-  if(value===0){
-    bf='none';
-  }else{
+  if(value===0){bf='none';}
+  else{
     const t=value/100;
-    const blurPx=t*40;
-    const satPct=100+t*100;
-    const brightVal=1+t*0.05;
-    bf='blur('+blurPx.toFixed(1)+'px) saturate('+satPct.toFixed(0)+'%) brightness('+brightVal.toFixed(3)+')';
+    bf='blur('+(t*40).toFixed(1)+'px) saturate('+(100+t*100).toFixed(0)+'%) brightness('+(1+t*0.05).toFixed(3)+')';
   }
   document.documentElement.style.setProperty('--glass-backdrop',bf);
 
@@ -1619,35 +881,21 @@ function applyGlassIntensity(value){
   if(fill)fill.style.width=value+'%';
   if(range)range.value=value;
   if(valEl)valEl.textContent=value;
-
   try{localStorage.setItem(GLASS_KEY,String(value));}catch(e){}
 }
-
 function readSavedGlassIntensity(){
   let saved=DEFAULT_GLASS;
-  try{
-    const v=localStorage.getItem(GLASS_KEY);
-    if(v!==null){
-      const n=parseInt(v,10);
-      if(!isNaN(n)&&n>=0&&n<=100)saved=n;
-    }
-  }catch(e){}
+  try{const v=localStorage.getItem(GLASS_KEY);if(v!==null){const n=parseInt(v,10);if(!isNaN(n)&&n>=0&&n<=100)saved=n;}}catch(e){}
   return saved;
 }
-
 function initGlassIntensity(){
-  const saved=readSavedGlassIntensity();
-  applyGlassIntensity(saved);
+  applyGlassIntensity(readSavedGlassIntensity());
   const range=document.getElementById('transparency-range');
-  if(range){
-    range.addEventListener('input',function(){
-      applyGlassIntensity(parseInt(this.value,10));
-    });
-  }
+  if(range){range.addEventListener('input',function(){applyGlassIntensity(parseInt(this.value,10));});}
 }
 
 /* =========================================================
-   ★ 视觉样式：glass / md3e
+   视觉样式 / MD3 取色核心
    ========================================================= */
 const VISUAL_STYLE_KEY='visual_style';
 let currentVisualStyle='glass';
@@ -1683,22 +931,50 @@ const MD3_ROLES=[
   ['shadow','shadow'],['scrim','scrim'],['surfaceTint','surface-tint'],
 ];
 
+/* ---- 工具函数 ---- */
+function resolveImageUrl(input){
+  if(!input)return '';
+  try{return new URL(input,location.href).href;}catch(e){return input;}
+}
+function rgbToHue(r,g,b){
+  r/=255;g/=255;b/=255;
+  const max=Math.max(r,g,b),min=Math.min(r,g,b);
+  const d=max-min;
+  if(d===0)return null;
+  let h=0;
+  if(max===r)h=((g-b)/d)%6;
+  else if(max===g)h=((b-r)/d)+2;
+  else h=((r-g)/d)+4;
+  h*=60;
+  if(h<0)h+=360;
+  return h;
+}
+function stringHash(str){
+  let h=5381;
+  for(let i=0;i<str.length;i++){h=((h<<5)+h+str.charCodeAt(i))|0;}
+  return Math.abs(h);
+}
+
 /* =========================================================
-   ★★ 核心修复：从图片提取主种子色相
-   --------------------------------------------------------
-   策略：
-     1. 先不带 crossOrigin 直接加载（适用于本地/同源图片）
-     2. 如果画布被污染，再用 crossOrigin='anonymous' 重试
-     3. 若仍失败，返回 null（外层会回退到默认紫色）
+   ★★★ 核心：从图片提取种子色（不依赖 MCU，用纯 HSL 直方图）
+   ---------------------------------------------------------
+   返回 { hue, chroma, tone } 普通对象，与 MCU 完全解耦。
+   这样即使 MCU 加载失败，取色依然可以工作。
    ========================================================= */
-function extractSeedHct(imageUrl){
+async function extractSeedHct(imageUrl){
+  const absUrl=resolveImageUrl(imageUrl);
+  console.log('🎨 开始取色：', absUrl);
+
   return new Promise(function(resolve){
+    let resolved=false;
+    function done(val){
+      if(resolved)return;
+      resolved=true;
+      resolve(val);
+    }
 
     function processImage(img){
       try{
-        const MCU=window.__MCU__;
-        if(!MCU){resolve(null);return true;}
-
         const size=48;
         const canvas=document.createElement('canvas');
         canvas.width=size;canvas.height=size;
@@ -1709,122 +985,143 @@ function extractSeedHct(imageUrl){
         try{
           data=ctx.getImageData(0,0,size,size).data;
         }catch(secErr){
-          console.warn('🎨 画布被污染（CORS 限制），尝试 CORS 模式重试');
-          return false; // 通知外层走 CORS 重试
+          console.warn('🎨 canvas 被污染（CORS），准备用 CORS 模式重试');
+          return false;
         }
 
+        // 计算色相直方图（色度平方加权）
         const bins=new Float32Array(36);
+        let totalChroma=0;
         for(let i=0;i<data.length;i+=4){
           const a=data[i+3];
           if(a<128)continue;
-          const argb=(0xff<<24)|(data[i]<<16)|(data[i+1]<<8)|data[i+2];
-          let hct;
-          try{hct=MCU.Hct.fromInt(argb);}catch(e){continue;}
-          if(hct.chroma<12)continue;
-          const bin=Math.floor(hct.hue/10)%36;
-          bins[bin]+=hct.chroma*hct.chroma;
+          const r=data[i],g=data[i+1],b=data[i+2];
+          const max=Math.max(r,g,b),min=Math.min(r,g,b);
+          const chroma=max-min;
+          if(chroma<30)continue; // 过滤灰阶
+          const hue=rgbToHue(r,g,b);
+          if(hue===null)continue;
+          const bin=Math.floor(hue/10)%36;
+          bins[bin]+=chroma*chroma;
+          totalChroma+=chroma;
         }
 
         let maxBin=-1,maxVal=0;
         for(let i=0;i<36;i++){
           if(bins[i]>maxVal){maxVal=bins[i];maxBin=i;}
         }
-        if(maxBin<0){resolve(null);return true;}
+
+        if(maxBin<0){
+          console.warn('🎨 直方图全为灰阶，取色失败');
+          done(null);
+          return true;
+        }
 
         const hue=maxBin*10+5;
-        console.log('🎨 MD3 取色成功，主色相 =', hue, '°');
-        resolve(MCU.Hct.from(hue,48,50));
+        console.log('🎨 ✔ 取色成功：主色相 =',hue,'°，累计色度 =',totalChroma.toFixed(0));
+        done({hue:hue,chroma:48,tone:50});
         return true;
       }catch(e){
-        console.warn('🎨 MD3 取色异常：', e);
-        resolve(null);
+        console.warn('🎨 processImage 异常：',e);
+        done(null);
         return true;
       }
     }
 
-    // ---- 尝试 1：不带 crossOrigin（本地/同源图片） ----
+    // 尝试 1：普通模式（同源/本地图片）
     const img1=new Image();
     img1.onload=function(){
+      console.log('🎨 图片已加载（普通模式），尺寸：',img1.naturalWidth,'×',img1.naturalHeight);
       if(processImage(img1))return;
-      // 画布被污染 → 用 CORS 模式重试
-      loadWithCors();
+      tryCors();
     };
-    img1.onerror=function(){
-      console.warn('🎨 图片直接加载失败，尝试 CORS 模式');
-      loadWithCors();
+    img1.onerror=function(e){
+      console.warn('🎨 普通模式加载失败:',e);
+      tryCors();
     };
 
-    function loadWithCors(){
+    function tryCors(){
+      console.log('🎨 尝试 CORS 模式重新加载...');
       const img2=new Image();
       img2.crossOrigin='anonymous';
-      img2.onload=function(){ processImage(img2); };
-      img2.onerror=function(){
-        console.warn('🎨 图片 CORS 模式加载也失败，放弃取色');
-        resolve(null);
+      img2.onload=function(){
+        console.log('🎨 图片已加载（CORS 模式）');
+        if(!processImage(img2)){
+          console.warn('🎨 CORS 模式读 canvas 也失败');
+          done(null);
+        }
       };
-      // 附加时间戳绕过缓存（避免命中之前被污染的缓存）
-      const sep=imageUrl.indexOf('?')>=0?'&':'?';
-      img2.src=imageUrl+sep+'_mcu='+Date.now();
+      img2.onerror=function(e){
+        console.warn('🎨 CORS 模式加载失败:',e);
+        done(null);
+      };
+      const sep=absUrl.indexOf('?')>=0?'&':'?';
+      img2.src=absUrl+sep+'_mcu='+Date.now();
     }
 
-    img1.src=imageUrl;
+    img1.src=absUrl;
+
+    // 5 秒超时保护
+    setTimeout(function(){
+      if(!resolved){
+        console.warn('🎨 取色超时（5s），放弃');
+        done(null);
+      }
+    },5000);
   });
 }
 
 /* =========================================================
-   ★★ 后台预计算 MD3 种子色（与当前视觉样式无关）
+   后台预计算种子色
    ========================================================= */
 async function precomputeMd3Seed(imageUrl){
-  if(!imageUrl){
-    console.warn('🎨 precomputeMd3Seed: 图片 URL 为空');
-    return null;
-  }
-  if(__md3SeedHct && __md3SeedHct.__src===imageUrl){
+  if(!imageUrl){console.warn('🎨 precomputeMd3Seed: 图片 URL 为空');return null;}
+  const absUrl=resolveImageUrl(imageUrl);
+
+  // 缓存命中
+  if(__md3SeedHct && __md3SeedHct.__src===absUrl){
+    console.log('🎨 种子色缓存命中：',absUrl);
     return __md3SeedHct;
   }
 
-  // 等待 MCU 加载（最多 10 秒超时）
-  if(!window.__MCU_READY__){
-    console.log('🎨 等待 Material Color Utilities 加载...');
-    await new Promise(function(resolve){
-      if(window.__MCU_READY__){resolve();return;}
-      const timer=setTimeout(function(){
-        console.warn('🎨 等待 MCU 超时');
-        resolve();
-      },10000);
-      window.addEventListener('mcu-ready',function(){
-        clearTimeout(timer);
-        resolve();
-      },{once:true});
-    });
+  let seed=await extractSeedHct(absUrl);
+
+  // 取色失败 → 用 URL 哈希生成稳定伪随机色相
+  if(!seed){
+    const fallbackHue=stringHash(absUrl)%360;
+    console.warn('🎨 取色完全失败，用 URL 哈希回退色相 =',fallbackHue,'°');
+    seed={hue:fallbackHue,chroma:48,tone:50};
   }
 
-  if(!window.__MCU__){
-    console.warn('🎨 MCU 未加载，无法进行取色');
-    return null;
-  }
-
-  const hct=await extractSeedHct(imageUrl);
-  const MCU=window.__MCU__;
-  let seed=hct;
-  if(!seed && MCU){
-    console.warn('🎨 取色失败，使用默认紫色回退');
-    seed=MCU.Hct.fromInt(MCU.argbFromHex('#6750A4'));
-  }
-  if(seed){
-    seed.__src=imageUrl;
-    __md3SeedHct=seed;
-    console.log('🎨 MD3 种子色已就绪：', imageUrl);
-  }
-  return __md3SeedHct;
+  seed.__src=absUrl;
+  __md3SeedHct=seed;
+  return seed;
 }
 
 /* =========================================================
-   生成并应用 MD3 色彩方案
+   用种子色生成 MD3 方案并写入 CSS 变量
    ========================================================= */
-function generateMd3Scheme(seedHct,isDark){
+function generateMd3Scheme(seed,isDark){
   const MCU=window.__MCU__;
-  if(!MCU||!seedHct)return;
+  if(!MCU){
+    console.warn('MD3E: MCU 未加载，跳过方案生成');
+    return;
+  }
+  if(!seed || typeof seed.hue!=='number'){
+    console.warn('MD3E: 无效种子色',seed);
+    return;
+  }
+
+  let seedHct;
+  try{
+    // 若是 MCU Hct 实例直接用；否则用 hue/chroma/tone 构造
+    if(seed instanceof MCU.Hct){seedHct=seed;}
+    else{seedHct=MCU.Hct.from(seed.hue,seed.chroma||48,seed.tone||50);}
+  }catch(e){
+    console.warn('MD3E: 构造种子色失败',e);
+    return;
+  }
+
   let scheme;
   try{
     scheme=new MCU.SchemeTonalSpot(seedHct,!!isDark,0);
@@ -1832,7 +1129,9 @@ function generateMd3Scheme(seedHct,isDark){
     console.warn('MD3E: 生成方案失败',e);
     return;
   }
+
   const app=document.getElementById('pc-app');
+  let count=0;
   MD3_ROLES.forEach(function(pair){
     const mcuName=pair[0],cssName=pair[1];
     const dc=MCU.MaterialDynamicColors[mcuName];
@@ -1840,8 +1139,10 @@ function generateMd3Scheme(seedHct,isDark){
     try{
       const argb=dc.getArgb(scheme);
       app.style.setProperty('--md-sys-color-'+cssName,MCU.hexFromArgb(argb));
+      count++;
     }catch(e){}
   });
+  console.log('🎨 MD3E 方案已应用，共写入',count,'个颜色变量，isDark =',!!isDark);
 
   try{
     const primaryHex=MCU.hexFromArgb(MCU.MaterialDynamicColors.primary.getArgb(scheme));
@@ -1850,12 +1151,18 @@ function generateMd3Scheme(seedHct,isDark){
   }catch(e){}
 }
 
+/* =========================================================
+   应用 MD3E 方案
+   ========================================================= */
 async function refreshMd3Scheme(){
   if(currentVisualStyle!=='md3e')return;
   const app=document.getElementById('pc-app');
+
+  // 从 computed style 里拿背景图 URL
   let url='722264.jpg';
   try{
     const bg=getComputedStyle(app).backgroundImage;
+    console.log('🎨 当前背景 image CSS =',bg.slice(0,120));
     const m=bg.match(/url\(["']?([^"')]+)["']?\)/);
     if(m&&m[1])url=m[1];
   }catch(e){}
@@ -1866,6 +1173,9 @@ async function refreshMd3Scheme(){
   }
 }
 
+/* =========================================================
+   透明卡片显隐
+   ========================================================= */
 function updateTransparencyCardVisibility(style,skipTransition){
   const card=document.getElementById('transparency-card');
   if(!card)return;
@@ -1922,14 +1232,13 @@ function initVisualStyle(){
       applyVisualStyle(this.dataset.style);
     });
   });
-
   updateTransparencyCardVisibility(saved,true);
 
-  // 无论当前样式是什么，都先根据壁纸预计算种子色
+  // ★ 无论当前样式，都立即预计算当前壁纸的种子色
   const currentKey=THUMB_IMAGES[appliedThumbIndex]||'722264.jpg';
-  precomputeMd3Seed(currentKey).then(function(){
-    if(currentVisualStyle==='md3e' && __md3SeedHct){
-      generateMd3Scheme(__md3SeedHct,document.getElementById('pc-app').getAttribute('data-theme')==='dark');
+  precomputeMd3Seed(currentKey).then(function(seed){
+    if(currentVisualStyle==='md3e' && seed){
+      generateMd3Scheme(seed,document.getElementById('pc-app').getAttribute('data-theme')==='dark');
     }
   });
 }
@@ -1940,7 +1249,6 @@ if(isMobile){
   document.body.classList.add('mode-mobile');
   window.__IS_MOBILE__=true;
   console.log('📱 移动端模式已激活');
-
   window.performMobileSearch=function(){
     var input=document.getElementById('mobile-search-input');
     var query=input.value.trim();
@@ -1949,32 +1257,18 @@ if(isMobile){
   };
   window.clearMobileSearch=function(){
     var input=document.getElementById('mobile-search-input');
-    input.value='';
-    input.focus();
+    input.value='';input.focus();
     var btn=document.getElementById('mobile-clear-btn');
     if(btn)btn.style.display='none';
   };
-
   var mobileInput=document.getElementById('mobile-search-input');
   var mobileBtn=document.getElementById('mobile-search-btn');
   var mobileClearBtn=document.getElementById('mobile-clear-btn');
-
-  mobileInput.addEventListener('keydown',function(e){
-    if(e.key==='Enter'){e.preventDefault();performMobileSearch();}
-  });
-  mobileBtn.addEventListener('click',function(e){
-    e.preventDefault();performMobileSearch();
-  });
-  mobileInput.addEventListener('input',function(){
-    if(mobileClearBtn){
-      mobileClearBtn.style.display=this.value.length>0?'flex':'none';
-    }
-  });
-  mobileInput.addEventListener('blur',function(){
-    if(mobileClearBtn && this.value.length===0)mobileClearBtn.style.display='none';
-  });
+  mobileInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();performMobileSearch();}});
+  mobileBtn.addEventListener('click',function(e){e.preventDefault();performMobileSearch();});
+  mobileInput.addEventListener('input',function(){if(mobileClearBtn){mobileClearBtn.style.display=this.value.length>0?'flex':'none';}});
+  mobileInput.addEventListener('blur',function(){if(mobileClearBtn && this.value.length===0)mobileClearBtn.style.display='none';});
   mobileInput.addEventListener('touchstart',function(){this.focus();},{passive:true});
-
   initGlassIntensity();
   return;
 }else{
@@ -1983,21 +1277,11 @@ if(isMobile){
 }
 
 /* ---------- 2. 配置 ---------- */
-const CONFIG={
-  API_BASE:'https://ncm.landdy.cn',
-  ARTIST_ID:'1078425',
-  EXCLUDED_IDS:['32192205','4886973','500665207']
-};
+const CONFIG={API_BASE:'https://ncm.landdy.cn',ARTIST_ID:'1078425',EXCLUDED_IDS:['32192205','4886973','500665207']};
 
 /* ---------- 3. 播放器核心 ---------- */
-let songList=[];
-let currentIdx=0;
-let mode=0;
-let isDraggingProgress=false;
-let lyricLines=[];
-let songUrlCache={};
-let lyricCache={};
-let coverCache={};
+let songList=[],currentIdx=0,mode=0,isDraggingProgress=false,lyricLines=[];
+let songUrlCache={},lyricCache={},coverCache={};
 
 const audio=document.getElementById('audio');
 const playIcon=document.getElementById('play-icon');
@@ -2018,22 +1302,15 @@ const progressContainer=document.getElementById('progress-container');
 const playSVG='<path d="M8 5v14l11-7z"/>';
 const pauseSVG='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
 
-/* ---------- API 函数 ---------- */
 async function fetchArtistSongs(artistId){
   const url=CONFIG.API_BASE+'/artist/songs?id='+artistId;
   const resp=await fetch(url);
   if(!resp.ok)throw new Error('HTTP '+resp.status);
   const json=await resp.json();
   console.log('🎵 歌手原始返回:',json);
-
   let list=(json.data&&json.data.songs)||json.songs||(json.data&&json.data.list)||json.list||json.data||[];
   if(!Array.isArray(list))list=[];
-
-  const filtered=list.filter(song=>{
-    const id=String(song.id);
-    return !CONFIG.EXCLUDED_IDS.includes(id);
-  });
-
+  const filtered=list.filter(song=>{const id=String(song.id);return !CONFIG.EXCLUDED_IDS.includes(id);});
   return filtered.map(song=>{
     let artistName='未知歌手';
     if(song.ar&&Array.isArray(song.ar)&&song.ar[0]&&song.ar[0].name){artistName=song.ar[0].name;}
@@ -2085,17 +1362,12 @@ async function fetchSongLyric(songId){
 }
 
 function parseLRC(lrcText){
-  const lines=lrcText.split('\n');
-  const parsed=[];
-  const timeRegex=/\[(\d{2}):(\d{2})\.(\d{2,3})\]/;
+  const lines=lrcText.split('\n');const parsed=[];const timeRegex=/\[(\d{2}):(\d{2})\.(\d{2,3})\]/;
   for(let line of lines){
-    const trimmed=line.trim();
-    if(!trimmed)continue;
+    const trimmed=line.trim();if(!trimmed)continue;
     const match=trimmed.match(timeRegex);
     if(match){
-      const minutes=parseInt(match[1]);
-      const seconds=parseInt(match[2]);
-      const ms=parseInt(match[3].padEnd(3,'0'));
+      const minutes=parseInt(match[1]);const seconds=parseInt(match[2]);const ms=parseInt(match[3].padEnd(3,'0'));
       const totalSeconds=minutes*60+seconds+ms/1000;
       const text=trimmed.replace(timeRegex,'').trim();
       if(text)parsed.push({time:totalSeconds,text:text});
@@ -2104,8 +1376,7 @@ function parseLRC(lrcText){
   if(parsed.length===0){
     const textLines=lrcText.split('\n').filter(line=>line.trim().length>0);
     if(textLines.length>0){
-      const duration=audio.duration||180;
-      const timeStep=duration/textLines.length;
+      const duration=audio.duration||180;const timeStep=duration/textLines.length;
       return textLines.map((text,i)=>({time:i*timeStep,text:text.trim()}));
     }
     return null;
@@ -2114,79 +1385,45 @@ function parseLRC(lrcText){
   return parsed;
 }
 
-/* ---------- UI 更新 ---------- */
 function setPlayingState(playing){
-  if(playing){
-    progressFill.classList.add('playing');
-    progressContainer.classList.remove('paused');
-    playIcon.innerHTML=pauseSVG;
-  }else{
-    progressFill.classList.remove('playing');
-    progressContainer.classList.add('paused');
-    playIcon.innerHTML=playSVG;
-  }
+  if(playing){progressFill.classList.add('playing');progressContainer.classList.remove('paused');playIcon.innerHTML=pauseSVG;}
+  else{progressFill.classList.remove('playing');progressContainer.classList.add('paused');playIcon.innerHTML=playSVG;}
 }
-
 function updateProgress(){
   if(isDraggingProgress)return;
   if(audio.duration&&!isNaN(audio.duration)){
     const percent=(audio.currentTime/audio.duration)*100;
-    progressBar.value=percent;
-    progressFill.style.width=percent+'%';
+    progressBar.value=percent;progressFill.style.width=percent+'%';
     progressContainer.style.setProperty('--wave-width',percent+'%');
   }else{
-    progressFill.style.width='0%';
-    progressContainer.style.setProperty('--wave-width','0%');
+    progressFill.style.width='0%';progressContainer.style.setProperty('--wave-width','0%');
   }
 }
-
 function updateSongInfo(){
   if(currentIdx<0||currentIdx>=songList.length)return;
-  const song=songList[currentIdx];
-  songInfoEl.textContent=song.name+' - '+song.artist;
+  const song=songList[currentIdx];songInfoEl.textContent=song.name+' - '+song.artist;
 }
-
 function highlightCurrentSong(){
   const items=songListEl.querySelectorAll('.song-item');
-  items.forEach((item,index)=>{
-    if(index===currentIdx)item.classList.add('active-song');
-    else item.classList.remove('active-song');
-  });
+  items.forEach((item,index)=>{if(index===currentIdx)item.classList.add('active-song');else item.classList.remove('active-song');});
 }
-
 function updateLyricsDisplay(line1,line2,line3){
-  lyricsLine1.textContent=line1;
-  lyricsLine2.textContent=line2;
-  lyricsLine3.textContent=line3;
-  lyricsLine1.className='lyrics-line placeholder';
-  lyricsLine2.className='lyrics-line current placeholder';
-  lyricsLine3.className='lyrics-line placeholder';
+  lyricsLine1.textContent=line1;lyricsLine2.textContent=line2;lyricsLine3.textContent=line3;
+  lyricsLine1.className='lyrics-line placeholder';lyricsLine2.className='lyrics-line current placeholder';lyricsLine3.className='lyrics-line placeholder';
 }
-
 function updateLyrics(){
-  if(!lyricLines||lyricLines.length===0){
-    updateLyricsDisplay('♪ 无歌词','♪ 无歌词','♪ 无歌词');
-    return;
-  }
-  const currentTime=audio.currentTime||0;
-  let idx=0;
-  for(let i=0;i<lyricLines.length;i++){
-    if(lyricLines[i].time<=currentTime)idx=i;
-    else break;
-  }
+  if(!lyricLines||lyricLines.length===0){updateLyricsDisplay('♪ 无歌词','♪ 无歌词','♪ 无歌词');return;}
+  const currentTime=audio.currentTime||0;let idx=0;
+  for(let i=0;i<lyricLines.length;i++){if(lyricLines[i].time<=currentTime)idx=i;else break;}
   if(idx>=lyricLines.length)idx=lyricLines.length-1;
-  const prevIdx=idx-1>=0?idx-1:0;
-  const nextIdx=idx+1<lyricLines.length?idx+1:lyricLines.length-1;
+  const prevIdx=idx-1>=0?idx-1:0;const nextIdx=idx+1<lyricLines.length?idx+1:lyricLines.length-1;
   lyricsLine1.textContent=lyricLines[prevIdx].text||'♪';
   lyricsLine2.textContent=lyricLines[idx].text||'♪';
   lyricsLine3.textContent=lyricLines[nextIdx].text||'♪';
-  lyricsLine1.className='lyrics-line prev';
-  lyricsLine2.className='lyrics-line current';
-  lyricsLine3.className='lyrics-line next';
+  lyricsLine1.className='lyrics-line prev';lyricsLine2.className='lyrics-line current';lyricsLine3.className='lyrics-line next';
   if(prevIdx===idx)lyricsLine1.textContent='';
   if(nextIdx===idx)lyricsLine3.textContent='';
 }
-
 function applyWhiteToHighlights(){
   if(currentVisualStyle==='md3e')return;
   document.querySelectorAll('#lyrics-island .lyrics-line.current').forEach(el=>{el.style.color='#fff';});
@@ -2194,74 +1431,35 @@ function applyWhiteToHighlights(){
   document.querySelectorAll('.song-item.active-song .song-name').forEach(el=>{el.style.color='#fff';});
 }
 
-/* ---------- 核心播放 ---------- */
 async function loadAndPlay(index){
   if(index<0||index>=songList.length)return;
-  currentIdx=index;
-  const song=songList[index];
-  updateSongInfo();
-  highlightCurrentSong();
-  coverImg.src=song.cover||'CD.jpg';
-
-  if(!song.cover){
-    const cover=await fetchSongCover(song.id);
-    if(cover){song.cover=cover;coverImg.src=cover;}
-  }
-
+  currentIdx=index;const song=songList[index];
+  updateSongInfo();highlightCurrentSong();coverImg.src=song.cover||'CD.jpg';
+  if(!song.cover){const cover=await fetchSongCover(song.id);if(cover){song.cover=cover;coverImg.src=cover;}}
   try{
     const url=await fetchSongUrl(song.id);
     console.log('✅ 获取到播放地址:',url);
-    audio.src=url;
-    audio.load();
+    audio.src=url;audio.load();
     const playPromise=audio.play();
-    if(playPromise!==undefined){
-      playPromise.then(()=>setPlayingState(true)).catch(err=>{
-        console.warn('自动播放被拦截，等待用户交互:',err);
-        setPlayingState(false);
-      });
-    }
+    if(playPromise!==undefined){playPromise.then(()=>setPlayingState(true)).catch(err=>{console.warn('自动播放被拦截:',err);setPlayingState(false);});}
   }catch(e){
-    console.error('❌ 获取播放地址失败:',e);
-    audio.src='';
-    setPlayingState(false);
+    console.error('❌ 获取播放地址失败:',e);audio.src='';setPlayingState(false);
     songInfoEl.textContent=song.name+' - 播放失败 (请检查控制台)';
   }
-
   try{
     const lyric=await fetchSongLyric(song.id);
-    if(lyric&&lyric.length>0){lyricLines=lyric;}
-    else{lyricLines=[];updateLyricsDisplay('♪ 无歌词','♪ 无歌词','♪ 无歌词');}
-  }catch(e){
-    lyricLines=[];
-    updateLyricsDisplay('♪ 歌词加载失败','♪ 请稍后重试','♪');
-  }
-
+    if(lyric&&lyric.length>0){lyricLines=lyric;}else{lyricLines=[];updateLyricsDisplay('♪ 无歌词','♪ 无歌词','♪ 无歌词');}
+  }catch(e){lyricLines=[];updateLyricsDisplay('♪ 歌词加载失败','♪ 请稍后重试','♪');}
   if(coverCache[song.id]){coverImg.src=coverCache[song.id];}
-  updateProgress();
-  applyWhiteToHighlights();
-  setTimeout(adjustLyricsIslandPosition,100);
+  updateProgress();applyWhiteToHighlights();setTimeout(adjustLyricsIslandPosition,100);
 }
 
-/* ---------- 播放控制 ---------- */
 window.togglePlay=function(){
-  if(audio.paused){
-    audio.play().then(()=>setPlayingState(true)).catch(err=>{
-      console.warn('播放失败:',err);
-      setPlayingState(false);
-    });
-  }else{
-    audio.pause();
-    setPlayingState(false);
-  }
+  if(audio.paused){audio.play().then(()=>setPlayingState(true)).catch(err=>{console.warn('播放失败:',err);setPlayingState(false);});}
+  else{audio.pause();setPlayingState(false);}
   triggerAnimation(mainPlayBtn,'btn-anim',450);
 };
-
-window.prev=function(){
-  if(songList.length===0)return;
-  currentIdx=(currentIdx-1+songList.length)%songList.length;
-  loadAndPlay(currentIdx);
-};
-
+window.prev=function(){if(songList.length===0)return;currentIdx=(currentIdx-1+songList.length)%songList.length;loadAndPlay(currentIdx);};
 window.next=function(){
   if(songList.length===0)return;
   if(mode===2){currentIdx=Math.floor(Math.random()*songList.length);}
@@ -2274,83 +1472,36 @@ const iconMap=[
   '<svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4" /><path d="M3 11v-2a4 4 0 0 1 4-4h14" /><path d="M7 22l-4-4 4-4" /><path d="M21 13v2a4 4 0 0 1-4 4H3" /><path d="M12 10v4" /><path d="M12 14h1.5" /></svg>',
   '<svg viewBox="0 0 24 24"><path d="M21 7h-4a3 3 0 0 0-3 3v4a3 3 0 0 1-3 3H3" /><path d="M21 17h-4a3 3 0 0 1-3-3v-4a3 3 0 0 0-3-3H3" /><path d="M3 7h4" /><path d="M3 17h4" /></svg>'
 ];
+window.changeMode=function(){mode=(mode+1)%3;document.getElementById('mode-icon').innerHTML=iconMap[mode];triggerAnimation(modeBtn,'mode-anim',550);};
+function triggerAnimation(element,className,duration){if(!element)return;element.classList.remove(className);void element.offsetWidth;element.classList.add(className);setTimeout(()=>element.classList.remove(className),duration);}
 
-window.changeMode=function(){
-  mode=(mode+1)%3;
-  document.getElementById('mode-icon').innerHTML=iconMap[mode];
-  triggerAnimation(modeBtn,'mode-anim',550);
-};
-
-function triggerAnimation(element,className,duration){
-  if(!element)return;
-  element.classList.remove(className);
-  void element.offsetWidth;
-  element.classList.add(className);
-  setTimeout(()=>element.classList.remove(className),duration);
-}
-
-/* ---------- 音频事件 ---------- */
-audio.onended=function(){
-  if(mode===1){audio.play().catch(()=>{});}else{window.next();}
-};
+audio.onended=function(){if(mode===1){audio.play().catch(()=>{});}else{window.next();}};
 audio.ontimeupdate=function(){
   updateProgress();
-  if(!audio.paused&&audio.duration){
-    updateLyrics();
-    applyWhiteToHighlights();
-  }
+  if(!audio.paused&&audio.duration){updateLyrics();applyWhiteToHighlights();}
   const fmt=(s)=>new Date(s*1000).toISOString().substr(14,5);
-  const duration=audio.duration||0;
-  const remaining=duration-audio.currentTime;
+  const duration=audio.duration||0;const remaining=duration-audio.currentTime;
   timeDisplay.innerText=fmt(audio.currentTime)+' / '+fmt(duration)+' / '+fmt(remaining);
 };
-audio.onerror=function(e){
-  console.warn('音频错误:',e);
-  setPlayingState(false);
-};
+audio.onerror=function(e){console.warn('音频错误:',e);setPlayingState(false);};
 
-/* ---------- 进度条 ---------- */
 progressBar.addEventListener('mousedown',function(){isDraggingProgress=true;progressFill.classList.remove('playing');progressContainer.classList.add('paused');});
 progressBar.addEventListener('touchstart',function(){isDraggingProgress=true;progressFill.classList.remove('playing');progressContainer.classList.add('paused');},{passive:true});
-const endProgressDrag=function(){
-  isDraggingProgress=false;
-  if(!audio.paused){progressFill.classList.add('playing');progressContainer.classList.remove('paused');}
-};
+const endProgressDrag=function(){isDraggingProgress=false;if(!audio.paused){progressFill.classList.add('playing');progressContainer.classList.remove('paused');}};
 document.addEventListener('mouseup',endProgressDrag);
 document.addEventListener('touchend',endProgressDrag);
-progressBar.oninput=function(){
-  const val=parseFloat(progressBar.value);
-  if(audio.duration){
-    audio.currentTime=(val/100)*audio.duration;
-    progressFill.style.width=val+'%';
-    progressContainer.style.setProperty('--wave-width',val+'%');
-  }
-};
+progressBar.oninput=function(){const val=parseFloat(progressBar.value);if(audio.duration){audio.currentTime=(val/100)*audio.duration;progressFill.style.width=val+'%';progressContainer.style.setProperty('--wave-width',val+'%');}};
 progressContainer.addEventListener('click',function(e){
   if(e.target===progressBar)return;
-  const rect=this.getBoundingClientRect();
-  const x=(e.clientX-rect.left)/rect.width;
-  const val=Math.min(1,Math.max(0,x))*100;
+  const rect=this.getBoundingClientRect();const x=(e.clientX-rect.left)/rect.width;const val=Math.min(1,Math.max(0,x))*100;
   progressBar.value=val;
-  if(audio.duration){
-    audio.currentTime=(val/100)*audio.duration;
-    progressFill.style.width=val+'%';
-    progressContainer.style.setProperty('--wave-width',val+'%');
-  }
+  if(audio.duration){audio.currentTime=(val/100)*audio.duration;progressFill.style.width=val+'%';progressContainer.style.setProperty('--wave-width',val+'%');}
 });
 
-/* ---------- 歌曲列表 ---------- */
 function closeListWithAnimation(){
   if(songListEl.classList.contains('active')){
-    songListEl.classList.remove('active');
-    songListEl.classList.add('hiding');
-    const onEnd=function(){
-      songListEl.classList.remove('hiding');
-      songListEl.style.visibility='hidden';
-      songListEl.style.pointerEvents='none';
-      songListEl.style.animation='';
-      songListEl.removeEventListener('animationend',onEnd);
-    };
+    songListEl.classList.remove('active');songListEl.classList.add('hiding');
+    const onEnd=function(){songListEl.classList.remove('hiding');songListEl.style.visibility='hidden';songListEl.style.pointerEvents='none';songListEl.style.animation='';songListEl.removeEventListener('animationend',onEnd);};
     songListEl.addEventListener('animationend',onEnd,{once:true});
   }
 }
@@ -2358,158 +1509,102 @@ window.toggleList=function(e){
   e.stopPropagation();
   if(songListEl.classList.contains('active')){closeListWithAnimation();return;}
   songListEl.classList.remove('hiding');
-  const rect=player.getBoundingClientRect();
-  const isAbove=rect.top>window.innerHeight/2;
+  const rect=player.getBoundingClientRect();const isAbove=rect.top>window.innerHeight/2;
   songListEl.style.left=rect.left+'px';
   songListEl.style.top=isAbove?(rect.top-Math.min(songListEl.scrollHeight+30,280)+'px'):(rect.top+90+'px');
-  songListEl.style.visibility='visible';
-  songListEl.style.pointerEvents='auto';
-  void songListEl.offsetWidth;
-  songListEl.classList.add('active');
+  songListEl.style.visibility='visible';songListEl.style.pointerEvents='auto';
+  void songListEl.offsetWidth;songListEl.classList.add('active');
 };
 document.addEventListener('click',function(e){
-  if(!player.contains(e.target)&&!songListEl.contains(e.target)){
-    if(songListEl.classList.contains('active'))closeListWithAnimation();
-  }
+  if(!player.contains(e.target)&&!songListEl.contains(e.target)){if(songListEl.classList.contains('active'))closeListWithAnimation();}
 });
 
-/* ---------- 播放器拖拽 ---------- */
-let isDraggingPlayer=false;
-let playerOffsetX=0,playerOffsetY=0;
+let isDraggingPlayer=false,playerOffsetX=0,playerOffsetY=0;
 player.addEventListener('mousedown',function(e){
   if(e.target.closest('button, input, #main-play-btn, #progress-container'))return;
-  isDraggingPlayer=true;
-  const rect=player.getBoundingClientRect();
-  playerOffsetX=e.clientX-rect.left;
-  playerOffsetY=e.clientY-rect.top;
-  player.classList.add('dragging');
-  e.preventDefault();
+  isDraggingPlayer=true;const rect=player.getBoundingClientRect();
+  playerOffsetX=e.clientX-rect.left;playerOffsetY=e.clientY-rect.top;
+  player.classList.add('dragging');e.preventDefault();
 });
 document.addEventListener('mousemove',function(e){
   if(!isDraggingPlayer)return;
-  let newLeft=e.clientX-playerOffsetX;
-  let newTop=e.clientY-playerOffsetY;
+  let newLeft=e.clientX-playerOffsetX;let newTop=e.clientY-playerOffsetY;
   const w=player.offsetWidth,h=player.offsetHeight;
   newLeft=Math.max(0,Math.min(newLeft,window.innerWidth-w));
   newTop=Math.max(0,Math.min(newTop,window.innerHeight-h));
-  player.style.left=newLeft+'px';
-  player.style.top=newTop+'px';
+  player.style.left=newLeft+'px';player.style.top=newTop+'px';
 });
-document.addEventListener('mouseup',function(){
-  if(isDraggingPlayer){player.classList.remove('dragging');isDraggingPlayer=false;}
-});
+document.addEventListener('mouseup',function(){if(isDraggingPlayer){player.classList.remove('dragging');isDraggingPlayer=false;}});
 player.addEventListener('touchstart',function(e){
   if(e.target.closest('button, input, #main-play-btn, #progress-container'))return;
-  const touch=e.touches[0];
-  isDraggingPlayer=true;
-  const rect=player.getBoundingClientRect();
-  playerOffsetX=touch.clientX-rect.left;
-  playerOffsetY=touch.clientY-rect.top;
-  player.classList.add('dragging');
-  e.preventDefault();
+  const touch=e.touches[0];isDraggingPlayer=true;const rect=player.getBoundingClientRect();
+  playerOffsetX=touch.clientX-rect.left;playerOffsetY=touch.clientY-rect.top;
+  player.classList.add('dragging');e.preventDefault();
 },{passive:false});
 document.addEventListener('touchmove',function(e){
   if(!isDraggingPlayer)return;
-  const touch=e.touches[0];
-  let newLeft=touch.clientX-playerOffsetX;
-  let newTop=touch.clientY-playerOffsetY;
+  const touch=e.touches[0];let newLeft=touch.clientX-playerOffsetX;let newTop=touch.clientY-playerOffsetY;
   const w=player.offsetWidth,h=player.offsetHeight;
   newLeft=Math.max(0,Math.min(newLeft,window.innerWidth-w));
   newTop=Math.max(0,Math.min(newTop,window.innerHeight-h));
-  player.style.left=newLeft+'px';
-  player.style.top=newTop+'px';
-  e.preventDefault();
+  player.style.left=newLeft+'px';player.style.top=newTop+'px';e.preventDefault();
 },{passive:false});
-document.addEventListener('touchend',function(){
-  if(isDraggingPlayer){player.classList.remove('dragging');isDraggingPlayer=false;}
-});
+document.addEventListener('touchend',function(){if(isDraggingPlayer){player.classList.remove('dragging');isDraggingPlayer=false;}});
 
-/* ---------- 弹窗控制 ---------- */
 const overlayEl=document.getElementById('modal-overlay');
 const modalEl=document.getElementById('modal');
 const headerEl=document.getElementById('modal-header');
 let isModalOpen=false,isClosing=false;
 window.openModal=function(){
   if(isModalOpen||isClosing)return;
-  isModalOpen=true;
-  modalEl.classList.remove('closing');
-  overlayEl.classList.add('visible');
-  document.body.style.overflow='hidden';
-  syncSwitchUI();
-  updateAutoSwitchUI(autoThemeEnabled);
-  updateThumbPosition();
-  requestAnimationFrame(function(){
-    if(window.__moveSidebarIndicator)window.__moveSidebarIndicator();
-  });
+  isModalOpen=true;modalEl.classList.remove('closing');overlayEl.classList.add('visible');document.body.style.overflow='hidden';
+  syncSwitchUI();updateAutoSwitchUI(autoThemeEnabled);updateThumbPosition();
+  requestAnimationFrame(function(){if(window.__moveSidebarIndicator)window.__moveSidebarIndicator();});
 };
 window.closeModal=function(){
   if(!isModalOpen||isClosing)return;
-  isClosing=true;
-  modalEl.classList.add('closing');
+  isClosing=true;modalEl.classList.add('closing');
   const onTransitionEnd=function(){
     modalEl.removeEventListener('transitionend',onTransitionEnd);
-    overlayEl.classList.remove('visible');
-    modalEl.classList.remove('closing');
-    isModalOpen=false;
-    isClosing=false;
-    document.body.style.overflow='';
+    overlayEl.classList.remove('visible');modalEl.classList.remove('closing');
+    isModalOpen=false;isClosing=false;document.body.style.overflow='';
   };
   modalEl.addEventListener('transitionend',onTransitionEnd);
   setTimeout(function(){
     if(isClosing){
       modalEl.removeEventListener('transitionend',onTransitionEnd);
-      overlayEl.classList.remove('visible');
-      modalEl.classList.remove('closing');
-      isModalOpen=false;
-      isClosing=false;
-      document.body.style.overflow='';
+      overlayEl.classList.remove('visible');modalEl.classList.remove('closing');
+      isModalOpen=false;isClosing=false;document.body.style.overflow='';
     }
   },500);
 };
-window.closeModalViaOverlay=function(e){
-  if(e.target===overlayEl)closeModal();
-};
-document.addEventListener('keydown',function(e){
-  if(e.key==='Escape'&&isModalOpen)closeModal();
-});
+window.closeModalViaOverlay=function(e){if(e.target===overlayEl)closeModal();};
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&isModalOpen)closeModal();});
 
-/* ---------- 弹窗拖拽 ---------- */
-let isDraggingModal=false;
-let modalOffsetX=0,modalOffsetY=0;
+let isDraggingModal=false,modalOffsetX=0,modalOffsetY=0;
 headerEl.addEventListener('mousedown',function(e){
   if(e.target.closest('.dot, #window-controls'))return;
   if(!isModalOpen)return;
-  isDraggingModal=true;
-  const rect=modalEl.getBoundingClientRect();
-  modalOffsetX=e.clientX-rect.left;
-  modalOffsetY=e.clientY-rect.top;
-  modalEl.style.cursor='grabbing';
-  e.preventDefault();
+  isDraggingModal=true;const rect=modalEl.getBoundingClientRect();
+  modalOffsetX=e.clientX-rect.left;modalOffsetY=e.clientY-rect.top;
+  modalEl.style.cursor='grabbing';e.preventDefault();
 });
 document.addEventListener('mousemove',function(e){
   if(!isDraggingModal)return;
-  let newLeft=e.clientX-modalOffsetX;
-  let newTop=e.clientY-modalOffsetY;
+  let newLeft=e.clientX-modalOffsetX;let newTop=e.clientY-modalOffsetY;
   const w=modalEl.offsetWidth,h=modalEl.offsetHeight;
   newLeft=Math.max(0,Math.min(newLeft,window.innerWidth-w));
   newTop=Math.max(0,Math.min(newTop,window.innerHeight-h));
-  modalEl.style.position='fixed';
-  modalEl.style.left=newLeft+'px';
-  modalEl.style.top=newTop+'px';
-  modalEl.style.transform='none';
-  modalEl.style.margin='0';
+  modalEl.style.position='fixed';modalEl.style.left=newLeft+'px';modalEl.style.top=newTop+'px';
+  modalEl.style.transform='none';modalEl.style.margin='0';
 });
-document.addEventListener('mouseup',function(){
-  if(isDraggingModal){modalEl.style.cursor='';isDraggingModal=false;}
-});
+document.addEventListener('mouseup',function(){if(isDraggingModal){modalEl.style.cursor='';isDraggingModal=false;}});
 
-/* ---------- 弹窗 Tab 切换 ---------- */
 function initModalTabs(){
   const sidebar=document.querySelector('#pc-app .modal-sidebar');
   const icons=document.querySelectorAll('#pc-app .sidebar-icon');
   const panels=document.querySelectorAll('#pc-app .tab-panel');
   const indicator=document.getElementById('sidebar-indicator');
-
   function moveIndicator(activeIcon){
     if(!indicator||!sidebar||!activeIcon)return;
     indicator.style.left=activeIcon.offsetLeft+'px';
@@ -2517,7 +1612,6 @@ function initModalTabs(){
     indicator.style.width=activeIcon.offsetWidth+'px';
     indicator.style.height=activeIcon.offsetHeight+'px';
   }
-
   icons.forEach(icon=>{
     icon.addEventListener('click',function(e){
       e.stopPropagation();
@@ -2527,19 +1621,15 @@ function initModalTabs(){
       moveIndicator(this);
     });
   });
-
   window.__moveSidebarIndicator=function(){
     const cur=document.querySelector('#pc-app .sidebar-icon.active');
     if(cur)moveIndicator(cur);
   };
-
   requestAnimationFrame(()=>window.__moveSidebarIndicator());
   window.addEventListener('resize',()=>window.__moveSidebarIndicator());
 }
 
-/* ---------- 主题切换 ---------- */
-let currentTheme='light';
-let isTransitioning=false;
+let currentTheme='light',isTransitioning=false;
 const transitionOverlay=document.getElementById('theme-transition-overlay');
 const switchTrack=document.getElementById('switch-track');
 const moonBtn=document.getElementById('moon-btn');
@@ -2547,154 +1637,85 @@ const sunBtn=document.getElementById('sun-btn');
 const gearBtn=document.getElementById('gear-island');
 const autoSwitchTrack=document.getElementById('auto-switch-track');
 const autoCheckbox=document.getElementById('auto-theme-checkbox');
-let autoThemeEnabled=true;
-let systemThemeListener=null;
+let autoThemeEnabled=true,systemThemeListener=null;
 const manualControls=[moonBtn,switchTrack,sunBtn];
 
-function setManualControlsDisabled(disabled){
-  manualControls.forEach(el=>{
-    if(disabled)el.classList.add('disabled');
-    else el.classList.remove('disabled');
-  });
-}
-
-function applySystemTheme(){
-  if(autoThemeEnabled){
-    const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setTheme(prefersDark?'dark':'light');
-  }
-}
-
+function setManualControlsDisabled(disabled){manualControls.forEach(el=>{if(disabled)el.classList.add('disabled');else el.classList.remove('disabled');});}
+function applySystemTheme(){if(autoThemeEnabled){const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;setTheme(prefersDark?'dark':'light');}}
 function setupAutoTheme(){
   if(autoThemeEnabled){
     if(systemThemeListener)systemThemeListener.removeEventListener('change',applySystemTheme);
     systemThemeListener=window.matchMedia('(prefers-color-scheme: dark)');
     systemThemeListener.addEventListener('change',applySystemTheme);
-    applySystemTheme();
-    setManualControlsDisabled(true);
+    applySystemTheme();setManualControlsDisabled(true);
   }else{
-    if(systemThemeListener){
-      systemThemeListener.removeEventListener('change',applySystemTheme);
-      systemThemeListener=null;
-    }
+    if(systemThemeListener){systemThemeListener.removeEventListener('change',applySystemTheme);systemThemeListener=null;}
     setManualControlsDisabled(false);
   }
 }
-
 function setTheme(theme){
   if(theme===currentTheme||isTransitioning)return;
   const toDark=theme==='dark';
   const waveColor=toDark?'rgba(128,128,128,0.15)':'rgba(255,255,255,0.15)';
   const gearRect=gearBtn.getBoundingClientRect();
-  const cx=gearRect.left+gearRect.width/2;
-  const cy=gearRect.top+gearRect.height/2;
-  isTransitioning=true;
-  const overlay=transitionOverlay;
+  const cx=gearRect.left+gearRect.width/2;const cy=gearRect.top+gearRect.height/2;
+  isTransitioning=true;const overlay=transitionOverlay;
   overlay.style.background=waveColor;
   overlay.style.clipPath='circle(0% at '+cx+'px '+cy+'px)';
-  overlay.classList.add('animating');
-  overlay.style.visibility='visible';
-  overlay.style.opacity='1';
+  overlay.classList.add('animating');overlay.style.visibility='visible';overlay.style.opacity='1';
   void overlay.offsetWidth;
   overlay.style.transition='clip-path 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
   overlay.style.clipPath='circle(150% at '+cx+'px '+cy+'px)';
   const onTransitionEnd=function(){
     overlay.removeEventListener('transitionend',onTransitionEnd);
     applyTheme(theme);
-    overlay.style.transition='none';
-    overlay.classList.remove('animating');
-    overlay.style.visibility='hidden';
-    overlay.style.opacity='0';
-    overlay.style.clipPath='';
-    overlay.style.background='transparent';
-    isTransitioning=false;
+    overlay.style.transition='none';overlay.classList.remove('animating');
+    overlay.style.visibility='hidden';overlay.style.opacity='0';overlay.style.clipPath='';
+    overlay.style.background='transparent';isTransitioning=false;
   };
   overlay.addEventListener('transitionend',onTransitionEnd);
   setTimeout(function(){
     if(isTransitioning){
       overlay.removeEventListener('transitionend',onTransitionEnd);
       applyTheme(theme);
-      overlay.style.transition='none';
-      overlay.classList.remove('animating');
-      overlay.style.visibility='hidden';
-      overlay.style.opacity='0';
-      overlay.style.clipPath='';
-      overlay.style.background='transparent';
-      isTransitioning=false;
+      overlay.style.transition='none';overlay.classList.remove('animating');
+      overlay.style.visibility='hidden';overlay.style.opacity='0';overlay.style.clipPath='';
+      overlay.style.background='transparent';isTransitioning=false;
     }
   },1200);
 }
-
-function toggleTheme(){
-  if(isTransitioning||autoThemeEnabled)return;
-  const target=currentTheme==='light'?'dark':'light';
-  setTheme(target);
-}
-
+function toggleTheme(){if(isTransitioning||autoThemeEnabled)return;const target=currentTheme==='light'?'dark':'light';setTheme(target);}
 window.setTheme=setTheme;
 window.toggleTheme=toggleTheme;
 
 function updateSwitchUI(theme){
-  if(theme==='dark'){
-    switchTrack.classList.add('active');
-    moonBtn.classList.add('active');
-    sunBtn.classList.remove('active');
-  }else{
-    switchTrack.classList.remove('active');
-    moonBtn.classList.remove('active');
-    sunBtn.classList.add('active');
-  }
+  if(theme==='dark'){switchTrack.classList.add('active');moonBtn.classList.add('active');sunBtn.classList.remove('active');}
+  else{switchTrack.classList.remove('active');moonBtn.classList.remove('active');sunBtn.classList.add('active');}
 }
-
 function applyTheme(theme){
   document.getElementById('pc-app').setAttribute('data-theme',theme);
-  currentTheme=theme;
-  updateSwitchUI(theme);
+  currentTheme=theme;updateSwitchUI(theme);
   if(currentVisualStyle==='md3e'){
     if(window.__MCU_READY__)refreshMd3Scheme();
     else window.addEventListener('mcu-ready',refreshMd3Scheme,{once:true});
   }
 }
-
 function updateAutoSwitchUI(enabled){
-  if(enabled){
-    autoSwitchTrack.classList.add('active');
-    autoCheckbox.checked=true;
-  }else{
-    autoSwitchTrack.classList.remove('active');
-    autoCheckbox.checked=false;
-  }
+  if(enabled){autoSwitchTrack.classList.add('active');autoCheckbox.checked=true;}
+  else{autoSwitchTrack.classList.remove('active');autoCheckbox.checked=false;}
   setManualControlsDisabled(enabled);
 }
-
 autoSwitchTrack.addEventListener('click',function(e){
   e.stopPropagation();
-  const newState=!autoCheckbox.checked;
-  autoCheckbox.checked=newState;
-  autoThemeEnabled=newState;
-  updateAutoSwitchUI(newState);
-  setupAutoTheme();
+  const newState=!autoCheckbox.checked;autoCheckbox.checked=newState;autoThemeEnabled=newState;
+  updateAutoSwitchUI(newState);setupAutoTheme();
 });
-
-function initAutoSwitch(){
-  autoThemeEnabled=true;
-  autoCheckbox.checked=true;
-  updateAutoSwitchUI(true);
-  setupAutoTheme();
-}
-
+function initAutoSwitch(){autoThemeEnabled=true;autoCheckbox.checked=true;updateAutoSwitchUI(true);setupAutoTheme();}
 function syncSwitchUI(){updateSwitchUI(currentTheme);}
 
-/* ---------- 主题图片轮播 ---------- */
 const THUMB_IMAGES=['722264.jpg','miku2.jpg','蝶云.png','nacho.png','airi.png','hua.jpg','zao.jpg'];
-const THUMB_TITLES={
-  '722264.jpg':'海边のミク','miku2.jpg':'桜ミク','蝶云.png':'洛天依-蝶变',
-  'nacho.png':'猫羽雫','airi.png':'桃井爱莉','hua.jpg':'常磐华乃','zao.jpg':'东风谷早苗'
-};
-const THUMB_COLORS={
-  '722264.jpg':'#66ccff','miku2.jpg':'#FFC0CB','蝶云.png':'#32CD32',
-  'nacho.png':'#B6D5E9','airi.png':'#f6829d','hua.jpg':'#feb7bb','zao.jpg':'#e2e2a8'
-};
+const THUMB_TITLES={'722264.jpg':'海边のミク','miku2.jpg':'桜ミク','蝶云.png':'洛天依-蝶变','nacho.png':'猫羽雫','airi.png':'桃井爱莉','hua.jpg':'常磐华乃','zao.jpg':'东风谷早苗'};
+const THUMB_COLORS={'722264.jpg':'#66ccff','miku2.jpg':'#FFC0CB','蝶云.png':'#32CD32','nacho.png':'#B6D5E9','airi.png':'#f6829d','hua.jpg':'#feb7bb','zao.jpg':'#e2e2a8'};
 
 let currentThumbIndex=0,appliedThumbIndex=0;
 const thumbTrack=document.getElementById('thumb-track');
@@ -2707,10 +1728,7 @@ const bgOverlay=document.getElementById('bg-transition-overlay');
 const titleText=document.getElementById('title-text');
 const navLinks=document.getElementById('navLinks');
 
-function preloadImages(){
-  THUMB_IMAGES.forEach(src=>{const img=new Image();img.onerror=function(){this.style.display='none';};img.src=src;});
-}
-
+function preloadImages(){THUMB_IMAGES.forEach(src=>{const img=new Image();img.onerror=function(){this.style.display='none';};img.src=src;});}
 function updateThumbPosition(){
   const offset=-currentThumbIndex*100;
   thumbTrack.style.transform='translateX('+offset+'%)';
@@ -2719,63 +1737,41 @@ function updateThumbPosition(){
   const key=THUMB_IMAGES[currentThumbIndex];
   modalSubtitle.textContent=THUMB_TITLES[key]||'主题';
   const color=THUMB_COLORS[key];
-  dots.forEach((dot,i)=>{
-    if(i===currentThumbIndex)dot.style.background=color;
-    else dot.style.background='rgba(255,255,255,0.25)';
-  });
+  dots.forEach((dot,i)=>{if(i===currentThumbIndex)dot.style.background=color;else dot.style.background='rgba(255,255,255,0.25)';});
 }
-
 function goToThumb(index){
   if(index<0)index=THUMB_IMAGES.length-1;
   if(index>=THUMB_IMAGES.length)index=0;
-  currentThumbIndex=index;
-  updateThumbPosition();
+  currentThumbIndex=index;updateThumbPosition();
 }
-
-function hexToRgb(hex){
-  const h=hex.replace('#','');
-  const r=parseInt(h.slice(0,2),16);
-  const g=parseInt(h.slice(2,4),16);
-  const b=parseInt(h.slice(4,6),16);
-  return {r:r,g:g,b:b};
-}
+function hexToRgb(hex){const h=hex.replace('#','');const r=parseInt(h.slice(0,2),16);const g=parseInt(h.slice(2,4),16);const b=parseInt(h.slice(4,6),16);return {r:r,g:g,b:b};}
 
 function applyColorScheme(color){
-  if(currentVisualStyle==='md3e'){
-    titleText.style.color=color;
-    return;
-  }
-
+  if(currentVisualStyle==='md3e'){titleText.style.color=color;return;}
   titleText.style.color=color;
   navLinks.querySelectorAll('a').forEach(a=>{a.style.color=color;});
   mainPlayBtn.style.background=color;
-
   document.documentElement.style.setProperty('--play-btn-bg',color);
   document.documentElement.style.setProperty('--accent',color);
   document.documentElement.style.setProperty('--nav-link-color',color);
-
   const pcAppEl=document.getElementById('pc-app');
   if(pcAppEl){
     pcAppEl.style.setProperty('--play-btn-bg',color);
     pcAppEl.style.setProperty('--accent',color);
     pcAppEl.style.setProperty('--nav-link-color',color);
   }
-
   document.querySelectorAll('#lyrics-island .lyrics-line:not(.current)').forEach(line=>{
     line.style.color=color;
     if(line.classList.contains('prev')||line.classList.contains('next'))line.style.opacity='0.75';
     else if(line.classList.contains('placeholder'))line.style.opacity='0.65';
   });
   document.querySelectorAll('#song-list .song-item:not(.active-song) .song-name').forEach(el=>{el.style.color=color;});
-
   progressFill.style.background='linear-gradient(90deg, '+color+', #88ddff, '+color+')';
   applyBtn.style.background=color;
-
   var switchTrackActive=document.querySelector('.switch-track.active');
   if(switchTrackActive){switchTrackActive.style.background=color;switchTrackActive.style.borderColor=color;}
   var autoSwitchTrackActive=document.querySelector('.auto-switch-track.active');
   if(autoSwitchTrackActive){autoSwitchTrackActive.style.background=color;autoSwitchTrackActive.style.borderColor=color;}
-
   const indicator=document.getElementById('sidebar-indicator');
   if(indicator){
     const rgb=hexToRgb(color);
@@ -2783,23 +1779,19 @@ function applyColorScheme(color){
     indicator.style.background='rgba('+rgb.r+','+rgb.g+','+rgb.b+',0.24)';
     indicator.style.boxShadow='0 4px 16px rgba('+rgb.r+','+rgb.g+','+rgb.b+',0.35), inset 0 1px 1px rgba(255,255,255,0.35)';
   }
-
   applyWhiteToHighlights();
 }
 
 function applyThemeByKey(key){
   var index=THUMB_IMAGES.indexOf(key);
   if(index===-1)key='722264.jpg';
-  var color=THUMB_COLORS[key];
-  var title=THUMB_TITLES[key];
+  var color=THUMB_COLORS[key];var title=THUMB_TITLES[key];
   var imgTest=new Image();
   imgTest.onload=function(){
     document.getElementById('pc-app').style.backgroundImage="url('"+key+"')";
     document.getElementById('pc-app').style.backgroundSize='cover';
     document.getElementById('pc-app').style.backgroundPosition='center';
     document.getElementById('pc-app').style.backgroundRepeat='no-repeat';
-
-    // ★★ 核心：无论当前视觉样式，壁纸一加载完就后台预计算取色
     precomputeMd3Seed(key).then(function(seed){
       if(currentVisualStyle==='md3e' && seed){
         generateMd3Scheme(seed,document.getElementById('pc-app').getAttribute('data-theme')==='dark');
@@ -2817,21 +1809,14 @@ function applyThemeByKey(key){
 }
 
 function applyCurrentTheme(){
-  var key=THUMB_IMAGES[currentThumbIndex];
-  var color=THUMB_COLORS[key];
-  var title=THUMB_TITLES[key];
+  var key=THUMB_IMAGES[currentThumbIndex];var color=THUMB_COLORS[key];var title=THUMB_TITLES[key];
   if(appliedThumbIndex===currentThumbIndex)return;
   bgOverlay.style.backgroundImage="url('"+key+"')";
-  bgOverlay.style.opacity='0';
-  bgOverlay.classList.add('active');
-  void bgOverlay.offsetWidth;
-  bgOverlay.style.opacity='1';
+  bgOverlay.style.opacity='0';bgOverlay.classList.add('active');
+  void bgOverlay.offsetWidth;bgOverlay.style.opacity='1';
   applyColorScheme(color);
   var dots=thumbDots.querySelectorAll('span');
-  dots.forEach((dot,i)=>{
-    if(i===currentThumbIndex)dot.style.background=color;
-    else dot.style.background='rgba(255,255,255,0.25)';
-  });
+  dots.forEach((dot,i)=>{if(i===currentThumbIndex)dot.style.background=color;else dot.style.background='rgba(255,255,255,0.25)';});
   setTimeout(function(){
     var imgTest=new Image();
     imgTest.onload=function(){
@@ -2839,8 +1824,6 @@ function applyCurrentTheme(){
       document.getElementById('pc-app').style.backgroundSize='cover';
       document.getElementById('pc-app').style.backgroundPosition='center';
       document.getElementById('pc-app').style.backgroundRepeat='no-repeat';
-
-      // ★★ 核心：无论当前视觉样式，壁纸一加载完就后台预计算取色
       precomputeMd3Seed(key).then(function(seed){
         if(currentVisualStyle==='md3e' && seed){
           generateMd3Scheme(seed,document.getElementById('pc-app').getAttribute('data-theme')==='dark');
@@ -2850,15 +1833,10 @@ function applyCurrentTheme(){
     imgTest.onerror=function(){console.warn('背景图片加载失败:',key);};
     imgTest.src=key;
     bgOverlay.style.opacity='0';
-    setTimeout(function(){
-      bgOverlay.classList.remove('active');
-      bgOverlay.style.backgroundImage='';
-    },1200);
+    setTimeout(function(){bgOverlay.classList.remove('active');bgOverlay.style.backgroundImage='';},1200);
     appliedThumbIndex=currentThumbIndex;
     modalSubtitle.textContent='✓ '+title;
-    setTimeout(function(){
-      if(currentThumbIndex===appliedThumbIndex)modalSubtitle.textContent=title;
-    },1500);
+    setTimeout(function(){if(currentThumbIndex===appliedThumbIndex)modalSubtitle.textContent=title;},1500);
     setCookie('theme_key',key,30);
   },300);
 }
@@ -2869,32 +1847,21 @@ function initDefaultTheme(){
   else applyThemeByKey('722264.jpg');
 }
 
-/* ---------- Cookie ---------- */
-function setCookie(name,value,days){
-  const expires=new Date(Date.now()+days*24*60*60*1000).toUTCString();
-  document.cookie=name+'='+encodeURIComponent(value)+'; expires='+expires+'; path=/';
-}
-function getCookie(name){
-  const match=document.cookie.match(new RegExp('(^| )'+name+'=([^;]+)'));
-  if(match)return decodeURIComponent(match[2]);
-  return null;
-}
+function setCookie(name,value,days){const expires=new Date(Date.now()+days*24*60*60*1000).toUTCString();document.cookie=name+'='+encodeURIComponent(value)+'; expires='+expires+'; path=/';}
+function getCookie(name){const match=document.cookie.match(new RegExp('(^| )'+name+'=([^;]+)'));if(match)return decodeURIComponent(match[2]);return null;}
 
-/* ---------- 时间 / 天气 ---------- */
 const clockEl=document.getElementById('clock');
 const weatherIconEl=document.getElementById('weather-icon');
 const weatherTempEl=document.getElementById('weather-temp');
 const weatherDescEl=document.getElementById('weather-desc');
 let userTimeZone='Asia/Shanghai';
-
 function updateClock(){
   const now=new Date();
   try{
     const formatter=new Intl.DateTimeFormat('zh-CN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:userTimeZone});
     clockEl.textContent=formatter.format(now);
   }catch(e){
-    const offset=8*60;
-    const local=new Date(now.getTime()+(offset-now.getTimezoneOffset())*60000);
+    const offset=8*60;const local=new Date(now.getTime()+(offset-now.getTimezoneOffset())*60000);
     clockEl.textContent=String(local.getHours()).padStart(2,'0')+':'+String(local.getMinutes()).padStart(2,'0')+':'+String(local.getSeconds()).padStart(2,'0');
   }
 }
@@ -2911,7 +1878,6 @@ const svgMap={
   'snowy':'<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><circle cx="8" cy="18" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="16" cy="18" r="1.5"/></svg>',
   'thunderstorm':'<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><path d="M12 17l-2 4h4l-2 4"/></svg>'
 };
-
 function getWeatherIconSVG(code){
   let icon='cloudy';
   if(code===113)icon='sunny';
@@ -2923,38 +1889,19 @@ function getWeatherIconSVG(code){
   }
   return svgMap[icon]||svgMap['cloudy'];
 }
-
-function updateWeatherUI(data){
-  weatherTempEl.textContent=data.temp+'°C';
-  weatherDescEl.textContent=data.desc||'';
-  weatherIconEl.innerHTML=getWeatherIconSVG(data.code);
-}
-
+function updateWeatherUI(data){weatherTempEl.textContent=data.temp+'°C';weatherDescEl.textContent=data.desc||'';weatherIconEl.innerHTML=getWeatherIconSVG(data.code);}
 function fetchWeather(){
   const cached=localStorage.getItem(WEATHER_CACHE_KEY);
-  if(cached){
-    try{
-      const data=JSON.parse(cached);
-      if(Date.now()-data.timestamp<CACHE_DURATION){updateWeatherUI(data);return;}
-    }catch(e){}
-  }
-  fetch('https://wttr.in/?format=j1&lang=zh')
-    .then(r=>r.json())
-    .then(json=>{
-      const current=json.current_condition[0];
-      const data={temp:current.temp_C,desc:current.weatherDesc[0].value,code:parseInt(current.weatherCode),timestamp:Date.now()};
-      localStorage.setItem(WEATHER_CACHE_KEY,JSON.stringify(data));
-      updateWeatherUI(data);
-    })
-    .catch(()=>{
-      const fallback={temp:'22',desc:'多云',code:119,timestamp:Date.now()};
-      updateWeatherUI(fallback);
-    });
+  if(cached){try{const data=JSON.parse(cached);if(Date.now()-data.timestamp<CACHE_DURATION){updateWeatherUI(data);return;}}catch(e){}}
+  fetch('https://wttr.in/?format=j1&lang=zh').then(r=>r.json()).then(json=>{
+    const current=json.current_condition[0];
+    const data={temp:current.temp_C,desc:current.weatherDesc[0].value,code:parseInt(current.weatherCode),timestamp:Date.now()};
+    localStorage.setItem(WEATHER_CACHE_KEY,JSON.stringify(data));updateWeatherUI(data);
+  }).catch(()=>{const fallback={temp:'22',desc:'多云',code:119,timestamp:Date.now()};updateWeatherUI(fallback);});
 }
 fetchWeather();
 setInterval(fetchWeather,CACHE_DURATION);
 
-/* ---------- 歌词岛位置自适应 ---------- */
 function adjustLyricsIslandPosition(){
   var timeInfo=document.getElementById('top-right-info');
   if(!timeInfo)return;
@@ -2965,81 +1912,51 @@ function adjustLyricsIslandPosition(){
   island.style.right=(window.innerWidth-rect.left+12)+'px';
 }
 
-/* ---------- 桌面端搜索 ---------- */
 window.performPcSearch=function(){
-  var input=document.getElementById('pc-search-input');
-  var query=input.value.trim();
+  var input=document.getElementById('pc-search-input');var query=input.value.trim();
   if(!query){input.focus();return;}
   window.open(YANDEX_SEARCH_URL+encodeURIComponent(query),'_blank');
 };
 window.clearPcSearch=function(){
   var input=document.getElementById('pc-search-input');
-  input.value='';
-  input.focus();
+  input.value='';input.focus();
   document.getElementById('pc-clear-btn').style.display='none';
 };
 var pcInput=document.getElementById('pc-search-input');
 var pcBtn=document.getElementById('pc-search-btn');
 var clearBtn=document.getElementById('pc-clear-btn');
-pcInput.addEventListener('input',function(){
-  if(this.value.length>0)clearBtn.style.display='flex';
-  else clearBtn.style.display='none';
-});
-pcInput.addEventListener('blur',function(){
-  if(this.value.length===0)clearBtn.style.display='none';
-});
-pcInput.addEventListener('keydown',function(e){
-  if(e.key==='Enter'){e.preventDefault();performPcSearch();}
-});
-pcBtn.addEventListener('click',function(e){
-  e.preventDefault();
-  performPcSearch();
-});
+pcInput.addEventListener('input',function(){if(this.value.length>0)clearBtn.style.display='flex';else clearBtn.style.display='none';});
+pcInput.addEventListener('blur',function(){if(this.value.length===0)clearBtn.style.display='none';});
+pcInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();performPcSearch();}});
+pcBtn.addEventListener('click',function(e){e.preventDefault();performPcSearch();});
 
-/* ---------- 构建歌曲列表 ---------- */
 function buildSongListUI(){
   songListEl.innerHTML='';
-  if(!songList||!Array.isArray(songList)||songList.length===0){
-    songListEl.innerHTML='<div class="song-item" style="color:#aaa;padding:12px;">暂无歌曲数据</div>';
-    return;
-  }
+  if(!songList||!Array.isArray(songList)||songList.length===0){songListEl.innerHTML='<div class="song-item" style="color:#aaa;padding:12px;">暂无歌曲数据</div>';return;}
   songList.forEach((song,index)=>{
     if(!song||typeof song!=='object'){console.warn('跳过无效歌曲项:',song);return;}
-    const div=document.createElement('div');
-    div.className='song-item';
-    div.dataset.index=index;
-    const idxSpan=document.createElement('span');
-    idxSpan.className='song-index';
-    idxSpan.textContent=String(index+1).padStart(2,'0');
-    const nameSpan=document.createElement('span');
-    nameSpan.className='song-name';
-    nameSpan.textContent=song.name||'未知歌曲';
-    const artistSpan=document.createElement('span');
-    artistSpan.className='song-artist';
-    artistSpan.textContent=song.artist||'未知歌手';
-    div.appendChild(idxSpan);
-    div.appendChild(nameSpan);
+    const div=document.createElement('div');div.className='song-item';div.dataset.index=index;
+    const idxSpan=document.createElement('span');idxSpan.className='song-index';idxSpan.textContent=String(index+1).padStart(2,'0');
+    const nameSpan=document.createElement('span');nameSpan.className='song-name';nameSpan.textContent=song.name||'未知歌曲';
+    const artistSpan=document.createElement('span');artistSpan.className='song-artist';artistSpan.textContent=song.artist||'未知歌手';
+    div.appendChild(idxSpan);div.appendChild(nameSpan);
     if(song.artist)div.appendChild(artistSpan);
     div.onclick=function(){
       const idx=parseInt(this.dataset.index);
-      if(idx!==currentIdx)loadAndPlay(idx);
-      else window.togglePlay();
+      if(idx!==currentIdx)loadAndPlay(idx);else window.togglePlay();
       closeListWithAnimation();
     };
     songListEl.appendChild(div);
   });
-  highlightCurrentSong();
-  updateSongInfo();
+  highlightCurrentSong();updateSongInfo();
 }
 
-/* ---------- 初始化 ---------- */
 async function initPlayer(){
   try{
     const list=await fetchArtistSongs(CONFIG.ARTIST_ID);
     if(list.length===0)throw new Error('没有获取到歌曲');
     songList=list;
     console.log('🎵 获取到 '+songList.length+' 首歌曲（已排除 '+CONFIG.EXCLUDED_IDS.length+' 首）');
-    console.log('📋 第一首歌信息:',songList[0]);
     buildSongListUI();
     document.getElementById('mode-icon').innerHTML=iconMap[0];
     await loadAndPlay(0);
@@ -3051,7 +1968,6 @@ async function initPlayer(){
   }
 }
 
-/* ---------- 事件绑定 ---------- */
 thumbPrev.addEventListener('click',function(e){e.stopPropagation();goToThumb(currentThumbIndex-1);});
 thumbNext.addEventListener('click',function(e){e.stopPropagation();goToThumb(currentThumbIndex+1);});
 thumbDots.querySelectorAll('span').forEach((dot,i)=>{
@@ -3066,7 +1982,6 @@ document.addEventListener('keydown',function(e){
   }
 });
 
-/* ---------- 启动 ---------- */
 document.addEventListener('DOMContentLoaded',function(){
   preloadImages();
   initDefaultTheme();
@@ -3089,10 +2004,11 @@ window.addEventListener('load',function(){
   window.loadAndPlay=loadAndPlay;
   window.songList=songList;
   window.currentIdx=currentIdx;
-  console.log('🎵 PC播放器已启动 — 使用公共 API (ncm.landdy.cn)');
-  console.log('🔍 搜索框已加载 — Yandex（带清除按钮）');
-  console.log('🎨 视觉样式：glass / md3e（Material You 动态取色）');
-  console.log('🎨 取色修复：先直接加载，再 CORS 重试（避免本地图片失败）');
+  console.log('========================================');
+  console.log('🎵 播放器已启动 — ncm.landdy.cn');
+  console.log('🎨 取色：纯 HSL 直方图（不依赖 MCU 提取色相）');
+  console.log('🎨 排查取色问题：打开控制台搜索 "🎨" 开头的日志');
+  console.log('========================================');
 });
 
 })();
@@ -3100,7 +2016,6 @@ window.addEventListener('load',function(){
 
 
 <script>
-/* 轻量果冻手感 */
 (function(){
   const selector = '#pc-app button, #pc-app a, #pc-app input, #pc-app .song-item, #pc-app .sidebar-icon, #pc-app .thumb-dots span, #pc-app .switch-track, #pc-app .auto-switch-track, #mobile-app button, #mobile-app a, #mobile-app input';
   let active = null;
@@ -3109,8 +2024,7 @@ window.addEventListener('load',function(){
     const el=e.target.closest(selector);
     if(!el || e.button!==0) return;
     active={el,x:e.clientX,y:e.clientY};
-    el.classList.remove('jelly-release');
-    el.classList.add('jelly-grabbed');
+    el.classList.remove('jelly-release');el.classList.add('jelly-grabbed');
     el.style.setProperty('--jelly-tilt','0deg');
     el.setPointerCapture?.(e.pointerId);
   });
@@ -3120,26 +2034,21 @@ window.addEventListener('load',function(){
     const x=Math.max(-18,Math.min(18,dx*.22));
     const y=Math.max(-14,Math.min(14,dy*.22));
     const tilt=Math.max(-12,Math.min(12,dx*.35));
-    active.el.style.translate=x+'px '+y+'px';
-    active.el.style.rotate=tilt+'deg';
+    active.el.style.translate=x+'px '+y+'px';active.el.style.rotate=tilt+'deg';
     active.el.style.setProperty('--jelly-tilt',tilt+'deg');
   });
   function release(){
     if(!active) return;
     const el=active.el;
     el.classList.remove('jelly-grabbed');
-    el.style.translate='0px 0px';
-    el.style.rotate='0deg';
+    el.style.translate='0px 0px';el.style.rotate='0deg';
     el.classList.remove('jelly-release');
-    void el.offsetWidth;
-    el.classList.add('jelly-release');
+    void el.offsetWidth;el.classList.add('jelly-release');
     active=null;
   }
   document.addEventListener('pointerup',release);
   document.addEventListener('pointercancel',release);
-  document.addEventListener('animationend',e=>{
-    if(e.animationName==='jellySettle') e.target.classList.remove('jelly-release');
-  });
+  document.addEventListener('animationend',e=>{if(e.animationName==='jellySettle') e.target.classList.remove('jelly-release');});
 })();
 </script>
 
