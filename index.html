@@ -20,20 +20,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #mobile-app{z-index:20;opacity:0;display:none;}
 .mode-mobile #pc-app{opacity:0;pointer-events:none;display:none;}
 .mode-mobile #mobile-app{opacity:1;display:flex;}
-#pc-app{
-  --accent:#66ccff;--progress-height:2px;
-  --glass-bg1:rgba(255,255,255,calc(0.095 * var(--glass-mult)));
-  --glass-bg2:rgba(255,255,255,calc(0.042 * var(--glass-mult)));
-  --glass-bg3:rgba(255,255,255,calc(0.063 * var(--glass-mult)));
-  --glass-border:rgba(255,255,255,calc(0.45 * var(--glass-mult)));
-  --glass-shadow:0 calc(16px * var(--glass-shadow-mult)) calc(48px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.30 * var(--glass-shadow-mult))),0 calc(4px * var(--glass-shadow-mult)) calc(12px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.18 * var(--glass-shadow-mult)));
-  --text-color:#fff;--theme-transition-bg:rgba(0,0,0,0.75);--nav-link-color:#66ccff;--play-btn-bg:#66ccff;--title-color:#66ccff;
-}
-#pc-app[data-theme="dark"]{
-  --glass-bg1:rgba(0,0,0,calc(0.45 * var(--glass-mult)));--glass-bg2:rgba(0,0,0,calc(0.25 * var(--glass-mult)));--glass-bg3:rgba(0,0,0,calc(0.35 * var(--glass-mult)));--glass-border:rgba(255,255,255,calc(0.15 * var(--glass-mult)));
-  --glass-shadow:0 calc(16px * var(--glass-shadow-mult)) calc(48px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.65 * var(--glass-shadow-mult))),0 calc(4px * var(--glass-shadow-mult)) calc(12px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.40 * var(--glass-shadow-mult)));
-  --text-color:#e0e0e0;--theme-transition-bg:rgba(0,0,0,0.85);
-}
+#pc-app{--accent:#66ccff;--progress-height:2px;--glass-bg1:rgba(255,255,255,calc(0.095 * var(--glass-mult)));--glass-bg2:rgba(255,255,255,calc(0.042 * var(--glass-mult)));--glass-bg3:rgba(255,255,255,calc(0.063 * var(--glass-mult)));--glass-border:rgba(255,255,255,calc(0.45 * var(--glass-mult)));--glass-shadow:0 calc(16px * var(--glass-shadow-mult)) calc(48px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.30 * var(--glass-shadow-mult))),0 calc(4px * var(--glass-shadow-mult)) calc(12px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.18 * var(--glass-shadow-mult)));--text-color:#fff;--theme-transition-bg:rgba(0,0,0,0.75);--nav-link-color:#66ccff;--play-btn-bg:#66ccff;--title-color:#66ccff;}
+#pc-app[data-theme="dark"]{--glass-bg1:rgba(0,0,0,calc(0.45 * var(--glass-mult)));--glass-bg2:rgba(0,0,0,calc(0.25 * var(--glass-mult)));--glass-bg3:rgba(0,0,0,calc(0.35 * var(--glass-mult)));--glass-border:rgba(255,255,255,calc(0.15 * var(--glass-mult)));--glass-shadow:0 calc(16px * var(--glass-shadow-mult)) calc(48px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.65 * var(--glass-shadow-mult))),0 calc(4px * var(--glass-shadow-mult)) calc(12px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.40 * var(--glass-shadow-mult)));--text-color:#e0e0e0;--theme-transition-bg:rgba(0,0,0,0.85);}
 #pc-app{background:url('722264.jpg') center/cover no-repeat;transition:filter 1.2s ease;position:relative;}
 #pc-app::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;background:rgba(0,0,0,0.30);backdrop-filter:brightness(0.86) saturate(0.92);-webkit-backdrop-filter:brightness(0.86) saturate(0.92);transition:background 1.2s ease, backdrop-filter 1.2s ease;}
 #pc-app[data-theme="dark"]::before{background:rgba(0,0,0,0.55);backdrop-filter:brightness(0.65) saturate(0.78);-webkit-backdrop-filter:brightness(0.65) saturate(0.78);}
@@ -258,21 +246,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 .jelly-interactive.jelly-grabbed{transition:translate .06s linear, rotate .08s linear;filter:drop-shadow(0 7px 12px rgba(0,0,0,.18));}
 .jelly-interactive.jelly-release{animation:jellySettle .62s cubic-bezier(.2,.9,.25,1.25);}
 @media (prefers-reduced-motion:reduce){.jelly-interactive,.jelly-interactive.jelly-grabbed{transition:none}.jelly-interactive.jelly-release{animation:none}}
-
-/* ================= MD3E ================= */
-#pc-app[data-visual-style="md3e"]{
-  --md-sys-color-primary:#6750A4;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#EADDFF;--md-sys-color-on-primary-container:#21005D;
-  --md-sys-color-secondary:#625B71;--md-sys-color-on-secondary:#FFFFFF;--md-sys-color-secondary-container:#E8DEF8;--md-sys-color-on-secondary-container:#1D192B;
-  --md-sys-color-tertiary:#7D5260;--md-sys-color-on-tertiary:#FFFFFF;--md-sys-color-tertiary-container:#FFD8E4;--md-sys-color-on-tertiary-container:#31111D;
-  --md-sys-color-error:#B3261E;--md-sys-color-on-error:#FFFFFF;--md-sys-color-error-container:#F9DEDC;--md-sys-color-on-error-container:#410E0B;
-  --md-sys-color-background:#FEF7FF;--md-sys-color-on-background:#1D1B20;--md-sys-color-surface:#FEF7FF;--md-sys-color-on-surface:#1D1B20;
-  --md-sys-color-surface-variant:#E7E0EC;--md-sys-color-on-surface-variant:#49454F;--md-sys-color-surface-dim:#DED8E1;--md-sys-color-surface-bright:#FEF7FF;
-  --md-sys-color-surface-container-lowest:#FFFFFF;--md-sys-color-surface-container-low:#F7F2FA;--md-sys-color-surface-container:#F3EDF7;
-  --md-sys-color-surface-container-high:#ECE6F0;--md-sys-color-surface-container-highest:#E6E0E9;
-  --md-sys-color-outline:#79747E;--md-sys-color-outline-variant:#CAC4D0;
-  --md-sys-color-inverse-surface:#322F35;--md-sys-color-inverse-on-surface:#F5EFF7;--md-sys-color-inverse-primary:#D0BCFF;
-  --md-sys-color-shadow:#000000;--md-sys-color-scrim:#000000;--md-sys-color-surface-tint:#6750A4;
-}
+#pc-app[data-visual-style="md3e"]{--md-sys-color-primary:#6750A4;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#EADDFF;--md-sys-color-on-primary-container:#21005D;--md-sys-color-secondary:#625B71;--md-sys-color-on-secondary:#FFFFFF;--md-sys-color-secondary-container:#E8DEF8;--md-sys-color-on-secondary-container:#1D192B;--md-sys-color-tertiary:#7D5260;--md-sys-color-on-tertiary:#FFFFFF;--md-sys-color-tertiary-container:#FFD8E4;--md-sys-color-on-tertiary-container:#31111D;--md-sys-color-error:#B3261E;--md-sys-color-on-error:#FFFFFF;--md-sys-color-error-container:#F9DEDC;--md-sys-color-on-error-container:#410E0B;--md-sys-color-background:#FEF7FF;--md-sys-color-on-background:#1D1B20;--md-sys-color-surface:#FEF7FF;--md-sys-color-on-surface:#1D1B20;--md-sys-color-surface-variant:#E7E0EC;--md-sys-color-on-surface-variant:#49454F;--md-sys-color-surface-dim:#DED8E1;--md-sys-color-surface-bright:#FEF7FF;--md-sys-color-surface-container-lowest:#FFFFFF;--md-sys-color-surface-container-low:#F7F2FA;--md-sys-color-surface-container:#F3EDF7;--md-sys-color-surface-container-high:#ECE6F0;--md-sys-color-surface-container-highest:#E6E0E9;--md-sys-color-outline:#79747E;--md-sys-color-outline-variant:#CAC4D0;--md-sys-color-inverse-surface:#322F35;--md-sys-color-inverse-on-surface:#F5EFF7;--md-sys-color-inverse-primary:#D0BCFF;--md-sys-color-shadow:#000000;--md-sys-color-scrim:#000000;--md-sys-color-surface-tint:#6750A4;}
 #pc-app[data-visual-style="md3e"]::before{background:rgba(0,0,0,0.30);backdrop-filter:brightness(0.82) saturate(0.90) blur(6px);-webkit-backdrop-filter:brightness(0.82) saturate(0.90) blur(6px);}
 #pc-app[data-visual-style="md3e"][data-theme="dark"]::before{background:rgba(0,0,0,0.50);backdrop-filter:brightness(0.62) saturate(0.80) blur(6px);-webkit-backdrop-filter:brightness(0.62) saturate(0.80) blur(6px);}
 #pc-app[data-visual-style="md3e"] #header-overlay{opacity:0!important;}
@@ -581,7 +555,7 @@ window.__PC_APP_INITIALIZED__=true;
 const YANDEX_SEARCH_URL='https://yandex.com/search/?text=';
 
 /* =================================================================
-   ★★★ 网易云音乐 API — 多实例自动回退 ★★★
+   ★★★ 网易云音乐 API — 多实例 + 多 CORS 代理回退 ★★★
    ================================================================= */
 const API_INSTANCES=[
   'https://ncm.zhenxin.me',
@@ -592,67 +566,88 @@ const API_INSTANCES=[
   'https://ncme.zhenxin.me',
 ];
 
+/* CORS 代理前缀列表；空字符串表示直连 */
+const CORS_PROXIES=[
+  '',
+  'https://api.allorigins.win/raw?url=',
+  'https://cors.eu.org/',
+  'https://corsproxy.io/?url=',
+  'https://test.cors.workers.dev/?',
+];
+
 let CONFIG={
   API_BASE:API_INSTANCES[0],
+  PROXY:'',
   ARTIST_ID:'1078425',
   EXCLUDED_IDS:['32192205','4886973','500665207'],
 };
 
+/* 构造带代理的 URL */
+function buildUrl(base,path,proxy){
+  const target=base+path;
+  if(!proxy)return target;
+  // 有的代理需 encodeURIComponent，有的不需；这里用 encode，个别代理两种都兼容
+  return proxy+encodeURIComponent(target);
+}
+
+/* 尝试所有 (API 实例 × 代理) 组合 */
+async function apiFetch(path){
+  const errors=[];
+  for(const base of API_INSTANCES){
+    for(const proxy of CORS_PROXIES){
+      const url=buildUrl(base,path,proxy);
+      try{
+        const controller=new AbortController();
+        const timer=setTimeout(()=>controller.abort(),8000);
+        const resp=await fetch(url,{signal:controller.signal});
+        clearTimeout(timer);
+        if(resp.ok){
+          const tag=proxy?'[代理 '+(CORS_PROXIES.indexOf(proxy))+']':'[直连]';
+          if(CONFIG.API_BASE!==base || CONFIG.PROXY!==proxy){
+            CONFIG.API_BASE=base;
+            CONFIG.PROXY=proxy;
+            console.log('🎵 ✔ 使用 API 通道:',base,tag);
+          }
+          return resp;
+        }
+        errors.push(base+tag+' HTTP '+resp.status);
+      }catch(e){
+        errors.push(base+(proxy?'[proxy]':'')+': '+e.message);
+      }
+    }
+  }
+  console.error('🎵 ✘ 所有 API 通道均失败：');
+  errors.forEach(x=>console.error('  -',x));
+  throw new Error('所有 API 实例及代理均不可用');
+}
+
+/* 启动时快速探测，找到可用通道 */
 async function pickWorkingApiInstance(){
   for(const base of API_INSTANCES){
-    try{
-      const url=base+'/artist/songs?id='+CONFIG.ARTIST_ID;
-      const controller=new AbortController();
-      const timer=setTimeout(()=>controller.abort(),6000);
-      const resp=await fetch(url,{signal:controller.signal});
-      clearTimeout(timer);
-      if(resp.ok){
+    for(const proxy of CORS_PROXIES){
+      const url=buildUrl(base,'/artist/songs?id='+CONFIG.ARTIST_ID,proxy);
+      try{
+        const controller=new AbortController();
+        const timer=setTimeout(()=>controller.abort(),5000);
+        const resp=await fetch(url,{signal:controller.signal});
+        clearTimeout(timer);
+        if(!resp.ok)continue;
         const json=await resp.json();
         const list=(json.data&&json.data.songs)||json.songs||(json.data&&json.data.list)||json.list||json.data||[];
         if(Array.isArray(list)&&list.length>0){
-          console.log('🎵 ✔ 使用 API 实例：',base);
-          return base;
+          CONFIG.API_BASE=base;
+          CONFIG.PROXY=proxy;
+          console.log('🎵 ✔ 探测到可用 API 通道:',base,proxy?'[代理]':'[直连]');
+          return;
         }
-      }
-      console.warn('🎵 实例返回空数据，尝试下一个：',base);
-    }catch(e){
-      console.warn('🎵 实例不可用，尝试下一个：',base,e.message);
+      }catch(e){}
     }
   }
-  console.warn('🎵 ✘ 所有公共实例均不可用，使用第一个作为默认值');
-  return API_INSTANCES[0];
-}
-
-async function apiFetch(path){
-  const tried=new Set();
-  try{
-    const resp=await fetch(CONFIG.API_BASE+path);
-    if(resp.ok)return resp;
-  }catch(e){}
-  tried.add(CONFIG.API_BASE);
-  for(const base of API_INSTANCES){
-    if(tried.has(base))continue;
-    try{
-      console.warn('🎵 切换到备用实例：',base);
-      const resp=await fetch(base+path);
-      if(resp.ok){
-        CONFIG.API_BASE=base;
-        return resp;
-      }
-    }catch(e){}
-    tried.add(base);
-  }
-  throw new Error('所有 API 实例均不可用');
+  console.warn('🎵 探测未找到明确可用通道，沿用第一个实例直连');
 }
 
 /* =================================================================
    ★★★ 天气图标 — 多级 CDN 回退 ★★★
-   优先级：
-   1. Google 官方中国域名 maps.gstatic.cn
-   2. 民间反向代理 gstatic.loli.net
-   3. 民间反向代理 cdn.ixnet.work
-   4. Google 官方全球域名 maps.gstatic.com
-   5. 内联 Pixel 风格彩色 SVG（兜底，永不失败）
    ================================================================= */
 const ICON_CDN_LIST=[
   {name:'Google CN',      base:'https://maps.gstatic.cn/weather/v1/'},
@@ -661,7 +656,6 @@ const ICON_CDN_LIST=[
   {name:'Google Global',  base:'https://maps.gstatic.com/weather/v1/'},
 ];
 
-/* wttr.in 天气代码 → Google Weather API 图标名称 */
 const GOOGLE_ICON_MAP={
   113:'sunny',
   116:'partly_cloudy',119:'cloudy',122:'cloudy',
@@ -680,7 +674,6 @@ const GOOGLE_ICON_MAP={
   143:'mist',248:'fog',260:'fog',
 };
 
-/* 内联回退 SVG（Pixel 风格彩色） */
 const FALLBACK_SVG={
   sunny:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="#FFA726" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="1.6" x2="12" y2="3.8"/><line x1="12" y1="20.2" x2="12" y2="22.4"/><line x1="1.6" y1="12" x2="3.8" y2="12"/><line x1="20.2" y1="12" x2="22.4" y2="12"/><line x1="4.65" y1="4.65" x2="6.2" y2="6.2"/><line x1="17.8" y1="17.8" x2="19.35" y2="19.35"/><line x1="4.65" y1="19.35" x2="6.2" y2="17.8"/><line x1="17.8" y1="6.2" x2="19.35" y2="4.65"/></g><circle cx="12" cy="12" r="4.4" fill="#FFC107"/></svg>`,
   partly_cloudy:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="8.5" cy="8" r="3.2" fill="#FFC107"/><g stroke="#FFA726" stroke-width="1.2" stroke-linecap="round"><line x1="8.5" y1="2.4" x2="8.5" y2="3.8"/><line x1="2.9" y1="8" x2="4.3" y2="8"/><line x1="4.3" y1="3.8" x2="5.3" y2="4.8"/><line x1="4.3" y1="12.2" x2="5.3" y2="11.2"/></g><path d="M9 19.5A4.2 4.2 0 0 1 8.7 11.2 5.2 5.2 0 0 1 18.6 10.2 4.2 4.2 0 0 1 19 19.5z" fill="#B0BEC5"/></svg>`,
@@ -703,7 +696,6 @@ function refreshWeatherIcon(){
   if(!weatherIconEl)return;
   __weatherRefreshToken++;
   const myToken=__weatherRefreshToken;
-
   const isDark=document.getElementById('pc-app').getAttribute('data-theme')==='dark';
   const suffix=isDark?'_dark.svg':'.svg';
   const iconName=GOOGLE_ICON_MAP[__lastWeatherCode]||'cloudy';
@@ -714,47 +706,28 @@ function refreshWeatherIcon(){
     weatherIconEl.innerHTML=svg;
     console.log('🌤️ 天气图标使用内联 SVG（兜底）:',iconName);
   }
-
   function tryCdn(index){
     if(myToken!==__weatherRefreshToken)return;
-    if(index>=ICON_CDN_LIST.length){
-      applyFallback();
-      return;
-    }
+    if(index>=ICON_CDN_LIST.length){applyFallback();return;}
     const cdn=ICON_CDN_LIST[index];
     const iconUrl=cdn.base+iconName+suffix;
     const img=new Image();
     let settled=false;
-    const timeout=setTimeout(()=>{
-      if(settled)return;
-      settled=true;
-      console.warn('🌤️ '+cdn.name+' 超时，尝试下一个:',iconUrl);
-      tryCdn(index+1);
-    },4000);
+    const timeout=setTimeout(()=>{if(settled)return;settled=true;console.warn('🌤️ '+cdn.name+' 超时，尝试下一个');tryCdn(index+1);},4000);
     img.onload=function(){
-      if(settled)return;
-      settled=true;
-      clearTimeout(timeout);
+      if(settled)return;settled=true;clearTimeout(timeout);
       if(myToken!==__weatherRefreshToken)return;
-      weatherIconEl.innerHTML='';
-      weatherIconEl.appendChild(img);
+      weatherIconEl.innerHTML='';weatherIconEl.appendChild(img);
       console.log('🌤️ ✔ 天气图标已加载（'+cdn.name+'）:',iconUrl);
     };
     img.onerror=function(){
-      if(settled)return;
-      settled=true;
-      clearTimeout(timeout);
+      if(settled)return;settled=true;clearTimeout(timeout);
       console.warn('🌤️ '+cdn.name+' 加载失败，尝试下一个:',iconUrl);
       tryCdn(index+1);
     };
-    img.alt='';
-    img.style.width='100%';
-    img.style.height='100%';
-    img.style.display='block';
-    img.style.objectFit='contain';
+    img.alt='';img.style.width='100%';img.style.height='100%';img.style.display='block';img.style.objectFit='contain';
     img.src=iconUrl;
   }
-
   tryCdn(0);
 }
 
@@ -864,8 +837,7 @@ async function extractSeedHct(imageUrl){
         const ctx=canvas.getContext('2d',{willReadFrequently:true});
         ctx.drawImage(img,0,0,size,size);
         let data;
-        try{data=ctx.getImageData(0,0,size,size).data;}
-        catch(secErr){return false;}
+        try{data=ctx.getImageData(0,0,size,size).data;}catch(secErr){return false;}
         const bins=new Float32Array(36);
         for(let i=0;i<data.length;i+=4){
           const a=data[i+3];if(a<128)continue;
@@ -1058,6 +1030,11 @@ async function fetchSongUrl(songId){
   console.log('🔊 播放地址返回:',json);
   let playUrl=(json.data&&json.data[0]&&json.data[0].url)||json.url||(json.data&&json.data.url)||'';
   if(!playUrl)throw new Error('未获取到播放地址');
+  // 处理混合内容：https 页面里不能用 http 音频
+  if(location.protocol==='https:' && playUrl.indexOf('http://')===0){
+    playUrl='https://'+playUrl.slice(7);
+    console.log('🔊 混合内容转 https:',playUrl);
+  }
   songUrlCache[songId]=playUrl;return playUrl;
 }
 async function fetchSongCover(songId){
@@ -1139,10 +1116,15 @@ async function loadAndPlay(index){
   if(!song.cover){const cover=await fetchSongCover(song.id);if(cover){song.cover=cover;coverImg.src=cover;}}
   try{
     const url=await fetchSongUrl(song.id);
+    console.log('✅ 播放地址:',url);
     audio.src=url;audio.load();
     const playPromise=audio.play();
-    if(playPromise!==undefined){playPromise.then(()=>setPlayingState(true)).catch(err=>{setPlayingState(false);});}
-  }catch(e){audio.src='';setPlayingState(false);songInfoEl.textContent=song.name+' - 播放失败';}
+    if(playPromise!==undefined){playPromise.then(()=>setPlayingState(true)).catch(err=>{console.warn('自动播放被拦截:',err);setPlayingState(false);});}
+  }catch(e){
+    console.error('❌ 获取播放地址失败:',e);
+    audio.src='';setPlayingState(false);
+    songInfoEl.textContent=song.name+' - 播放失败 (请检查控制台)';
+  }
   try{
     const lyric=await fetchSongLyric(song.id);
     if(lyric&&lyric.length>0){lyricLines=lyric;}else{lyricLines=[];updateLyricsDisplay('♪ 无歌词','♪ 无歌词','♪ 无歌词');}
@@ -1151,7 +1133,7 @@ async function loadAndPlay(index){
   updateProgress();applyWhiteToHighlights();setTimeout(adjustLyricsIslandPosition,100);
 }
 window.togglePlay=function(){
-  if(audio.paused){audio.play().then(()=>setPlayingState(true)).catch(err=>{setPlayingState(false);});}
+  if(audio.paused){audio.play().then(()=>setPlayingState(true)).catch(err=>{console.warn('播放失败:',err);setPlayingState(false);});}
   else{audio.pause();setPlayingState(false);}
   triggerAnimation(mainPlayBtn,'btn-anim',450);
 };
@@ -1172,7 +1154,7 @@ audio.ontimeupdate=function(){
   const duration=audio.duration||0;const remaining=duration-audio.currentTime;
   timeDisplay.innerText=fmt(audio.currentTime)+' / '+fmt(duration)+' / '+fmt(remaining);
 };
-audio.onerror=function(e){setPlayingState(false);};
+audio.onerror=function(e){console.warn('音频错误:',e);setPlayingState(false);};
 progressBar.addEventListener('mousedown',function(){isDraggingProgress=true;progressFill.classList.remove('playing');progressContainer.classList.add('paused');});
 progressBar.addEventListener('touchstart',function(){isDraggingProgress=true;progressFill.classList.remove('playing');progressContainer.classList.add('paused');},{passive:true});
 const endProgressDrag=function(){isDraggingProgress=false;if(!audio.paused){progressFill.classList.add('playing');progressContainer.classList.remove('paused');}};
@@ -1510,8 +1492,7 @@ function buildSongListUI(){
 
 async function initPlayer(){
   try{
-    CONFIG.API_BASE=await pickWorkingApiInstance();
-    console.log('🎵 最终 API 实例：',CONFIG.API_BASE);
+    await pickWorkingApiInstance();
     const list=await fetchArtistSongs(CONFIG.ARTIST_ID);
     if(list.length===0)throw new Error('没有获取到歌曲');
     songList=list;
@@ -1521,7 +1502,7 @@ async function initPlayer(){
     await loadAndPlay(0);
   }catch(err){
     console.error('初始化播放器失败:',err);
-    songInfoEl.textContent='⚠️ 加载失败';
+    songInfoEl.textContent='⚠️ 加载失败：'+err.message.slice(0,60);
     songList=[{id:'0',name:'加载失败',artist:'请检查控制台',album:'',cover:'CD.jpg',url:'',lyric:''}];
     buildSongListUI();
   }
@@ -1558,10 +1539,10 @@ window.addEventListener('load',function(){
   window.songList=songList;
   window.currentIdx=currentIdx;
   console.log('========================================');
-  console.log('🎵 播放器已启动 — 多实例自动回退');
-  console.log('🌤️ 天气图标多级 CDN 回退顺序：');
-  ICON_CDN_LIST.forEach((c,i)=>console.log('   '+(i+1)+'. '+c.name+' — '+c.base));
-  console.log('   5. 内联 Pixel 风格 SVG（兜底）');
+  console.log('🎵 播放器已启动 — 多实例 + CORS 代理回退');
+  console.log('   API 实例:',API_INSTANCES.length,'个');
+  console.log('   CORS 代理:',CORS_PROXIES.length-1,'个 + 直连');
+  console.log('🌤️ 天气图标多级 CDN：',ICON_CDN_LIST.map(c=>c.name).join(' → '));
   console.log('========================================');
 });
 
