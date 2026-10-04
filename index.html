@@ -1838,7 +1838,6 @@ html,body{
 </div>
 
 <script type="module">
-// MCU 多 CDN 加载
 (async function(){
   const CDNS = [
     'https://esm.sh/@material/material-color-utilities@0.3.0',
@@ -1897,6 +1896,7 @@ let CONFIG={
   API_BASE:API_INSTANCES[0],
   PROXY:'',
   ARTIST_ID:'1078425',
+  ALBUM_ID:'244810615',
   EXCLUDED_IDS:['32192205','4886973','500665207'],
 };
 
@@ -2460,6 +2460,26 @@ const weatherIconEl=document.getElementById('weather-icon');
 const playSVG='<path d="M8 5v14l11-7z"/>';
 const pauseSVG='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
 
+/* ============ 通用映射（歌手 + 专辑） ============ */
+function mapSongToLocal(song){
+  let artistName='未知歌手';
+  if(song.ar&&Array.isArray(song.ar)&&song.ar[0]&&song.ar[0].name){artistName=song.ar[0].name;}
+  else if(song.artists&&Array.isArray(song.artists)&&song.artists[0]&&song.artists[0].name){artistName=song.artists[0].name;}
+  else if(song.artist&&typeof song.artist==='string'){artistName=song.artist;}
+  else if(song.artist&&song.artist.name){artistName=song.artist.name;}
+  else if(song.singer){artistName=song.singer;}
+  let albumName=(song.al&&song.al.name)||song.album||'未知专辑';
+  let coverUrl=(song.al&&song.al.picUrl)||song.picUrl||song.cover||'';
+  return{
+    id:String(song.id),
+    name:song.name||song.title||'未知歌曲',
+    artist:artistName,
+    album:albumName,
+    cover:coverUrl
+  };
+}
+
+/* ============ 歌手歌曲 ============ */
 async function fetchArtistSongs(artistId){
   const json=await apiFetchJson(
     '/artist/songs?id='+artistId,
@@ -2470,27 +2490,25 @@ async function fetchArtistSongs(artistId){
   );
   let list=(json.data&&json.data.songs)||json.songs||(json.data&&json.data.list)||json.list||json.data||[];
   if(!Array.isArray(list))list=[];
-  const filtered=list.filter(song=>{
-    const id=String(song.id);
-    return !CONFIG.EXCLUDED_IDS.includes(id);
-  });
-  return filtered.map(song=>{
-    let artistName='未知歌手';
-    if(song.ar&&Array.isArray(song.ar)&&song.ar[0]&&song.ar[0].name){artistName=song.ar[0].name;}
-    else if(song.artists&&Array.isArray(song.artists)&&song.artists[0]&&song.artists[0].name){artistName=song.artists[0].name;}
-    else if(song.artist&&typeof song.artist==='string'){artistName=song.artist;}
-    else if(song.artist&&song.artist.name){artistName=song.artist.name;}
-    else if(song.singer){artistName=song.singer;}
-    let albumName=(song.al&&song.al.name)||song.album||'未知专辑';
-    let coverUrl=(song.al&&song.al.picUrl)||song.picUrl||song.cover||'';
-    return{
-      id:String(song.id),
-      name:song.name||song.title||'未知歌曲',
-      artist:artistName,
-      album:albumName,
-      cover:coverUrl
-    };
-  });
+  return list
+    .filter(song=>!CONFIG.EXCLUDED_IDS.includes(String(song.id)))
+    .map(mapSongToLocal);
+}
+
+/* ============ ★ 专辑歌曲（新增） ============ */
+async function fetchAlbumSongs(albumId){
+  const json=await apiFetchJson(
+    '/album?id='+albumId,
+    function(j){
+      const l=j.songs||(j.album&&j.album.songs)||(j.data&&j.data.songs)||(j.data&&j.data.album&&j.data.album.songs);
+      return Array.isArray(l)&&l.length>0;
+    }
+  );
+  let list=json.songs||(json.album&&json.album.songs)||(json.data&&json.data.songs)||(json.data&&json.data.album&&json.data.album.songs)||[];
+  if(!Array.isArray(list))list=[];
+  return list
+    .filter(song=>!CONFIG.EXCLUDED_IDS.includes(String(song.id)))
+    .map(mapSongToLocal);
 }
 
 async function fetchSongUrl(songId){
@@ -3482,14 +3500,40 @@ function buildSongListUI(){
   updateSongInfo();
 }
 
-/* ============ 初始化 ============ */
+/* ============ ★ 初始化：合并歌手 + 专辑歌曲并去重 ============ */
 async function initPlayer(){
   try{
     await pickWorkingApiInstance();
-    const list=await fetchArtistSongs(CONFIG.ARTIST_ID);
-    if(list.length===0)throw new Error('没有获取到歌曲');
-    songList=list;
-    console.log('🎵 获取到 '+songList.length+' 首歌曲');
+
+    console.log('🎵 开始加载歌曲…');
+    const [artistSongs,albumSongs] = await Promise.all([
+      fetchArtistSongs(CONFIG.ARTIST_ID).catch(e=>{
+        console.warn('🎵 歌手歌曲获取失败:',e);
+        return [];
+      }),
+      fetchAlbumSongs(CONFIG.ALBUM_ID).catch(e=>{
+        console.warn('🎵 专辑歌曲获取失败:',e);
+        return [];
+      })
+    ]);
+
+    console.log('🎵 歌手歌曲:',artistSongs.length,'首');
+    console.log('🎵 专辑歌曲 (ID '+CONFIG.ALBUM_ID+'):',albumSongs.length,'首');
+
+    // 合并去重（以 id 为唯一键，歌手优先）
+    const seen=new Set();
+    const merged=[];
+    for(const s of artistSongs){
+      if(!seen.has(s.id)){seen.add(s.id);merged.push(s);}
+    }
+    for(const s of albumSongs){
+      if(!seen.has(s.id)){seen.add(s.id);merged.push(s);}
+    }
+
+    if(merged.length===0)throw new Error('没有获取到歌曲');
+
+    songList=merged;
+    console.log('🎵 ✔ 共 '+songList.length+' 首歌曲（去重合并后）');
     buildSongListUI();
     document.getElementById('mode-icon').innerHTML=iconMap[0];
     await loadAndPlay(0);
@@ -3539,8 +3583,10 @@ window.addEventListener('load',function(){
   window.loadAndPlay=loadAndPlay;
   console.log('========================================');
   console.log('🎵 播放器已启动');
+  console.log('   歌手 ID:',CONFIG.ARTIST_ID);
+  console.log('   专辑 ID:',CONFIG.ALBUM_ID);
   console.log('   API 通道:',API_INSTANCES.length,'实例 ×',CORS_PROXIES.length,'代理');
-  console.log('🌤️ 天气图标 CDN 顺序：',ICON_CDN_LIST.map(c=>c.name).join(' → '));
+  console.log('🌤️ 天气图标 CDN：',ICON_CDN_LIST.map(c=>c.name).join(' → '));
   console.log('========================================');
 });
 
