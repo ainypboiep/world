@@ -46,8 +46,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app #top-right-info{position:fixed;top:16px;right:16px;z-index:1200;display:flex;flex-direction:column;align-items:flex-end;gap:6px;padding:12px 18px;border-radius:20px;background:linear-gradient(135deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);border:1px solid var(--glass-border);font-weight:400;min-width:110px;transition:background .6s ease,border .6s ease,box-shadow .6s ease;pointer-events:none;will-change:transform,opacity;backface-visibility:hidden;}
 #pc-app #top-right-info .time{font-size:1.2rem;letter-spacing:1px;font-weight:500;transition:color .6s ease;color:#fff!important;}
 #pc-app #top-right-info .weather{display:flex;align-items:center;gap:8px;font-size:.95rem;transition:color .6s ease;color:#fff!important;}
-#pc-app #top-right-info .weather-icon{width:28px;height:28px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-#pc-app #top-right-info .weather-icon svg{width:100%;height:100%;fill:currentColor;}
+#pc-app #top-right-info .weather-icon{width:28px;height:28px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:currentColor;}
+#pc-app #top-right-info .weather-icon img{width:100%;height:100%;display:block;object-fit:contain;}
+#pc-app #top-right-info .weather-icon svg{width:100%;height:100%;display:block;fill:currentColor;}
 #pc-app #top-right-info .weather-temp{font-size:1.1rem;font-weight:500;}
 #pc-app #top-right-info .weather-desc{font-size:.75rem;opacity:.85;margin-left:2px;}
 #pc-app #lyrics-island{position:fixed;top:16px;right:146px;z-index:1150;padding:10px 16px;min-width:180px;max-width:280px;border-radius:20px;background:linear-gradient(135deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);border:1px solid var(--glass-border);transition:background .6s ease,border .6s ease,box-shadow .6s ease;pointer-events:none;will-change:transform,opacity;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.6;text-align:center;opacity:0.95;}
@@ -112,7 +113,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .pc-search-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
 #pc-app #gear-island{position:fixed;right:32px;bottom:120px;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1100;transition:transform .25s ease,box-shadow .3s ease,background .6s ease,border .6s ease;background:linear-gradient(135deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);border:1px solid var(--glass-border);}
 #pc-app #gear-island:hover{transform:scale(1.08) rotate(12deg);}
-#pc-app #gear-island:active{transform:scale(0.92);}
 #pc-app #gear-island svg{width:32px;height:32px;color:rgba(255,255,255,.92);transition:transform .6s ease;}
 #pc-app #gear-island:hover svg{transform:rotate(60deg);}
 #pc-app #modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:9998;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease;background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
@@ -138,7 +138,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .sidebar-icon svg{width:24px;height:24px;transition:transform .3s ease;}
 #pc-app .sidebar-icon:hover{color:#fff;background:rgba(255,255,255,calc(0.08 * var(--glass-mult)));}
 #pc-app .sidebar-icon.active{color:#fff;background:transparent;border-color:transparent;}
-#pc-app .sidebar-icon.active svg{transform:scale(1.05);}
 #pc-app .sidebar-indicator{position:absolute;left:6px;top:8px;width:42px;height:42px;border-radius:12px;background:rgba(102,204,255,0.22);border:1px solid var(--accent, #66ccff);box-shadow:0 4px 16px rgba(102,204,255,0.30), inset 0 1px 1px rgba(255,255,255,0.35);pointer-events:none;z-index:0;transition:top 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),height 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;}
 #pc-app .modal-content{flex:1;min-width:0;display:flex;flex-direction:column;min-height:0;}
 #pc-app .tab-panel{flex:1;display:flex;flex-direction:column;min-height:440px;}
@@ -163,6 +162,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .settings-container::-webkit-scrollbar{width:4px;}
 #pc-app .settings-container::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:4px;}
 #pc-app .settings-card{background:rgba(255,255,255,calc(0.05 * var(--glass-mult)));border:1px solid rgba(255,255,255,calc(0.10 * var(--glass-mult)));border-radius:18px;padding:18px 20px 20px 20px;display:flex;flex-direction:column;gap:8px;flex-shrink:0;margin-bottom:14px;overflow:hidden;max-height:500px;transform:translateY(0);opacity:1;transition:background .6s ease,border-color .35s ease,max-height .5s cubic-bezier(.2,.8,.2,1),opacity .35s ease,padding .4s cubic-bezier(.2,.8,.2,1),margin .45s cubic-bezier(.2,.8,.2,1),transform .4s cubic-bezier(.2,.8,.2,1);}
+#pc-app .settings-card:last-child{margin-bottom:0;}
 #pc-app .settings-card.collapsed{max-height:0;opacity:0;padding-top:0;padding-bottom:0;margin-bottom:0;border-top-width:0;border-bottom-width:0;transform:translateY(-8px);pointer-events:none;}
 #pc-app .settings-card-title{font-size:.95rem;font-weight:500;letter-spacing:2px;color:#fff;margin:0;transition:color .6s ease;}
 #pc-app .settings-card-desc{font-size:.72rem;color:rgba(255,255,255,.5);letter-spacing:.5px;line-height:1.4;margin-bottom:4px;}
@@ -171,7 +171,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .transparency-slider-fill{position:absolute;top:0;left:0;height:100%;width:70%;border-radius:1.5px;background:linear-gradient(90deg,var(--accent,#66ccff),#88ddff,var(--accent,#66ccff));background-size:200% 100%;will-change:width;box-shadow:0 0 6px rgba(102,204,255,.45);pointer-events:none;}
 #pc-app .transparency-slider-track input[type="range"]{position:absolute;top:-8px;left:0;width:100%;height:calc(100% + 16px);opacity:0;cursor:pointer;margin:0;padding:0;z-index:3;}
 #pc-app .transparency-value{min-width:44px;text-align:right;font-size:1.05rem;font-weight:500;color:#fff;}
-#pc-app #theme-switch-container{display:flex;align-items:center;justify-content:center;gap:16px;flex-shrink:0;padding-top:20px;padding-bottom:2px;flex-wrap:wrap;pointer-events:auto;border-top:1px solid rgba(255,255,255,calc(0.08 * var(--glass-mult)));margin-top:12px;}
+#pc-app .theme-switch-row{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;padding:6px 0 2px 0;pointer-events:auto;}
 #pc-app .theme-icon-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);transition:color .3s,transform .3s,background .3s;padding:0;}
 #pc-app .theme-icon-btn:hover{transform:scale(1.1);color:rgba(255,255,255,.95);background:rgba(255,255,255,.08);}
 #pc-app .theme-icon-btn svg{width:24px;height:24px;fill:currentColor;}
@@ -202,6 +202,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 @media (max-width:640px){
   #pc-app #top-right-info{top:10px;right:10px;padding:8px 14px;min-width:80px;}
   #pc-app #top-right-info .time{font-size:1rem;}
+  #pc-app #top-right-info .weather-icon{width:22px;height:22px;}
   #pc-app #lyrics-island{top:10px;right:120px;min-width:120px;max-width:200px;padding:6px 12px;}
   #pc-app #gear-island{right:18px;bottom:100px;width:52px;height:52px;}
   #pc-app #modal{width:94vw;min-height:520px;padding:18px;}
@@ -213,6 +214,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #pc-app .nav-links{gap:16px;padding:10px 20px;font-size:.85rem;bottom:20px;}
   #pc-app #github-island{left:18px;bottom:20px;width:44px;height:44px;}
   #pc-app #song-list{width:320px;max-height:200px;}
+  #pc-app .theme-switch-row{gap:10px;}
 }
 @media (max-width:420px){
   #pc-app #player{width:260px;gap:10px;padding:10px 12px;}
@@ -222,6 +224,14 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   #pc-app .thumb-carousel .thumb-wrapper{width:180px;height:130px;}
   #pc-app .nav-links{gap:10px;padding:8px 14px;font-size:.75rem;bottom:14px;}
   #pc-app #gear-island{right:12px;bottom:80px;width:44px;height:44px;}
+  #pc-app .theme-switch-row{gap:8px;}
+  #pc-app .theme-icon-btn svg{width:18px;height:18px;}
+  #pc-app .theme-icon-btn{width:26px;height:26px;}
+  #pc-app .switch-track,#pc-app .auto-switch-track{width:30px;height:17px;border-radius:8.5px;}
+  #pc-app .switch-thumb,#pc-app .auto-switch-thumb{width:11px;height:11px;top:2px;left:2px;}
+  #pc-app .switch-track.active .switch-thumb{transform:translateX(13px);}
+  #pc-app .auto-switch-track.active .auto-switch-thumb{transform:translateX(13px);}
+  #pc-app .auto-label{font-size:.72rem;}
 }
 #mobile-app{flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:clamp(20px,5vh,50px);background:url('722264.jpg') center/cover no-repeat;position:relative;}
 #mobile-app::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(0,0,0,.20) 0%,rgba(0,0,0,.62) 100%);pointer-events:none;}
@@ -229,7 +239,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 .mobile-title .line1{font-size:clamp(1.4rem,5.5vw,2.6rem);font-weight:300;letter-spacing:.06em;color:rgba(255,255,255,.92);}
 .mobile-title .line2{font-size:clamp(2.6rem,11vw,5.2rem);font-weight:500;letter-spacing:.1em;color:#fff;margin-top:-.05em;}
 #mobile-app #mobile-search-container{position:relative;z-index:2;width:min(600px,88vw);border-radius:36px;padding:6px 8px 6px 28px;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(255,255,255,calc(0.10 * var(--glass-mult))) 0%,rgba(255,255,255,calc(0.04 * var(--glass-mult))) 50%,rgba(255,255,255,calc(0.07 * var(--glass-mult))) 100%);border:1.5px solid rgba(255,255,255,calc(0.35 * var(--glass-mult)));flex-shrink:0;margin:0 auto;}
-#mobile-app #mobile-search-container:focus-within{border-color:rgba(102,204,255,.60);box-shadow:var(--glass-shadow),0 0 0 4px rgba(102,204,255,.15);}
 #mobile-app #mobile-search-container .search-icon{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:24px;height:24px;color:rgba(255,255,255,.6);}
 #mobile-app #mobile-search-container .search-icon svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
 #mobile-app #mobile-search-input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:clamp(16px,4vw,21px);font-family:inherit;padding:14px 6px;min-width:0;letter-spacing:.4px;}
@@ -278,6 +287,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app[data-visual-style="md3e"] #gear-island svg{color:var(--md-sys-color-on-primary-container)!important;}
 #pc-app[data-visual-style="md3e"] #github-island svg{fill:var(--md-sys-color-on-primary-container)!important;}
 #pc-app[data-visual-style="md3e"] #top-right-info .time,#pc-app[data-visual-style="md3e"] #top-right-info .weather{color:var(--md-sys-color-on-surface)!important;}
+#pc-app[data-visual-style="md3e"] #top-right-info .weather-icon{color:var(--md-sys-color-on-surface)!important;}
 #pc-app[data-visual-style="md3e"] #top-right-info .weather-desc{color:var(--md-sys-color-on-surface-variant)!important;opacity:1!important;}
 #pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.current{color:var(--md-sys-color-primary)!important;font-weight:600;}
 #pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.prev,#pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.next{color:var(--md-sys-color-on-surface-variant)!important;opacity:1!important;}
@@ -299,7 +309,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app[data-visual-style="md3e"] .song-item.active-song{background:var(--md-sys-color-secondary-container)!important;border-left:none!important;}
 #pc-app[data-visual-style="md3e"] .song-item.active-song .song-name{color:var(--md-sys-color-on-secondary-container)!important;font-weight:600;}
 #pc-app[data-visual-style="md3e"] .song-item.active-song .song-artist,#pc-app[data-visual-style="md3e"] .song-item.active-song .song-index{color:var(--md-sys-color-on-secondary-container)!important;}
-#pc-app[data-visual-style="md3e"] #song-list::-webkit-scrollbar-thumb{background:var(--md-sys-color-outline-variant);}
 #pc-app[data-visual-style="md3e"] #pc-search-container{border:1px solid var(--md-sys-color-outline-variant)!important;border-radius:9999px!important;}
 #pc-app[data-visual-style="md3e"] #pc-search-container:focus-within{border-color:var(--md-sys-color-primary)!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--md-sys-color-primary) 18%,transparent)!important;transform:translate(-50%,-50%)!important;}
 #pc-app[data-visual-style="md3e"] #pc-search-container .search-icon{color:var(--md-sys-color-on-surface-variant)!important;}
@@ -325,7 +334,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app[data-visual-style="md3e"] .transparency-slider-track{background:var(--md-sys-color-surface-variant)!important;}
 #pc-app[data-visual-style="md3e"] .transparency-slider-fill{background:var(--md-sys-color-primary)!important;box-shadow:none!important;}
 #pc-app[data-visual-style="md3e"] .transparency-value{color:var(--md-sys-color-on-surface)!important;}
-#pc-app[data-visual-style="md3e"] #theme-switch-container{border-top-color:var(--md-sys-color-outline-variant)!important;}
+#pc-app[data-visual-style="md3e"] .auto-label{color:var(--md-sys-color-on-surface)!important;}
 #pc-app[data-visual-style="md3e"] .switch-track,#pc-app[data-visual-style="md3e"] .auto-switch-track{width:52px!important;height:32px!important;border-radius:16px!important;background:var(--md-sys-color-surface-container-highest)!important;border:2px solid var(--md-sys-color-outline)!important;box-shadow:none!important;}
 #pc-app[data-visual-style="md3e"] .switch-track.active,#pc-app[data-visual-style="md3e"] .auto-switch-track.active{background:var(--md-sys-color-primary)!important;border-color:var(--md-sys-color-primary)!important;}
 #pc-app[data-visual-style="md3e"] .switch-thumb,#pc-app[data-visual-style="md3e"] .auto-switch-thumb{width:16px!important;height:16px!important;top:6px!important;left:6px!important;background:var(--md-sys-color-outline)!important;box-shadow:0 1px 3px rgba(0,0,0,.22)!important;transition:transform .35s cubic-bezier(.2,.8,.2,1),width .35s,height .35s,top .35s,left .35s,background .25s!important;}
@@ -433,10 +442,10 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
       <div class="modal-body">
         <div class="modal-sidebar">
           <div class="sidebar-indicator" id="sidebar-indicator"></div>
-          <button class="sidebar-icon active" data-tab="personalize" title="个性化">
+          <button class="sidebar-icon active" data-tab="personalize" title="壁纸与颜色">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="7.5" y1="10" x2="16.5" y2="10"/><circle cx="10.5" cy="10" r="1.8" fill="currentColor"/><line x1="7.5" y1="15" x2="16.5" y2="15"/><circle cx="14" cy="15" r="1.8" fill="currentColor"/></svg>
           </button>
-          <button class="sidebar-icon" data-tab="transparency" title="透明效果">
+          <button class="sidebar-icon" data-tab="transparency" title="显示效果">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4.5"/><path d="M6 15 L14.5 5.5" opacity="0.55" stroke-width="1.3"/></svg>
           </button>
         </div>
@@ -464,17 +473,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
               </div>
               <button class="apply-btn" id="apply-theme-btn">应用</button>
             </div>
-            <div id="theme-switch-container">
-              <button class="theme-icon-btn moon-icon" id="moon-btn" onclick="setTheme('dark')"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.5 5.5 0 0 1-7.54-7.54A9.01 9.01 0 0 0 12 3z"/></svg></button>
-              <div class="switch-track active" id="switch-track" onclick="toggleTheme()"><div class="switch-thumb" id="switch-thumb"></div></div>
-              <button class="theme-icon-btn sun-icon active" id="sun-btn" onclick="setTheme('light')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
-              <span class="auto-label">根据设备设置</span>
-              <div class="auto-switch-track active" id="auto-switch-track">
-                <div class="auto-switch-thumb" id="auto-switch-thumb"></div>
-                <input type="checkbox" id="auto-theme-checkbox" checked style="opacity:0; width:0; height:0; position:absolute; pointer-events:none;" />
-              </div>
-            </div>
           </div>
+
           <div class="tab-panel" data-panel="transparency" hidden>
             <div class="settings-container">
               <div class="settings-card">
@@ -485,6 +485,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
                   <button class="visual-style-btn" data-style="md3e">Google MD3E</button>
                 </div>
               </div>
+
               <div class="settings-card" id="transparency-card">
                 <div class="settings-card-title">全局透明效果</div>
                 <div class="settings-card-desc">调节毛玻璃的模糊强度</div>
@@ -494,6 +495,27 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
                     <input type="range" id="transparency-range" min="0" max="100" value="70" step="1" />
                   </div>
                   <div class="transparency-value" id="transparency-value">70</div>
+                </div>
+              </div>
+
+              <div class="settings-card">
+                <div class="settings-card-title">深色模式</div>
+                <div class="settings-card-desc">切换明亮 / 暗黑外观</div>
+                <div class="theme-switch-row">
+                  <button class="theme-icon-btn moon-icon" id="moon-btn" onclick="setTheme('dark')" title="暗黑模式">
+                    <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.5 5.5 0 0 1-7.54-7.54A9.01 9.01 0 0 0 12 3z"/></svg>
+                  </button>
+                  <div class="switch-track active" id="switch-track" onclick="toggleTheme()">
+                    <div class="switch-thumb" id="switch-thumb"></div>
+                  </div>
+                  <button class="theme-icon-btn sun-icon active" id="sun-btn" onclick="setTheme('light')" title="明亮模式">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                  </button>
+                  <span class="auto-label">根据设备设置</span>
+                  <div class="auto-switch-track active" id="auto-switch-track" title="开启后自动跟随系统主题">
+                    <div class="auto-switch-thumb" id="auto-switch-thumb"></div>
+                    <input type="checkbox" id="auto-theme-checkbox" checked style="opacity:0; width:0; height:0; position:absolute; pointer-events:none;" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -586,7 +608,7 @@ function applyGlassIntensity(value){
 function readSavedGlassIntensity(){let s=DEFAULT_GLASS;try{const v=localStorage.getItem(GLASS_KEY);if(v!==null){const n=parseInt(v,10);if(!isNaN(n)&&n>=0&&n<=100)s=n;}}catch(e){}return s;}
 function initGlassIntensity(){applyGlassIntensity(readSavedGlassIntensity());const r=document.getElementById('transparency-range');if(r){r.addEventListener('input',function(){applyGlassIntensity(parseInt(this.value,10));});}}
 
-/* ============ 视觉样式 ============ */
+/* ============ 视觉样式 / MD3 取色 ============ */
 const VISUAL_STYLE_KEY='visual_style';
 let currentVisualStyle='glass';
 let __md3SeedHct=null;
@@ -610,79 +632,46 @@ const MD3_ROLES=[
 function resolveImageUrl(input){if(!input)return '';try{return new URL(input,location.href).href;}catch(e){return input;}}
 function rgbToHue(r,g,b){r/=255;g/=255;b/=255;const max=Math.max(r,g,b),min=Math.min(r,g,b);const d=max-min;if(d===0)return null;let h=0;if(max===r)h=((g-b)/d)%6;else if(max===g)h=((b-r)/d)+2;else h=((r-g)/d)+4;h*=60;if(h<0)h+=360;return h;}
 function stringHash(str){let h=5381;for(let i=0;i<str.length;i++){h=((h<<5)+h+str.charCodeAt(i))|0;}return Math.abs(h);}
-
-/* =========================================================
-   HSL → HEX（用于简化 MD3 方案）
-   ========================================================= */
 function hslToHex(h,s,l){
-  h=((h%360)+360)%360;
-  s/=100;l/=100;
+  h=((h%360)+360)%360;s/=100;l/=100;
   const k=n=>(n+h/30)%12;
   const a=s*Math.min(l,1-l);
   const f=n=>l-a*Math.max(-1,Math.min(k(n)-3,Math.min(9-k(n),1)));
   const toHex=x=>Math.round(255*x).toString(16).padStart(2,'0');
   return '#'+toHex(f(0))+toHex(f(8))+toHex(f(4));
 }
-
-/* =========================================================
-   ★★★ 内嵌简化 MD3 方案（不依赖 MCU）
-   ========================================================= */
 function generateSimplifiedMd3Scheme(seedHue,isDark){
-  const h=seedHue;
-  const app=document.getElementById('pc-app');
-  let scheme;
+  const h=seedHue;const app=document.getElementById('pc-app');let scheme;
   if(isDark){
     scheme={
-      'primary':hslToHex(h,80,80),'on-primary':hslToHex(h,40,20),
-      'primary-container':hslToHex(h,30,30),'on-primary-container':hslToHex(h,90,90),
-      'primary-fixed':hslToHex(h,90,90),'primary-fixed-dim':hslToHex(h,80,80),
-      'on-primary-fixed':hslToHex(h,90,10),'on-primary-fixed-variant':hslToHex(h,90,30),
-      'secondary':hslToHex(h,20,80),'on-secondary':hslToHex(h,20,20),
-      'secondary-container':hslToHex(h,15,30),'on-secondary-container':hslToHex(h,20,90),
-      'secondary-fixed':hslToHex(h,25,90),'secondary-fixed-dim':hslToHex(h,20,80),
-      'on-secondary-fixed':hslToHex(h,25,10),'on-secondary-fixed-variant':hslToHex(h,25,30),
-      'tertiary':hslToHex(h+60,30,80),'on-tertiary':hslToHex(h+60,30,20),
-      'tertiary-container':hslToHex(h+60,25,30),'on-tertiary-container':hslToHex(h+60,30,90),
-      'tertiary-fixed':hslToHex(h+60,40,90),'tertiary-fixed-dim':hslToHex(h+60,30,80),
-      'on-tertiary-fixed':hslToHex(h+60,40,10),'on-tertiary-fixed-variant':hslToHex(h+60,40,30),
+      'primary':hslToHex(h,80,80),'on-primary':hslToHex(h,40,20),'primary-container':hslToHex(h,30,30),'on-primary-container':hslToHex(h,90,90),
+      'primary-fixed':hslToHex(h,90,90),'primary-fixed-dim':hslToHex(h,80,80),'on-primary-fixed':hslToHex(h,90,10),'on-primary-fixed-variant':hslToHex(h,90,30),
+      'secondary':hslToHex(h,20,80),'on-secondary':hslToHex(h,20,20),'secondary-container':hslToHex(h,15,30),'on-secondary-container':hslToHex(h,20,90),
+      'secondary-fixed':hslToHex(h,25,90),'secondary-fixed-dim':hslToHex(h,20,80),'on-secondary-fixed':hslToHex(h,25,10),'on-secondary-fixed-variant':hslToHex(h,25,30),
+      'tertiary':hslToHex(h+60,30,80),'on-tertiary':hslToHex(h+60,30,20),'tertiary-container':hslToHex(h+60,25,30),'on-tertiary-container':hslToHex(h+60,30,90),
+      'tertiary-fixed':hslToHex(h+60,40,90),'tertiary-fixed-dim':hslToHex(h+60,30,80),'on-tertiary-fixed':hslToHex(h+60,40,10),'on-tertiary-fixed-variant':hslToHex(h+60,40,30),
       'error':'#F2B8B5','on-error':'#601410','error-container':'#8C1D18','on-error-container':'#F9DEDC',
-      'background':hslToHex(h,10,6),'on-background':hslToHex(h,10,90),
-      'surface':hslToHex(h,10,6),'on-surface':hslToHex(h,10,90),
-      'surface-variant':hslToHex(h,10,30),'on-surface-variant':hslToHex(h,10,80),
-      'surface-dim':hslToHex(h,10,6),'surface-bright':hslToHex(h,10,24),
-      'surface-container-lowest':hslToHex(h,10,4),'surface-container-low':hslToHex(h,10,10),
-      'surface-container':hslToHex(h,10,12),'surface-container-high':hslToHex(h,10,17),
-      'surface-container-highest':hslToHex(h,10,22),
-      'outline':hslToHex(h,10,60),'outline-variant':hslToHex(h,10,30),
-      'inverse-surface':hslToHex(h,10,90),'inverse-on-surface':hslToHex(h,10,20),
-      'inverse-primary':hslToHex(h,40,40),
+      'background':hslToHex(h,10,6),'on-background':hslToHex(h,10,90),'surface':hslToHex(h,10,6),'on-surface':hslToHex(h,10,90),
+      'surface-variant':hslToHex(h,10,30),'on-surface-variant':hslToHex(h,10,80),'surface-dim':hslToHex(h,10,6),'surface-bright':hslToHex(h,10,24),
+      'surface-container-lowest':hslToHex(h,10,4),'surface-container-low':hslToHex(h,10,10),'surface-container':hslToHex(h,10,12),
+      'surface-container-high':hslToHex(h,10,17),'surface-container-highest':hslToHex(h,10,22),
+      'outline':hslToHex(h,10,60),'outline-variant':hslToHex(h,10,30),'inverse-surface':hslToHex(h,10,90),'inverse-on-surface':hslToHex(h,10,20),'inverse-primary':hslToHex(h,40,40),
       'shadow':'#000000','scrim':'#000000','surface-tint':hslToHex(h,80,80),
     };
   }else{
     scheme={
-      'primary':hslToHex(h,48,40),'on-primary':'#FFFFFF',
-      'primary-container':hslToHex(h,90,90),'on-primary-container':hslToHex(h,90,10),
-      'primary-fixed':hslToHex(h,90,90),'primary-fixed-dim':hslToHex(h,80,80),
-      'on-primary-fixed':hslToHex(h,90,10),'on-primary-fixed-variant':hslToHex(h,90,30),
-      'secondary':hslToHex(h,16,40),'on-secondary':'#FFFFFF',
-      'secondary-container':hslToHex(h,25,90),'on-secondary-container':hslToHex(h,25,10),
-      'secondary-fixed':hslToHex(h,25,90),'secondary-fixed-dim':hslToHex(h,20,80),
-      'on-secondary-fixed':hslToHex(h,25,10),'on-secondary-fixed-variant':hslToHex(h,25,30),
-      'tertiary':hslToHex(h+60,24,40),'on-tertiary':'#FFFFFF',
-      'tertiary-container':hslToHex(h+60,40,90),'on-tertiary-container':hslToHex(h+60,40,10),
-      'tertiary-fixed':hslToHex(h+60,40,90),'tertiary-fixed-dim':hslToHex(h+60,30,80),
-      'on-tertiary-fixed':hslToHex(h+60,40,10),'on-tertiary-fixed-variant':hslToHex(h+60,40,30),
+      'primary':hslToHex(h,48,40),'on-primary':'#FFFFFF','primary-container':hslToHex(h,90,90),'on-primary-container':hslToHex(h,90,10),
+      'primary-fixed':hslToHex(h,90,90),'primary-fixed-dim':hslToHex(h,80,80),'on-primary-fixed':hslToHex(h,90,10),'on-primary-fixed-variant':hslToHex(h,90,30),
+      'secondary':hslToHex(h,16,40),'on-secondary':'#FFFFFF','secondary-container':hslToHex(h,25,90),'on-secondary-container':hslToHex(h,25,10),
+      'secondary-fixed':hslToHex(h,25,90),'secondary-fixed-dim':hslToHex(h,20,80),'on-secondary-fixed':hslToHex(h,25,10),'on-secondary-fixed-variant':hslToHex(h,25,30),
+      'tertiary':hslToHex(h+60,24,40),'on-tertiary':'#FFFFFF','tertiary-container':hslToHex(h+60,40,90),'on-tertiary-container':hslToHex(h+60,40,10),
+      'tertiary-fixed':hslToHex(h+60,40,90),'tertiary-fixed-dim':hslToHex(h+60,30,80),'on-tertiary-fixed':hslToHex(h+60,40,10),'on-tertiary-fixed-variant':hslToHex(h+60,40,30),
       'error':'#B3261E','on-error':'#FFFFFF','error-container':'#F9DEDC','on-error-container':'#410E0B',
-      'background':hslToHex(h,30,98),'on-background':hslToHex(h,20,10),
-      'surface':hslToHex(h,30,98),'on-surface':hslToHex(h,20,10),
-      'surface-variant':hslToHex(h,20,90),'on-surface-variant':hslToHex(h,15,30),
-      'surface-dim':hslToHex(h,15,87),'surface-bright':hslToHex(h,30,98),
-      'surface-container-lowest':'#FFFFFF','surface-container-low':hslToHex(h,30,96),
-      'surface-container':hslToHex(h,25,94),'surface-container-high':hslToHex(h,22,92),
-      'surface-container-highest':hslToHex(h,20,90),
-      'outline':hslToHex(h,10,50),'outline-variant':hslToHex(h,15,80),
-      'inverse-surface':hslToHex(h,20,20),'inverse-on-surface':hslToHex(h,20,95),
-      'inverse-primary':hslToHex(h,80,80),
+      'background':hslToHex(h,30,98),'on-background':hslToHex(h,20,10),'surface':hslToHex(h,30,98),'on-surface':hslToHex(h,20,10),
+      'surface-variant':hslToHex(h,20,90),'on-surface-variant':hslToHex(h,15,30),'surface-dim':hslToHex(h,15,87),'surface-bright':hslToHex(h,30,98),
+      'surface-container-lowest':'#FFFFFF','surface-container-low':hslToHex(h,30,96),'surface-container':hslToHex(h,25,94),
+      'surface-container-high':hslToHex(h,22,92),'surface-container-highest':hslToHex(h,20,90),
+      'outline':hslToHex(h,10,50),'outline-variant':hslToHex(h,15,80),'inverse-surface':hslToHex(h,20,20),'inverse-on-surface':hslToHex(h,20,95),'inverse-primary':hslToHex(h,80,80),
       'shadow':'#000000','scrim':'#000000','surface-tint':hslToHex(h,48,40),
     };
   }
@@ -692,9 +681,6 @@ function generateSimplifiedMd3Scheme(seedHue,isDark){
   console.log('🎨 ✔ 简化 MD3 方案已应用，色相='+h+'°，isDark='+isDark);
 }
 
-/* =========================================================
-   从图片提取种子色（纯 HSL 直方图，不依赖 MCU）
-   ========================================================= */
 async function extractSeedHct(imageUrl){
   const absUrl=resolveImageUrl(imageUrl);
   console.log('🎨 开始取色：',absUrl);
@@ -711,36 +697,30 @@ async function extractSeedHct(imageUrl){
         let data;
         try{data=ctx.getImageData(0,0,size,size).data;}
         catch(secErr){console.warn('🎨 canvas 被污染（CORS），准备用 CORS 模式重试');return false;}
-        const bins=new Float32Array(36);
-        let totalChroma=0;
+        const bins=new Float32Array(36);let totalChroma=0;
         for(let i=0;i<data.length;i+=4){
           const a=data[i+3];if(a<128)continue;
           const r=data[i],g=data[i+1],b=data[i+2];
-          const max=Math.max(r,g,b),min=Math.min(r,g,b);
-          const chroma=max-min;
+          const max=Math.max(r,g,b),min=Math.min(r,g,b);const chroma=max-min;
           if(chroma<30)continue;
-          const hue=rgbToHue(r,g,b);
-          if(hue===null)continue;
+          const hue=rgbToHue(r,g,b);if(hue===null)continue;
           const bin=Math.floor(hue/10)%36;
-          bins[bin]+=chroma*chroma;
-          totalChroma+=chroma;
+          bins[bin]+=chroma*chroma;totalChroma+=chroma;
         }
         let maxBin=-1,maxVal=0;
         for(let i=0;i<36;i++){if(bins[i]>maxVal){maxVal=bins[i];maxBin=i;}}
         if(maxBin<0){console.warn('🎨 直方图全为灰阶，取色失败');done(null);return true;}
         const hue=maxBin*10+5;
         console.log('🎨 ✔ 取色成功：主色相 =',hue,'°，累计色度 =',totalChroma.toFixed(0));
-        done({hue:hue,chroma:48,tone:50});
-        return true;
+        done({hue:hue,chroma:48,tone:50});return true;
       }catch(e){console.warn('🎨 processImage 异常：',e);done(null);return true;}
     }
     const img1=new Image();
-    img1.onload=function(){console.log('🎨 图片已加载（普通模式），尺寸：',img1.naturalWidth,'×',img1.naturalHeight);if(processImage(img1))return;tryCors();};
+    img1.onload=function(){console.log('🎨 图片已加载（普通模式）');if(processImage(img1))return;tryCors();};
     img1.onerror=function(e){console.warn('🎨 普通模式加载失败:',e);tryCors();};
     function tryCors(){
       console.log('🎨 尝试 CORS 模式重新加载...');
-      const img2=new Image();
-      img2.crossOrigin='anonymous';
+      const img2=new Image();img2.crossOrigin='anonymous';
       img2.onload=function(){console.log('🎨 图片已加载（CORS 模式）');if(!processImage(img2)){console.warn('🎨 CORS 模式读 canvas 也失败');done(null);}};
       img2.onerror=function(e){console.warn('🎨 CORS 模式加载失败:',e);done(null);};
       const sep=absUrl.indexOf('?')>=0?'&':'?';
@@ -752,55 +732,35 @@ async function extractSeedHct(imageUrl){
 }
 
 async function precomputeMd3Seed(imageUrl){
-  if(!imageUrl){console.warn('🎨 precomputeMd3Seed: 图片 URL 为空');return null;}
+  if(!imageUrl)return null;
   const absUrl=resolveImageUrl(imageUrl);
   if(__md3SeedHct && __md3SeedHct.__src===absUrl){console.log('🎨 种子色缓存命中：',absUrl);return __md3SeedHct;}
   let seed=await extractSeedHct(absUrl);
-  if(!seed){const fh=stringHash(absUrl)%360;console.warn('🎨 取色完全失败，用 URL 哈希回退色相 =',fh,'°');seed={hue:fh,chroma:48,tone:50};}
-  seed.__src=absUrl;
-  __md3SeedHct=seed;
-  return seed;
+  if(!seed){const fh=stringHash(absUrl)%360;console.warn('🎨 取色失败，回退色相 =',fh,'°');seed={hue:fh,chroma:48,tone:50};}
+  seed.__src=absUrl;__md3SeedHct=seed;return seed;
 }
 
-/* =========================================================
-   ★ 生成方案：优先 MCU，缺失则用简化方案
-   ========================================================= */
 function generateMd3Scheme(seed,isDark){
   const MCU=window.__MCU__;
-  if(seed && typeof seed.hue!=='number' && seed instanceof (MCU ? MCU.Hct : Object)){
-    // 若是 MCU Hct 实例，直接取 hue
-    try{seed={hue:seed.hue,chroma:seed.chroma,tone:seed.tone};}catch(e){}
-  }
-  if(!seed || typeof seed.hue!=='number'){
-    console.warn('MD3E: 无效种子色',seed);
-    return;
-  }
+  if(!seed || typeof seed.hue!=='number'){console.warn('MD3E: 无效种子色',seed);return;}
   if(MCU && MCU.Hct && MCU.SchemeTonalSpot && MCU.MaterialDynamicColors && MCU.hexFromArgb){
     try{
       const seedHct=MCU.Hct.from(seed.hue,seed.chroma||48,seed.tone||50);
       const scheme=new MCU.SchemeTonalSpot(seedHct,!!isDark,0);
-      const app=document.getElementById('pc-app');
-      let count=0;
+      const app=document.getElementById('pc-app');let count=0;
       MD3_ROLES.forEach(function(pair){
         const mcuName=pair[0],cssName=pair[1];
-        const dc=MCU.MaterialDynamicColors[mcuName];
-        if(!dc)return;
-        try{
-          const argb=dc.getArgb(scheme);
-          app.style.setProperty('--md-sys-color-'+cssName,MCU.hexFromArgb(argb));
-          count++;
-        }catch(e){}
+        const dc=MCU.MaterialDynamicColors[mcuName];if(!dc)return;
+        try{const argb=dc.getArgb(scheme);app.style.setProperty('--md-sys-color-'+cssName,MCU.hexFromArgb(argb));count++;}catch(e){}
       });
       console.log('🎨 ✔ MCU 方案已应用，共写入',count,'个变量，isDark =',!!isDark);
       try{
         const primaryHex=MCU.hexFromArgb(MCU.MaterialDynamicColors.primary.getArgb(scheme));
-        app.style.setProperty('--accent',primaryHex);
-        app.style.setProperty('--play-btn-bg',primaryHex);
+        app.style.setProperty('--accent',primaryHex);app.style.setProperty('--play-btn-bg',primaryHex);
       }catch(e){}
       return;
     }catch(e){console.warn('🎨 MCU 方案生成失败，改用简化方案:',e);}
   }
-  // MCU 不可用 → 简化方案
   generateSimplifiedMd3Scheme(seed.hue,isDark);
 }
 
@@ -847,6 +807,7 @@ function applyVisualStyle(style){
     const key=THUMB_IMAGES[appliedThumbIndex]||'722264.jpg';
     applyColorScheme(THUMB_COLORS[key]||'#66ccff');
   }
+  refreshWeatherIcon();
 }
 
 function initVisualStyle(){
@@ -859,7 +820,6 @@ function initVisualStyle(){
     btn.addEventListener('click',function(e){e.stopPropagation();applyVisualStyle(this.dataset.style);});
   });
   updateTransparencyCardVisibility(saved,true);
-  // 无论当前样式，都立即预计算种子色
   const currentKey=THUMB_IMAGES[appliedThumbIndex]||'722264.jpg';
   precomputeMd3Seed(currentKey).then(function(seed){
     if(currentVisualStyle==='md3e' && seed){
@@ -916,7 +876,6 @@ async function fetchArtistSongs(artistId){
   const url=CONFIG.API_BASE+'/artist/songs?id='+artistId;
   const resp=await fetch(url);if(!resp.ok)throw new Error('HTTP '+resp.status);
   const json=await resp.json();
-  console.log('🎵 歌手原始返回:',json);
   let list=(json.data&&json.data.songs)||json.songs||(json.data&&json.data.list)||json.list||json.data||[];
   if(!Array.isArray(list))list=[];
   const filtered=list.filter(song=>{const id=String(song.id);return !CONFIG.EXCLUDED_IDS.includes(id);});
@@ -937,7 +896,6 @@ async function fetchSongUrl(songId){
   const url=CONFIG.API_BASE+'/song/url/v1?id='+songId+'&level=exhigh';
   const resp=await fetch(url);if(!resp.ok)throw new Error('HTTP '+resp.status);
   const json=await resp.json();
-  console.log('🔊 播放地址返回:',json);
   let playUrl=(json.data&&json.data[0]&&json.data[0].url)||json.url||(json.data&&json.data.url)||'';
   if(!playUrl)throw new Error('未获取到播放地址');
   songUrlCache[songId]=playUrl;return playUrl;
@@ -955,7 +913,6 @@ async function fetchSongLyric(songId){
   const url=CONFIG.API_BASE+'/lyric?id='+songId;
   const resp=await fetch(url);if(!resp.ok)throw new Error('HTTP '+resp.status);
   const json=await resp.json();
-  console.log('📃 歌词返回:',json);
   let lyricText=(json.data&&json.data.lyric)||json.lyric||(json.lrc&&json.lrc.lyric)||(json.data&&json.data.lrc&&json.data.lrc.lyric)||'';
   if(!lyricText)return null;
   const parsed=parseLRC(lyricText);lyricCache[songId]=parsed;return parsed;
@@ -1023,11 +980,10 @@ async function loadAndPlay(index){
   if(!song.cover){const cover=await fetchSongCover(song.id);if(cover){song.cover=cover;coverImg.src=cover;}}
   try{
     const url=await fetchSongUrl(song.id);
-    console.log('✅ 获取到播放地址:',url);
     audio.src=url;audio.load();
     const playPromise=audio.play();
     if(playPromise!==undefined){playPromise.then(()=>setPlayingState(true)).catch(err=>{console.warn('自动播放被拦截:',err);setPlayingState(false);});}
-  }catch(e){console.error('❌ 获取播放地址失败:',e);audio.src='';setPlayingState(false);songInfoEl.textContent=song.name+' - 播放失败 (请检查控制台)';}
+  }catch(e){console.error('❌ 获取播放地址失败:',e);audio.src='';setPlayingState(false);songInfoEl.textContent=song.name+' - 播放失败';}
   try{
     const lyric=await fetchSongLyric(song.id);
     if(lyric&&lyric.length>0){lyricLines=lyric;}else{lyricLines=[];updateLyricsDisplay('♪ 无歌词','♪ 无歌词','♪ 无歌词');}
@@ -1217,9 +1173,9 @@ function updateSwitchUI(theme){if(theme==='dark'){switchTrack.classList.add('act
 function applyTheme(theme){
   document.getElementById('pc-app').setAttribute('data-theme',theme);
   currentTheme=theme;updateSwitchUI(theme);
-  if(currentVisualStyle==='md3e'){
-    refreshMd3Scheme();
-  }
+  // 主题切换后刷新天气图标（切换到 _dark 变体）
+  refreshWeatherIcon();
+  if(currentVisualStyle==='md3e'){refreshMd3Scheme();}
 }
 function updateAutoSwitchUI(enabled){if(enabled){autoSwitchTrack.classList.add('active');autoCheckbox.checked=true;}else{autoSwitchTrack.classList.remove('active');autoCheckbox.checked=false;}setManualControlsDisabled(enabled);}
 autoSwitchTrack.addEventListener('click',function(e){e.stopPropagation();const newState=!autoCheckbox.checked;autoCheckbox.checked=newState;autoThemeEnabled=newState;updateAutoSwitchUI(newState);setupAutoTheme();});
@@ -1325,12 +1281,14 @@ function initDefaultTheme(){var savedKey=getCookie('theme_key');if(savedKey&&THU
 function setCookie(name,value,days){const expires=new Date(Date.now()+days*24*60*60*1000).toUTCString();document.cookie=name+'='+encodeURIComponent(value)+'; expires='+expires+'; path=/';}
 function getCookie(name){const match=document.cookie.match(new RegExp('(^| )'+name+'=([^;]+)'));if(match)return decodeURIComponent(match[2]);return null;}
 
-/* ============ 时间/天气 ============ */
+/* ============ 时间 / 天气 ============ */
 const clockEl=document.getElementById('clock');
 const weatherIconEl=document.getElementById('weather-icon');
 const weatherTempEl=document.getElementById('weather-temp');
 const weatherDescEl=document.getElementById('weather-desc');
 let userTimeZone='Asia/Shanghai';
+let __lastWeatherData=null;
+
 function updateClock(){
   const now=new Date();
   try{const formatter=new Intl.DateTimeFormat('zh-CN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:userTimeZone});clockEl.textContent=formatter.format(now);}
@@ -1338,22 +1296,111 @@ function updateClock(){
 }
 updateClock();setInterval(updateClock,1000);
 fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{if(d.timezone){userTimeZone=d.timezone;updateClock();}}).catch(()=>{});
+
 const WEATHER_CACHE_KEY='weather_cache',CACHE_DURATION=10*60*1000;
-const svgMap={
-  'sunny':'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>',
-  'cloudy':'<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/></svg>',
-  'rainy':'<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><line x1="8" y1="17" x2="8" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="16" y1="17" x2="16" y2="21"/></svg>',
-  'snowy':'<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><circle cx="8" cy="18" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="16" cy="18" r="1.5"/></svg>',
-  'thunderstorm':'<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><path d="M12 17l-2 4h4l-2 4"/></svg>'
+
+/* =================================================================
+   ★★★ Pixel 官方天气图标（直接引用 Google CDN）★★★
+   URL 格式：https://maps.gstatic.com/weather/v1/{icon_name}.svg
+   暗黑模式：https://maps.gstatic.com/weather/v1/{icon_name}_dark.svg
+   ================================================================= */
+const GOOGLE_WEATHER_ICON_BASE='https://maps.gstatic.com/weather/v1/';
+
+/* wttr.in 天气代码 → Google Weather API 图标名称 */
+const GOOGLE_ICON_MAP={
+  // 晴天
+  113:'sunny',
+  // 多云
+  116:'partly_cloudy',
+  119:'cloudy',
+  122:'cloudy',
+  // 雨
+  176:'light_rain',293:'light_rain',296:'light_rain',
+  299:'moderate_rain',302:'moderate_rain',
+  305:'heavy_rain',308:'heavy_rain',
+  311:'light_rain',314:'moderate_rain',
+  353:'light_rain',356:'heavy_rain',359:'heavy_rain',
+  // 雪
+  179:'light_snow',182:'light_snow',185:'light_snow',
+  227:'heavy_snow',230:'heavy_snow',
+  320:'light_snow',323:'light_snow',326:'light_snow',
+  329:'moderate_snow',332:'moderate_snow',
+  335:'heavy_snow',338:'heavy_snow',
+  368:'light_snow',371:'moderate_snow',374:'light_snow',377:'moderate_snow',
+  // 雷暴
+  200:'thunderstorm',386:'thunderstorm',389:'thunderstorm',392:'thunderstorm',395:'thunderstorm',
+  // 雾
+  143:'mist',248:'fog',260:'fog',
 };
-function getWeatherIconSVG(code){let icon='cloudy';if(code===113)icon='sunny';else if([176,179,182,185,293,296,299,302,305,308,311,314,317,320,323,326,329,332,335,338,350,353,356,359,362,365,368,371,374,377,386,389,392,395].includes(code)){if(code>=200&&code<300)icon='thunderstorm';else if(code>=300&&code<600)icon='rainy';else if(code>=600&&code<700)icon='snowy';else icon='rainy';}return svgMap[icon]||svgMap['cloudy'];}
-function updateWeatherUI(data){weatherTempEl.textContent=data.temp+'°C';weatherDescEl.textContent=data.desc||'';weatherIconEl.innerHTML=getWeatherIconSVG(data.code);}
+
+/* 回退 SVG（当 Google CDN 加载失败时使用） */
+const FALLBACK_SVG={
+  sunny:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><line x1="12" y1="2.5" x2="12" y2="5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="19" x2="12" y2="21.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="2.5" y1="12" x2="5" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="19" y1="12" x2="21.5" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="5.3" y1="5.3" x2="7.05" y2="7.05" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="16.95" y1="16.95" x2="18.7" y2="18.7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="5.3" y1="18.7" x2="7.05" y2="16.95" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="16.95" y1="7.05" x2="18.7" y2="5.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+  cloudy:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.5 18.5A4.5 4.5 0 0 1 6.2 9.55 5.5 5.5 0 0 1 17 8.4 4.5 4.5 0 0 1 17.5 18.5z" fill="currentColor"/></svg>`,
+  rainy:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.5 15.5A4.2 4.2 0 0 1 6.2 7.15 5.2 5.2 0 0 1 16.3 6.05 4.2 4.2 0 0 1 16.8 15.5z" fill="currentColor"/><line x1="8.5" y1="17.8" x2="7.9" y2="20.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="17.8" x2="11.4" y2="20.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="15.5" y1="17.8" x2="14.9" y2="20.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+  snowy:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.5 15.5A4.2 4.2 0 0 1 6.2 7.15 5.2 5.2 0 0 1 16.3 6.05 4.2 4.2 0 0 1 16.8 15.5z" fill="currentColor"/><circle cx="8" cy="19" r="1.2" fill="currentColor"/><circle cx="12" cy="20.5" r="1.2" fill="currentColor"/><circle cx="16" cy="19" r="1.2" fill="currentColor"/></svg>`,
+  thunderstorm:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.5 15.5A4.2 4.2 0 0 1 6.2 7.15 5.2 5.2 0 0 1 16.3 6.05 4.2 4.2 0 0 1 16.8 15.5z" fill="currentColor"/><path d="M13 16.2l-2.6 4.2h2.6l-1 2.6 4-5h-2.6l1.2-1.8z" fill="currentColor"/></svg>`,
+  fog:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="5" y1="13" x2="19" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="3" y1="17" x2="21" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`
+};
+
+/* 根据 wttr.in 代码获取回退 SVG 类型 */
+function getFallbackKey(code){
+  if(code===113)return 'sunny';
+  if([200,386,389,392,395].includes(code))return 'thunderstorm';
+  if([176,179,182,185,293,296,299,302,305,308,311,314,353,356,359].includes(code))return 'rainy';
+  if([227,230,320,323,326,329,332,335,338,368,371,374,377].includes(code))return 'snowy';
+  if([143,248,260].includes(code))return 'fog';
+  return 'cloudy';
+}
+
+/* ★ 刷新天气图标（根据当前主题选择明亮/暗黑版本） */
+function refreshWeatherIcon(){
+  if(!__lastWeatherData)return;
+  const data=__lastWeatherData;
+
+  // 1. 判断当前主题
+  const isDark=document.getElementById('pc-app').getAttribute('data-theme')==='dark';
+  const suffix=isDark?'_dark.svg':'.svg';
+
+  // 2. 获取图标名称
+  const iconName=GOOGLE_ICON_MAP[data.code]||'cloudy';
+  const iconUrl=GOOGLE_WEATHER_ICON_BASE+iconName+suffix;
+
+  // 3. 用 <img> 引用，加载失败回退到内联 SVG
+  const fallbackKey=getFallbackKey(data.code);
+  const fallbackSVG=FALLBACK_SVG[fallbackKey]||FALLBACK_SVG.cloudy;
+
+  const img=document.createElement('img');
+  img.alt=data.desc||'';
+  img.style.width='100%';
+  img.style.height='100%';
+  img.style.display='block';
+  img.style.objectFit='contain';
+  img.onerror=function(){
+    console.warn('🌤️ Google 天气图标加载失败，回退到内置 SVG:',iconUrl);
+    weatherIconEl.innerHTML=fallbackSVG;
+  };
+  img.src=iconUrl;
+
+  weatherIconEl.innerHTML='';
+  weatherIconEl.appendChild(img);
+  console.log('🌤️ 天气图标已更新:',iconUrl);
+}
+
+function updateWeatherUI(data){
+  __lastWeatherData=data;
+  weatherTempEl.textContent=data.temp+'°C';
+  weatherDescEl.textContent=data.desc||'';
+  refreshWeatherIcon();
+}
+
 function fetchWeather(){
   const cached=localStorage.getItem(WEATHER_CACHE_KEY);
   if(cached){try{const data=JSON.parse(cached);if(Date.now()-data.timestamp<CACHE_DURATION){updateWeatherUI(data);return;}}catch(e){}}
   fetch('https://wttr.in/?format=j1&lang=zh').then(r=>r.json()).then(json=>{const current=json.current_condition[0];const data={temp:current.temp_C,desc:current.weatherDesc[0].value,code:parseInt(current.weatherCode),timestamp:Date.now()};localStorage.setItem(WEATHER_CACHE_KEY,JSON.stringify(data));updateWeatherUI(data);}).catch(()=>{const fallback={temp:'22',desc:'多云',code:119,timestamp:Date.now()};updateWeatherUI(fallback);});
 }
 fetchWeather();setInterval(fetchWeather,CACHE_DURATION);
+
 function adjustLyricsIslandPosition(){
   var timeInfo=document.getElementById('top-right-info');if(!timeInfo)return;
   var rect=timeInfo.getBoundingClientRect();
@@ -1371,7 +1418,7 @@ pcInput.addEventListener('blur',function(){if(this.value.length===0)clearBtn.sty
 pcInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();performPcSearch();}});
 pcBtn.addEventListener('click',function(e){e.preventDefault();performPcSearch();});
 
-/* ============ 歌曲列表构建 ============ */
+/* ============ 歌曲列表 ============ */
 function buildSongListUI(){
   songListEl.innerHTML='';
   if(!songList||!Array.isArray(songList)||songList.length===0){songListEl.innerHTML='<div class="song-item" style="color:#aaa;padding:12px;">暂无歌曲数据</div>';return;}
@@ -1393,7 +1440,7 @@ async function initPlayer(){
     const list=await fetchArtistSongs(CONFIG.ARTIST_ID);
     if(list.length===0)throw new Error('没有获取到歌曲');
     songList=list;
-    console.log('🎵 获取到 '+songList.length+' 首歌曲（已排除 '+CONFIG.EXCLUDED_IDS.length+' 首）');
+    console.log('🎵 获取到 '+songList.length+' 首歌曲');
     buildSongListUI();
     document.getElementById('mode-icon').innerHTML=iconMap[0];
     await loadAndPlay(0);
@@ -1437,7 +1484,8 @@ window.addEventListener('load',function(){
   window.currentIdx=currentIdx;
   console.log('========================================');
   console.log('🎵 播放器已启动 — ncm.landdy.cn');
-  console.log('🎨 取色：纯 HSL 直方图 + 多 CDN MCU + 简化方案 fallback');
+  console.log('🌤️ 天气图标：Google 官方 CDN (maps.gstatic.com)');
+  console.log('   明亮模式：{name}.svg | 暗黑模式：{name}_dark.svg');
   console.log('========================================');
 });
 
