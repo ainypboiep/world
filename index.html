@@ -14,78 +14,35 @@
 @font-face{font-family:'悠哉字体 Light';src:url('Yozai-Light.woff2') format('woff2');font-display:swap;}
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light','Hiragino Kaku Gothic ProN','Hiragino Sans','Microsoft JhengHei',sans-serif;background:#0b0e1a;color:#fff;user-select:none;-webkit-tap-highlight-color:transparent;}
-
-:root{
-  --glass-mult:1;
-  --glass-shadow-mult:1;
-  --glass-backdrop:blur(40px) saturate(200%) brightness(1.05);
-}
-
+:root{--glass-mult:1;--glass-shadow-mult:1;--glass-backdrop:blur(40px) saturate(200%) brightness(1.05);}
 #pc-app,#mobile-app{position:fixed;inset:0;width:100%;height:100%;overflow:hidden;transition:opacity .4s ease;}
 #pc-app{z-index:10;opacity:1;display:block;}
 #mobile-app{z-index:20;opacity:0;display:none;}
 .mode-mobile #pc-app{opacity:0;pointer-events:none;display:none;}
 .mode-mobile #mobile-app{opacity:1;display:flex;}
-
 #pc-app{
-  --accent:#66ccff;
-  --progress-height:2px;
+  --accent:#66ccff;--progress-height:2px;
   --glass-bg1:rgba(255,255,255,calc(0.095 * var(--glass-mult)));
   --glass-bg2:rgba(255,255,255,calc(0.042 * var(--glass-mult)));
   --glass-bg3:rgba(255,255,255,calc(0.063 * var(--glass-mult)));
   --glass-border:rgba(255,255,255,calc(0.45 * var(--glass-mult)));
-  --glass-shadow:
-      0 calc(16px * var(--glass-shadow-mult)) calc(48px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.30 * var(--glass-shadow-mult))),
-      0 calc(4px  * var(--glass-shadow-mult)) calc(12px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.18 * var(--glass-shadow-mult)));
-  --text-color:#fff;
-  --theme-transition-bg:rgba(0,0,0,0.75);
-  --nav-link-color:#66ccff;
-  --play-btn-bg:#66ccff;
-  --title-color:#66ccff;
+  --glass-shadow:0 calc(16px * var(--glass-shadow-mult)) calc(48px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.30 * var(--glass-shadow-mult))),0 calc(4px * var(--glass-shadow-mult)) calc(12px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.18 * var(--glass-shadow-mult)));
+  --text-color:#fff;--theme-transition-bg:rgba(0,0,0,0.75);--nav-link-color:#66ccff;--play-btn-bg:#66ccff;--title-color:#66ccff;
 }
 #pc-app[data-theme="dark"]{
-  --glass-bg1:rgba(0,0,0,calc(0.45 * var(--glass-mult)));
-  --glass-bg2:rgba(0,0,0,calc(0.25 * var(--glass-mult)));
-  --glass-bg3:rgba(0,0,0,calc(0.35 * var(--glass-mult)));
-  --glass-border:rgba(255,255,255,calc(0.15 * var(--glass-mult)));
-  --glass-shadow:
-      0 calc(16px * var(--glass-shadow-mult)) calc(48px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.65 * var(--glass-shadow-mult))),
-      0 calc(4px  * var(--glass-shadow-mult)) calc(12px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.40 * var(--glass-shadow-mult)));
-  --text-color:#e0e0e0;
-  --theme-transition-bg:rgba(0,0,0,0.85);
+  --glass-bg1:rgba(0,0,0,calc(0.45 * var(--glass-mult)));--glass-bg2:rgba(0,0,0,calc(0.25 * var(--glass-mult)));--glass-bg3:rgba(0,0,0,calc(0.35 * var(--glass-mult)));--glass-border:rgba(255,255,255,calc(0.15 * var(--glass-mult)));
+  --glass-shadow:0 calc(16px * var(--glass-shadow-mult)) calc(48px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.65 * var(--glass-shadow-mult))),0 calc(4px * var(--glass-shadow-mult)) calc(12px * var(--glass-shadow-mult)) rgba(0,0,0,calc(0.40 * var(--glass-shadow-mult)));
+  --text-color:#e0e0e0;--theme-transition-bg:rgba(0,0,0,0.85);
 }
 #pc-app{background:url('722264.jpg') center/cover no-repeat;transition:filter 1.2s ease;position:relative;}
-#pc-app::before{
-  content:'';position:fixed;top:0;left:0;width:100%;height:100%;
-  pointer-events:none;z-index:0;
-  background:rgba(0,0,0,0.30);
-  backdrop-filter:brightness(0.86) saturate(0.92);
-  -webkit-backdrop-filter:brightness(0.86) saturate(0.92);
-  transition:background 1.2s ease, backdrop-filter 1.2s ease;
-}
-#pc-app[data-theme="dark"]::before{
-  background:rgba(0,0,0,0.55);
-  backdrop-filter:brightness(0.65) saturate(0.78);
-  -webkit-backdrop-filter:brightness(0.65) saturate(0.78);
-}
+#pc-app::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;background:rgba(0,0,0,0.30);backdrop-filter:brightness(0.86) saturate(0.92);-webkit-backdrop-filter:brightness(0.86) saturate(0.92);transition:background 1.2s ease, backdrop-filter 1.2s ease;}
+#pc-app[data-theme="dark"]::before{background:rgba(0,0,0,0.55);backdrop-filter:brightness(0.65) saturate(0.78);-webkit-backdrop-filter:brightness(0.65) saturate(0.78);}
 #pc-app #header-overlay{position:absolute;top:0;left:0;width:100%;height:110px;background:#fdeeef;opacity:0.30;pointer-events:none;z-index:1;transition:opacity .8s ease;}
 #pc-app[data-theme="dark"] #header-overlay{opacity:0.10;background:#1a1a2e;}
 #pc-app #title-text{position:absolute;top:20px;width:100%;text-align:center;font-weight:bold;pointer-events:none;line-height:1.2;z-index:1;transition:color .6s ease;}
 #pc-app #title-text .line1{font-size:1.8em;}
 #pc-app #title-text .line2{font-size:2.6em;}
-#pc-app .liquid-glass,
-#pc-app #top-right-info,
-#pc-app #lyrics-island,
-#pc-app #pc-search-container,
-#pc-app #gear-island,
-#pc-app #modal,
-#pc-app #github-island,
-#mobile-app #mobile-search-container,
-#mobile-app #mobile-github-island{
-  backdrop-filter:var(--glass-backdrop);
-  -webkit-backdrop-filter:var(--glass-backdrop);
-  box-shadow:var(--glass-shadow);
-}
+#pc-app .liquid-glass,#pc-app #top-right-info,#pc-app #lyrics-island,#pc-app #pc-search-container,#pc-app #gear-island,#pc-app #modal,#pc-app #github-island,#mobile-app #mobile-search-container,#mobile-app #mobile-github-island{backdrop-filter:var(--glass-backdrop);-webkit-backdrop-filter:var(--glass-backdrop);box-shadow:var(--glass-shadow);}
 #pc-app #top-right-info{position:fixed;top:16px;right:16px;z-index:1200;display:flex;flex-direction:column;align-items:flex-end;gap:6px;padding:12px 18px;border-radius:20px;background:linear-gradient(135deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);border:1px solid var(--glass-border);font-weight:400;min-width:110px;transition:background .6s ease,border .6s ease,box-shadow .6s ease;pointer-events:none;will-change:transform,opacity;backface-visibility:hidden;}
 #pc-app #top-right-info .time{font-size:1.2rem;letter-spacing:1px;font-weight:500;transition:color .6s ease;color:#fff!important;}
 #pc-app #top-right-info .weather{display:flex;align-items:center;gap:8px;font-size:.95rem;transition:color .6s ease;color:#fff!important;}
@@ -129,7 +86,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app #song-list::-webkit-scrollbar{width:4px;}
 #pc-app #song-list::-webkit-scrollbar-track{background:transparent;}
 #pc-app #song-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:4px;}
-#pc-app #song-list::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.35);}
 #pc-app .nav-links{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);display:flex;gap:32px;padding:14px 36px;border-radius:50px;z-index:50;flex-wrap:wrap;justify-content:center;box-sizing:border-box;cursor:default;touch-action:auto;transition:box-shadow .3s ease,background .6s ease,border .6s ease;}
 #pc-app .nav-links a{text-decoration:none;font-weight:bold;transition:opacity .3s,color .6s ease;white-space:nowrap;pointer-events:auto;}
 #pc-app .nav-links a:hover{opacity:.8;}
@@ -151,34 +107,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app #pc-search-input::-webkit-search-decoration,#pc-app #pc-search-input::-webkit-search-cancel-button{display:none;}
 #pc-app .clear-btn{background:none;border:none;color:rgba(255,255,255,.6);font-size:22px;cursor:pointer;padding:0 6px;transition:color .2s,transform .2s;display:flex;align-items:center;justify-content:center;height:100%;line-height:1;flex-shrink:0;width:32px;}
 #pc-app .clear-btn:hover{color:#fff;transform:scale(1.1);}
-#pc-app .clear-btn:active{transform:scale(0.9);}
 #pc-app .pc-search-btn{flex-shrink:0;border:none;border-radius:24px;padding:10px 24px;background:rgba(102,204,255,.20);color:#fff;font-size:clamp(14px,1.6vw,17px);font-family:inherit;cursor:pointer;transition:background .25s ease,transform .2s ease,box-shadow .25s ease;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08);letter-spacing:.6px;font-weight:400;white-space:nowrap;display:flex;align-items:center;gap:6px;}
 #pc-app .pc-search-btn:hover{background:rgba(102,204,255,.35);transform:scale(1.04);box-shadow:0 4px 20px rgba(102,204,255,.15);}
-#pc-app .pc-search-btn:active{transform:scale(0.94);}
 #pc-app .pc-search-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
-@media (max-width:768px){
-  #pc-app #pc-search-container{width:min(560px,92vw);min-height:48px;padding:3px 4px 3px 18px;border-radius:24px;}
-  #pc-app #pc-search-input{font-size:16px;padding:10px 4px;}
-  #pc-app .pc-search-btn{padding:8px 18px;font-size:14px;}
-  #pc-app .pc-search-btn svg{width:16px;height:16px;}
-  #pc-app .clear-btn{font-size:20px;width:28px;}
-}
-@media (max-width:480px){
-  #pc-app #pc-search-container{width:min(440px,96vw);min-height:42px;padding:2px 4px 2px 14px;border-radius:20px;}
-  #pc-app #pc-search-input{font-size:14px;padding:8px 4px;}
-  #pc-app .pc-search-btn{padding:6px 14px;font-size:12px;border-radius:20px;}
-  #pc-app .pc-search-btn svg{width:14px;height:14px;}
-  #pc-app #pc-search-container .search-icon{width:18px;height:18px;}
-  #pc-app .clear-btn{font-size:18px;width:24px;padding:0 4px;}
-}
-@media (max-width:380px){
-  #pc-app #pc-search-container{width:96vw;min-height:38px;padding:2px 4px 2px 12px;border-radius:18px;}
-  #pc-app #pc-search-input{font-size:13px;padding:6px 4px;}
-  #pc-app .pc-search-btn{padding:4px 12px;font-size:11px;border-radius:16px;}
-  #pc-app .pc-search-btn svg{width:12px;height:12px;}
-  #pc-app #pc-search-container .search-icon{width:16px;height:16px;}
-  #pc-app .clear-btn{font-size:16px;width:20px;padding:0 2px;}
-}
 #pc-app #gear-island{position:fixed;right:32px;bottom:120px;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1100;transition:transform .25s ease,box-shadow .3s ease,background .6s ease,border .6s ease;background:linear-gradient(135deg,var(--glass-bg1) 0%,var(--glass-bg2) 50%,var(--glass-bg3) 100%);border:1px solid var(--glass-border);}
 #pc-app #gear-island:hover{transform:scale(1.08) rotate(12deg);}
 #pc-app #gear-island:active{transform:scale(0.92);}
@@ -195,7 +126,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .dot{width:14px;height:14px;border-radius:50%;display:inline-block;transition:filter .2s,transform .15s;cursor:default;box-shadow:inset 0 1px 2px rgba(0,0,0,.1);flex-shrink:0;}
 #pc-app .dot.red{background:radial-gradient(circle at 35% 35%,#ff6b6b,#d32f2f);cursor:pointer;}
 #pc-app .dot.red:hover{filter:brightness(1.15);transform:scale(1.12);}
-#pc-app .dot.red:active{transform:scale(0.88);}
 #pc-app .dot.yellow{background:radial-gradient(circle at 35% 35%,#ffd93d,#f9a825);}
 #pc-app .dot.green{background:radial-gradient(circle at 35% 35%,#6bcf7f,#2e7d32);}
 #pc-app .modal-title{font-size:1.1rem;font-weight:500;color:var(--text-color);letter-spacing:2px;transition:color .6s ease;text-align:center;line-height:1.2;pointer-events:none;}
@@ -220,56 +150,45 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app .thumb-carousel .thumb-track img{width:100%;height:100%;object-fit:cover;flex-shrink:0;display:block;}
 #pc-app .thumb-carousel .thumb-arrow{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s ease,transform .2s ease;user-select:none;line-height:1;padding:0;box-shadow:0 2px 12px rgba(0,0,0,.22);flex-shrink:0;}
 #pc-app .thumb-carousel .thumb-arrow:hover{background:rgba(0,0,0,.55);transform:scale(1.08);}
-#pc-app .thumb-carousel .thumb-arrow:active{transform:scale(0.92);}
 #pc-app .thumb-carousel .thumb-dots{display:flex;gap:10px;justify-content:center;flex-shrink:0;margin-top:4px;flex-wrap:wrap;max-width:100%;}
 #pc-app .thumb-carousel .thumb-dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);transition:background .3s ease,transform .3s ease;cursor:pointer;}
 #pc-app .thumb-carousel .thumb-dots span.active{background:var(--accent,#66ccff);transform:scale(1.2);}
-#pc-app .thumb-carousel .thumb-dots span:hover{background:rgba(255,255,255,.5);}
 #pc-app .thumb-carousel .apply-btn{padding:8px 32px;border-radius:30px;border:none;background:var(--accent,#66ccff);color:#fff;font-size:.95rem;font-weight:500;cursor:pointer;transition:background .3s ease,transform .2s ease,box-shadow .3s ease;box-shadow:0 4px 16px rgba(0,0,0,.18);letter-spacing:1px;flex-shrink:0;font-family:'悠哉字体 Light','Hiragino Kaku Gothic ProN','Hiragino Sans','Microsoft JhengHei',sans-serif;}
 #pc-app .thumb-carousel .apply-btn:hover{transform:scale(1.04);box-shadow:0 6px 24px rgba(0,0,0,.28);}
-#pc-app .thumb-carousel .apply-btn:active{transform:scale(0.96);}
 #pc-app .visual-style-options{display:flex;gap:10px;flex-wrap:wrap;margin-top:2px;}
 #pc-app .visual-style-btn{padding:9px 26px;border-radius:9999px;border:1px solid rgba(255,255,255,calc(0.25 * var(--glass-mult)));background:rgba(255,255,255,calc(0.08 * var(--glass-mult)));color:rgba(255,255,255,.82);font-family:inherit;font-size:.88rem;cursor:pointer;transition:background .25s ease,color .25s ease,border-color .25s ease,transform .2s ease,box-shadow .25s ease;letter-spacing:1px;outline:none;}
 #pc-app .visual-style-btn:hover{background:rgba(255,255,255,calc(0.14 * var(--glass-mult)));color:#fff;transform:translateY(-1px);}
-#pc-app .visual-style-btn:active{transform:scale(.95);}
 #pc-app .visual-style-btn.active{background:var(--accent,#66ccff);border-color:var(--accent,#66ccff);color:#fff;box-shadow:0 4px 16px rgba(102,204,255,0.32);}
 #pc-app .settings-container{flex:1;display:flex;flex-direction:column;gap:0;padding:6px 4px;min-height:0;overflow-y:auto;}
 #pc-app .settings-container::-webkit-scrollbar{width:4px;}
-#pc-app .settings-container::-webkit-scrollbar-track{background:transparent;}
 #pc-app .settings-container::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:4px;}
-#pc-app .settings-container::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.35);}
-#pc-app .settings-card{background:rgba(255,255,255,calc(0.05 * var(--glass-mult)));border:1px solid rgba(255,255,255,calc(0.10 * var(--glass-mult)));border-radius:18px;padding:18px 20px 20px 20px;display:flex;flex-direction:column;gap:8px;flex-shrink:0;margin-bottom:14px;overflow:hidden;max-height:500px;transform:translateY(0);opacity:1;transition:background .6s ease,border-color .35s ease,border-width .35s ease,max-height .5s cubic-bezier(.2,.8,.2,1),opacity .35s ease,padding .4s cubic-bezier(.2,.8,.2,1),margin .45s cubic-bezier(.2,.8,.2,1),transform .4s cubic-bezier(.2,.8,.2,1);}
-#pc-app .settings-card:last-child{margin-bottom:0;}
+#pc-app .settings-card{background:rgba(255,255,255,calc(0.05 * var(--glass-mult)));border:1px solid rgba(255,255,255,calc(0.10 * var(--glass-mult)));border-radius:18px;padding:18px 20px 20px 20px;display:flex;flex-direction:column;gap:8px;flex-shrink:0;margin-bottom:14px;overflow:hidden;max-height:500px;transform:translateY(0);opacity:1;transition:background .6s ease,border-color .35s ease,max-height .5s cubic-bezier(.2,.8,.2,1),opacity .35s ease,padding .4s cubic-bezier(.2,.8,.2,1),margin .45s cubic-bezier(.2,.8,.2,1),transform .4s cubic-bezier(.2,.8,.2,1);}
 #pc-app .settings-card.collapsed{max-height:0;opacity:0;padding-top:0;padding-bottom:0;margin-bottom:0;border-top-width:0;border-bottom-width:0;transform:translateY(-8px);pointer-events:none;}
 #pc-app .settings-card-title{font-size:.95rem;font-weight:500;letter-spacing:2px;color:#fff;margin:0;transition:color .6s ease;}
-#pc-app .settings-card-desc{font-size:.72rem;color:rgba(255,255,255,.5);letter-spacing:.5px;line-height:1.4;margin-bottom:4px;transition:color .6s ease;}
+#pc-app .settings-card-desc{font-size:.72rem;color:rgba(255,255,255,.5);letter-spacing:.5px;line-height:1.4;margin-bottom:4px;}
 #pc-app .settings-card .transparency-slider-row{position:relative;display:flex;align-items:center;gap:16px;margin-top:4px;padding:0;}
 #pc-app .transparency-slider-track{position:relative;flex:1;height:3px;border-radius:1.5px;background:rgba(255,255,255,.28);cursor:pointer;}
-#pc-app .transparency-slider-fill{position:absolute;top:0;left:0;height:100%;width:70%;border-radius:1.5px;background:linear-gradient(90deg,var(--accent,#66ccff),#88ddff,var(--accent,#66ccff));background-size:200% 100%;background-position:0% 0%;will-change:width,background-position;box-shadow:0 0 6px rgba(102,204,255,.45);animation:flowGradient 1.8s linear infinite,pulseGlow 1.2s ease-in-out infinite;pointer-events:none;transition:none;}
+#pc-app .transparency-slider-fill{position:absolute;top:0;left:0;height:100%;width:70%;border-radius:1.5px;background:linear-gradient(90deg,var(--accent,#66ccff),#88ddff,var(--accent,#66ccff));background-size:200% 100%;will-change:width;box-shadow:0 0 6px rgba(102,204,255,.45);pointer-events:none;}
 #pc-app .transparency-slider-track input[type="range"]{position:absolute;top:-8px;left:0;width:100%;height:calc(100% + 16px);opacity:0;cursor:pointer;margin:0;padding:0;z-index:3;}
-#pc-app .transparency-value{min-width:44px;text-align:right;font-size:1.05rem;font-weight:500;letter-spacing:.5px;font-variant-numeric:tabular-nums;color:#fff;transition:color .3s ease;}
+#pc-app .transparency-value{min-width:44px;text-align:right;font-size:1.05rem;font-weight:500;color:#fff;}
 #pc-app #theme-switch-container{display:flex;align-items:center;justify-content:center;gap:16px;flex-shrink:0;padding-top:20px;padding-bottom:2px;flex-wrap:wrap;pointer-events:auto;border-top:1px solid rgba(255,255,255,calc(0.08 * var(--glass-mult)));margin-top:12px;}
 #pc-app .theme-icon-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);transition:color .3s,transform .3s,background .3s;padding:0;}
 #pc-app .theme-icon-btn:hover{transform:scale(1.1);color:rgba(255,255,255,.95);background:rgba(255,255,255,.08);}
 #pc-app .theme-icon-btn svg{width:24px;height:24px;fill:currentColor;}
-#pc-app .theme-icon-btn.active{color:rgba(255,255,255,.95);}
 #pc-app[data-theme="dark"] .theme-icon-btn.moon-icon{color:#ffd93d;}
 #pc-app[data-theme="light"] .theme-icon-btn.sun-icon{color:#ffd93d;}
-#pc-app .theme-icon-btn.disabled{opacity:.3!important;pointer-events:none!important;cursor:not-allowed!important;}
-#pc-app .switch-track.disabled{opacity:.3!important;pointer-events:none!important;cursor:not-allowed!important;}
-#pc-app .switch-track.disabled .switch-thumb{background:#888!important;}
+#pc-app .theme-icon-btn.disabled{opacity:.3!important;pointer-events:none!important;}
+#pc-app .switch-track.disabled{opacity:.3!important;pointer-events:none!important;}
 #pc-app .switch-track{position:relative;width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.25);cursor:pointer;transition:background .3s ease,opacity .3s ease;flex-shrink:0;border:1px solid rgba(255,255,255,.15);box-shadow:inset 0 1px 3px rgba(0,0,0,.2);}
-#pc-app[data-theme="dark"] .switch-track{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.08);}
 #pc-app .switch-track.active{background:var(--accent);border-color:var(--accent);}
-#pc-app .switch-thumb{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .3s cubic-bezier(0.34,1.56,0.64,1),background .3s;will-change:transform;pointer-events:none;}
-#pc-app .switch-track.active .switch-thumb{transform:translateX(16px);background:#fff;}
+#pc-app .switch-thumb{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .3s cubic-bezier(0.34,1.56,0.64,1);}
+#pc-app .switch-track.active .switch-thumb{transform:translateX(16px);}
 #pc-app .auto-switch-track{position:relative;width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.25);cursor:pointer;transition:background .3s ease;flex-shrink:0;border:1px solid rgba(255,255,255,.15);box-shadow:inset 0 1px 3px rgba(0,0,0,.2);}
-#pc-app[data-theme="dark"] .auto-switch-track{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.08);}
 #pc-app .auto-switch-track.active{background:var(--accent);border-color:var(--accent);}
-#pc-app .auto-switch-track .auto-switch-thumb{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .3s cubic-bezier(0.34,1.56,0.64,1),background .3s;will-change:transform;pointer-events:none;}
-#pc-app .auto-switch-track.active .auto-switch-thumb{transform:translateX(16px);background:#fff;}
-#pc-app .auto-label{color:var(--text-color);font-size:.85rem;white-space:nowrap;transition:color .6s ease;}
-#pc-app #theme-transition-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;pointer-events:none;visibility:hidden;opacity:0;background:transparent;transition:opacity .01s;will-change:clip-path,background;}
+#pc-app .auto-switch-track .auto-switch-thumb{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .3s cubic-bezier(0.34,1.56,0.64,1);}
+#pc-app .auto-switch-track.active .auto-switch-thumb{transform:translateX(16px);}
+#pc-app .auto-label{color:var(--text-color);font-size:.85rem;white-space:nowrap;}
+#pc-app #theme-transition-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;pointer-events:none;visibility:hidden;opacity:0;background:transparent;}
 #pc-app #theme-transition-overlay.animating{pointer-events:auto;visibility:visible;opacity:1;}
 #pc-app #bg-transition-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:9997;pointer-events:none;opacity:0;transition:opacity 1.2s ease;background-size:cover;background-position:center;background-repeat:no-repeat;}
 #pc-app #bg-transition-overlay.active{opacity:1;}
@@ -283,233 +202,85 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 @media (max-width:640px){
   #pc-app #top-right-info{top:10px;right:10px;padding:8px 14px;min-width:80px;}
   #pc-app #top-right-info .time{font-size:1rem;}
-  #pc-app #top-right-info .weather-icon{width:22px;height:22px;}
-  #pc-app #top-right-info .weather-temp{font-size:.95rem;}
   #pc-app #lyrics-island{top:10px;right:120px;min-width:120px;max-width:200px;padding:6px 12px;}
-  #pc-app #lyrics-island .lyrics-line.current{font-size:1.0rem;}
-  #pc-app #lyrics-island .lyrics-line.prev,#pc-app #lyrics-island .lyrics-line.next{font-size:.75rem;}
   #pc-app #gear-island{right:18px;bottom:100px;width:52px;height:52px;}
-  #pc-app #gear-island svg{width:26px;height:26px;}
-  #pc-app #modal{width:94vw;min-height:520px;padding:18px 18px 20px 18px;}
-  #pc-app .modal-title{font-size:.95rem;}
-  #pc-app .modal-subtitle{font-size:.8rem;letter-spacing:2px;padding:2px 0 10px 0;}
-  #pc-app .modal-body{gap:12px;}
-  #pc-app .modal-sidebar{gap:10px;padding:6px 4px;}
-  #pc-app .sidebar-icon,
-  #pc-app .sidebar-indicator{width:36px;height:36px;border-radius:10px;}
-  #pc-app .sidebar-icon svg{width:20px;height:20px;}
-  #pc-app .tab-panel{min-height:380px;}
+  #pc-app #modal{width:94vw;min-height:520px;padding:18px;}
+  #pc-app .sidebar-icon,#pc-app .sidebar-indicator{width:36px;height:36px;border-radius:10px;}
   #pc-app .thumb-carousel .thumb-wrapper{width:240px;height:170px;}
-  #pc-app .thumb-carousel .thumb-arrow{width:32px;height:32px;font-size:18px;}
-  #pc-app .thumb-carousel .thumb-row{gap:10px;}
   #pc-app .settings-card{padding:14px 16px 16px 16px;gap:6px;border-radius:16px;margin-bottom:12px;}
-  #pc-app .settings-card-title{font-size:.85rem;letter-spacing:1.5px;}
-  #pc-app .settings-card-desc{font-size:.68rem;}
-  #pc-app .transparency-value{font-size:.95rem;min-width:38px;}
-  #pc-app #theme-switch-container{gap:10px;padding-top:14px;}
   #pc-app #player{width:300px;padding:12px 14px;gap:12px;}
   #pc-app #art-box{width:48px;height:48px;}
-  #pc-app .song-info{font-size:12px;}
-  #pc-app .nav-links{gap:16px;padding:10px 20px;font-size:.85rem;flex-wrap:wrap;justify-content:center;bottom:20px;}
+  #pc-app .nav-links{gap:16px;padding:10px 20px;font-size:.85rem;bottom:20px;}
   #pc-app #github-island{left:18px;bottom:20px;width:44px;height:44px;}
-  #pc-app #github-island svg{width:24px;height:24px;}
-  #pc-app #icp-footer{bottom:4px;font-size:.68rem;}
   #pc-app #song-list{width:320px;max-height:200px;}
-  #pc-app .song-item{padding:8px 14px;font-size:13px;}
-  #pc-app .song-item .song-artist{max-width:70px;font-size:11px;}
-  #pc-app .switch-track,#pc-app .auto-switch-track{width:32px;height:18px;}
-  #pc-app .switch-thumb,#pc-app .auto-switch-thumb{width:12px;height:12px;top:2px;left:2px;}
-  #pc-app .switch-track.active .switch-thumb{transform:translateX(14px);}
-  #pc-app .auto-switch-track.active .auto-switch-thumb{transform:translateX(14px);}
-  #pc-app .theme-icon-btn svg{width:20px;height:20px;}
-  #pc-app .theme-icon-btn{width:28px;height:28px;}
-  #pc-app .auto-label{font-size:.75rem;}
-  #pc-app #window-controls{gap:6px;}
-  #pc-app .dot{width:12px;height:12px;}
-  #pc-app #time-display{font-size:9px;}
 }
 @media (max-width:420px){
-  #pc-app #top-right-info{top:6px;right:6px;padding:6px 10px;min-width:60px;border-radius:16px;}
-  #pc-app #top-right-info .time{font-size:.85rem;}
-  #pc-app #top-right-info .weather-icon{width:18px;height:18px;}
-  #pc-app #top-right-info .weather-temp{font-size:.8rem;}
-  #pc-app #top-right-info .weather-desc{font-size:.65rem;}
-  #pc-app #lyrics-island{top:6px;right:90px;min-width:90px;max-width:150px;padding:4px 8px;}
-  #pc-app #lyrics-island .lyrics-line.current{font-size:.85rem;}
-  #pc-app #lyrics-island .lyrics-line.prev,#pc-app #lyrics-island .lyrics-line.next{font-size:.65rem;}
   #pc-app #player{width:260px;gap:10px;padding:10px 12px;}
   #pc-app #art-box{width:42px;height:42px;}
-  #pc-app .song-info{font-size:11px;}
-  #pc-app #modal{width:96vw;min-height:460px;padding:14px 14px 16px 14px;border-radius:20px;}
-  #pc-app .modal-title{font-size:.85rem;}
-  #pc-app .modal-subtitle{font-size:.7rem;letter-spacing:1.5px;}
-  #pc-app .modal-body{gap:10px;}
-  #pc-app .sidebar-icon,
-  #pc-app .sidebar-indicator{width:32px;height:32px;border-radius:9px;}
-  #pc-app .sidebar-icon svg{width:18px;height:18px;}
-  #pc-app .tab-panel{min-height:340px;}
+  #pc-app #modal{width:96vw;min-height:460px;padding:14px;border-radius:20px;}
+  #pc-app .sidebar-icon,#pc-app .sidebar-indicator{width:32px;height:32px;}
   #pc-app .thumb-carousel .thumb-wrapper{width:180px;height:130px;}
-  #pc-app .thumb-carousel .thumb-arrow{width:28px;height:28px;font-size:16px;}
-  #pc-app .thumb-carousel .thumb-row{gap:8px;}
-  #pc-app .thumb-carousel .apply-btn{padding:6px 22px;font-size:.8rem;}
-  #pc-app .settings-card{padding:12px 14px 14px 14px;gap:5px;border-radius:14px;margin-bottom:10px;}
-  #pc-app .settings-card-title{font-size:.8rem;letter-spacing:1px;}
-  #pc-app .settings-card-desc{font-size:.65rem;}
-  #pc-app .transparency-value{font-size:.85rem;min-width:34px;}
-  #pc-app .dot{width:10px;height:10px;}
-  #pc-app #window-controls{gap:5px;}
-  #pc-app #gear-island{right:12px;bottom:80px;width:44px;height:44px;}
-  #pc-app #gear-island svg{width:22px;height:22px;}
-  #pc-app .switch-track,#pc-app .auto-switch-track{width:28px;height:16px;border-radius:8px;}
-  #pc-app .switch-thumb,#pc-app .auto-switch-thumb{width:10px;height:10px;top:2px;left:2px;}
-  #pc-app .switch-track.active .switch-thumb{transform:translateX(12px);}
-  #pc-app .auto-switch-track.active .auto-switch-thumb{transform:translateX(12px);}
-  #pc-app .theme-icon-btn svg{width:16px;height:16px;}
-  #pc-app .theme-icon-btn{width:24px;height:24px;}
   #pc-app .nav-links{gap:10px;padding:8px 14px;font-size:.75rem;bottom:14px;}
-  #pc-app #github-island{left:12px;bottom:14px;width:38px;height:38px;}
-  #pc-app #github-island svg{width:20px;height:20px;}
-  #pc-app #icp-footer{bottom:2px;font-size:.6rem;}
-  #pc-app #song-list{width:260px;max-height:160px;padding:6px 0;}
-  #pc-app .song-item{padding:6px 12px;font-size:12px;}
-  #pc-app .song-item .song-artist{max-width:50px;font-size:10px;}
-  #pc-app .song-item .song-index{min-width:18px;font-size:10px;}
-  #pc-app .auto-label{font-size:.7rem;}
-  #pc-app #time-display{font-size:8px;}
-  #pc-app .controls .md3-icon-btn{width:24px;height:24px;}
-  #pc-app .controls .md3-icon-btn svg{width:17px;height:17px;}
-  #pc-app #main-play-btn{width:30px!important;height:30px!important;}
-  #pc-app #main-play-btn svg{width:15px!important;height:15px!important;}
-  #pc-app .visual-style-btn{padding:7px 18px;font-size:.78rem;}
-}
-@media (max-height:720px){
-  #pc-app #modal{min-height:520px;}
-  #pc-app .tab-panel{min-height:360px;}
+  #pc-app #gear-island{right:12px;bottom:80px;width:44px;height:44px;}
 }
 #mobile-app{flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:clamp(20px,5vh,50px);background:url('722264.jpg') center/cover no-repeat;position:relative;}
 #mobile-app::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(0,0,0,.20) 0%,rgba(0,0,0,.62) 100%);pointer-events:none;}
-.mobile-title{text-align:center;line-height:1.2;pointer-events:none;position:relative;z-index:2;flex-shrink:0;margin-top:0;}
+.mobile-title{text-align:center;line-height:1.2;pointer-events:none;position:relative;z-index:2;flex-shrink:0;}
 .mobile-title .line1{font-size:clamp(1.4rem,5.5vw,2.6rem);font-weight:300;letter-spacing:.06em;color:rgba(255,255,255,.92);}
 .mobile-title .line2{font-size:clamp(2.6rem,11vw,5.2rem);font-weight:500;letter-spacing:.1em;color:#fff;margin-top:-.05em;}
-#mobile-app #mobile-search-container{position:relative;z-index:2;width:min(600px,88vw);border-radius:36px;padding:6px 8px 6px 28px;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(255,255,255,calc(0.10 * var(--glass-mult))) 0%,rgba(255,255,255,calc(0.04 * var(--glass-mult))) 50%,rgba(255,255,255,calc(0.07 * var(--glass-mult))) 100%);border:1.5px solid rgba(255,255,255,calc(0.35 * var(--glass-mult)));transition:all .35s cubic-bezier(0.25,0.46,0.45,0.94);flex-shrink:0;margin:0 auto;}
-#mobile-app #mobile-search-container:focus-within{border-color:rgba(102,204,255,.60);box-shadow:var(--glass-shadow),0 0 0 4px rgba(102,204,255,.15);transform:scale(1.02);}
-#mobile-app #mobile-search-container .search-icon{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:24px;height:24px;color:rgba(255,255,255,.6);transition:color .3s ease;}
+#mobile-app #mobile-search-container{position:relative;z-index:2;width:min(600px,88vw);border-radius:36px;padding:6px 8px 6px 28px;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(255,255,255,calc(0.10 * var(--glass-mult))) 0%,rgba(255,255,255,calc(0.04 * var(--glass-mult))) 50%,rgba(255,255,255,calc(0.07 * var(--glass-mult))) 100%);border:1.5px solid rgba(255,255,255,calc(0.35 * var(--glass-mult)));flex-shrink:0;margin:0 auto;}
+#mobile-app #mobile-search-container:focus-within{border-color:rgba(102,204,255,.60);box-shadow:var(--glass-shadow),0 0 0 4px rgba(102,204,255,.15);}
+#mobile-app #mobile-search-container .search-icon{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:24px;height:24px;color:rgba(255,255,255,.6);}
 #mobile-app #mobile-search-container .search-icon svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
-#mobile-app #mobile-search-container:focus-within .search-icon{color:rgba(255,255,255,.9);}
-#mobile-app #mobile-search-input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:clamp(16px,4vw,21px);font-family:inherit;padding:14px 6px;min-width:0;letter-spacing:.4px;font-weight:400;}
-#mobile-app #mobile-search-input::placeholder{color:rgba(255,255,255,.5);font-weight:300;letter-spacing:.6px;}
-#mobile-app #mobile-search-input::-webkit-search-decoration,#mobile-app #mobile-search-input::-webkit-search-cancel-button{display:none;}
-#mobile-app .mobile-clear-btn{background:none;border:none;color:rgba(255,255,255,.6);font-size:22px;cursor:pointer;padding:0 6px;transition:color .2s,transform .2s;display:flex;align-items:center;justify-content:center;height:100%;line-height:1;flex-shrink:0;width:34px;}
-#mobile-app .mobile-clear-btn:hover,#mobile-app .mobile-clear-btn:active{color:#fff;transform:scale(1.1);}
-#mobile-app .mobile-search-btn{flex-shrink:0;border:none;border-radius:28px;padding:12px 26px;background:rgba(102,204,255,.20);color:#fff;font-size:clamp(14px,3vw,17px);font-family:inherit;cursor:pointer;transition:background .25s ease,transform .2s ease,box-shadow .25s ease;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08);letter-spacing:.6px;font-weight:400;white-space:nowrap;display:flex;align-items:center;gap:6px;}
-#mobile-app .mobile-search-btn:active{transform:scale(0.94);background:rgba(102,204,255,.35);}
+#mobile-app #mobile-search-input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:clamp(16px,4vw,21px);font-family:inherit;padding:14px 6px;min-width:0;letter-spacing:.4px;}
+#mobile-app #mobile-search-input::placeholder{color:rgba(255,255,255,.5);font-weight:300;}
+#mobile-app .mobile-clear-btn{background:none;border:none;color:rgba(255,255,255,.6);font-size:22px;cursor:pointer;padding:0 6px;display:flex;align-items:center;justify-content:center;height:100%;flex-shrink:0;width:34px;}
+#mobile-app .mobile-search-btn{flex-shrink:0;border:none;border-radius:28px;padding:12px 26px;background:rgba(102,204,255,.20);color:#fff;font-size:clamp(14px,3vw,17px);font-family:inherit;cursor:pointer;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08);white-space:nowrap;display:flex;align-items:center;gap:6px;}
 #mobile-app .mobile-search-btn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
-#mobile-app #mobile-github-island{position:absolute;left:16px;bottom:16px;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;background:linear-gradient(135deg,rgba(255,255,255,calc(0.10 * var(--glass-mult))) 0%,rgba(255,255,255,calc(0.04 * var(--glass-mult))) 50%,rgba(255,255,255,calc(0.07 * var(--glass-mult))) 100%);border:1.5px solid rgba(255,255,255,calc(0.35 * var(--glass-mult)));text-decoration:none;-webkit-tap-highlight-color:transparent;transition:transform .25s ease,box-shadow .3s ease;}
-#mobile-app #mobile-github-island:active{transform:scale(0.92);}
+#mobile-app #mobile-github-island{position:absolute;left:16px;bottom:16px;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;background:linear-gradient(135deg,rgba(255,255,255,calc(0.10 * var(--glass-mult))) 0%,rgba(255,255,255,calc(0.04 * var(--glass-mult))) 50%,rgba(255,255,255,calc(0.07 * var(--glass-mult))) 100%);border:1.5px solid rgba(255,255,255,calc(0.35 * var(--glass-mult)));text-decoration:none;}
 #mobile-app #mobile-github-island svg{width:24px;height:24px;fill:rgba(255,255,255,.9);}
 .mobile-footer{position:absolute;bottom:16px;left:0;width:100%;text-align:center;z-index:2;font-size:clamp(.6rem,1.4vw,.8rem);color:rgba(255,255,255,.55);letter-spacing:.1em;pointer-events:none;}
 .mobile-footer-title{margin-bottom:4px;}
-.mobile-footer a{display:inline-block;color:rgba(255,255,255,.62);text-decoration:none;pointer-events:auto;letter-spacing:.08em;transition:color .25s ease;}
-.mobile-footer a:hover,.mobile-footer a:active{color:#fff;text-decoration:underline;}
-@media (max-width:480px){
-  #mobile-app{padding:16px 14px 20px;gap:clamp(16px,4vh,36px);}
-  .mobile-title .line1{font-size:1.2rem;}
-  .mobile-title .line2{font-size:2.2rem;}
-  #mobile-app #mobile-search-container{padding:4px 6px 4px 20px;border-radius:30px;width:min(520px,92vw);}
-  #mobile-app #mobile-search-input{font-size:15px;padding:12px 4px;}
-  #mobile-app .mobile-search-btn{padding:10px 18px;font-size:13px;border-radius:24px;}
-  #mobile-app .mobile-search-btn svg{width:15px;height:15px;}
-  #mobile-app #mobile-search-container .search-icon{width:20px;height:20px;}
-  #mobile-app .mobile-clear-btn{font-size:18px;width:28px;padding:0 4px;}
-  #mobile-app #mobile-github-island{left:12px;bottom:12px;width:40px;height:40px;}
-  #mobile-app #mobile-github-island svg{width:22px;height:22px;}
-}
-@media (max-width:380px){
-  #mobile-app{padding:12px 10px 16px;gap:clamp(12px,3vh,28px);}
-  .mobile-title .line1{font-size:1.0rem;}
-  .mobile-title .line2{font-size:1.8rem;}
-  #mobile-app #mobile-search-container{padding:3px 4px 3px 14px;border-radius:24px;width:94vw;}
-  #mobile-app #mobile-search-input{font-size:13px;padding:10px 4px;}
-  #mobile-app .mobile-search-btn{padding:8px 14px;font-size:11px;border-radius:20px;}
-  #mobile-app .mobile-search-btn svg{width:13px;height:13px;}
-  #mobile-app #mobile-search-container .search-icon{width:17px;height:17px;}
-  #mobile-app .mobile-clear-btn{font-size:16px;width:24px;padding:0 3px;}
-  #mobile-app #mobile-github-island{left:10px;bottom:10px;width:36px;height:36px;}
-  #mobile-app #mobile-github-island svg{width:20px;height:20px;}
-  .mobile-footer{font-size:.5rem;bottom:10px;}
-}
-@media (max-height:480px) and (orientation:landscape){
-  #mobile-app{flex-direction:row;flex-wrap:wrap;gap:2vh 4vw;padding:10px 20px;align-content:center;justify-content:center;}
-  .mobile-title{flex:0 0 100%;margin-top:0;}
-  .mobile-title .line1{font-size:1.0rem;}
-  .mobile-title .line2{font-size:1.6rem;}
-  #mobile-app #mobile-search-container{width:min(500px,80vw);padding:4px 6px 4px 18px;border-radius:28px;flex-shrink:0;}
-  #mobile-app #mobile-search-input{font-size:14px;padding:8px 4px;}
-  #mobile-app .mobile-search-btn{padding:8px 16px;font-size:12px;}
-  .mobile-footer{display:none;}
-  #mobile-app #mobile-github-island{left:12px;bottom:10px;width:38px;height:38px;}
-  #mobile-app #mobile-github-island svg{width:20px;height:20px;}
-}
+.mobile-footer a{display:inline-block;color:rgba(255,255,255,.62);text-decoration:none;pointer-events:auto;}
 #mobile-app{opacity:0;animation:fadeInMobile 1.2s ease .2s forwards;}
 @keyframes fadeInMobile{0%{opacity:0;transform:translateY(12px) scale(0.98);}100%{opacity:1;transform:translateY(0) scale(1);}}
-
 @keyframes jellySettle{0%{scale:1 1;rotate:0deg}22%{scale:1.10 .90;rotate:var(--jelly-tilt, 0deg)}48%{scale:.93 1.08;rotate:calc(var(--jelly-tilt, 0deg) * -.55)}72%{scale:1.04 .97;rotate:calc(var(--jelly-tilt, 0deg) * .25)}100%{scale:1 1;rotate:0deg}}
 .jelly-interactive{transform-origin:center;transition:translate .18s cubic-bezier(.2,.8,.2,1), rotate .18s ease;will-change:translate,rotate,scale;-webkit-tap-highlight-color:transparent;}
 .jelly-interactive.jelly-grabbed{transition:translate .06s linear, rotate .08s linear;filter:drop-shadow(0 7px 12px rgba(0,0,0,.18));}
 .jelly-interactive.jelly-release{animation:jellySettle .62s cubic-bezier(.2,.9,.25,1.25);}
 @media (prefers-reduced-motion:reduce){.jelly-interactive,.jelly-interactive.jelly-grabbed{transition:none}.jelly-interactive.jelly-release{animation:none}}
 
-/* ============================================================
-   MD3E 视觉样式
-   ============================================================ */
+/* ================= MD3E ================= */
 #pc-app[data-visual-style="md3e"]{
-  --md-sys-color-primary:#6750A4;--md-sys-color-on-primary:#FFFFFF;
-  --md-sys-color-primary-container:#EADDFF;--md-sys-color-on-primary-container:#21005D;
-  --md-sys-color-secondary:#625B71;--md-sys-color-on-secondary:#FFFFFF;
-  --md-sys-color-secondary-container:#E8DEF8;--md-sys-color-on-secondary-container:#1D192B;
-  --md-sys-color-tertiary:#7D5260;--md-sys-color-on-tertiary:#FFFFFF;
-  --md-sys-color-tertiary-container:#FFD8E4;--md-sys-color-on-tertiary-container:#31111D;
-  --md-sys-color-error:#B3261E;--md-sys-color-on-error:#FFFFFF;
-  --md-sys-color-error-container:#F9DEDC;--md-sys-color-on-error-container:#410E0B;
-  --md-sys-color-background:#FEF7FF;--md-sys-color-on-background:#1D1B20;
-  --md-sys-color-surface:#FEF7FF;--md-sys-color-on-surface:#1D1B20;
-  --md-sys-color-surface-variant:#E7E0EC;--md-sys-color-on-surface-variant:#49454F;
-  --md-sys-color-surface-dim:#DED8E1;--md-sys-color-surface-bright:#FEF7FF;
-  --md-sys-color-surface-container-lowest:#FFFFFF;--md-sys-color-surface-container-low:#F7F2FA;
-  --md-sys-color-surface-container:#F3EDF7;--md-sys-color-surface-container-high:#ECE6F0;
-  --md-sys-color-surface-container-highest:#E6E0E9;
+  --md-sys-color-primary:#6750A4;--md-sys-color-on-primary:#FFFFFF;--md-sys-color-primary-container:#EADDFF;--md-sys-color-on-primary-container:#21005D;
+  --md-sys-color-secondary:#625B71;--md-sys-color-on-secondary:#FFFFFF;--md-sys-color-secondary-container:#E8DEF8;--md-sys-color-on-secondary-container:#1D192B;
+  --md-sys-color-tertiary:#7D5260;--md-sys-color-on-tertiary:#FFFFFF;--md-sys-color-tertiary-container:#FFD8E4;--md-sys-color-on-tertiary-container:#31111D;
+  --md-sys-color-error:#B3261E;--md-sys-color-on-error:#FFFFFF;--md-sys-color-error-container:#F9DEDC;--md-sys-color-on-error-container:#410E0B;
+  --md-sys-color-background:#FEF7FF;--md-sys-color-on-background:#1D1B20;--md-sys-color-surface:#FEF7FF;--md-sys-color-on-surface:#1D1B20;
+  --md-sys-color-surface-variant:#E7E0EC;--md-sys-color-on-surface-variant:#49454F;--md-sys-color-surface-dim:#DED8E1;--md-sys-color-surface-bright:#FEF7FF;
+  --md-sys-color-surface-container-lowest:#FFFFFF;--md-sys-color-surface-container-low:#F7F2FA;--md-sys-color-surface-container:#F3EDF7;
+  --md-sys-color-surface-container-high:#ECE6F0;--md-sys-color-surface-container-highest:#E6E0E9;
   --md-sys-color-outline:#79747E;--md-sys-color-outline-variant:#CAC4D0;
-  --md-sys-color-inverse-surface:#322F35;--md-sys-color-inverse-on-surface:#F5EFF7;
-  --md-sys-color-inverse-primary:#D0BCFF;--md-sys-color-shadow:#000000;--md-sys-color-scrim:#000000;
+  --md-sys-color-inverse-surface:#322F35;--md-sys-color-inverse-on-surface:#F5EFF7;--md-sys-color-inverse-primary:#D0BCFF;
+  --md-sys-color-shadow:#000000;--md-sys-color-scrim:#000000;--md-sys-color-surface-tint:#6750A4;
 }
 #pc-app[data-visual-style="md3e"]::before{background:rgba(0,0,0,0.30);backdrop-filter:brightness(0.82) saturate(0.90) blur(6px);-webkit-backdrop-filter:brightness(0.82) saturate(0.90) blur(6px);}
 #pc-app[data-visual-style="md3e"][data-theme="dark"]::before{background:rgba(0,0,0,0.50);backdrop-filter:brightness(0.62) saturate(0.80) blur(6px);-webkit-backdrop-filter:brightness(0.62) saturate(0.80) blur(6px);}
 #pc-app[data-visual-style="md3e"] #header-overlay{opacity:0!important;}
-#pc-app[data-visual-style="md3e"] .liquid-glass,
-#pc-app[data-visual-style="md3e"] #top-right-info,
-#pc-app[data-visual-style="md3e"] #lyrics-island,
-#pc-app[data-visual-style="md3e"] #player,
-#pc-app[data-visual-style="md3e"] #song-list,
-#pc-app[data-visual-style="md3e"] #pc-search-container,
-#pc-app[data-visual-style="md3e"] #modal,
-#pc-app[data-visual-style="md3e"] .nav-links{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:none!important;background:var(--md-sys-color-surface-container)!important;box-shadow:0 1px 2px rgba(0,0,0,.14),0 2px 6px rgba(0,0,0,.06)!important;transition:background .35s ease,color .35s ease,box-shadow .35s ease!important;}
+#pc-app[data-visual-style="md3e"] .liquid-glass,#pc-app[data-visual-style="md3e"] #top-right-info,#pc-app[data-visual-style="md3e"] #lyrics-island,#pc-app[data-visual-style="md3e"] #player,#pc-app[data-visual-style="md3e"] #song-list,#pc-app[data-visual-style="md3e"] #pc-search-container,#pc-app[data-visual-style="md3e"] #modal,#pc-app[data-visual-style="md3e"] .nav-links{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:none!important;background:var(--md-sys-color-surface-container)!important;box-shadow:0 1px 2px rgba(0,0,0,.14),0 2px 6px rgba(0,0,0,.06)!important;transition:background .35s ease,color .35s ease,box-shadow .35s ease!important;}
 #pc-app[data-visual-style="md3e"] #player{background:var(--md-sys-color-surface-container-high)!important;border-radius:28px!important;}
 #pc-app[data-visual-style="md3e"] #song-list{background:var(--md-sys-color-surface-container-high)!important;border-radius:28px!important;}
 #pc-app[data-visual-style="md3e"] #pc-search-container{background:var(--md-sys-color-surface-container-highest)!important;border-radius:28px!important;}
 #pc-app[data-visual-style="md3e"] #modal{background:var(--md-sys-color-surface-container-high)!important;border-radius:28px!important;}
-#pc-app[data-visual-style="md3e"] #top-right-info,
-#pc-app[data-visual-style="md3e"] #lyrics-island{background:var(--md-sys-color-surface-container-high)!important;border-radius:24px!important;}
+#pc-app[data-visual-style="md3e"] #top-right-info,#pc-app[data-visual-style="md3e"] #lyrics-island{background:var(--md-sys-color-surface-container-high)!important;border-radius:24px!important;}
 #pc-app[data-visual-style="md3e"] .nav-links{background:var(--md-sys-color-surface-container-high)!important;border-radius:32px!important;}
-#pc-app[data-visual-style="md3e"] #gear-island,
-#pc-app[data-visual-style="md3e"] #github-island{background:var(--md-sys-color-primary-container)!important;border:none!important;box-shadow:0 1px 3px rgba(0,0,0,.16)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+#pc-app[data-visual-style="md3e"] #gear-island,#pc-app[data-visual-style="md3e"] #github-island{background:var(--md-sys-color-primary-container)!important;border:none!important;box-shadow:0 1px 3px rgba(0,0,0,.16)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
 #pc-app[data-visual-style="md3e"] #gear-island svg{color:var(--md-sys-color-on-primary-container)!important;}
 #pc-app[data-visual-style="md3e"] #github-island svg{fill:var(--md-sys-color-on-primary-container)!important;}
-#pc-app[data-visual-style="md3e"] #top-right-info .time,
-#pc-app[data-visual-style="md3e"] #top-right-info .weather{color:var(--md-sys-color-on-surface)!important;}
+#pc-app[data-visual-style="md3e"] #top-right-info .time,#pc-app[data-visual-style="md3e"] #top-right-info .weather{color:var(--md-sys-color-on-surface)!important;}
 #pc-app[data-visual-style="md3e"] #top-right-info .weather-desc{color:var(--md-sys-color-on-surface-variant)!important;opacity:1!important;}
 #pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.current{color:var(--md-sys-color-primary)!important;font-weight:600;}
-#pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.prev,
-#pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.next{color:var(--md-sys-color-on-surface-variant)!important;opacity:1!important;}
+#pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.prev,#pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.next{color:var(--md-sys-color-on-surface-variant)!important;opacity:1!important;}
 #pc-app[data-visual-style="md3e"] #lyrics-island .lyrics-line.placeholder{color:var(--md-sys-color-on-surface-variant)!important;opacity:.7!important;}
 #pc-app[data-visual-style="md3e"] #art-box{border-radius:16px;background:var(--md-sys-color-surface-container-highest);}
 #pc-app[data-visual-style="md3e"] .song-info{color:var(--md-sys-color-on-surface)!important;font-weight:500;}
@@ -527,8 +298,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app[data-visual-style="md3e"] .song-item .song-artist{color:var(--md-sys-color-on-surface-variant)!important;opacity:1!important;}
 #pc-app[data-visual-style="md3e"] .song-item.active-song{background:var(--md-sys-color-secondary-container)!important;border-left:none!important;}
 #pc-app[data-visual-style="md3e"] .song-item.active-song .song-name{color:var(--md-sys-color-on-secondary-container)!important;font-weight:600;}
-#pc-app[data-visual-style="md3e"] .song-item.active-song .song-artist,
-#pc-app[data-visual-style="md3e"] .song-item.active-song .song-index{color:var(--md-sys-color-on-secondary-container)!important;}
+#pc-app[data-visual-style="md3e"] .song-item.active-song .song-artist,#pc-app[data-visual-style="md3e"] .song-item.active-song .song-index{color:var(--md-sys-color-on-secondary-container)!important;}
 #pc-app[data-visual-style="md3e"] #song-list::-webkit-scrollbar-thumb{background:var(--md-sys-color-outline-variant);}
 #pc-app[data-visual-style="md3e"] #pc-search-container{border:1px solid var(--md-sys-color-outline-variant)!important;border-radius:9999px!important;}
 #pc-app[data-visual-style="md3e"] #pc-search-container:focus-within{border-color:var(--md-sys-color-primary)!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--md-sys-color-primary) 18%,transparent)!important;transform:translate(-50%,-50%)!important;}
@@ -536,9 +306,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app[data-visual-style="md3e"] #pc-search-input{color:var(--md-sys-color-on-surface)!important;}
 #pc-app[data-visual-style="md3e"] #pc-search-input::placeholder{color:var(--md-sys-color-on-surface-variant)!important;opacity:1!important;}
 #pc-app[data-visual-style="md3e"] .clear-btn{color:var(--md-sys-color-on-surface-variant)!important;}
-#pc-app[data-visual-style="md3e"] .clear-btn:hover{color:var(--md-sys-color-on-surface)!important;}
-#pc-app[data-visual-style="md3e"] .pc-search-btn{background:var(--md-sys-color-primary)!important;color:var(--md-sys-color-on-primary)!important;border-radius:9999px!important;border:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:0 1px 2px rgba(0,0,0,.12)!important;}
-#pc-app[data-visual-style="md3e"] .pc-search-btn:hover{background:color-mix(in srgb,var(--md-sys-color-primary) 88%,var(--md-sys-color-on-primary))!important;box-shadow:0 2px 8px rgba(0,0,0,.2)!important;transform:scale(1.02);}
+#pc-app[data-visual-style="md3e"] .pc-search-btn{background:var(--md-sys-color-primary)!important;color:var(--md-sys-color-on-primary)!important;border-radius:9999px!important;border:none!important;backdrop-filter:none!important;box-shadow:0 1px 2px rgba(0,0,0,.12)!important;}
 #pc-app[data-visual-style="md3e"] .nav-links a{color:var(--md-sys-color-on-surface-variant)!important;font-weight:500!important;padding:6px 12px;border-radius:9999px;transition:background .2s ease,color .2s ease!important;}
 #pc-app[data-visual-style="md3e"] .nav-links a:hover{background:var(--md-sys-color-secondary-container)!important;color:var(--md-sys-color-on-secondary-container)!important;opacity:1!important;}
 #pc-app[data-visual-style="md3e"] #title-text{text-shadow:0 2px 12px rgba(0,0,0,.55);}
@@ -553,29 +321,19 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app[data-visual-style="md3e"] .settings-card-title{color:var(--md-sys-color-on-surface)!important;}
 #pc-app[data-visual-style="md3e"] .settings-card-desc{color:var(--md-sys-color-on-surface-variant)!important;}
 #pc-app[data-visual-style="md3e"] .visual-style-btn{background:transparent!important;border:1px solid var(--md-sys-color-outline)!important;color:var(--md-sys-color-on-surface-variant)!important;}
-#pc-app[data-visual-style="md3e"] .visual-style-btn:hover{background:color-mix(in srgb,var(--md-sys-color-on-surface) 8%,transparent)!important;color:var(--md-sys-color-on-surface)!important;}
 #pc-app[data-visual-style="md3e"] .visual-style-btn.active{background:var(--md-sys-color-primary)!important;border-color:var(--md-sys-color-primary)!important;color:var(--md-sys-color-on-primary)!important;box-shadow:0 1px 3px rgba(0,0,0,.16)!important;}
 #pc-app[data-visual-style="md3e"] .transparency-slider-track{background:var(--md-sys-color-surface-variant)!important;}
-#pc-app[data-visual-style="md3e"] .transparency-slider-fill{background:var(--md-sys-color-primary)!important;box-shadow:none!important;animation:none!important;}
+#pc-app[data-visual-style="md3e"] .transparency-slider-fill{background:var(--md-sys-color-primary)!important;box-shadow:none!important;}
 #pc-app[data-visual-style="md3e"] .transparency-value{color:var(--md-sys-color-on-surface)!important;}
 #pc-app[data-visual-style="md3e"] #theme-switch-container{border-top-color:var(--md-sys-color-outline-variant)!important;}
-#pc-app[data-visual-style="md3e"] .switch-track,
-#pc-app[data-visual-style="md3e"] .auto-switch-track{width:52px!important;height:32px!important;border-radius:16px!important;background:var(--md-sys-color-surface-container-highest)!important;border:2px solid var(--md-sys-color-outline)!important;box-shadow:none!important;transition:background .25s cubic-bezier(.2,.8,.2,1),border-color .25s cubic-bezier(.2,.8,.2,1)!important;}
-#pc-app[data-visual-style="md3e"] .switch-track.active,
-#pc-app[data-visual-style="md3e"] .auto-switch-track.active{background:var(--md-sys-color-primary)!important;border-color:var(--md-sys-color-primary)!important;}
-#pc-app[data-visual-style="md3e"] .switch-thumb,
-#pc-app[data-visual-style="md3e"] .auto-switch-thumb{width:16px!important;height:16px!important;top:6px!important;left:6px!important;border-radius:50%!important;background:var(--md-sys-color-outline)!important;box-shadow:0 1px 3px rgba(0,0,0,.22)!important;transition:transform .35s cubic-bezier(.2,.8,.2,1),width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1),top .35s cubic-bezier(.2,.8,.2,1),left .35s cubic-bezier(.2,.8,.2,1),background .25s ease!important;}
-#pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb,
-#pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb{transform:translateX(20px)!important;width:24px!important;height:24px!important;top:2px!important;left:2px!important;background:var(--md-sys-color-on-primary)!important;box-shadow:0 1px 4px rgba(0,0,0,.28)!important;}
-#pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb::after,
-#pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb::after{content:''!important;position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236750A4' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center/14px 14px no-repeat;}
-#pc-app[data-visual-style="md3e"] .switch-thumb::after,
-#pc-app[data-visual-style="md3e"] .auto-switch-thumb::after{content:none!important;}
+#pc-app[data-visual-style="md3e"] .switch-track,#pc-app[data-visual-style="md3e"] .auto-switch-track{width:52px!important;height:32px!important;border-radius:16px!important;background:var(--md-sys-color-surface-container-highest)!important;border:2px solid var(--md-sys-color-outline)!important;box-shadow:none!important;}
+#pc-app[data-visual-style="md3e"] .switch-track.active,#pc-app[data-visual-style="md3e"] .auto-switch-track.active{background:var(--md-sys-color-primary)!important;border-color:var(--md-sys-color-primary)!important;}
+#pc-app[data-visual-style="md3e"] .switch-thumb,#pc-app[data-visual-style="md3e"] .auto-switch-thumb{width:16px!important;height:16px!important;top:6px!important;left:6px!important;background:var(--md-sys-color-outline)!important;box-shadow:0 1px 3px rgba(0,0,0,.22)!important;transition:transform .35s cubic-bezier(.2,.8,.2,1),width .35s,height .35s,top .35s,left .35s,background .25s!important;}
+#pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb,#pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb{transform:translateX(20px)!important;width:24px!important;height:24px!important;top:2px!important;left:2px!important;background:var(--md-sys-color-on-primary)!important;box-shadow:0 1px 4px rgba(0,0,0,.28)!important;}
+#pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb::after,#pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb::after{content:''!important;position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236750A4' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center/14px 14px no-repeat;}
+#pc-app[data-visual-style="md3e"] .switch-thumb::after,#pc-app[data-visual-style="md3e"] .auto-switch-thumb::after{content:none!important;}
 #pc-app[data-visual-style="md3e"] .theme-icon-btn{color:var(--md-sys-color-on-surface-variant)!important;}
-#pc-app[data-visual-style="md3e"] .theme-icon-btn:hover{background:var(--md-sys-color-surface-container-highest)!important;color:var(--md-sys-color-on-surface)!important;}
 #pc-app[data-visual-style="md3e"] .theme-icon-btn.active{color:var(--md-sys-color-primary)!important;}
-#pc-app[data-visual-style="md3e"][data-theme="dark"] .theme-icon-btn.moon-icon,
-#pc-app[data-visual-style="md3e"][data-theme="light"] .theme-icon-btn.sun-icon{color:var(--md-sys-color-primary)!important;}
 #pc-app[data-visual-style="md3e"] #progress-container{height:24px!important;border-radius:12px!important;background:transparent!important;overflow:visible!important;position:relative!important;}
 #pc-app[data-visual-style="md3e"] #progress-fill{display:none!important;}
 #pc-app[data-visual-style="md3e"] #progress-container::before{content:'';position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:4px;border-radius:2px;background:var(--md-sys-color-surface-variant);pointer-events:none;}
@@ -584,48 +342,18 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
 #pc-app[data-visual-style="md3e"] #progress-container .wave-overlay::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:200%;height:20px;background:repeating-linear-gradient(90deg,var(--md-sys-color-primary) 0px,var(--md-sys-color-primary) 18px,color-mix(in srgb,var(--md-sys-color-primary) 60%,var(--md-sys-color-surface-container)) 18px,color-mix(in srgb,var(--md-sys-color-primary) 60%,var(--md-sys-color-surface-container)) 36px);animation:waveScroll 1.8s linear infinite;border-radius:50%;opacity:.85;}
 @keyframes waveScroll{0%{transform:translateY(-50%) translateX(0)}100%{transform:translateY(-50%) translateX(-36px)}}
 #pc-app[data-visual-style="md3e"] #progress-container.paused .wave-overlay::before{animation-play-state:paused;opacity:.4;}
-#pc-app[data-visual-style="md3e"] #progress{position:absolute!important;top:0!important;left:0!important;width:100%!important;height:100%!important;opacity:0!important;cursor:pointer!important;z-index:10!important;margin:0!important;padding:0!important;touch-action:none!important;}
-#pc-app[data-visual-style="md3e"] .thumb-carousel .apply-btn{background:var(--md-sys-color-primary)!important;color:var(--md-sys-color-on-primary)!important;border-radius:9999px!important;box-shadow:0 1px 3px rgba(0,0,0,.16)!important;}
-#pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-arrow{background:var(--md-sys-color-surface-container-highest)!important;color:var(--md-sys-color-on-surface)!important;border:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
-#pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-wrapper{border-radius:20px!important;box-shadow:0 1px 4px rgba(0,0,0,.18)!important;}
+#pc-app[data-visual-style="md3e"] #progress{position:absolute!important;top:0!important;left:0!important;width:100%!important;height:100%!important;opacity:0!important;cursor:pointer!important;z-index:10!important;}
+#pc-app[data-visual-style="md3e"] .thumb-carousel .apply-btn{background:var(--md-sys-color-primary)!important;color:var(--md-sys-color-on-primary)!important;border-radius:9999px!important;}
+#pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-arrow{background:var(--md-sys-color-surface-container-highest)!important;color:var(--md-sys-color-on-surface)!important;border:none!important;}
 #pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-dots span{background:var(--md-sys-color-outline-variant)!important;}
 #pc-app[data-visual-style="md3e"] .thumb-carousel .thumb-dots span.active{background:var(--md-sys-color-primary)!important;}
-#pc-app[data-visual-style="md3e"] #icp-footer{color:rgba(255,255,255,.78)!important;}
-#pc-app[data-visual-style="md3e"] #progress-fill.playing{animation:none!important;}
-@media (max-width:640px){
-  #pc-app[data-visual-style="md3e"] .switch-track,
-  #pc-app[data-visual-style="md3e"] .auto-switch-track{width:44px!important;height:26px!important;border-radius:13px!important;}
-  #pc-app[data-visual-style="md3e"] .switch-thumb,
-  #pc-app[data-visual-style="md3e"] .auto-switch-thumb{width:14px!important;height:14px!important;top:4px!important;left:4px!important;}
-  #pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb,
-  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb{transform:translateX(14px)!important;width:20px!important;height:20px!important;top:1px!important;left:1px!important;}
-  #pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb::after,
-  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb::after{background-size:12px 12px!important;}
-  #pc-app[data-visual-style="md3e"] #progress-container{height:20px!important;}
-}
-@media (max-width:420px){
-  #pc-app[data-visual-style="md3e"] .switch-track,
-  #pc-app[data-visual-style="md3e"] .auto-switch-track{width:38px!important;height:22px!important;border-radius:11px!important;}
-  #pc-app[data-visual-style="md3e"] .switch-thumb,
-  #pc-app[data-visual-style="md3e"] .auto-switch-thumb{width:12px!important;height:12px!important;top:3px!important;left:3px!important;}
-  #pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb,
-  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb{transform:translateX(12px)!important;width:16px!important;height:16px!important;top:1px!important;left:1px!important;}
-  #pc-app[data-visual-style="md3e"] .switch-track.active .switch-thumb::after,
-  #pc-app[data-visual-style="md3e"] .auto-switch-track.active .auto-switch-thumb::after{background-size:10px 10px!important;}
-  #pc-app[data-visual-style="md3e"] #progress-container{height:18px!important;}
-  #pc-app[data-visual-style="md3e"] #progress-container .wave-overlay::before{height:14px!important;}
-}
-
 </style>
 </head>
 <body>
 
 <div id="pc-app" data-theme="light" data-visual-style="glass">
   <div id="header-overlay"></div>
-  <div id="title-text">
-    <div class="line1">来了,</div>
-    <div class="line2">バラモン！</div>
-  </div>
+  <div id="title-text"><div class="line1">来了,</div><div class="line2">バラモン！</div></div>
 
   <div id="top-right-info" class="liquid-glass">
     <div class="time" id="clock">--:--:--</div>
@@ -643,9 +371,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   </div>
 
   <div id="player" class="liquid-glass">
-    <div id="art-box">
-      <img src="CD.jpg" alt="cover" id="cover-img" onerror="this.src='CD.jpg'" />
-    </div>
+    <div id="art-box"><img src="CD.jpg" alt="cover" id="cover-img" onerror="this.src='CD.jpg'" /></div>
     <div class="control-area">
       <div class="song-info" id="song-info">加载中...</div>
       <div id="progress-container">
@@ -656,11 +382,11 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
       <div id="time-display">00:00 / 00:00 / 00:00</div>
       <div class="controls">
         <button onclick="prev()" class="md3-icon-btn"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
-        <button id="main-play-btn" onclick="togglePlay()" style="border:none; color:#000; width:34px; height:34px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transform-origin:center;">
+        <button id="main-play-btn" onclick="togglePlay()" style="border:none; color:#000; width:34px; height:34px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;">
           <svg id="play-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </button>
         <button onclick="next()" class="md3-icon-btn"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
-        <button id="mode-btn" onclick="changeMode()" class="md3-icon-btn" title="切换播放模式" style="transform-origin:center;"><span id="mode-icon" style="display:flex; align-items:center; justify-content:center; width:100%; height:100%;"></span></button>
+        <button id="mode-btn" onclick="changeMode()" class="md3-icon-btn"><span id="mode-icon" style="display:flex; align-items:center; justify-content:center; width:100%; height:100%;"></span></button>
         <button onclick="toggleList(event)" class="md3-icon-btn" style="font-size:18px; font-weight:300;">☰</button>
       </div>
     </div>
@@ -689,10 +415,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
   <div id="icp-footer"><a href="https://icp.gov.moe/?keyword=20260864" target="_blank" rel="noopener">萌ICP备20260864号</a></div>
 
   <div id="gear-island" onclick="openModal()" title="パーソナライズ">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><circle cx="12" cy="12" r="3" /></svg>
   </div>
 
   <div id="bg-transition-overlay"></div>
@@ -702,33 +425,27 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
       <div class="modal-header" id="modal-header">
         <div id="window-controls">
           <span class="dot red" onclick="closeModal()" title="关闭"></span>
-          <span class="dot yellow" title="最小化（装饰）"></span>
-          <span class="dot green" title="最大化（装饰）"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
         </div>
         <span class="modal-title">パーソナライズ</span>
       </div>
-
       <div class="modal-body">
         <div class="modal-sidebar">
           <div class="sidebar-indicator" id="sidebar-indicator"></div>
           <button class="sidebar-icon active" data-tab="personalize" title="个性化">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="3"/><line x1="7.5" y1="10" x2="16.5" y2="10"/><circle cx="10.5" cy="10" r="1.8" fill="currentColor"/><line x1="7.5" y1="15" x2="16.5" y2="15"/><circle cx="14" cy="15" r="1.8" fill="currentColor"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="7.5" y1="10" x2="16.5" y2="10"/><circle cx="10.5" cy="10" r="1.8" fill="currentColor"/><line x1="7.5" y1="15" x2="16.5" y2="15"/><circle cx="14" cy="15" r="1.8" fill="currentColor"/></svg>
           </button>
           <button class="sidebar-icon" data-tab="transparency" title="透明效果">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="4" y="4" width="16" height="16" rx="4.5"/><path d="M6 15 L14.5 5.5" opacity="0.55" stroke-width="1.3"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4.5"/><path d="M6 15 L14.5 5.5" opacity="0.55" stroke-width="1.3"/></svg>
           </button>
         </div>
-
         <div class="modal-content">
           <div class="tab-panel" data-panel="personalize">
             <div class="modal-subtitle" id="modal-subtitle">海边のミク</div>
             <div class="thumb-carousel">
               <div class="thumb-row">
-                <button class="thumb-arrow prev" id="thumb-prev" aria-label="上一张">‹</button>
+                <button class="thumb-arrow prev" id="thumb-prev">‹</button>
                 <div class="thumb-wrapper">
                   <div class="thumb-track" id="thumb-track">
                     <img src="722264.jpg" alt="海边のミク" data-key="722264.jpg" onerror="this.style.display='none'" />
@@ -740,26 +457,24 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
                     <img src="zao.jpg" alt="东风谷早苗" data-key="zao.jpg" onerror="this.style.display='none'" />
                   </div>
                 </div>
-                <button class="thumb-arrow next" id="thumb-next" aria-label="下一张">›</button>
+                <button class="thumb-arrow next" id="thumb-next">›</button>
               </div>
               <div class="thumb-dots" id="thumb-dots">
-                <span data-index="0" class="active"></span><span data-index="1"></span><span data-index="2"></span>
-                <span data-index="3"></span><span data-index="4"></span><span data-index="5"></span><span data-index="6"></span>
+                <span data-index="0" class="active"></span><span data-index="1"></span><span data-index="2"></span><span data-index="3"></span><span data-index="4"></span><span data-index="5"></span><span data-index="6"></span>
               </div>
               <button class="apply-btn" id="apply-theme-btn">应用</button>
             </div>
             <div id="theme-switch-container">
-              <button class="theme-icon-btn moon-icon" id="moon-btn" onclick="setTheme('dark')" title="暗黑模式"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.5 5.5 0 0 1-7.54-7.54A9.01 9.01 0 0 0 12 3z"/></svg></button>
+              <button class="theme-icon-btn moon-icon" id="moon-btn" onclick="setTheme('dark')"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.5 5.5 0 0 1-7.54-7.54A9.01 9.01 0 0 0 12 3z"/></svg></button>
               <div class="switch-track active" id="switch-track" onclick="toggleTheme()"><div class="switch-thumb" id="switch-thumb"></div></div>
-              <button class="theme-icon-btn sun-icon active" id="sun-btn" onclick="setTheme('light')" title="明亮模式"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+              <button class="theme-icon-btn sun-icon active" id="sun-btn" onclick="setTheme('light')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
               <span class="auto-label">根据设备设置</span>
-              <div class="auto-switch-track active" id="auto-switch-track" title="开启后自动跟随系统主题">
+              <div class="auto-switch-track active" id="auto-switch-track">
                 <div class="auto-switch-thumb" id="auto-switch-thumb"></div>
                 <input type="checkbox" id="auto-theme-checkbox" checked style="opacity:0; width:0; height:0; position:absolute; pointer-events:none;" />
               </div>
             </div>
           </div>
-
           <div class="tab-panel" data-panel="transparency" hidden>
             <div class="settings-container">
               <div class="settings-card">
@@ -800,41 +515,46 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'悠哉字体 Light
     <button class="mobile-clear-btn" id="mobile-clear-btn" style="display:none;" onclick="clearMobileSearch()">✕</button>
     <button class="mobile-search-btn" id="mobile-search-btn" onclick="performMobileSearch()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>搜索</button>
   </div>
-  <a id="mobile-github-island" href="https://github.com/ainypboiep/world" target="_blank" rel="noopener" title="GitHub 仓库">
+  <a id="mobile-github-island" href="https://github.com/ainypboiep/world" target="_blank" rel="noopener">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
   </a>
   <div class="mobile-footer"><div class="mobile-footer-title">✦ 幻想的な星明かり ✦</div><a href="https://icp.gov.moe/?keyword=20260864" target="_blank" rel="noopener">萌ICP备20260864号</a></div>
 </div>
 
-<!-- ============ Material Color Utilities（仅用于生成方案，不再用于提取色相） ============ -->
-<script type="module">
-import {
-  Hct,
-  TonalPalette,
-  DynamicScheme,
-  Variant,
-  SchemeTonalSpot,
-  MaterialDynamicColors,
-  argbFromHex,
-  hexFromArgb,
-} from 'https://esm.sh/@material/material-color-utilities@0.3.0';
-
-window.__MCU__ = {
-  Hct,
-  TonalPalette,
-  DynamicScheme,
-  Variant,
-  SchemeTonalSpot,
-  MaterialDynamicColors,
-  argbFromHex,
-  hexFromArgb,
-};
-window.__MCU_READY__ = true;
-window.dispatchEvent(new Event('mcu-ready'));
-console.log('🎨 Material Color Utilities 已就绪');
+<!-- ============ 多 CDN 加载 MCU ============ -->
+<script>
+window.__MCU_LOAD_PROMISE__ = (async function(){
+  const CDNS = [
+    'https://esm.sh/@material/material-color-utilities@0.3.0',
+    'https://cdn.jsdelivr.net/npm/@material/material-color-utilities@0.3.0/+esm',
+    'https://unpkg.com/@material/material-color-utilities@0.3.0?module',
+    'https://cdn.skypack.dev/@material/material-color-utilities@0.3.0',
+  ];
+  for (const url of CDNS) {
+    try {
+      console.log('🎨 尝试加载 MCU:', url);
+      const mod = await import(url);
+      if (mod.Hct && mod.SchemeTonalSpot && mod.MaterialDynamicColors && mod.hexFromArgb) {
+        window.__MCU__ = mod;
+        window.__MCU_READY__ = true;
+        console.log('🎨 ✔ MCU 加载成功：', url);
+        window.dispatchEvent(new Event('mcu-ready'));
+        return true;
+      } else {
+        console.warn('🎨 MCU 缺少必要导出，跳过:', url);
+      }
+    } catch(e) {
+      console.warn('🎨 MCU CDN 失败:', url, e.message);
+    }
+  }
+  console.warn('🎨 ✘ 所有 MCU CDN 均加载失败，将使用内嵌简化方案');
+  window.__MCU_READY__ = true;
+  window.dispatchEvent(new Event('mcu-ready'));
+  return false;
+})();
 </script>
 
-<!-- ============ 脚本 ============ -->
+<!-- ============ 主脚本 ============ -->
 <script>
 (function(){
 'use strict';
@@ -843,136 +563,144 @@ window.__PC_APP_INITIALIZED__=true;
 
 const YANDEX_SEARCH_URL='https://yandex.com/search/?text=';
 
-/* =========================================================
-   全局玻璃透明度
-   ========================================================= */
-const GLASS_KEY='glass_intensity';
-const DEFAULT_GLASS=70;
+/* ============ 玻璃透明度 ============ */
+const GLASS_KEY='glass_intensity',DEFAULT_GLASS=70;
 let glassIntensity=DEFAULT_GLASS;
-
 function applyGlassIntensity(value){
   value=Math.max(0,Math.min(100,parseInt(value,10)||0));
   glassIntensity=value;
-
   let mult;
-  if(value===0){mult=0;}
-  else{
-    const n=value/70;
-    mult=Math.pow(n,3);
-    if(value>70){const extra=(value-70)/30;mult*=1+extra*1.4;}
-  }
+  if(value===0){mult=0;}else{const n=value/70;mult=Math.pow(n,3);if(value>70){const e=(value-70)/30;mult*=1+e*1.4;}}
   document.documentElement.style.setProperty('--glass-mult',mult.toFixed(4));
-
-  let shadowMult;
-  if(value===0){shadowMult=0;}else{shadowMult=value/70;}
-  document.documentElement.style.setProperty('--glass-shadow-mult',shadowMult.toFixed(4));
-
+  let sm;if(value===0){sm=0;}else{sm=value/70;}
+  document.documentElement.style.setProperty('--glass-shadow-mult',sm.toFixed(4));
   let bf;
-  if(value===0){bf='none';}
-  else{
-    const t=value/100;
-    bf='blur('+(t*40).toFixed(1)+'px) saturate('+(100+t*100).toFixed(0)+'%) brightness('+(1+t*0.05).toFixed(3)+')';
-  }
+  if(value===0){bf='none';}else{const t=value/100;bf='blur('+(t*40).toFixed(1)+'px) saturate('+(100+t*100).toFixed(0)+'%) brightness('+(1+t*0.05).toFixed(3)+')';}
   document.documentElement.style.setProperty('--glass-backdrop',bf);
-
-  const fill=document.getElementById('transparency-fill');
-  const range=document.getElementById('transparency-range');
-  const valEl=document.getElementById('transparency-value');
+  const fill=document.getElementById('transparency-fill'),range=document.getElementById('transparency-range'),valEl=document.getElementById('transparency-value');
   if(fill)fill.style.width=value+'%';
   if(range)range.value=value;
   if(valEl)valEl.textContent=value;
   try{localStorage.setItem(GLASS_KEY,String(value));}catch(e){}
 }
-function readSavedGlassIntensity(){
-  let saved=DEFAULT_GLASS;
-  try{const v=localStorage.getItem(GLASS_KEY);if(v!==null){const n=parseInt(v,10);if(!isNaN(n)&&n>=0&&n<=100)saved=n;}}catch(e){}
-  return saved;
-}
-function initGlassIntensity(){
-  applyGlassIntensity(readSavedGlassIntensity());
-  const range=document.getElementById('transparency-range');
-  if(range){range.addEventListener('input',function(){applyGlassIntensity(parseInt(this.value,10));});}
-}
+function readSavedGlassIntensity(){let s=DEFAULT_GLASS;try{const v=localStorage.getItem(GLASS_KEY);if(v!==null){const n=parseInt(v,10);if(!isNaN(n)&&n>=0&&n<=100)s=n;}}catch(e){}return s;}
+function initGlassIntensity(){applyGlassIntensity(readSavedGlassIntensity());const r=document.getElementById('transparency-range');if(r){r.addEventListener('input',function(){applyGlassIntensity(parseInt(this.value,10));});}}
 
-/* =========================================================
-   视觉样式 / MD3 取色核心
-   ========================================================= */
+/* ============ 视觉样式 ============ */
 const VISUAL_STYLE_KEY='visual_style';
 let currentVisualStyle='glass';
 let __md3SeedHct=null;
 
 const MD3_ROLES=[
-  ['primary','primary'],['onPrimary','on-primary'],
-  ['primaryContainer','primary-container'],['onPrimaryContainer','on-primary-container'],
-  ['primaryFixed','primary-fixed'],['primaryFixedDim','primary-fixed-dim'],
-  ['onPrimaryFixed','on-primary-fixed'],['onPrimaryFixedVariant','on-primary-fixed-variant'],
-  ['secondary','secondary'],['onSecondary','on-secondary'],
-  ['secondaryContainer','secondary-container'],['onSecondaryContainer','on-secondary-container'],
-  ['secondaryFixed','secondary-fixed'],['secondaryFixedDim','secondary-fixed-dim'],
-  ['onSecondaryFixed','on-secondary-fixed'],['onSecondaryFixedVariant','on-secondary-fixed-variant'],
-  ['tertiary','tertiary'],['onTertiary','on-tertiary'],
-  ['tertiaryContainer','tertiary-container'],['onTertiaryContainer','on-tertiary-container'],
-  ['tertiaryFixed','tertiary-fixed'],['tertiaryFixedDim','tertiary-fixed-dim'],
-  ['onTertiaryFixed','on-tertiary-fixed'],['onTertiaryFixedVariant','on-tertiary-fixed-variant'],
-  ['error','error'],['onError','on-error'],
-  ['errorContainer','error-container'],['onErrorContainer','on-error-container'],
-  ['background','background'],['onBackground','on-background'],
-  ['surface','surface'],['onSurface','on-surface'],
-  ['surfaceVariant','surface-variant'],['onSurfaceVariant','on-surface-variant'],
-  ['surfaceDim','surface-dim'],['surfaceBright','surface-bright'],
-  ['surfaceContainerLowest','surface-container-lowest'],
-  ['surfaceContainerLow','surface-container-low'],
-  ['surfaceContainer','surface-container'],
-  ['surfaceContainerHigh','surface-container-high'],
-  ['surfaceContainerHighest','surface-container-highest'],
-  ['outline','outline'],['outlineVariant','outline-variant'],
-  ['inverseSurface','inverse-surface'],['inverseOnSurface','inverse-on-surface'],
-  ['inversePrimary','inverse-primary'],
-  ['shadow','shadow'],['scrim','scrim'],['surfaceTint','surface-tint'],
+  ['primary','primary'],['onPrimary','on-primary'],['primaryContainer','primary-container'],['onPrimaryContainer','on-primary-container'],
+  ['primaryFixed','primary-fixed'],['primaryFixedDim','primary-fixed-dim'],['onPrimaryFixed','on-primary-fixed'],['onPrimaryFixedVariant','on-primary-fixed-variant'],
+  ['secondary','secondary'],['onSecondary','on-secondary'],['secondaryContainer','secondary-container'],['onSecondaryContainer','on-secondary-container'],
+  ['secondaryFixed','secondary-fixed'],['secondaryFixedDim','secondary-fixed-dim'],['onSecondaryFixed','on-secondary-fixed'],['onSecondaryFixedVariant','on-secondary-fixed-variant'],
+  ['tertiary','tertiary'],['onTertiary','on-tertiary'],['tertiaryContainer','tertiary-container'],['onTertiaryContainer','on-tertiary-container'],
+  ['tertiaryFixed','tertiary-fixed'],['tertiaryFixedDim','tertiary-fixed-dim'],['onTertiaryFixed','on-tertiary-fixed'],['onTertiaryFixedVariant','on-tertiary-fixed-variant'],
+  ['error','error'],['onError','on-error'],['errorContainer','error-container'],['onErrorContainer','on-error-container'],
+  ['background','background'],['onBackground','on-background'],['surface','surface'],['onSurface','on-surface'],
+  ['surfaceVariant','surface-variant'],['onSurfaceVariant','on-surface-variant'],['surfaceDim','surface-dim'],['surfaceBright','surface-bright'],
+  ['surfaceContainerLowest','surface-container-lowest'],['surfaceContainerLow','surface-container-low'],['surfaceContainer','surface-container'],
+  ['surfaceContainerHigh','surface-container-high'],['surfaceContainerHighest','surface-container-highest'],
+  ['outline','outline'],['outlineVariant','outline-variant'],['inverseSurface','inverse-surface'],['inverseOnSurface','inverse-on-surface'],
+  ['inversePrimary','inverse-primary'],['shadow','shadow'],['scrim','scrim'],['surfaceTint','surface-tint'],
 ];
 
-/* ---- 工具函数 ---- */
-function resolveImageUrl(input){
-  if(!input)return '';
-  try{return new URL(input,location.href).href;}catch(e){return input;}
-}
-function rgbToHue(r,g,b){
-  r/=255;g/=255;b/=255;
-  const max=Math.max(r,g,b),min=Math.min(r,g,b);
-  const d=max-min;
-  if(d===0)return null;
-  let h=0;
-  if(max===r)h=((g-b)/d)%6;
-  else if(max===g)h=((b-r)/d)+2;
-  else h=((r-g)/d)+4;
-  h*=60;
-  if(h<0)h+=360;
-  return h;
-}
-function stringHash(str){
-  let h=5381;
-  for(let i=0;i<str.length;i++){h=((h<<5)+h+str.charCodeAt(i))|0;}
-  return Math.abs(h);
+function resolveImageUrl(input){if(!input)return '';try{return new URL(input,location.href).href;}catch(e){return input;}}
+function rgbToHue(r,g,b){r/=255;g/=255;b/=255;const max=Math.max(r,g,b),min=Math.min(r,g,b);const d=max-min;if(d===0)return null;let h=0;if(max===r)h=((g-b)/d)%6;else if(max===g)h=((b-r)/d)+2;else h=((r-g)/d)+4;h*=60;if(h<0)h+=360;return h;}
+function stringHash(str){let h=5381;for(let i=0;i<str.length;i++){h=((h<<5)+h+str.charCodeAt(i))|0;}return Math.abs(h);}
+
+/* =========================================================
+   HSL → HEX（用于简化 MD3 方案）
+   ========================================================= */
+function hslToHex(h,s,l){
+  h=((h%360)+360)%360;
+  s/=100;l/=100;
+  const k=n=>(n+h/30)%12;
+  const a=s*Math.min(l,1-l);
+  const f=n=>l-a*Math.max(-1,Math.min(k(n)-3,Math.min(9-k(n),1)));
+  const toHex=x=>Math.round(255*x).toString(16).padStart(2,'0');
+  return '#'+toHex(f(0))+toHex(f(8))+toHex(f(4));
 }
 
 /* =========================================================
-   ★★★ 核心：从图片提取种子色（不依赖 MCU，用纯 HSL 直方图）
-   ---------------------------------------------------------
-   返回 { hue, chroma, tone } 普通对象，与 MCU 完全解耦。
-   这样即使 MCU 加载失败，取色依然可以工作。
+   ★★★ 内嵌简化 MD3 方案（不依赖 MCU）
+   ========================================================= */
+function generateSimplifiedMd3Scheme(seedHue,isDark){
+  const h=seedHue;
+  const app=document.getElementById('pc-app');
+  let scheme;
+  if(isDark){
+    scheme={
+      'primary':hslToHex(h,80,80),'on-primary':hslToHex(h,40,20),
+      'primary-container':hslToHex(h,30,30),'on-primary-container':hslToHex(h,90,90),
+      'primary-fixed':hslToHex(h,90,90),'primary-fixed-dim':hslToHex(h,80,80),
+      'on-primary-fixed':hslToHex(h,90,10),'on-primary-fixed-variant':hslToHex(h,90,30),
+      'secondary':hslToHex(h,20,80),'on-secondary':hslToHex(h,20,20),
+      'secondary-container':hslToHex(h,15,30),'on-secondary-container':hslToHex(h,20,90),
+      'secondary-fixed':hslToHex(h,25,90),'secondary-fixed-dim':hslToHex(h,20,80),
+      'on-secondary-fixed':hslToHex(h,25,10),'on-secondary-fixed-variant':hslToHex(h,25,30),
+      'tertiary':hslToHex(h+60,30,80),'on-tertiary':hslToHex(h+60,30,20),
+      'tertiary-container':hslToHex(h+60,25,30),'on-tertiary-container':hslToHex(h+60,30,90),
+      'tertiary-fixed':hslToHex(h+60,40,90),'tertiary-fixed-dim':hslToHex(h+60,30,80),
+      'on-tertiary-fixed':hslToHex(h+60,40,10),'on-tertiary-fixed-variant':hslToHex(h+60,40,30),
+      'error':'#F2B8B5','on-error':'#601410','error-container':'#8C1D18','on-error-container':'#F9DEDC',
+      'background':hslToHex(h,10,6),'on-background':hslToHex(h,10,90),
+      'surface':hslToHex(h,10,6),'on-surface':hslToHex(h,10,90),
+      'surface-variant':hslToHex(h,10,30),'on-surface-variant':hslToHex(h,10,80),
+      'surface-dim':hslToHex(h,10,6),'surface-bright':hslToHex(h,10,24),
+      'surface-container-lowest':hslToHex(h,10,4),'surface-container-low':hslToHex(h,10,10),
+      'surface-container':hslToHex(h,10,12),'surface-container-high':hslToHex(h,10,17),
+      'surface-container-highest':hslToHex(h,10,22),
+      'outline':hslToHex(h,10,60),'outline-variant':hslToHex(h,10,30),
+      'inverse-surface':hslToHex(h,10,90),'inverse-on-surface':hslToHex(h,10,20),
+      'inverse-primary':hslToHex(h,40,40),
+      'shadow':'#000000','scrim':'#000000','surface-tint':hslToHex(h,80,80),
+    };
+  }else{
+    scheme={
+      'primary':hslToHex(h,48,40),'on-primary':'#FFFFFF',
+      'primary-container':hslToHex(h,90,90),'on-primary-container':hslToHex(h,90,10),
+      'primary-fixed':hslToHex(h,90,90),'primary-fixed-dim':hslToHex(h,80,80),
+      'on-primary-fixed':hslToHex(h,90,10),'on-primary-fixed-variant':hslToHex(h,90,30),
+      'secondary':hslToHex(h,16,40),'on-secondary':'#FFFFFF',
+      'secondary-container':hslToHex(h,25,90),'on-secondary-container':hslToHex(h,25,10),
+      'secondary-fixed':hslToHex(h,25,90),'secondary-fixed-dim':hslToHex(h,20,80),
+      'on-secondary-fixed':hslToHex(h,25,10),'on-secondary-fixed-variant':hslToHex(h,25,30),
+      'tertiary':hslToHex(h+60,24,40),'on-tertiary':'#FFFFFF',
+      'tertiary-container':hslToHex(h+60,40,90),'on-tertiary-container':hslToHex(h+60,40,10),
+      'tertiary-fixed':hslToHex(h+60,40,90),'tertiary-fixed-dim':hslToHex(h+60,30,80),
+      'on-tertiary-fixed':hslToHex(h+60,40,10),'on-tertiary-fixed-variant':hslToHex(h+60,40,30),
+      'error':'#B3261E','on-error':'#FFFFFF','error-container':'#F9DEDC','on-error-container':'#410E0B',
+      'background':hslToHex(h,30,98),'on-background':hslToHex(h,20,10),
+      'surface':hslToHex(h,30,98),'on-surface':hslToHex(h,20,10),
+      'surface-variant':hslToHex(h,20,90),'on-surface-variant':hslToHex(h,15,30),
+      'surface-dim':hslToHex(h,15,87),'surface-bright':hslToHex(h,30,98),
+      'surface-container-lowest':'#FFFFFF','surface-container-low':hslToHex(h,30,96),
+      'surface-container':hslToHex(h,25,94),'surface-container-high':hslToHex(h,22,92),
+      'surface-container-highest':hslToHex(h,20,90),
+      'outline':hslToHex(h,10,50),'outline-variant':hslToHex(h,15,80),
+      'inverse-surface':hslToHex(h,20,20),'inverse-on-surface':hslToHex(h,20,95),
+      'inverse-primary':hslToHex(h,80,80),
+      'shadow':'#000000','scrim':'#000000','surface-tint':hslToHex(h,48,40),
+    };
+  }
+  Object.keys(scheme).forEach(k=>{app.style.setProperty('--md-sys-color-'+k,scheme[k]);});
+  app.style.setProperty('--accent',scheme.primary);
+  app.style.setProperty('--play-btn-bg',scheme.primary);
+  console.log('🎨 ✔ 简化 MD3 方案已应用，色相='+h+'°，isDark='+isDark);
+}
+
+/* =========================================================
+   从图片提取种子色（纯 HSL 直方图，不依赖 MCU）
    ========================================================= */
 async function extractSeedHct(imageUrl){
   const absUrl=resolveImageUrl(imageUrl);
-  console.log('🎨 开始取色：', absUrl);
-
+  console.log('🎨 开始取色：',absUrl);
   return new Promise(function(resolve){
     let resolved=false;
-    function done(val){
-      if(resolved)return;
-      resolved=true;
-      resolve(val);
-    }
-
+    function done(val){if(resolved)return;resolved=true;resolve(val);}
     function processImage(img){
       try{
         const size=48;
@@ -980,202 +708,115 @@ async function extractSeedHct(imageUrl){
         canvas.width=size;canvas.height=size;
         const ctx=canvas.getContext('2d',{willReadFrequently:true});
         ctx.drawImage(img,0,0,size,size);
-
         let data;
-        try{
-          data=ctx.getImageData(0,0,size,size).data;
-        }catch(secErr){
-          console.warn('🎨 canvas 被污染（CORS），准备用 CORS 模式重试');
-          return false;
-        }
-
-        // 计算色相直方图（色度平方加权）
+        try{data=ctx.getImageData(0,0,size,size).data;}
+        catch(secErr){console.warn('🎨 canvas 被污染（CORS），准备用 CORS 模式重试');return false;}
         const bins=new Float32Array(36);
         let totalChroma=0;
         for(let i=0;i<data.length;i+=4){
-          const a=data[i+3];
-          if(a<128)continue;
+          const a=data[i+3];if(a<128)continue;
           const r=data[i],g=data[i+1],b=data[i+2];
           const max=Math.max(r,g,b),min=Math.min(r,g,b);
           const chroma=max-min;
-          if(chroma<30)continue; // 过滤灰阶
+          if(chroma<30)continue;
           const hue=rgbToHue(r,g,b);
           if(hue===null)continue;
           const bin=Math.floor(hue/10)%36;
           bins[bin]+=chroma*chroma;
           totalChroma+=chroma;
         }
-
         let maxBin=-1,maxVal=0;
-        for(let i=0;i<36;i++){
-          if(bins[i]>maxVal){maxVal=bins[i];maxBin=i;}
-        }
-
-        if(maxBin<0){
-          console.warn('🎨 直方图全为灰阶，取色失败');
-          done(null);
-          return true;
-        }
-
+        for(let i=0;i<36;i++){if(bins[i]>maxVal){maxVal=bins[i];maxBin=i;}}
+        if(maxBin<0){console.warn('🎨 直方图全为灰阶，取色失败');done(null);return true;}
         const hue=maxBin*10+5;
         console.log('🎨 ✔ 取色成功：主色相 =',hue,'°，累计色度 =',totalChroma.toFixed(0));
         done({hue:hue,chroma:48,tone:50});
         return true;
-      }catch(e){
-        console.warn('🎨 processImage 异常：',e);
-        done(null);
-        return true;
-      }
+      }catch(e){console.warn('🎨 processImage 异常：',e);done(null);return true;}
     }
-
-    // 尝试 1：普通模式（同源/本地图片）
     const img1=new Image();
-    img1.onload=function(){
-      console.log('🎨 图片已加载（普通模式），尺寸：',img1.naturalWidth,'×',img1.naturalHeight);
-      if(processImage(img1))return;
-      tryCors();
-    };
-    img1.onerror=function(e){
-      console.warn('🎨 普通模式加载失败:',e);
-      tryCors();
-    };
-
+    img1.onload=function(){console.log('🎨 图片已加载（普通模式），尺寸：',img1.naturalWidth,'×',img1.naturalHeight);if(processImage(img1))return;tryCors();};
+    img1.onerror=function(e){console.warn('🎨 普通模式加载失败:',e);tryCors();};
     function tryCors(){
       console.log('🎨 尝试 CORS 模式重新加载...');
       const img2=new Image();
       img2.crossOrigin='anonymous';
-      img2.onload=function(){
-        console.log('🎨 图片已加载（CORS 模式）');
-        if(!processImage(img2)){
-          console.warn('🎨 CORS 模式读 canvas 也失败');
-          done(null);
-        }
-      };
-      img2.onerror=function(e){
-        console.warn('🎨 CORS 模式加载失败:',e);
-        done(null);
-      };
+      img2.onload=function(){console.log('🎨 图片已加载（CORS 模式）');if(!processImage(img2)){console.warn('🎨 CORS 模式读 canvas 也失败');done(null);}};
+      img2.onerror=function(e){console.warn('🎨 CORS 模式加载失败:',e);done(null);};
       const sep=absUrl.indexOf('?')>=0?'&':'?';
       img2.src=absUrl+sep+'_mcu='+Date.now();
     }
-
     img1.src=absUrl;
-
-    // 5 秒超时保护
-    setTimeout(function(){
-      if(!resolved){
-        console.warn('🎨 取色超时（5s），放弃');
-        done(null);
-      }
-    },5000);
+    setTimeout(function(){if(!resolved){console.warn('🎨 取色超时（5s），放弃');done(null);}},5000);
   });
 }
 
-/* =========================================================
-   后台预计算种子色
-   ========================================================= */
 async function precomputeMd3Seed(imageUrl){
   if(!imageUrl){console.warn('🎨 precomputeMd3Seed: 图片 URL 为空');return null;}
   const absUrl=resolveImageUrl(imageUrl);
-
-  // 缓存命中
-  if(__md3SeedHct && __md3SeedHct.__src===absUrl){
-    console.log('🎨 种子色缓存命中：',absUrl);
-    return __md3SeedHct;
-  }
-
+  if(__md3SeedHct && __md3SeedHct.__src===absUrl){console.log('🎨 种子色缓存命中：',absUrl);return __md3SeedHct;}
   let seed=await extractSeedHct(absUrl);
-
-  // 取色失败 → 用 URL 哈希生成稳定伪随机色相
-  if(!seed){
-    const fallbackHue=stringHash(absUrl)%360;
-    console.warn('🎨 取色完全失败，用 URL 哈希回退色相 =',fallbackHue,'°');
-    seed={hue:fallbackHue,chroma:48,tone:50};
-  }
-
+  if(!seed){const fh=stringHash(absUrl)%360;console.warn('🎨 取色完全失败，用 URL 哈希回退色相 =',fh,'°');seed={hue:fh,chroma:48,tone:50};}
   seed.__src=absUrl;
   __md3SeedHct=seed;
   return seed;
 }
 
 /* =========================================================
-   用种子色生成 MD3 方案并写入 CSS 变量
+   ★ 生成方案：优先 MCU，缺失则用简化方案
    ========================================================= */
 function generateMd3Scheme(seed,isDark){
   const MCU=window.__MCU__;
-  if(!MCU){
-    console.warn('MD3E: MCU 未加载，跳过方案生成');
-    return;
+  if(seed && typeof seed.hue!=='number' && seed instanceof (MCU ? MCU.Hct : Object)){
+    // 若是 MCU Hct 实例，直接取 hue
+    try{seed={hue:seed.hue,chroma:seed.chroma,tone:seed.tone};}catch(e){}
   }
   if(!seed || typeof seed.hue!=='number'){
     console.warn('MD3E: 无效种子色',seed);
     return;
   }
-
-  let seedHct;
-  try{
-    // 若是 MCU Hct 实例直接用；否则用 hue/chroma/tone 构造
-    if(seed instanceof MCU.Hct){seedHct=seed;}
-    else{seedHct=MCU.Hct.from(seed.hue,seed.chroma||48,seed.tone||50);}
-  }catch(e){
-    console.warn('MD3E: 构造种子色失败',e);
-    return;
-  }
-
-  let scheme;
-  try{
-    scheme=new MCU.SchemeTonalSpot(seedHct,!!isDark,0);
-  }catch(e){
-    console.warn('MD3E: 生成方案失败',e);
-    return;
-  }
-
-  const app=document.getElementById('pc-app');
-  let count=0;
-  MD3_ROLES.forEach(function(pair){
-    const mcuName=pair[0],cssName=pair[1];
-    const dc=MCU.MaterialDynamicColors[mcuName];
-    if(!dc)return;
+  if(MCU && MCU.Hct && MCU.SchemeTonalSpot && MCU.MaterialDynamicColors && MCU.hexFromArgb){
     try{
-      const argb=dc.getArgb(scheme);
-      app.style.setProperty('--md-sys-color-'+cssName,MCU.hexFromArgb(argb));
-      count++;
-    }catch(e){}
-  });
-  console.log('🎨 MD3E 方案已应用，共写入',count,'个颜色变量，isDark =',!!isDark);
-
-  try{
-    const primaryHex=MCU.hexFromArgb(MCU.MaterialDynamicColors.primary.getArgb(scheme));
-    app.style.setProperty('--accent',primaryHex);
-    app.style.setProperty('--play-btn-bg',primaryHex);
-  }catch(e){}
+      const seedHct=MCU.Hct.from(seed.hue,seed.chroma||48,seed.tone||50);
+      const scheme=new MCU.SchemeTonalSpot(seedHct,!!isDark,0);
+      const app=document.getElementById('pc-app');
+      let count=0;
+      MD3_ROLES.forEach(function(pair){
+        const mcuName=pair[0],cssName=pair[1];
+        const dc=MCU.MaterialDynamicColors[mcuName];
+        if(!dc)return;
+        try{
+          const argb=dc.getArgb(scheme);
+          app.style.setProperty('--md-sys-color-'+cssName,MCU.hexFromArgb(argb));
+          count++;
+        }catch(e){}
+      });
+      console.log('🎨 ✔ MCU 方案已应用，共写入',count,'个变量，isDark =',!!isDark);
+      try{
+        const primaryHex=MCU.hexFromArgb(MCU.MaterialDynamicColors.primary.getArgb(scheme));
+        app.style.setProperty('--accent',primaryHex);
+        app.style.setProperty('--play-btn-bg',primaryHex);
+      }catch(e){}
+      return;
+    }catch(e){console.warn('🎨 MCU 方案生成失败，改用简化方案:',e);}
+  }
+  // MCU 不可用 → 简化方案
+  generateSimplifiedMd3Scheme(seed.hue,isDark);
 }
 
-/* =========================================================
-   应用 MD3E 方案
-   ========================================================= */
 async function refreshMd3Scheme(){
   if(currentVisualStyle!=='md3e')return;
   const app=document.getElementById('pc-app');
-
-  // 从 computed style 里拿背景图 URL
   let url='722264.jpg';
   try{
     const bg=getComputedStyle(app).backgroundImage;
-    console.log('🎨 当前背景 image CSS =',bg.slice(0,120));
     const m=bg.match(/url\(["']?([^"')]+)["']?\)/);
     if(m&&m[1])url=m[1];
   }catch(e){}
-
   const seed=await precomputeMd3Seed(url);
-  if(seed){
-    generateMd3Scheme(seed,app.getAttribute('data-theme')==='dark');
-  }
+  if(seed){generateMd3Scheme(seed,app.getAttribute('data-theme')==='dark');}
 }
 
-/* =========================================================
-   透明卡片显隐
-   ========================================================= */
 function updateTransparencyCardVisibility(style,skipTransition){
   const card=document.getElementById('transparency-card');
   if(!card)return;
@@ -1183,13 +824,11 @@ function updateTransparencyCardVisibility(style,skipTransition){
   if(skipTransition){
     const prevTransition=card.style.transition;
     card.style.transition='none';
-    if(shouldCollapse)card.classList.add('collapsed');
-    else card.classList.remove('collapsed');
+    if(shouldCollapse)card.classList.add('collapsed');else card.classList.remove('collapsed');
     void card.offsetWidth;
     card.style.transition=prevTransition||'';
   }else{
-    if(shouldCollapse)card.classList.add('collapsed');
-    else card.classList.remove('collapsed');
+    if(shouldCollapse)card.classList.add('collapsed');else card.classList.remove('collapsed');
   }
 }
 
@@ -1198,20 +837,13 @@ function applyVisualStyle(style){
   currentVisualStyle=style;
   const app=document.getElementById('pc-app');
   app.setAttribute('data-visual-style',style);
-
-  document.querySelectorAll('.visual-style-btn').forEach(function(btn){
-    btn.classList.toggle('active',btn.dataset.style===style);
-  });
-
+  document.querySelectorAll('.visual-style-btn').forEach(function(btn){btn.classList.toggle('active',btn.dataset.style===style);});
   try{localStorage.setItem(VISUAL_STYLE_KEY,style);}catch(e){}
   updateTransparencyCardVisibility(style,false);
-
   if(style==='md3e'){
     refreshMd3Scheme();
   }else{
-    MD3_ROLES.forEach(function(pair){
-      app.style.removeProperty('--md-sys-color-'+pair[1]);
-    });
+    MD3_ROLES.forEach(function(pair){app.style.removeProperty('--md-sys-color-'+pair[1]);});
     const key=THUMB_IMAGES[appliedThumbIndex]||'722264.jpg';
     applyColorScheme(THUMB_COLORS[key]||'#66ccff');
   }
@@ -1219,22 +851,15 @@ function applyVisualStyle(style){
 
 function initVisualStyle(){
   let saved='glass';
-  try{
-    const v=localStorage.getItem(VISUAL_STYLE_KEY);
-    if(v==='md3e'||v==='glass')saved=v;
-  }catch(e){}
+  try{const v=localStorage.getItem(VISUAL_STYLE_KEY);if(v==='md3e'||v==='glass')saved=v;}catch(e){}
   currentVisualStyle=saved;
   document.getElementById('pc-app').setAttribute('data-visual-style',saved);
   document.querySelectorAll('.visual-style-btn').forEach(function(btn){
     btn.classList.toggle('active',btn.dataset.style===saved);
-    btn.addEventListener('click',function(e){
-      e.stopPropagation();
-      applyVisualStyle(this.dataset.style);
-    });
+    btn.addEventListener('click',function(e){e.stopPropagation();applyVisualStyle(this.dataset.style);});
   });
   updateTransparencyCardVisibility(saved,true);
-
-  // ★ 无论当前样式，都立即预计算当前壁纸的种子色
+  // 无论当前样式，都立即预计算种子色
   const currentKey=THUMB_IMAGES[appliedThumbIndex]||'722264.jpg';
   precomputeMd3Seed(currentKey).then(function(seed){
     if(currentVisualStyle==='md3e' && seed){
@@ -1243,24 +868,14 @@ function initVisualStyle(){
   });
 }
 
-/* ---------- 1. UA 检测 ---------- */
+/* ============ UA 检测 ============ */
 const isMobile=/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile/i.test(navigator.userAgent);
 if(isMobile){
   document.body.classList.add('mode-mobile');
   window.__IS_MOBILE__=true;
   console.log('📱 移动端模式已激活');
-  window.performMobileSearch=function(){
-    var input=document.getElementById('mobile-search-input');
-    var query=input.value.trim();
-    if(!query){input.focus();return;}
-    window.open(YANDEX_SEARCH_URL+encodeURIComponent(query),'_blank');
-  };
-  window.clearMobileSearch=function(){
-    var input=document.getElementById('mobile-search-input');
-    input.value='';input.focus();
-    var btn=document.getElementById('mobile-clear-btn');
-    if(btn)btn.style.display='none';
-  };
+  window.performMobileSearch=function(){var input=document.getElementById('mobile-search-input');var query=input.value.trim();if(!query){input.focus();return;}window.open(YANDEX_SEARCH_URL+encodeURIComponent(query),'_blank');};
+  window.clearMobileSearch=function(){var input=document.getElementById('mobile-search-input');input.value='';input.focus();var btn=document.getElementById('mobile-clear-btn');if(btn)btn.style.display='none';};
   var mobileInput=document.getElementById('mobile-search-input');
   var mobileBtn=document.getElementById('mobile-search-btn');
   var mobileClearBtn=document.getElementById('mobile-clear-btn');
@@ -1268,7 +883,6 @@ if(isMobile){
   mobileBtn.addEventListener('click',function(e){e.preventDefault();performMobileSearch();});
   mobileInput.addEventListener('input',function(){if(mobileClearBtn){mobileClearBtn.style.display=this.value.length>0?'flex':'none';}});
   mobileInput.addEventListener('blur',function(){if(mobileClearBtn && this.value.length===0)mobileClearBtn.style.display='none';});
-  mobileInput.addEventListener('touchstart',function(){this.focus();},{passive:true});
   initGlassIntensity();
   return;
 }else{
@@ -1276,13 +890,10 @@ if(isMobile){
   console.log('🖥️ PC端模式 — 使用公共 API (ncm.landdy.cn)');
 }
 
-/* ---------- 2. 配置 ---------- */
+/* ============ 播放器核心 ============ */
 const CONFIG={API_BASE:'https://ncm.landdy.cn',ARTIST_ID:'1078425',EXCLUDED_IDS:['32192205','4886973','500665207']};
-
-/* ---------- 3. 播放器核心 ---------- */
 let songList=[],currentIdx=0,mode=0,isDraggingProgress=false,lyricLines=[];
 let songUrlCache={},lyricCache={},coverCache={};
-
 const audio=document.getElementById('audio');
 const playIcon=document.getElementById('play-icon');
 const songListEl=document.getElementById('song-list');
@@ -1298,14 +909,12 @@ const lyricsLine2=document.getElementById('lyrics-line-2');
 const lyricsLine3=document.getElementById('lyrics-line-3');
 const modeBtn=document.getElementById('mode-btn');
 const progressContainer=document.getElementById('progress-container');
-
 const playSVG='<path d="M8 5v14l11-7z"/>';
 const pauseSVG='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
 
 async function fetchArtistSongs(artistId){
   const url=CONFIG.API_BASE+'/artist/songs?id='+artistId;
-  const resp=await fetch(url);
-  if(!resp.ok)throw new Error('HTTP '+resp.status);
+  const resp=await fetch(url);if(!resp.ok)throw new Error('HTTP '+resp.status);
   const json=await resp.json();
   console.log('🎵 歌手原始返回:',json);
   let list=(json.data&&json.data.songs)||json.songs||(json.data&&json.data.list)||json.list||json.data||[];
@@ -1323,51 +932,41 @@ async function fetchArtistSongs(artistId){
     return{id:String(song.id),name:song.name||song.title||'未知歌曲',artist:artistName,album:albumName,cover:coverUrl,url:'',lyric:''};
   });
 }
-
 async function fetchSongUrl(songId){
   if(songUrlCache[songId])return songUrlCache[songId];
   const url=CONFIG.API_BASE+'/song/url/v1?id='+songId+'&level=exhigh';
-  const resp=await fetch(url);
-  if(!resp.ok)throw new Error('HTTP '+resp.status);
+  const resp=await fetch(url);if(!resp.ok)throw new Error('HTTP '+resp.status);
   const json=await resp.json();
   console.log('🔊 播放地址返回:',json);
   let playUrl=(json.data&&json.data[0]&&json.data[0].url)||json.url||(json.data&&json.data.url)||'';
   if(!playUrl)throw new Error('未获取到播放地址');
-  songUrlCache[songId]=playUrl;
-  return playUrl;
+  songUrlCache[songId]=playUrl;return playUrl;
 }
-
 async function fetchSongCover(songId){
   try{
     const url=CONFIG.API_BASE+'/song/detail?ids='+songId;
-    const resp=await fetch(url);
-    const json=await resp.json();
+    const resp=await fetch(url);const json=await resp.json();
     const song=json.songs&&json.songs[0];
     return (song&&song.al&&song.al.picUrl)||(song&&song.album&&song.album.picUrl)||'';
   }catch(e){return '';}
 }
-
 async function fetchSongLyric(songId){
   if(lyricCache[songId])return lyricCache[songId];
   const url=CONFIG.API_BASE+'/lyric?id='+songId;
-  const resp=await fetch(url);
-  if(!resp.ok)throw new Error('HTTP '+resp.status);
+  const resp=await fetch(url);if(!resp.ok)throw new Error('HTTP '+resp.status);
   const json=await resp.json();
   console.log('📃 歌词返回:',json);
   let lyricText=(json.data&&json.data.lyric)||json.lyric||(json.lrc&&json.lrc.lyric)||(json.data&&json.data.lrc&&json.data.lrc.lyric)||'';
   if(!lyricText)return null;
-  const parsed=parseLRC(lyricText);
-  lyricCache[songId]=parsed;
-  return parsed;
+  const parsed=parseLRC(lyricText);lyricCache[songId]=parsed;return parsed;
 }
-
 function parseLRC(lrcText){
   const lines=lrcText.split('\n');const parsed=[];const timeRegex=/\[(\d{2}):(\d{2})\.(\d{2,3})\]/;
   for(let line of lines){
     const trimmed=line.trim();if(!trimmed)continue;
     const match=trimmed.match(timeRegex);
     if(match){
-      const minutes=parseInt(match[1]);const seconds=parseInt(match[2]);const ms=parseInt(match[3].padEnd(3,'0'));
+      const minutes=parseInt(match[1]),seconds=parseInt(match[2]),ms=parseInt(match[3].padEnd(3,'0'));
       const totalSeconds=minutes*60+seconds+ms/1000;
       const text=trimmed.replace(timeRegex,'').trim();
       if(text)parsed.push({time:totalSeconds,text:text});
@@ -1381,10 +980,8 @@ function parseLRC(lrcText){
     }
     return null;
   }
-  parsed.sort((a,b)=>a.time-b.time);
-  return parsed;
+  parsed.sort((a,b)=>a.time-b.time);return parsed;
 }
-
 function setPlayingState(playing){
   if(playing){progressFill.classList.add('playing');progressContainer.classList.remove('paused');playIcon.innerHTML=pauseSVG;}
   else{progressFill.classList.remove('playing');progressContainer.classList.add('paused');playIcon.innerHTML=playSVG;}
@@ -1395,22 +992,11 @@ function updateProgress(){
     const percent=(audio.currentTime/audio.duration)*100;
     progressBar.value=percent;progressFill.style.width=percent+'%';
     progressContainer.style.setProperty('--wave-width',percent+'%');
-  }else{
-    progressFill.style.width='0%';progressContainer.style.setProperty('--wave-width','0%');
-  }
+  }else{progressFill.style.width='0%';progressContainer.style.setProperty('--wave-width','0%');}
 }
-function updateSongInfo(){
-  if(currentIdx<0||currentIdx>=songList.length)return;
-  const song=songList[currentIdx];songInfoEl.textContent=song.name+' - '+song.artist;
-}
-function highlightCurrentSong(){
-  const items=songListEl.querySelectorAll('.song-item');
-  items.forEach((item,index)=>{if(index===currentIdx)item.classList.add('active-song');else item.classList.remove('active-song');});
-}
-function updateLyricsDisplay(line1,line2,line3){
-  lyricsLine1.textContent=line1;lyricsLine2.textContent=line2;lyricsLine3.textContent=line3;
-  lyricsLine1.className='lyrics-line placeholder';lyricsLine2.className='lyrics-line current placeholder';lyricsLine3.className='lyrics-line placeholder';
-}
+function updateSongInfo(){if(currentIdx<0||currentIdx>=songList.length)return;const song=songList[currentIdx];songInfoEl.textContent=song.name+' - '+song.artist;}
+function highlightCurrentSong(){const items=songListEl.querySelectorAll('.song-item');items.forEach((item,index)=>{if(index===currentIdx)item.classList.add('active-song');else item.classList.remove('active-song');});}
+function updateLyricsDisplay(l1,l2,l3){lyricsLine1.textContent=l1;lyricsLine2.textContent=l2;lyricsLine3.textContent=l3;lyricsLine1.className='lyrics-line placeholder';lyricsLine2.className='lyrics-line current placeholder';lyricsLine3.className='lyrics-line placeholder';}
 function updateLyrics(){
   if(!lyricLines||lyricLines.length===0){updateLyricsDisplay('♪ 无歌词','♪ 无歌词','♪ 无歌词');return;}
   const currentTime=audio.currentTime||0;let idx=0;
@@ -1430,7 +1016,6 @@ function applyWhiteToHighlights(){
   if(songInfoEl)songInfoEl.style.color='#fff';
   document.querySelectorAll('.song-item.active-song .song-name').forEach(el=>{el.style.color='#fff';});
 }
-
 async function loadAndPlay(index){
   if(index<0||index>=songList.length)return;
   currentIdx=index;const song=songList[index];
@@ -1442,10 +1027,7 @@ async function loadAndPlay(index){
     audio.src=url;audio.load();
     const playPromise=audio.play();
     if(playPromise!==undefined){playPromise.then(()=>setPlayingState(true)).catch(err=>{console.warn('自动播放被拦截:',err);setPlayingState(false);});}
-  }catch(e){
-    console.error('❌ 获取播放地址失败:',e);audio.src='';setPlayingState(false);
-    songInfoEl.textContent=song.name+' - 播放失败 (请检查控制台)';
-  }
+  }catch(e){console.error('❌ 获取播放地址失败:',e);audio.src='';setPlayingState(false);songInfoEl.textContent=song.name+' - 播放失败 (请检查控制台)';}
   try{
     const lyric=await fetchSongLyric(song.id);
     if(lyric&&lyric.length>0){lyricLines=lyric;}else{lyricLines=[];updateLyricsDisplay('♪ 无歌词','♪ 无歌词','♪ 无歌词');}
@@ -1453,28 +1035,20 @@ async function loadAndPlay(index){
   if(coverCache[song.id]){coverImg.src=coverCache[song.id];}
   updateProgress();applyWhiteToHighlights();setTimeout(adjustLyricsIslandPosition,100);
 }
-
 window.togglePlay=function(){
   if(audio.paused){audio.play().then(()=>setPlayingState(true)).catch(err=>{console.warn('播放失败:',err);setPlayingState(false);});}
   else{audio.pause();setPlayingState(false);}
   triggerAnimation(mainPlayBtn,'btn-anim',450);
 };
 window.prev=function(){if(songList.length===0)return;currentIdx=(currentIdx-1+songList.length)%songList.length;loadAndPlay(currentIdx);};
-window.next=function(){
-  if(songList.length===0)return;
-  if(mode===2){currentIdx=Math.floor(Math.random()*songList.length);}
-  else{currentIdx=(currentIdx+1)%songList.length;}
-  loadAndPlay(currentIdx);
-};
-
+window.next=function(){if(songList.length===0)return;if(mode===2){currentIdx=Math.floor(Math.random()*songList.length);}else{currentIdx=(currentIdx+1)%songList.length;}loadAndPlay(currentIdx);};
 const iconMap=[
-  '<svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4" /><path d="M3 11v-2a4 4 0 0 1 4-4h14" /><path d="M7 22l-4-4 4-4" /><path d="M21 13v2a4 4 0 0 1-4 4H3" /></svg>',
-  '<svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4" /><path d="M3 11v-2a4 4 0 0 1 4-4h14" /><path d="M7 22l-4-4 4-4" /><path d="M21 13v2a4 4 0 0 1-4 4H3" /><path d="M12 10v4" /><path d="M12 14h1.5" /></svg>',
-  '<svg viewBox="0 0 24 24"><path d="M21 7h-4a3 3 0 0 0-3 3v4a3 3 0 0 1-3 3H3" /><path d="M21 17h-4a3 3 0 0 1-3-3v-4a3 3 0 0 0-3-3H3" /><path d="M3 7h4" /><path d="M3 17h4" /></svg>'
+  '<svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4"/><path d="M3 11v-2a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>',
+  '<svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4"/><path d="M3 11v-2a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/><path d="M12 10v4"/><path d="M12 14h1.5"/></svg>',
+  '<svg viewBox="0 0 24 24"><path d="M21 7h-4a3 3 0 0 0-3 3v4a3 3 0 0 1-3 3H3"/><path d="M21 17h-4a3 3 0 0 1-3-3v-4a3 3 0 0 0-3-3H3"/><path d="M3 7h4"/><path d="M3 17h4"/></svg>'
 ];
 window.changeMode=function(){mode=(mode+1)%3;document.getElementById('mode-icon').innerHTML=iconMap[mode];triggerAnimation(modeBtn,'mode-anim',550);};
 function triggerAnimation(element,className,duration){if(!element)return;element.classList.remove(className);void element.offsetWidth;element.classList.add(className);setTimeout(()=>element.classList.remove(className),duration);}
-
 audio.onended=function(){if(mode===1){audio.play().catch(()=>{});}else{window.next();}};
 audio.ontimeupdate=function(){
   updateProgress();
@@ -1484,7 +1058,6 @@ audio.ontimeupdate=function(){
   timeDisplay.innerText=fmt(audio.currentTime)+' / '+fmt(duration)+' / '+fmt(remaining);
 };
 audio.onerror=function(e){console.warn('音频错误:',e);setPlayingState(false);};
-
 progressBar.addEventListener('mousedown',function(){isDraggingProgress=true;progressFill.classList.remove('playing');progressContainer.classList.add('paused');});
 progressBar.addEventListener('touchstart',function(){isDraggingProgress=true;progressFill.classList.remove('playing');progressContainer.classList.add('paused');},{passive:true});
 const endProgressDrag=function(){isDraggingProgress=false;if(!audio.paused){progressFill.classList.add('playing');progressContainer.classList.remove('paused');}};
@@ -1497,7 +1070,6 @@ progressContainer.addEventListener('click',function(e){
   progressBar.value=val;
   if(audio.duration){audio.currentTime=(val/100)*audio.duration;progressFill.style.width=val+'%';progressContainer.style.setProperty('--wave-width',val+'%');}
 });
-
 function closeListWithAnimation(){
   if(songListEl.classList.contains('active')){
     songListEl.classList.remove('active');songListEl.classList.add('hiding');
@@ -1515,42 +1087,16 @@ window.toggleList=function(e){
   songListEl.style.visibility='visible';songListEl.style.pointerEvents='auto';
   void songListEl.offsetWidth;songListEl.classList.add('active');
 };
-document.addEventListener('click',function(e){
-  if(!player.contains(e.target)&&!songListEl.contains(e.target)){if(songListEl.classList.contains('active'))closeListWithAnimation();}
-});
-
+document.addEventListener('click',function(e){if(!player.contains(e.target)&&!songListEl.contains(e.target)){if(songListEl.classList.contains('active'))closeListWithAnimation();}});
 let isDraggingPlayer=false,playerOffsetX=0,playerOffsetY=0;
-player.addEventListener('mousedown',function(e){
-  if(e.target.closest('button, input, #main-play-btn, #progress-container'))return;
-  isDraggingPlayer=true;const rect=player.getBoundingClientRect();
-  playerOffsetX=e.clientX-rect.left;playerOffsetY=e.clientY-rect.top;
-  player.classList.add('dragging');e.preventDefault();
-});
-document.addEventListener('mousemove',function(e){
-  if(!isDraggingPlayer)return;
-  let newLeft=e.clientX-playerOffsetX;let newTop=e.clientY-playerOffsetY;
-  const w=player.offsetWidth,h=player.offsetHeight;
-  newLeft=Math.max(0,Math.min(newLeft,window.innerWidth-w));
-  newTop=Math.max(0,Math.min(newTop,window.innerHeight-h));
-  player.style.left=newLeft+'px';player.style.top=newTop+'px';
-});
+player.addEventListener('mousedown',function(e){if(e.target.closest('button, input, #main-play-btn, #progress-container'))return;isDraggingPlayer=true;const rect=player.getBoundingClientRect();playerOffsetX=e.clientX-rect.left;playerOffsetY=e.clientY-rect.top;player.classList.add('dragging');e.preventDefault();});
+document.addEventListener('mousemove',function(e){if(!isDraggingPlayer)return;let newLeft=e.clientX-playerOffsetX;let newTop=e.clientY-playerOffsetY;const w=player.offsetWidth,h=player.offsetHeight;newLeft=Math.max(0,Math.min(newLeft,window.innerWidth-w));newTop=Math.max(0,Math.min(newTop,window.innerHeight-h));player.style.left=newLeft+'px';player.style.top=newTop+'px';});
 document.addEventListener('mouseup',function(){if(isDraggingPlayer){player.classList.remove('dragging');isDraggingPlayer=false;}});
-player.addEventListener('touchstart',function(e){
-  if(e.target.closest('button, input, #main-play-btn, #progress-container'))return;
-  const touch=e.touches[0];isDraggingPlayer=true;const rect=player.getBoundingClientRect();
-  playerOffsetX=touch.clientX-rect.left;playerOffsetY=touch.clientY-rect.top;
-  player.classList.add('dragging');e.preventDefault();
-},{passive:false});
-document.addEventListener('touchmove',function(e){
-  if(!isDraggingPlayer)return;
-  const touch=e.touches[0];let newLeft=touch.clientX-playerOffsetX;let newTop=touch.clientY-playerOffsetY;
-  const w=player.offsetWidth,h=player.offsetHeight;
-  newLeft=Math.max(0,Math.min(newLeft,window.innerWidth-w));
-  newTop=Math.max(0,Math.min(newTop,window.innerHeight-h));
-  player.style.left=newLeft+'px';player.style.top=newTop+'px';e.preventDefault();
-},{passive:false});
+player.addEventListener('touchstart',function(e){if(e.target.closest('button, input, #main-play-btn, #progress-container'))return;const touch=e.touches[0];isDraggingPlayer=true;const rect=player.getBoundingClientRect();playerOffsetX=touch.clientX-rect.left;playerOffsetY=touch.clientY-rect.top;player.classList.add('dragging');e.preventDefault();},{passive:false});
+document.addEventListener('touchmove',function(e){if(!isDraggingPlayer)return;const touch=e.touches[0];let newLeft=touch.clientX-playerOffsetX;let newTop=touch.clientY-playerOffsetY;const w=player.offsetWidth,h=player.offsetHeight;newLeft=Math.max(0,Math.min(newLeft,window.innerWidth-w));newTop=Math.max(0,Math.min(newTop,window.innerHeight-h));player.style.left=newLeft+'px';player.style.top=newTop+'px';e.preventDefault();},{passive:false});
 document.addEventListener('touchend',function(){if(isDraggingPlayer){player.classList.remove('dragging');isDraggingPlayer=false;}});
 
+/* ============ 弹窗 ============ */
 const overlayEl=document.getElementById('modal-overlay');
 const modalEl=document.getElementById('modal');
 const headerEl=document.getElementById('modal-header');
@@ -1564,23 +1110,12 @@ window.openModal=function(){
 window.closeModal=function(){
   if(!isModalOpen||isClosing)return;
   isClosing=true;modalEl.classList.add('closing');
-  const onTransitionEnd=function(){
-    modalEl.removeEventListener('transitionend',onTransitionEnd);
-    overlayEl.classList.remove('visible');modalEl.classList.remove('closing');
-    isModalOpen=false;isClosing=false;document.body.style.overflow='';
-  };
-  modalEl.addEventListener('transitionend',onTransitionEnd);
-  setTimeout(function(){
-    if(isClosing){
-      modalEl.removeEventListener('transitionend',onTransitionEnd);
-      overlayEl.classList.remove('visible');modalEl.classList.remove('closing');
-      isModalOpen=false;isClosing=false;document.body.style.overflow='';
-    }
-  },500);
+  const onEnd=function(){modalEl.removeEventListener('transitionend',onEnd);overlayEl.classList.remove('visible');modalEl.classList.remove('closing');isModalOpen=false;isClosing=false;document.body.style.overflow='';};
+  modalEl.addEventListener('transitionend',onEnd);
+  setTimeout(function(){if(isClosing){modalEl.removeEventListener('transitionend',onEnd);overlayEl.classList.remove('visible');modalEl.classList.remove('closing');isModalOpen=false;isClosing=false;document.body.style.overflow='';}},500);
 };
 window.closeModalViaOverlay=function(e){if(e.target===overlayEl)closeModal();};
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&isModalOpen)closeModal();});
-
 let isDraggingModal=false,modalOffsetX=0,modalOffsetY=0;
 headerEl.addEventListener('mousedown',function(e){
   if(e.target.closest('.dot, #window-controls'))return;
@@ -1629,6 +1164,7 @@ function initModalTabs(){
   window.addEventListener('resize',()=>window.__moveSidebarIndicator());
 }
 
+/* ============ 主题切换 ============ */
 let currentTheme='light',isTransitioning=false;
 const transitionOverlay=document.getElementById('theme-transition-overlay');
 const switchTrack=document.getElementById('switch-track');
@@ -1639,7 +1175,6 @@ const autoSwitchTrack=document.getElementById('auto-switch-track');
 const autoCheckbox=document.getElementById('auto-theme-checkbox');
 let autoThemeEnabled=true,systemThemeListener=null;
 const manualControls=[moonBtn,switchTrack,sunBtn];
-
 function setManualControlsDisabled(disabled){manualControls.forEach(el=>{if(disabled)el.classList.add('disabled');else el.classList.remove('disabled');});}
 function applySystemTheme(){if(autoThemeEnabled){const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;setTheme(prefersDark?'dark':'light');}}
 function setupAutoTheme(){
@@ -1666,57 +1201,35 @@ function setTheme(theme){
   void overlay.offsetWidth;
   overlay.style.transition='clip-path 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
   overlay.style.clipPath='circle(150% at '+cx+'px '+cy+'px)';
-  const onTransitionEnd=function(){
-    overlay.removeEventListener('transitionend',onTransitionEnd);
+  const onEnd=function(){
+    overlay.removeEventListener('transitionend',onEnd);
     applyTheme(theme);
     overlay.style.transition='none';overlay.classList.remove('animating');
     overlay.style.visibility='hidden';overlay.style.opacity='0';overlay.style.clipPath='';
     overlay.style.background='transparent';isTransitioning=false;
   };
-  overlay.addEventListener('transitionend',onTransitionEnd);
-  setTimeout(function(){
-    if(isTransitioning){
-      overlay.removeEventListener('transitionend',onTransitionEnd);
-      applyTheme(theme);
-      overlay.style.transition='none';overlay.classList.remove('animating');
-      overlay.style.visibility='hidden';overlay.style.opacity='0';overlay.style.clipPath='';
-      overlay.style.background='transparent';isTransitioning=false;
-    }
-  },1200);
+  overlay.addEventListener('transitionend',onEnd);
+  setTimeout(function(){if(isTransitioning){overlay.removeEventListener('transitionend',onEnd);applyTheme(theme);overlay.style.transition='none';overlay.classList.remove('animating');overlay.style.visibility='hidden';overlay.style.opacity='0';overlay.style.clipPath='';overlay.style.background='transparent';isTransitioning=false;}},1200);
 }
 function toggleTheme(){if(isTransitioning||autoThemeEnabled)return;const target=currentTheme==='light'?'dark':'light';setTheme(target);}
-window.setTheme=setTheme;
-window.toggleTheme=toggleTheme;
-
-function updateSwitchUI(theme){
-  if(theme==='dark'){switchTrack.classList.add('active');moonBtn.classList.add('active');sunBtn.classList.remove('active');}
-  else{switchTrack.classList.remove('active');moonBtn.classList.remove('active');sunBtn.classList.add('active');}
-}
+window.setTheme=setTheme;window.toggleTheme=toggleTheme;
+function updateSwitchUI(theme){if(theme==='dark'){switchTrack.classList.add('active');moonBtn.classList.add('active');sunBtn.classList.remove('active');}else{switchTrack.classList.remove('active');moonBtn.classList.remove('active');sunBtn.classList.add('active');}}
 function applyTheme(theme){
   document.getElementById('pc-app').setAttribute('data-theme',theme);
   currentTheme=theme;updateSwitchUI(theme);
   if(currentVisualStyle==='md3e'){
-    if(window.__MCU_READY__)refreshMd3Scheme();
-    else window.addEventListener('mcu-ready',refreshMd3Scheme,{once:true});
+    refreshMd3Scheme();
   }
 }
-function updateAutoSwitchUI(enabled){
-  if(enabled){autoSwitchTrack.classList.add('active');autoCheckbox.checked=true;}
-  else{autoSwitchTrack.classList.remove('active');autoCheckbox.checked=false;}
-  setManualControlsDisabled(enabled);
-}
-autoSwitchTrack.addEventListener('click',function(e){
-  e.stopPropagation();
-  const newState=!autoCheckbox.checked;autoCheckbox.checked=newState;autoThemeEnabled=newState;
-  updateAutoSwitchUI(newState);setupAutoTheme();
-});
+function updateAutoSwitchUI(enabled){if(enabled){autoSwitchTrack.classList.add('active');autoCheckbox.checked=true;}else{autoSwitchTrack.classList.remove('active');autoCheckbox.checked=false;}setManualControlsDisabled(enabled);}
+autoSwitchTrack.addEventListener('click',function(e){e.stopPropagation();const newState=!autoCheckbox.checked;autoCheckbox.checked=newState;autoThemeEnabled=newState;updateAutoSwitchUI(newState);setupAutoTheme();});
 function initAutoSwitch(){autoThemeEnabled=true;autoCheckbox.checked=true;updateAutoSwitchUI(true);setupAutoTheme();}
 function syncSwitchUI(){updateSwitchUI(currentTheme);}
 
+/* ============ 主题轮播 ============ */
 const THUMB_IMAGES=['722264.jpg','miku2.jpg','蝶云.png','nacho.png','airi.png','hua.jpg','zao.jpg'];
 const THUMB_TITLES={'722264.jpg':'海边のミク','miku2.jpg':'桜ミク','蝶云.png':'洛天依-蝶变','nacho.png':'猫羽雫','airi.png':'桃井爱莉','hua.jpg':'常磐华乃','zao.jpg':'东风谷早苗'};
 const THUMB_COLORS={'722264.jpg':'#66ccff','miku2.jpg':'#FFC0CB','蝶云.png':'#32CD32','nacho.png':'#B6D5E9','airi.png':'#f6829d','hua.jpg':'#feb7bb','zao.jpg':'#e2e2a8'};
-
 let currentThumbIndex=0,appliedThumbIndex=0;
 const thumbTrack=document.getElementById('thumb-track');
 const thumbDots=document.getElementById('thumb-dots');
@@ -1727,7 +1240,6 @@ const applyBtn=document.getElementById('apply-theme-btn');
 const bgOverlay=document.getElementById('bg-transition-overlay');
 const titleText=document.getElementById('title-text');
 const navLinks=document.getElementById('navLinks');
-
 function preloadImages(){THUMB_IMAGES.forEach(src=>{const img=new Image();img.onerror=function(){this.style.display='none';};img.src=src;});}
 function updateThumbPosition(){
   const offset=-currentThumbIndex*100;
@@ -1739,13 +1251,8 @@ function updateThumbPosition(){
   const color=THUMB_COLORS[key];
   dots.forEach((dot,i)=>{if(i===currentThumbIndex)dot.style.background=color;else dot.style.background='rgba(255,255,255,0.25)';});
 }
-function goToThumb(index){
-  if(index<0)index=THUMB_IMAGES.length-1;
-  if(index>=THUMB_IMAGES.length)index=0;
-  currentThumbIndex=index;updateThumbPosition();
-}
-function hexToRgb(hex){const h=hex.replace('#','');const r=parseInt(h.slice(0,2),16);const g=parseInt(h.slice(2,4),16);const b=parseInt(h.slice(4,6),16);return {r:r,g:g,b:b};}
-
+function goToThumb(index){if(index<0)index=THUMB_IMAGES.length-1;if(index>=THUMB_IMAGES.length)index=0;currentThumbIndex=index;updateThumbPosition();}
+function hexToRgb(hex){const h=hex.replace('#','');return{r:parseInt(h.slice(0,2),16),g:parseInt(h.slice(2,4),16),b:parseInt(h.slice(4,6),16)};}
 function applyColorScheme(color){
   if(currentVisualStyle==='md3e'){titleText.style.color=color;return;}
   titleText.style.color=color;
@@ -1755,36 +1262,19 @@ function applyColorScheme(color){
   document.documentElement.style.setProperty('--accent',color);
   document.documentElement.style.setProperty('--nav-link-color',color);
   const pcAppEl=document.getElementById('pc-app');
-  if(pcAppEl){
-    pcAppEl.style.setProperty('--play-btn-bg',color);
-    pcAppEl.style.setProperty('--accent',color);
-    pcAppEl.style.setProperty('--nav-link-color',color);
-  }
-  document.querySelectorAll('#lyrics-island .lyrics-line:not(.current)').forEach(line=>{
-    line.style.color=color;
-    if(line.classList.contains('prev')||line.classList.contains('next'))line.style.opacity='0.75';
-    else if(line.classList.contains('placeholder'))line.style.opacity='0.65';
-  });
+  if(pcAppEl){pcAppEl.style.setProperty('--play-btn-bg',color);pcAppEl.style.setProperty('--accent',color);pcAppEl.style.setProperty('--nav-link-color',color);}
+  document.querySelectorAll('#lyrics-island .lyrics-line:not(.current)').forEach(line=>{line.style.color=color;if(line.classList.contains('prev')||line.classList.contains('next'))line.style.opacity='0.75';else if(line.classList.contains('placeholder'))line.style.opacity='0.65';});
   document.querySelectorAll('#song-list .song-item:not(.active-song) .song-name').forEach(el=>{el.style.color=color;});
   progressFill.style.background='linear-gradient(90deg, '+color+', #88ddff, '+color+')';
   applyBtn.style.background=color;
-  var switchTrackActive=document.querySelector('.switch-track.active');
-  if(switchTrackActive){switchTrackActive.style.background=color;switchTrackActive.style.borderColor=color;}
-  var autoSwitchTrackActive=document.querySelector('.auto-switch-track.active');
-  if(autoSwitchTrackActive){autoSwitchTrackActive.style.background=color;autoSwitchTrackActive.style.borderColor=color;}
+  var s=document.querySelector('.switch-track.active');if(s){s.style.background=color;s.style.borderColor=color;}
+  var a=document.querySelector('.auto-switch-track.active');if(a){a.style.background=color;a.style.borderColor=color;}
   const indicator=document.getElementById('sidebar-indicator');
-  if(indicator){
-    const rgb=hexToRgb(color);
-    indicator.style.borderColor=color;
-    indicator.style.background='rgba('+rgb.r+','+rgb.g+','+rgb.b+',0.24)';
-    indicator.style.boxShadow='0 4px 16px rgba('+rgb.r+','+rgb.g+','+rgb.b+',0.35), inset 0 1px 1px rgba(255,255,255,0.35)';
-  }
+  if(indicator){const rgb=hexToRgb(color);indicator.style.borderColor=color;indicator.style.background='rgba('+rgb.r+','+rgb.g+','+rgb.b+',0.24)';indicator.style.boxShadow='0 4px 16px rgba('+rgb.r+','+rgb.g+','+rgb.b+',0.35), inset 0 1px 1px rgba(255,255,255,0.35)';}
   applyWhiteToHighlights();
 }
-
 function applyThemeByKey(key){
-  var index=THUMB_IMAGES.indexOf(key);
-  if(index===-1)key='722264.jpg';
+  var index=THUMB_IMAGES.indexOf(key);if(index===-1)key='722264.jpg';
   var color=THUMB_COLORS[key];var title=THUMB_TITLES[key];
   var imgTest=new Image();
   imgTest.onload=function(){
@@ -1792,11 +1282,7 @@ function applyThemeByKey(key){
     document.getElementById('pc-app').style.backgroundSize='cover';
     document.getElementById('pc-app').style.backgroundPosition='center';
     document.getElementById('pc-app').style.backgroundRepeat='no-repeat';
-    precomputeMd3Seed(key).then(function(seed){
-      if(currentVisualStyle==='md3e' && seed){
-        generateMd3Scheme(seed,document.getElementById('pc-app').getAttribute('data-theme')==='dark');
-      }
-    });
+    precomputeMd3Seed(key).then(function(seed){if(currentVisualStyle==='md3e' && seed){generateMd3Scheme(seed,document.getElementById('pc-app').getAttribute('data-theme')==='dark');}});
   };
   imgTest.onerror=function(){console.warn('背景图片加载失败:',key);};
   imgTest.src=key;
@@ -1807,7 +1293,6 @@ function applyThemeByKey(key){
   setCookie('theme_key',key,30);
   modalSubtitle.textContent=title;
 }
-
 function applyCurrentTheme(){
   var key=THUMB_IMAGES[currentThumbIndex];var color=THUMB_COLORS[key];var title=THUMB_TITLES[key];
   if(appliedThumbIndex===currentThumbIndex)return;
@@ -1824,11 +1309,7 @@ function applyCurrentTheme(){
       document.getElementById('pc-app').style.backgroundSize='cover';
       document.getElementById('pc-app').style.backgroundPosition='center';
       document.getElementById('pc-app').style.backgroundRepeat='no-repeat';
-      precomputeMd3Seed(key).then(function(seed){
-        if(currentVisualStyle==='md3e' && seed){
-          generateMd3Scheme(seed,document.getElementById('pc-app').getAttribute('data-theme')==='dark');
-        }
-      });
+      precomputeMd3Seed(key).then(function(seed){if(currentVisualStyle==='md3e' && seed){generateMd3Scheme(seed,document.getElementById('pc-app').getAttribute('data-theme')==='dark');}});
     };
     imgTest.onerror=function(){console.warn('背景图片加载失败:',key);};
     imgTest.src=key;
@@ -1840,16 +1321,11 @@ function applyCurrentTheme(){
     setCookie('theme_key',key,30);
   },300);
 }
-
-function initDefaultTheme(){
-  var savedKey=getCookie('theme_key');
-  if(savedKey&&THUMB_IMAGES.includes(savedKey))applyThemeByKey(savedKey);
-  else applyThemeByKey('722264.jpg');
-}
-
+function initDefaultTheme(){var savedKey=getCookie('theme_key');if(savedKey&&THUMB_IMAGES.includes(savedKey))applyThemeByKey(savedKey);else applyThemeByKey('722264.jpg');}
 function setCookie(name,value,days){const expires=new Date(Date.now()+days*24*60*60*1000).toUTCString();document.cookie=name+'='+encodeURIComponent(value)+'; expires='+expires+'; path=/';}
 function getCookie(name){const match=document.cookie.match(new RegExp('(^| )'+name+'=([^;]+)'));if(match)return decodeURIComponent(match[2]);return null;}
 
+/* ============ 时间/天气 ============ */
 const clockEl=document.getElementById('clock');
 const weatherIconEl=document.getElementById('weather-icon');
 const weatherTempEl=document.getElementById('weather-temp');
@@ -1857,20 +1333,12 @@ const weatherDescEl=document.getElementById('weather-desc');
 let userTimeZone='Asia/Shanghai';
 function updateClock(){
   const now=new Date();
-  try{
-    const formatter=new Intl.DateTimeFormat('zh-CN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:userTimeZone});
-    clockEl.textContent=formatter.format(now);
-  }catch(e){
-    const offset=8*60;const local=new Date(now.getTime()+(offset-now.getTimezoneOffset())*60000);
-    clockEl.textContent=String(local.getHours()).padStart(2,'0')+':'+String(local.getMinutes()).padStart(2,'0')+':'+String(local.getSeconds()).padStart(2,'0');
-  }
+  try{const formatter=new Intl.DateTimeFormat('zh-CN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:userTimeZone});clockEl.textContent=formatter.format(now);}
+  catch(e){const offset=8*60;const local=new Date(now.getTime()+(offset-now.getTimezoneOffset())*60000);clockEl.textContent=String(local.getHours()).padStart(2,'0')+':'+String(local.getMinutes()).padStart(2,'0')+':'+String(local.getSeconds()).padStart(2,'0');}
 }
-updateClock();
-setInterval(updateClock,1000);
+updateClock();setInterval(updateClock,1000);
 fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{if(d.timezone){userTimeZone=d.timezone;updateClock();}}).catch(()=>{});
-
-const WEATHER_CACHE_KEY='weather_cache';
-const CACHE_DURATION=10*60*1000;
+const WEATHER_CACHE_KEY='weather_cache',CACHE_DURATION=10*60*1000;
 const svgMap={
   'sunny':'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>',
   'cloudy':'<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/></svg>',
@@ -1878,58 +1346,32 @@ const svgMap={
   'snowy':'<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><circle cx="8" cy="18" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="16" cy="18" r="1.5"/></svg>',
   'thunderstorm':'<svg viewBox="0 0 24 24"><path d="M6 12a5 5 0 0 1 5-5 4.5 4.5 0 0 1 4.5 4.5 3.5 3.5 0 0 1 3.5 3.5c0 1.5-1 3-2.5 3H7a4 4 0 0 1-1-7.9z"/><path d="M12 17l-2 4h4l-2 4"/></svg>'
 };
-function getWeatherIconSVG(code){
-  let icon='cloudy';
-  if(code===113)icon='sunny';
-  else if([176,179,182,185,293,296,299,302,305,308,311,314,317,320,323,326,329,332,335,338,350,353,356,359,362,365,368,371,374,377,386,389,392,395].includes(code)){
-    if(code>=200&&code<300)icon='thunderstorm';
-    else if(code>=300&&code<600)icon='rainy';
-    else if(code>=600&&code<700)icon='snowy';
-    else icon='rainy';
-  }
-  return svgMap[icon]||svgMap['cloudy'];
-}
+function getWeatherIconSVG(code){let icon='cloudy';if(code===113)icon='sunny';else if([176,179,182,185,293,296,299,302,305,308,311,314,317,320,323,326,329,332,335,338,350,353,356,359,362,365,368,371,374,377,386,389,392,395].includes(code)){if(code>=200&&code<300)icon='thunderstorm';else if(code>=300&&code<600)icon='rainy';else if(code>=600&&code<700)icon='snowy';else icon='rainy';}return svgMap[icon]||svgMap['cloudy'];}
 function updateWeatherUI(data){weatherTempEl.textContent=data.temp+'°C';weatherDescEl.textContent=data.desc||'';weatherIconEl.innerHTML=getWeatherIconSVG(data.code);}
 function fetchWeather(){
   const cached=localStorage.getItem(WEATHER_CACHE_KEY);
   if(cached){try{const data=JSON.parse(cached);if(Date.now()-data.timestamp<CACHE_DURATION){updateWeatherUI(data);return;}}catch(e){}}
-  fetch('https://wttr.in/?format=j1&lang=zh').then(r=>r.json()).then(json=>{
-    const current=json.current_condition[0];
-    const data={temp:current.temp_C,desc:current.weatherDesc[0].value,code:parseInt(current.weatherCode),timestamp:Date.now()};
-    localStorage.setItem(WEATHER_CACHE_KEY,JSON.stringify(data));updateWeatherUI(data);
-  }).catch(()=>{const fallback={temp:'22',desc:'多云',code:119,timestamp:Date.now()};updateWeatherUI(fallback);});
+  fetch('https://wttr.in/?format=j1&lang=zh').then(r=>r.json()).then(json=>{const current=json.current_condition[0];const data={temp:current.temp_C,desc:current.weatherDesc[0].value,code:parseInt(current.weatherCode),timestamp:Date.now()};localStorage.setItem(WEATHER_CACHE_KEY,JSON.stringify(data));updateWeatherUI(data);}).catch(()=>{const fallback={temp:'22',desc:'多云',code:119,timestamp:Date.now()};updateWeatherUI(fallback);});
 }
-fetchWeather();
-setInterval(fetchWeather,CACHE_DURATION);
-
+fetchWeather();setInterval(fetchWeather,CACHE_DURATION);
 function adjustLyricsIslandPosition(){
-  var timeInfo=document.getElementById('top-right-info');
-  if(!timeInfo)return;
+  var timeInfo=document.getElementById('top-right-info');if(!timeInfo)return;
   var rect=timeInfo.getBoundingClientRect();
-  var island=document.getElementById('lyrics-island');
-  if(!island)return;
+  var island=document.getElementById('lyrics-island');if(!island)return;
   island.style.top=rect.top+'px';
   island.style.right=(window.innerWidth-rect.left+12)+'px';
 }
 
-window.performPcSearch=function(){
-  var input=document.getElementById('pc-search-input');var query=input.value.trim();
-  if(!query){input.focus();return;}
-  window.open(YANDEX_SEARCH_URL+encodeURIComponent(query),'_blank');
-};
-window.clearPcSearch=function(){
-  var input=document.getElementById('pc-search-input');
-  input.value='';input.focus();
-  document.getElementById('pc-clear-btn').style.display='none';
-};
-var pcInput=document.getElementById('pc-search-input');
-var pcBtn=document.getElementById('pc-search-btn');
-var clearBtn=document.getElementById('pc-clear-btn');
+/* ============ 搜索 ============ */
+window.performPcSearch=function(){var input=document.getElementById('pc-search-input');var query=input.value.trim();if(!query){input.focus();return;}window.open(YANDEX_SEARCH_URL+encodeURIComponent(query),'_blank');};
+window.clearPcSearch=function(){var input=document.getElementById('pc-search-input');input.value='';input.focus();document.getElementById('pc-clear-btn').style.display='none';};
+var pcInput=document.getElementById('pc-search-input'),pcBtn=document.getElementById('pc-search-btn'),clearBtn=document.getElementById('pc-clear-btn');
 pcInput.addEventListener('input',function(){if(this.value.length>0)clearBtn.style.display='flex';else clearBtn.style.display='none';});
 pcInput.addEventListener('blur',function(){if(this.value.length===0)clearBtn.style.display='none';});
 pcInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();performPcSearch();}});
 pcBtn.addEventListener('click',function(e){e.preventDefault();performPcSearch();});
 
+/* ============ 歌曲列表构建 ============ */
 function buildSongListUI(){
   songListEl.innerHTML='';
   if(!songList||!Array.isArray(songList)||songList.length===0){songListEl.innerHTML='<div class="song-item" style="color:#aaa;padding:12px;">暂无歌曲数据</div>';return;}
@@ -1939,13 +1381,8 @@ function buildSongListUI(){
     const idxSpan=document.createElement('span');idxSpan.className='song-index';idxSpan.textContent=String(index+1).padStart(2,'0');
     const nameSpan=document.createElement('span');nameSpan.className='song-name';nameSpan.textContent=song.name||'未知歌曲';
     const artistSpan=document.createElement('span');artistSpan.className='song-artist';artistSpan.textContent=song.artist||'未知歌手';
-    div.appendChild(idxSpan);div.appendChild(nameSpan);
-    if(song.artist)div.appendChild(artistSpan);
-    div.onclick=function(){
-      const idx=parseInt(this.dataset.index);
-      if(idx!==currentIdx)loadAndPlay(idx);else window.togglePlay();
-      closeListWithAnimation();
-    };
+    div.appendChild(idxSpan);div.appendChild(nameSpan);if(song.artist)div.appendChild(artistSpan);
+    div.onclick=function(){const idx=parseInt(this.dataset.index);if(idx!==currentIdx)loadAndPlay(idx);else window.togglePlay();closeListWithAnimation();};
     songListEl.appendChild(div);
   });
   highlightCurrentSong();updateSongInfo();
@@ -1970,9 +1407,7 @@ async function initPlayer(){
 
 thumbPrev.addEventListener('click',function(e){e.stopPropagation();goToThumb(currentThumbIndex-1);});
 thumbNext.addEventListener('click',function(e){e.stopPropagation();goToThumb(currentThumbIndex+1);});
-thumbDots.querySelectorAll('span').forEach((dot,i)=>{
-  dot.addEventListener('click',function(e){e.stopPropagation();goToThumb(i);});
-});
+thumbDots.querySelectorAll('span').forEach((dot,i)=>{dot.addEventListener('click',function(e){e.stopPropagation();goToThumb(i);});});
 applyBtn.addEventListener('click',function(e){e.stopPropagation();applyCurrentTheme();});
 document.addEventListener('keydown',function(e){
   if(isModalOpen){
@@ -1996,24 +1431,18 @@ window.addEventListener('load',function(){
   initAutoSwitch();
   setTimeout(adjustLyricsIslandPosition,100);
   const _loadAndPlay=loadAndPlay;
-  loadAndPlay=function(index){
-    _loadAndPlay(index);
-    setTimeout(adjustLyricsIslandPosition,100);
-    applyWhiteToHighlights();
-  };
+  loadAndPlay=function(index){_loadAndPlay(index);setTimeout(adjustLyricsIslandPosition,100);applyWhiteToHighlights();};
   window.loadAndPlay=loadAndPlay;
   window.songList=songList;
   window.currentIdx=currentIdx;
   console.log('========================================');
   console.log('🎵 播放器已启动 — ncm.landdy.cn');
-  console.log('🎨 取色：纯 HSL 直方图（不依赖 MCU 提取色相）');
-  console.log('🎨 排查取色问题：打开控制台搜索 "🎨" 开头的日志');
+  console.log('🎨 取色：纯 HSL 直方图 + 多 CDN MCU + 简化方案 fallback');
   console.log('========================================');
 });
 
 })();
 </script>
-
 
 <script>
 (function(){
@@ -2031,9 +1460,7 @@ window.addEventListener('load',function(){
   document.addEventListener('pointermove', e => {
     if(!active) return;
     const dx=e.clientX-active.x, dy=e.clientY-active.y;
-    const x=Math.max(-18,Math.min(18,dx*.22));
-    const y=Math.max(-14,Math.min(14,dy*.22));
-    const tilt=Math.max(-12,Math.min(12,dx*.35));
+    const x=Math.max(-18,Math.min(18,dx*.22)), y=Math.max(-14,Math.min(14,dy*.22)), tilt=Math.max(-12,Math.min(12,dx*.35));
     active.el.style.translate=x+'px '+y+'px';active.el.style.rotate=tilt+'deg';
     active.el.style.setProperty('--jelly-tilt',tilt+'deg');
   });
