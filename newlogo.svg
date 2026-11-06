@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- 花瓣渐变 -->
+    <radialGradient id="petalGrad" cx="50%" cy="100%" r="100%">
+      <stop offset="0%" stop-color="#FFB3C6" />
+      <stop offset="100%" stop-color="#FF8FAB" />
+    </radialGradient>
+
+    <!-- 饱满花瓣 -->
+    <path id="petal" d="M 0 0 C -28 -25, -42 -68, -20 -95 C -12 -108, 12 -108, 20 -95 C 42 -68, 28 -25, 0 0 Z" fill="url(#petalGrad)" />
+
+    <!-- 飘落小花瓣 -->
+    <path id="petalSmall" d="M 0 0 C -18 -16, -26 -44, -13 -60 C -8 -68, 8 -68, 13 -60 C 26 -44, 18 -16, 0 0 Z" fill="#FFB3C6" />
+
+    <!-- 柔和阴影 -->
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#E8A0B0" flood-opacity="0.2" />
+    </filter>
+
+    <!-- 山脉渐隐 -->
+    <linearGradient id="mountainFade" gradientUnits="userSpaceOnUse" x1="0" y1="125" x2="0" y2="315">
+      <stop offset="0%" stop-color="#E8F0F8" stop-opacity="1" />
+      <stop offset="35%" stop-color="#DCE6F0" stop-opacity="0.95" />
+      <stop offset="65%" stop-color="#D0DCE8" stop-opacity="0.6" />
+      <stop offset="85%" stop-color="#D0DCE8" stop-opacity="0.22" />
+      <stop offset="100%" stop-color="#D0DCE8" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- 积雪渐变 -->
+    <linearGradient id="snowGrad" gradientUnits="userSpaceOnUse" x1="0" y1="125" x2="0" y2="200">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.98" />
+      <stop offset="70%" stop-color="#F5F8FC" stop-opacity="0.92" />
+      <stop offset="100%" stop-color="#F5F8FC" stop-opacity="0.5" />
+    </linearGradient>
+
+    <!-- 湖面渐变 -->
+    <linearGradient id="lakeGrad" gradientUnits="userSpaceOnUse" x1="0" y1="270" x2="0" y2="355">
+      <stop offset="0%" stop-color="#D8F0F8" stop-opacity="0.5" />
+      <stop offset="35%" stop-color="#C8E8F4" stop-opacity="0.88" />
+      <stop offset="100%" stop-color="#B8DCE8" stop-opacity="1" />
+    </linearGradient>
+
+    <!-- 山脚雾气 -->
+    <radialGradient id="mistGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFE8EE" stop-opacity="0.75" />
+      <stop offset="55%" stop-color="#FFE8EE" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#FFE8EE" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- 超椭圆路径 -->
+    <path id="superellipse" d="M 250 40 C 390 40, 460 110, 460 250 C 460 390, 390 460, 250 460 C 110 460, 40 390, 40 250 C 40 110, 110 40, 250 40 Z" />
+
+    <!-- 超椭圆裁剪 -->
+    <clipPath id="containerClip">
+      <use href="#superellipse" />
+    </clipPath>
+  </defs>
+
+  <!-- 主容器（无外层白底，直接以超椭圆为外轮廓） -->
+  <use href="#superellipse" fill="#FFE8EE" />
+
+  <g clip-path="url(#containerClip)">
+    <!-- 湖面 -->
+    <ellipse cx="250" cy="300" rx="200" ry="50" fill="url(#lakeGrad)" />
+
+    <!-- 连续山脉 -->
+    <path d="
+      M 100 300
+      L 130 225
+      L 155 243
+      L 195 170
+      L 225 213
+      L 270 125
+      L 305 200
+      L 345 177
+      L 378 223
+      L 412 240
+      L 435 300
+      Q 350 310, 250 312
+      Q 150 310, 100 300 Z
+    " fill="url(#mountainFade)" />
+
+    <!-- 雪顶：左峰 -->
+    <path d="M 180 197 L 195 170 L 210 197 L 204 192 L 198 197 L 195 189 L 190 197 L 185 192 Z" fill="url(#snowGrad)" />
+
+    <!-- 雪顶：主峰 -->
+    <path d="M 250 173 L 270 125 L 290 173 L 283 165 L 276 173 L 270 157 L 264 173 L 257 165 Z" fill="url(#snowGrad)" />
+
+    <!-- 雪顶：右峰 -->
+    <path d="M 331 200 L 345 177 L 359 200 L 353 195 L 347 200 L 342 193 L 337 200 Z" fill="url(#snowGrad)" />
+
+    <!-- 山脚雾气 -->
+    <ellipse cx="250" cy="285" rx="190" ry="26" fill="url(#mistGrad)" />
+
+    <!-- 湖面波纹 -->
+    <path d="M 140 310 Q 175 303, 210 310" fill="none" stroke="#A8D8E4" stroke-width="2" stroke-linecap="round" opacity="0.45" />
+    <path d="M 260 325 Q 295 318, 330 325" fill="none" stroke="#A8D8E4" stroke-width="2" stroke-linecap="round" opacity="0.45" />
+    <path d="M 180 340 Q 215 334, 250 340" fill="none" stroke="#A8D8E4" stroke-width="1.5" stroke-linecap="round" opacity="0.35" />
+
+    <!-- 枝条 -->
+    <path d="M 75 315 Q 145 290, 215 253 Q 265 223, 298 197" fill="none" stroke="#C4A4A4" stroke-width="7" stroke-linecap="round" />
+    <path d="M 198 263 Q 218 243, 224 227" fill="none" stroke="#C4A4A4" stroke-width="3.5" stroke-linecap="round" opacity="0.65" />
+
+    <!-- 主花 -->
+    <g transform="translate(308, 179)" filter="url(#softShadow)">
+      <use href="#petal" transform="rotate(0)" />
+      <use href="#petal" transform="rotate(72)" />
+      <use href="#petal" transform="rotate(144)" />
+      <use href="#petal" transform="rotate(216)" />
+      <use href="#petal" transform="rotate(288)" />
+
+      <circle cx="0" cy="0" r="15" fill="#FFE082" />
+      <circle cx="0" cy="0" r="7.5" fill="#FF8FAB" />
+      <circle cx="0" cy="0" r="3" fill="#FFFCFA" />
+    </g>
+
+    <!-- 飘落花瓣 -->
+    <use href="#petalSmall" transform="translate(182, 277) rotate(65) scale(0.8)" opacity="0.65" />
+    <use href="#petalSmall" transform="translate(372, 240) rotate(-35) scale(0.6)" opacity="0.5" />
+    <use href="#petalSmall" transform="translate(352, 315) rotate(110) scale(0.65)" opacity="0.55" />
+  </g>
+
+  <!-- 文字（位于超椭圆内部） -->
+  <text x="250" y="400" font-family="'Poppins', 'Nunito', 'Quicksand', 'Helvetica Neue', sans-serif" font-size="36" font-weight="700" fill="#8B4A5E" text-anchor="middle" letter-spacing="1">bxfans</text>
+  <text x="250" y="430" font-family="'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="16" font-weight="400" fill="#A88B92" text-anchor="middle" letter-spacing="8">天启之境</text>
+</svg>
