@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" preserveAspectRatio="xMidYMid meet" role="img" aria-label="暖调山樱图标">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF8FA"/>
+      <stop offset="100%" stop-color="#FFE9F0"/>
+    </linearGradient>
+
+    <radialGradient id="petalGrad" cx="50%" cy="100%" r="95%" fx="50%" fy="100%">
+      <stop offset="0%" stop-color="#F49BB5"/>
+      <stop offset="36%" stop-color="#F9BDCE"/>
+      <stop offset="72%" stop-color="#FFE4EC"/>
+      <stop offset="100%" stop-color="#FFF8FA"/>
+    </radialGradient>
+
+    <radialGradient id="petalHighlight" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="coreGrad" cx="45%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#FBE8C8"/>
+      <stop offset="60%" stop-color="#F2D6A8"/>
+      <stop offset="100%" stop-color="#E2BC82"/>
+    </radialGradient>
+
+    <linearGradient id="containerShade" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.40"/>
+      <stop offset="60%" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#D98AA8" stop-opacity="0.10"/>
+    </linearGradient>
+
+    <filter id="petalShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.4" flood-color="#6B4A56" flood-opacity="0.13"/>
+    </filter>
+
+    <filter id="coreShadow" x="-60%" y="-60%" width="220%" height="220%">
+      <feDropShadow dx="0" dy="0.3" stdDeviation="0.5" flood-color="#8A6A40" flood-opacity="0.10"/>
+    </filter>
+
+    <filter id="containerShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.05"/>
+    </filter>
+
+    <filter id="contactShadow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3.5"/>
+    </filter>
+  </defs>
+
+  <!-- 1:1 正方形容器 -->
+  <rect width="128" height="128" rx="32" fill="url(#bgGrad)" filter="url(#containerShadow)"/>
+  <rect width="128" height="128" rx="32" fill="url(#containerShade)"/>
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="none" stroke="#FFFFFF" stroke-opacity="0.40" stroke-width="1"/>
+
+  <circle cx="24" cy="22" r="38" fill="#FFD4E1" opacity="0.35"/>
+  <circle cx="108" cy="106" r="42" fill="#FFC6D7" opacity="0.22"/>
+
+  <ellipse cx="64" cy="69" rx="40" ry="36" fill="#8A6A74" opacity="0.09" filter="url(#contactShadow)"/>
+
+  <g transform="rotate(0 64 64)" filter="url(#petalShadow)">
+    <path d="M64 64 C50 51 44 29 55 20 C59 16 62 18 64 24 C66 18 69 16 73 20 C84 29 78 51 64 64 Z" fill="url(#petalGrad)"/>
+    <ellipse cx="64" cy="40" rx="10" ry="16" fill="url(#petalHighlight)"/>
+    <path d="M62 58 C57 48 55 34 60 26" stroke="#FFFFFF" stroke-width="1.9" stroke-linecap="round" opacity="0.42" fill="none"/>
+  </g>
+  <g transform="rotate(144 64 64)" filter="url(#petalShadow)">
+    <path d="M64 64 C50 51 44 29 55 20 C59 16 62 18 64 24 C66 18 69 16 73 20 C84 29 78 51 64 64 Z" fill="url(#petalGrad)"/>
+    <ellipse cx="64" cy="40" rx="10" ry="16" fill="url(#petalHighlight)"/>
+    <path d="M62 58 C57 48 55 34 60 26" stroke="#FFFFFF" stroke-width="1.9" stroke-linecap="round" opacity="0.42" fill="none"/>
+  </g>
+  <g transform="rotate(288 64 64)" filter="url(#petalShadow)">
+    <path d="M64 64 C50 51 44 29 55 20 C59 16 62 18 64 24 C66 18 69 16 73 20 C84 29 78 51 64 64 Z" fill="url(#petalGrad)"/>
+    <ellipse cx="64" cy="40" rx="10" ry="16" fill="url(#petalHighlight)"/>
+    <path d="M62 58 C57 48 55 34 60 26" stroke="#FFFFFF" stroke-width="1.9" stroke-linecap="round" opacity="0.42" fill="none"/>
+  </g>
+  <g transform="rotate(72 64 64)" filter="url(#petalShadow)">
+    <path d="M64 64 C50 51 44 29 55 20 C59 16 62 18 64 24 C66 18 69 16 73 20 C84 29 78 51 64 64 Z" fill="url(#petalGrad)"/>
+    <ellipse cx="64" cy="40" rx="10" ry="16" fill="url(#petalHighlight)"/>
+    <path d="M62 58 C57 48 55 34 60 26" stroke="#FFFFFF" stroke-width="1.9" stroke-linecap="round" opacity="0.42" fill="none"/>
+  </g>
+  <g transform="rotate(216 64 64)" filter="url(#petalShadow)">
+    <path d="M64 64 C50 51 44 29 55 20 C59 16 62 18 64 24 C66 18 69 16 73 20 C84 29 78 51 64 64 Z" fill="url(#petalGrad)"/>
+    <ellipse cx="64" cy="40" rx="10" ry="16" fill="url(#petalHighlight)"/>
+    <path d="M62 58 C57 48 55 34 60 26" stroke="#FFFFFF" stroke-width="1.9" stroke-linecap="round" opacity="0.42" fill="none"/>
+  </g>
+
+  <g filter="url(#coreShadow)">
+    <circle cx="64" cy="64" r="5.5" fill="url(#coreGrad)" opacity="0.95"/>
+    <ellipse cx="62.8" cy="62.8" rx="1.6" ry="1" fill="#FFFFFF" opacity="0.35" transform="rotate(-35 62.8 62.8)"/>
+  </g>
+</svg>
