@@ -24,6 +24,7 @@ html,body{
   --glass-mult:1;
   --glass-shadow-mult:1;
   --glass-backdrop:blur(40px) saturate(200%) brightness(1.05);
+  --bg-blur: 0px; /* 默认背景虚化为 0 */
 }
 
 /* ============ 应用容器 ============ */
@@ -64,7 +65,7 @@ html,body{
 
 /* ============ 背景层 ============ */
 #pc-app{
-  background:url('722264.jpg') center/cover no-repeat;
+  background:url('741383.png') center/cover no-repeat;
   transition:filter 1.2s ease;position:relative;
 }
 #pc-app::before{
@@ -80,19 +81,6 @@ html,body{
   backdrop-filter:brightness(.65) saturate(.78) blur(var(--bg-blur, 0px));
   -webkit-backdrop-filter:brightness(.65) saturate(.78) blur(var(--bg-blur, 0px));
 }
-#pc-app #header-overlay{
-  position:absolute;top:0;left:0;width:100%;height:110px;
-  background:#fdeeef;opacity:.30;pointer-events:none;z-index:1;
-  transition:opacity .8s ease;
-}
-#pc-app[data-theme="dark"] #header-overlay{opacity:.10;background:#1a1a2e}
-#pc-app #title-text{
-  position:absolute;top:20px;width:100%;text-align:center;
-  font-weight:bold;pointer-events:none;line-height:1.2;z-index:1;
-  transition:color .6s ease;
-}
-#pc-app #title-text .line1{font-size:1.8em}
-#pc-app #title-text .line2{font-size:2.6em}
 
 /* ============ 通用面板 ============ */
 #pc-app .liquid-glass,
@@ -218,6 +206,9 @@ html,body{
   position:absolute;inset:0;width:100%;height:100%;
   pointer-events:none;display:none;
 }
+
+/* MD3E 专属装饰元素 */
+.md3e-deco{display:none;}
 
 /* ============ 播放列表 ============ */
 #pc-app #song-list{
@@ -499,31 +490,30 @@ html,body{
 #pc-app .tab-panel{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
 #pc-app .tab-panel[hidden]{display:none}
 
+/* 堆叠卡片轮播 */
 #pc-app .thumb-carousel{
   flex:1;display:flex;flex-direction:column;align-items:center;
   justify-content:center;gap:20px;padding:10px 0 14px 0;
 }
 #pc-app .thumb-carousel .thumb-row{display:flex;align-items:center;justify-content:center;gap:16px;width:100%}
 #pc-app .thumb-carousel .thumb-wrapper{
-  position:relative;width:320px;height:220px;overflow:hidden;border-radius:18px;
-  background:rgba(0,0,0,.2);box-shadow:0 8px 32px rgba(0,0,0,.30);
+  position:relative;width:320px;height:220px;
+  overflow:visible;
 }
 #pc-app .thumb-carousel .thumb-track{
-  display:flex;width:100%;height:100%;
-  transition:transform .45s cubic-bezier(.25,.46,.45,.94);
+  position:relative;width:100%;height:100%;
 }
 #pc-app .thumb-carousel .thumb-track img{
-  width:100%;height:100%;object-fit:cover;flex-shrink:0;display:block;
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;flex-shrink:0;display:block;
+  border-radius:18px;
+  box-shadow:0 8px 32px rgba(0,0,0,.30);
+  transition:transform .45s cubic-bezier(.25,.46,.45,.94), opacity .45s ease, z-index .45s ease;
+  will-change:transform, opacity;
 }
-#pc-app .thumb-carousel .thumb-arrow{
-  width:38px;height:38px;border-radius:50%;
-  background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.15);
-  color:#fff;font-size:24px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;padding:0;
-}
+#pc-app .thumb-carousel .thumb-arrow{display:none;}
 #pc-app .thumb-carousel .thumb-dots{
-  display:flex;gap:10px;justify-content:center;flex-shrink:0;flex-wrap:wrap;
+  display:flex;gap:10px;justify-content:center;flex-shrink:0;flex-wrap:wrap;margin-top:10px;
 }
 #pc-app .thumb-carousel .thumb-dots span{
   width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);
@@ -711,17 +701,16 @@ html,body{
 #pc-app .settings-card .transparency-slider-row{
   position:relative;display:flex;align-items:center;gap:16px;margin-top:4px;
 }
-#pc-app .transparency-slider-track{
+#pc-app .transparency-slider-track, #pc-app .bg-blur-slider-track{
   position:relative;flex:1;height:3px;border-radius:1.5px;
   background:rgba(255,255,255,.28);cursor:pointer;
 }
-#pc-app .transparency-slider-fill{
+#pc-app .transparency-slider-fill, #pc-app .bg-blur-slider-fill{
   position:absolute;top:0;left:0;height:100%;width:70%;border-radius:1.5px;
   background:linear-gradient(90deg,var(--accent,#66ccff),#88ddff,var(--accent,#66ccff));
   background-size:200% 100%;pointer-events:none;
 }
 
-/* 透明度 / 背景虚化 拖拉按钮基础 */
 #pc-app .transparency-slider-thumb,
 #pc-app .bg-blur-slider-thumb{
   position:absolute;top:50%;left:70%;
@@ -748,17 +737,6 @@ html,body{
 }
 #pc-app .transparency-value,
 #pc-app .bg-blur-value{min-width:44px;text-align:right;font-size:1.05rem;font-weight:500;color:#fff}
-
-/* 背景虚化滑块的填充与轨道 */
-#pc-app .bg-blur-slider-track{
-  position:relative;flex:1;height:3px;border-radius:1.5px;
-  background:rgba(255,255,255,.28);cursor:pointer;
-}
-#pc-app .bg-blur-slider-fill{
-  position:absolute;top:0;left:0;height:100%;width:20%;border-radius:1.5px;
-  background:linear-gradient(90deg,var(--accent,#66ccff),#88ddff,var(--accent,#66ccff));
-  background-size:200% 100%;pointer-events:none;
-}
 
 #pc-app .theme-switch-row{
   display:flex;align-items:center;justify-content:center;gap:14px;
@@ -863,7 +841,7 @@ html,body{
 #mobile-app{
   flex-direction:column;align-items:center;justify-content:center;
   padding:20px;gap:clamp(20px,5vh,50px);
-  background:url('722264.jpg') center/cover no-repeat;position:relative;
+  background:url('741383.png') center/cover no-repeat;position:relative;
 }
 #mobile-app::before{
   content:'';position:absolute;inset:0;
@@ -1015,16 +993,14 @@ html,body{
 }
 #pc-app[data-visual-style="liquid-glass"]::before{
   background:rgba(0,0,0,.25);
-  backdrop-filter:brightness(.88) saturate(.90) blur(var(--bg-blur, 12px));
-  -webkit-backdrop-filter:brightness(.88) saturate(.90) blur(var(--bg-blur, 12px));
+  backdrop-filter:brightness(.88) saturate(.90) blur(var(--bg-blur, 0px));
+  -webkit-backdrop-filter:brightness(.88) saturate(.90) blur(var(--bg-blur, 0px));
 }
 #pc-app[data-visual-style="liquid-glass"][data-theme="dark"]::before{
   background:rgba(0,0,0,.50);
-  backdrop-filter:brightness(.70) saturate(.82) blur(var(--bg-blur, 12px));
-  -webkit-backdrop-filter:brightness(.70) saturate(.82) blur(var(--bg-blur, 12px));
+  backdrop-filter:brightness(.70) saturate(.82) blur(var(--bg-blur, 0px));
+  -webkit-backdrop-filter:brightness(.70) saturate(.82) blur(var(--bg-blur, 0px));
 }
-#pc-app[data-visual-style="liquid-glass"] #header-overlay{opacity:.15}
-#pc-app[data-visual-style="liquid-glass"][data-theme="dark"] #header-overlay{opacity:.05}
 
 #pc-app[data-visual-style="liquid-glass"] .liquid-glass,
 #pc-app[data-visual-style="liquid-glass"] #top-right-info,
@@ -1101,245 +1077,32 @@ html,body{
   background:rgba(255,255,255,.12)!important;
   border-radius:9999px!important;
 }
-/* 液态玻璃拖拽按钮：白色半透明玻璃质感 + 镜面高光 */
+
+/* 液态玻璃滑块：苹果风格玻璃圆球 */
 #pc-app[data-visual-style="liquid-glass"] #progress-container .progress-thumb,
 #pc-app[data-visual-style="liquid-glass"] .transparency-slider-thumb,
 #pc-app[data-visual-style="liquid-glass"] .bg-blur-slider-thumb{
-  background:rgba(255,255,255,0.92);
-  border:1px solid rgba(255,255,255,0.85);
+  width:16px;height:16px;
+  background:rgba(255,255,255,0.85);
+  border:1px solid rgba(255,255,255,0.4);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
   box-shadow:
-    inset 0 1px 1px rgba(255,255,255,0.95),
-    inset 0 -1px 1px rgba(0,0,0,0.06),
-    0 1px 4px rgba(0,0,0,0.25),
-    0 0 0 0.5px rgba(0,0,0,0.08);
+    inset 0 1px 2px rgba(255,255,255,0.9),
+    0 2px 6px rgba(0,0,0,0.3);
 }
 #pc-app[data-visual-style="liquid-glass"] #progress-container.dragging .progress-thumb,
 #pc-app[data-visual-style="liquid-glass"] #progress-container:hover .progress-thumb,
 #pc-app[data-visual-style="liquid-glass"] .transparency-slider-track:hover .transparency-slider-thumb,
 #pc-app[data-visual-style="liquid-glass"] .bg-blur-slider-track:hover .bg-blur-slider-thumb{
+  width:20px;height:20px;
   box-shadow:
-    inset 0 1px 1px rgba(255,255,255,0.95),
-    inset 0 -1px 1px rgba(0,0,0,0.06),
-    0 2px 8px rgba(0,0,0,0.30),
-    0 0 0 0.5px rgba(0,0,0,0.08);
-}
-#pc-app[data-visual-style="liquid-glass"] .switch-track,
-#pc-app[data-visual-style="liquid-glass"] .auto-switch-track{
-  background:rgba(255,255,255,.14)!important;
-  border-color:rgba(255,255,255,.10)!important;
-}
-#pc-app[data-visual-style="liquid-glass"] .switch-track.active,
-#pc-app[data-visual-style="liquid-glass"] .auto-switch-track.active{
-  background:var(--accent)!important;
-  border-color:var(--accent)!important;
-}
-#pc-app[data-visual-style="liquid-glass"] .custom-input{
-  background:var(--lg-bg-interactive)!important;
-  border-color:var(--lg-border-subtle)!important;
-  backdrop-filter:blur(var(--lg-blur-sm))!important;
-  -webkit-backdrop-filter:blur(var(--lg-blur-sm))!important;
-  border-radius:var(--lg-radius-sm)!important;
-  color:#fff!important;
-}
-#pc-app[data-visual-style="liquid-glass"] .custom-input:focus{
-  border-color:var(--accent)!important;
-  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)!important;
-}
-#pc-app[data-visual-style="liquid-glass"] .settings-card{
-  background:var(--lg-bg-interactive)!important;
-  border-color:var(--lg-border-subtle)!important;
-  border-radius:var(--lg-radius-md)!important;
-  backdrop-filter:blur(var(--lg-blur-sm))!important;
-  -webkit-backdrop-filter:blur(var(--lg-blur-sm))!important;
-}
-#pc-app[data-visual-style="liquid-glass"] .modal-sidebar{
-  background:var(--lg-bg-toolbar)!important;
-  border-color:var(--lg-border-subtle)!important;
-  border-radius:var(--lg-radius-md)!important;
+    inset 0 2px 3px rgba(255,255,255,0.95),
+    0 3px 10px rgba(0,0,0,0.35);
 }
 
 /* ====================================================================
-   Mica 云母
-   ==================================================================== */
-#pc-app[data-visual-style="mica"]{
-  --mica-bg:rgba(243,243,243,0.55);
-  --mica-layer:rgba(255,255,255,0.50);
-  --mica-card:rgba(255,255,255,0.05);
-  --mica-stroke:rgba(0,0,0,0.08);
-  --mica-stroke-strong:rgba(0,0,0,0.16);
-  --mica-text:#1a1a1c;
-  --mica-text-secondary:rgba(0,0,0,0.60);
-  --mica-radius-control:4px;
-  --mica-radius-card:8px;
-  --mica-radius-window:8px;
-}
-#pc-app[data-visual-style="mica"][data-theme="dark"]{
-  --mica-bg:rgba(32,32,32,0.65);
-  --mica-layer:rgba(58,58,58,0.30);
-  --mica-card:rgba(255,255,255,0.05);
-  --mica-stroke:rgba(255,255,255,0.08);
-  --mica-stroke-strong:rgba(255,255,255,0.16);
-  --mica-text:#e6e6ea;
-  --mica-text-secondary:rgba(255,255,255,0.60);
-}
-#pc-app[data-visual-style="mica"]::before{
-  background:var(--mica-bg);
-  backdrop-filter:blur(var(--bg-blur, 32px)) saturate(.80) brightness(.95);
-  -webkit-backdrop-filter:blur(var(--bg-blur, 32px)) saturate(.80) brightness(.95);
-}
-#pc-app[data-visual-style="mica"][data-theme="dark"]::before{
-  background:var(--mica-bg);
-  backdrop-filter:blur(var(--bg-blur, 32px)) saturate(.75) brightness(.88);
-  -webkit-backdrop-filter:blur(var(--bg-blur, 32px)) saturate(.75) brightness(.88);
-}
-#pc-app[data-visual-style="mica"] #header-overlay{opacity:0}
-
-#pc-app[data-visual-style="mica"] .liquid-glass,
-#pc-app[data-visual-style="mica"] #top-right-info,
-#pc-app[data-visual-style="mica"] #lyrics-island,
-#pc-app[data-visual-style="mica"] #player,
-#pc-app[data-visual-style="mica"] #pc-search-container,
-#pc-app[data-visual-style="mica"] .nav-links,
-#pc-app[data-visual-style="mica"] #song-list,
-#pc-app[data-visual-style="mica"] #modal,
-#pc-app[data-visual-style="mica"] #github-island{
-  background:var(--mica-layer)!important;
-  backdrop-filter:blur(30px) saturate(.85)!important;
-  -webkit-backdrop-filter:blur(30px) saturate(.85)!important;
-  border:1px solid var(--mica-stroke)!important;
-  box-shadow:none!important;
-  border-radius:var(--mica-radius-card)!important;
-}
-#pc-app[data-visual-style="mica"] #player{border-radius:var(--mica-radius-window)!important}
-#pc-app[data-visual-style="mica"] #modal{border-radius:var(--mica-radius-window)!important}
-#pc-app[data-visual-style="mica"] .nav-links{border-radius:9999px!important}
-#pc-app[data-visual-style="mica"] #pc-search-container{border-radius:9999px!important}
-#pc-app[data-visual-style="mica"] #top-right-info,
-#pc-app[data-visual-style="mica"] #lyrics-island{border-radius:var(--mica-radius-card)!important}
-
-#pc-app[data-visual-style="mica"] #gear-island{
-  background:var(--mica-layer)!important;
-  backdrop-filter:blur(20px) saturate(.85)!important;
-  -webkit-backdrop-filter:blur(20px) saturate(.85)!important;
-  border:1px solid var(--mica-stroke)!important;
-  box-shadow:none!important;
-  border-radius:50%!important;
-}
-#pc-app[data-visual-style="mica"] #gear-island:hover,
-#pc-app[data-visual-style="mica"] #gear-island:active{
-  box-shadow:none!important;
-  border-color:var(--mica-stroke-strong)!important;
-}
-#pc-app[data-visual-style="mica"] #github-island{
-  border-radius:50%!important;
-}
-
-#pc-app[data-visual-style="mica"] #main-play-btn{
-  background:var(--mica-card)!important;
-  border:1px solid var(--mica-stroke)!important;
-  box-shadow:none!important;
-}
-#pc-app[data-visual-style="mica"] #progress-container{
-  background:rgba(255,255,255,.10)!important;
-}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #progress-container{
-  background:rgba(0,0,0,.10)!important;
-}
-#pc-app[data-visual-style="mica"] #progress-container .progress-thumb,
-#pc-app[data-visual-style="mica"] .transparency-slider-thumb,
-#pc-app[data-visual-style="mica"] .bg-blur-slider-thumb{
-  background:var(--accent)!important;
-  box-shadow:none!important;
-  border:none!important;
-  width:14px!important;
-  height:14px!important;
-}
-#pc-app[data-visual-style="mica"] #progress-container.dragging .progress-thumb,
-#pc-app[data-visual-style="mica"] #progress-container:hover .progress-thumb,
-#pc-app[data-visual-style="mica"] .transparency-slider-track:hover .transparency-slider-thumb,
-#pc-app[data-visual-style="mica"] .bg-blur-slider-track:hover .bg-blur-slider-thumb{
-  width:16px!important;
-  height:16px!important;
-  box-shadow:none!important;
-}
-#pc-app[data-visual-style="mica"] .switch-track,
-#pc-app[data-visual-style="mica"] .auto-switch-track{
-  background:rgba(0,0,0,.14)!important;
-  border-color:var(--mica-stroke)!important;
-  border-radius:9999px!important;
-}
-#pc-app[data-visual-style="mica"][data-theme="dark"] .switch-track,
-#pc-app[data-visual-style="mica"][data-theme="dark"] .auto-switch-track{
-  background:rgba(255,255,255,.14)!important;
-}
-#pc-app[data-visual-style="mica"] .switch-track.active,
-#pc-app[data-visual-style="mica"] .auto-switch-track.active{
-  background:var(--accent)!important;
-  border-color:var(--accent)!important;
-}
-#pc-app[data-visual-style="mica"] .custom-input{
-  background:var(--mica-card)!important;
-  border:1px solid var(--mica-stroke)!important;
-  border-radius:var(--mica-radius-control)!important;
-  color:var(--mica-text)!important;
-  box-shadow:none!important;
-}
-#pc-app[data-visual-style="mica"] .custom-input:focus{
-  border-color:var(--accent)!important;
-  box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 20%,transparent)!important;
-}
-#pc-app[data-visual-style="mica"] .settings-card{
-  background:var(--mica-card)!important;
-  border:1px solid var(--mica-stroke)!important;
-  border-radius:var(--mica-radius-card)!important;
-  box-shadow:none!important;
-}
-#pc-app[data-visual-style="mica"] .modal-sidebar{
-  background:var(--mica-card)!important;
-  border:1px solid var(--mica-stroke)!important;
-  border-radius:var(--mica-radius-card)!important;
-}
-
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .song-info{color:var(--mica-text)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #time-display{color:var(--mica-text-secondary)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #top-right-info .time,
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #top-right-info .weather{color:var(--mica-text)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #top-right-info .weather-desc{color:var(--mica-text-secondary)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #lyrics-island .lyrics-line.current{color:var(--mica-text)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #lyrics-island .lyrics-line.prev,
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #lyrics-island .lyrics-line.next{color:var(--mica-text-secondary)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #lyrics-island .lyrics-line.placeholder{color:var(--mica-text-secondary)!important;opacity:.7!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #song-list .song-item .song-name{color:var(--mica-text)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #song-list .song-item .song-artist{color:var(--mica-text-secondary)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #song-list .song-item .song-index{color:var(--mica-text-secondary)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #pc-search-input{color:var(--mica-text)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #pc-search-input::placeholder{color:var(--mica-text-secondary)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .md3-icon-btn{color:var(--mica-text)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .modal-title{color:var(--mica-text)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .modal-subtitle{color:var(--mica-text-secondary)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .sidebar-icon{color:var(--mica-text-secondary)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .sidebar-icon.active{color:var(--mica-text)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .settings-card-title{color:var(--mica-text)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .settings-card-desc{color:var(--mica-text-secondary)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .auto-label{color:var(--mica-text)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .transparency-value,
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .bg-blur-value{color:var(--mica-text)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .custom-status{color:var(--mica-text-secondary)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .file-label{color:var(--mica-text)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .pill-btn{color:var(--mica-text)!important;background:var(--mica-card)!important;border-color:var(--mica-stroke)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .pill-btn.primary{background:var(--accent)!important;border-color:var(--accent)!important;color:#fff!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .visual-style-btn{color:var(--mica-text-secondary)!important;background:var(--mica-card)!important;border-color:var(--mica-stroke)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .visual-style-btn.active{background:var(--accent)!important;border-color:var(--accent)!important;color:#fff!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .sidebar-icon[data-tooltip]::after{background:rgba(30,30,34,.94)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .thumb-carousel .thumb-arrow{background:rgba(0,0,0,.08)!important;border-color:var(--mica-stroke)!important;color:var(--mica-text)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .thumb-carousel .thumb-dots span{background:rgba(0,0,0,.16)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .thumb-carousel .thumb-dots span.active{background:var(--accent)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #pc-footer{color:rgba(0,0,0,.4)!important}
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .transparency-slider-track,
-#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .bg-blur-slider-track{background:rgba(0,0,0,.14)!important}
-
-/* ====================================================================
-   MD3E Material Design 3 Expressive
+   MD3E Material Design 3 Expressive (AOSP Media Control)
    ==================================================================== */
 #pc-app[data-visual-style="md3e"]{
   --md-sys-color-primary:#6750A4;
@@ -1423,15 +1186,14 @@ html,body{
 }
 #pc-app[data-visual-style="md3e"]::before{
   background:rgba(0,0,0,.30);
-  backdrop-filter:blur(var(--bg-blur, 20px)) brightness(.90) saturate(.90);
-  -webkit-backdrop-filter:blur(var(--bg-blur, 20px)) brightness(.90) saturate(.90);
+  backdrop-filter:brightness(.90) saturate(.90) blur(var(--bg-blur, 0px));
+  -webkit-backdrop-filter:brightness(.90) saturate(.90) blur(var(--bg-blur, 0px));
 }
 #pc-app[data-visual-style="md3e"][data-theme="dark"]::before{
   background:rgba(0,0,0,.55);
-  backdrop-filter:blur(var(--bg-blur, 20px)) brightness(.72) saturate(.85);
-  -webkit-backdrop-filter:blur(var(--bg-blur, 20px)) brightness(.72) saturate(.85);
+  backdrop-filter:brightness(.72) saturate(.85) blur(var(--bg-blur, 0px));
+  -webkit-backdrop-filter:brightness(.72) saturate(.85) blur(var(--bg-blur, 0px));
 }
-#pc-app[data-visual-style="md3e"] #header-overlay{opacity:0!important}
 
 #pc-app[data-visual-style="md3e"] .liquid-glass,
 #pc-app[data-visual-style="md3e"] #top-right-info,
@@ -1494,7 +1256,6 @@ html,body{
 #pc-app[data-visual-style="md3e"] .clear-btn{color:var(--md-sys-color-on-surface-variant)!important}
 #pc-app[data-visual-style="md3e"] .pc-search-btn{background:var(--md-sys-color-primary)!important;color:var(--md-sys-color-on-primary)!important;border-radius:var(--md-sys-shape-corner-full)!important;border:none!important}
 #pc-app[data-visual-style="md3e"] .nav-links a{color:var(--md-sys-color-on-surface-variant)!important;font-weight:500!important}
-#pc-app[data-visual-style="md3e"] #title-text{text-shadow:0 2px 12px rgba(0,0,0,.55)}
 #pc-app[data-visual-style="md3e"] .modal-title{color:var(--md-sys-color-on-surface)!important}
 #pc-app[data-visual-style="md3e"] .modal-subtitle{color:var(--md-sys-color-on-surface-variant)!important;opacity:1!important}
 #pc-app[data-visual-style="md3e"] .modal-sidebar{background:var(--md-sys-color-surface-container-highest)!important;border:none!important;border-radius:var(--md-sys-shape-corner-lg)!important}
@@ -1514,23 +1275,6 @@ html,body{
 #pc-app[data-visual-style="md3e"] .bg-blur-slider-fill{background:var(--md-sys-color-primary)!important;box-shadow:none!important}
 #pc-app[data-visual-style="md3e"] .transparency-value,
 #pc-app[data-visual-style="md3e"] .bg-blur-value{color:var(--md-sys-color-on-surface)!important}
-#pc-app[data-visual-style="md3e"] #progress-container .progress-thumb,
-#pc-app[data-visual-style="md3e"] .transparency-slider-thumb,
-#pc-app[data-visual-style="md3e"] .bg-blur-slider-thumb{
-  background:var(--md-sys-color-primary)!important;
-  border:none!important;
-  width:18px!important;
-  height:18px!important;
-  box-shadow:0 1px 3px rgba(0,0,0,0.30),0 1px 1px rgba(0,0,0,0.15)!important;
-}
-#pc-app[data-visual-style="md3e"] #progress-container.dragging .progress-thumb,
-#pc-app[data-visual-style="md3e"] #progress-container:hover .progress-thumb,
-#pc-app[data-visual-style="md3e"] .transparency-slider-track:hover .transparency-slider-thumb,
-#pc-app[data-visual-style="md3e"] .bg-blur-slider-track:hover .bg-blur-slider-thumb{
-  width:22px!important;
-  height:22px!important;
-  box-shadow:0 2px 6px rgba(0,0,0,0.35),0 1px 2px rgba(0,0,0,0.20)!important;
-}
 #pc-app[data-visual-style="md3e"] .auto-label{color:var(--md-sys-color-on-surface)!important}
 #pc-app[data-visual-style="md3e"] .switch-track,
 #pc-app[data-visual-style="md3e"] .auto-switch-track{width:52px!important;height:32px!important;border-radius:16px!important;background:var(--md-sys-color-surface-container-highest)!important;border:2px solid var(--md-sys-color-outline)!important}
@@ -1560,116 +1304,354 @@ html,body{
 #pc-app[data-visual-style="md3e"] .color-swatch.active{border-color:var(--md-sys-color-primary)!important;box-shadow:0 0 0 3px var(--md-sys-color-primary-container),0 1px 3px rgba(0,0,0,.15)!important}
 #pc-app[data-visual-style="md3e"] #pc-footer{color:var(--md-sys-color-on-surface-variant)!important;opacity:.6}
 
+/* MD3E 滑块：Material 3 规范（圆点/胶囊型，无外发光，主色填充） */
+#pc-app[data-visual-style="md3e"] .transparency-slider-thumb,
+#pc-app[data-visual-style="md3e"] .bg-blur-slider-thumb{
+  width:4px; height:20px; border-radius:2px;
+  background:var(--md-sys-color-primary)!important;
+  border:none!important;
+  box-shadow:none!important;
+}
+#pc-app[data-visual-style="md3e"] .transparency-slider-track:hover .transparency-slider-thumb,
+#pc-app[data-visual-style="md3e"] .bg-blur-slider-track:hover .bg-blur-slider-thumb{
+  width:8px; height:24px; border-radius:4px;
+}
+#pc-app[data-visual-style="md3e"] #progress-container .progress-thumb{
+  width:8px; height:8px; border-radius:50%;
+  background:#fff!important;
+  border:none!important;
+  box-shadow:none!important;
+  transform:translate(-50%,-50%)!important;
+}
+#pc-app[data-visual-style="md3e"] #progress-container:hover .progress-thumb,
+#pc-app[data-visual-style="md3e"] #progress-container.dragging .progress-thumb{
+  width:12px; height:12px;
+}
+
 /* ====================================================================
    MD3E 播放器：AOSP Media Control 标准布局
    ==================================================================== */
 #pc-app[data-visual-style="md3e"] #player{
-  display:grid!important;
-  grid-template-columns:64px 1fr;
-  grid-template-rows:auto auto auto auto;
-  column-gap:16px;
-  row-gap:6px;
-  padding:16px 20px!important;
-  width:380px!important;
-  min-height:0!important;
-  background:var(--md-sys-color-surface-container-high)!important;
-  border-radius:28px!important;
-  box-shadow:0 1px 3px rgba(0,0,0,.16),0 4px 14px rgba(0,0,0,.08)!important;
-  align-items:center!important;
+  display: block !important;
+  position: relative;
+  width: 380px !important;
+  height: 220px !important;
+  padding: 0 !important;
+  border-radius: 28px !important;
+  overflow: hidden !important;
+  background: var(--md-sys-color-surface-container-high) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
+  cursor: grab;
+  touch-action: none;
 }
-#pc-app[data-visual-style="md3e"] #player #art-box{
-  grid-column:1;
-  grid-row:1;
-  position:relative!important;
-  inset:auto!important;
-  width:64px!important;
-  height:64px!important;
-  border-radius:8px!important;
-  z-index:auto;
-  background:var(--md-sys-color-surface-container-highest);
+#pc-app[data-visual-style="md3e"] #player.dragging{
+  cursor: grabbing;
 }
-#pc-app[data-visual-style="md3e"] #player #art-box img{
-  width:100%!important;height:100%!important;
-  object-fit:cover!important;display:block;
-}
-#pc-app[data-visual-style="md3e"] #player #art-box::after{display:none!important;}
-#pc-app[data-visual-style="md3e"] #player .control-area{display:contents!important;}
-#pc-app[data-visual-style="md3e"] #player .song-info{
-  grid-column:2;grid-row:1;align-self:center;
-  color:var(--md-sys-color-on-surface)!important;
-  font-weight:500!important;font-size:14px!important;
-  text-shadow:none!important;padding:0!important;margin:0!important;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  letter-spacing:.2px;display:block;
-}
-#pc-app[data-visual-style="md3e"] #player #progress-container{
-  grid-column:1/-1;grid-row:2;margin:8px 0 0 0!important;
-}
-#pc-app[data-visual-style="md3e"] #player #time-display{
-  grid-column:1/-1;grid-row:3;
-  color:var(--md-sys-color-on-surface-variant)!important;
-  text-align:left!important;text-shadow:none!important;
-  padding:0!important;margin:0!important;font-size:11px!important;
-}
-#pc-app[data-visual-style="md3e"] #player .controls{
-  grid-column:1/-1;grid-row:4;padding-top:4px;
-  justify-content:space-around;gap:0;
-}
-#pc-app[data-visual-style="md3e"] #player #main-play-btn{
-  background:var(--md-sys-color-primary)!important;
-  color:var(--md-sys-color-on-primary)!important;
-  width:48px!important;height:48px!important;
-  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
-  box-shadow:none!important;
-}
-#pc-app[data-visual-style="md3e"] #player #main-play-btn svg{width:24px!important;height:24px!important}
-#pc-app[data-visual-style="md3e"] #player .md3-icon-btn{
-  color:var(--md-sys-color-on-surface-variant)!important;
-  border-radius:9999px;width:40px;height:40px;filter:none;
-}
-#pc-app[data-visual-style="md3e"] #player .md3-icon-btn svg{width:22px;height:22px}
 
-#pc-app[data-visual-style="md3e"] #progress-container{
-  height:26px!important;border-radius:13px!important;
-  background:transparent!important;overflow:visible!important;
-  position:relative!important;
+/* 背景封面 */
+#pc-app[data-visual-style="md3e"] #art-box {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  z-index: 0;
+  background: #222;
 }
-#pc-app[data-visual-style="md3e"] #progress-fill{display:none!important}
-#pc-app[data-visual-style="md3e"] #progress-container::before,
-#pc-app[data-visual-style="md3e"] #progress-container::after{display:none!important}
-#pc-app[data-visual-style="md3e"] #progress-container .wave-overlay{display:none!important}
-#pc-app[data-visual-style="md3e"] #wave-canvas{display:block!important}
-#pc-app[data-visual-style="md3e"] #progress{
-  position:absolute!important;top:0!important;left:0!important;
-  width:100%!important;height:100%!important;opacity:0!important;
-  cursor:pointer!important;z-index:10!important;
+#pc-app[data-visual-style="md3e"] #art-box img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+#pc-app[data-visual-style="md3e"] #art-box::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.80) 100%);
+}
+
+/* MD3E 专属装饰 */
+#pc-app[data-visual-style="md3e"] .md3e-deco {
+  display: flex; position: absolute; z-index: 2; color: #fff; align-items: center; justify-content: center;
+}
+#pc-app[data-visual-style="md3e"] .md3e-app-icon {
+  top: 16px; left: 20px; width: 24px; height: 24px; opacity: 0.9;
+}
+#pc-app[data-visual-style="md3e"] .md3e-cast-icon {
+  top: 16px; right: 20px; width: 24px; height: 24px; opacity: 0.9;
+}
+#pc-app[data-visual-style="md3e"] .md3e-like-icon {
+  bottom: 20px; left: 20px; width: 24px; height: 24px; opacity: 0.9;
+}
+#pc-app[data-visual-style="md3e"] .md3e-vol-icon {
+  bottom: 20px; right: 56px; width: 20px; height: 20px; opacity: 0.9;
+}
+
+/* 歌曲信息 */
+#pc-app[data-visual-style="md3e"] .control-area {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1;
+  display: block !important;
+  padding: 0 !important;
+  pointer-events: none; /* 让背景拖拽生效 */
+}
+#pc-app[data-visual-style="md3e"] .song-info {
+  position: absolute !important;
+  top: 56px; left: 20px; right: 90px;
+  font-size: 0 !important;
+  color: #fff !important;
+  padding: 0 !important; margin: 0 !important;
+  text-shadow: none !important;
+  pointer-events: none;
+}
+#pc-app[data-visual-style="md3e"] .song-info::before {
+  content: attr(data-name);
+  display: block; font-size: 20px; font-weight: 600;
+  color: #fff;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  letter-spacing: 0.5px;
+}
+#pc-app[data-visual-style="md3e"] .song-info::after {
+  content: attr(data-artist);
+  display: block; font-size: 14px; font-weight: 400;
+  color: rgba(255,255,255,0.8);
+  margin-top: 4px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* 播放按钮 */
+#pc-app[data-visual-style="md3e"] #main-play-btn {
+  position: absolute !important;
+  top: 58px; right: 20px;
+  width: 56px !important; height: 48px !important;
+  border-radius: 16px !important;
+  background: rgba(230, 224, 233, 0.85) !important;
+  color: #1D1B20 !important;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: none !important;
+  z-index: 5;
+  pointer-events: auto;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+#pc-app[data-visual-style="md3e"] #main-play-btn svg {
+  fill: #1D1B20 !important;
+  width: 24px !important; height: 24px !important;
+}
+
+/* 进度条 */
+#pc-app[data-visual-style="md3e"] #progress-container {
+  position: absolute !important;
+  bottom: 24px; left: 56px; right: 120px;
+  height: 16px !important;
+  margin: 0 !important;
+  pointer-events: auto;
+  background: transparent !important;
+}
+#pc-app[data-visual-style="md3e"] #progress-container::before {
+  content: '';
+  position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%);
+  height: 2px; background: rgba(255,255,255,0.25); border-radius: 1px;
+  pointer-events: none;
+}
+#pc-app[data-visual-style="md3e"] #progress-fill {
+  display: none !important;
+}
+#pc-app[data-visual-style="md3e"] #progress-container .wave-overlay {
+  display: none !important;
+}
+#pc-app[data-visual-style="md3e"] #wave-canvas {
+  display: block !important;
+}
+#pc-app[data-visual-style="md3e"] #progress {
+  position: absolute !important;
+  top: 0 !important; left: 0 !important;
+  width: 100% !important; height: 100% !important;
+  opacity: 0 !important;
+  cursor: pointer !important;
+  z-index: 10 !important;
+}
+#pc-app[data-visual-style="md3e"] #time-display {
+  display: none !important;
+}
+#pc-app[data-visual-style="md3e"] .controls {
+  display: contents !important;
+}
+#pc-app[data-visual-style="md3e"] #prev-btn {
+  position: absolute !important;
+  bottom: 18px; right: 84px;
+  width: 24px !important; height: 24px !important;
+  color: rgba(255,255,255,0.9) !important;
+  pointer-events: auto;
+}
+#pc-app[data-visual-style="md3e"] #next-btn {
+  position: absolute !important;
+  bottom: 18px; right: 20px;
+  width: 24px !important; height: 24px !important;
+  color: rgba(255,255,255,0.9) !important;
+  pointer-events: auto;
+}
+#pc-app[data-visual-style="md3e"] #prev-btn svg, #pc-app[data-visual-style="md3e"] #next-btn svg {
+  width: 24px !important; height: 24px !important;
+  fill: currentColor !important;
+}
+#pc-app[data-visual-style="md3e"] #mode-btn,
+#pc-app[data-visual-style="md3e"] #list-btn {
+  display: none !important;
 }
 
 @media (max-width:640px){
-  #pc-app[data-visual-style="md3e"] #player{
-    width:340px!important;padding:14px 16px!important;
-    grid-template-columns:56px 1fr;
-  }
-  #pc-app[data-visual-style="md3e"] #player #art-box{width:56px!important;height:56px!important;}
+  #pc-app[data-visual-style="md3e"] #player{ width: 320px !important; height: 200px !important; }
+  #pc-app[data-visual-style="md3e"] .song-info { top: 50px; }
+  #pc-app[data-visual-style="md3e"] #main-play-btn { top: 48px; }
 }
 @media (max-width:420px){
-  #pc-app[data-visual-style="md3e"] #player{
-    width:300px!important;padding:12px 14px!important;
-    grid-template-columns:48px 1fr;
-  }
-  #pc-app[data-visual-style="md3e"] #player #art-box{width:48px!important;height:48px!important;}
+  #pc-app[data-visual-style="md3e"] #player{ width: 280px !important; height: 180px !important; }
+  #pc-app[data-visual-style="md3e"] .song-info { top: 40px; }
+  #pc-app[data-visual-style="md3e"] .song-info::before{ font-size: 16px; }
+  #pc-app[data-visual-style="md3e"] .song-info::after{ font-size: 12px; }
+  #pc-app[data-visual-style="md3e"] #main-play-btn { top: 38px; width: 48px !important; height: 40px !important; }
 }
+
+/* ====================================================================
+   Mica 云母 (保留代码，UI已隐藏)
+   ==================================================================== */
+#pc-app[data-visual-style="mica"]{
+  --mica-bg:rgba(243,243,243,0.55);
+  --mica-layer:rgba(255,255,255,0.50);
+  --mica-card:rgba(255,255,255,0.05);
+  --mica-stroke:rgba(0,0,0,0.08);
+  --mica-stroke-strong:rgba(0,0,0,0.16);
+  --mica-text:#1a1a1c;
+  --mica-text-secondary:rgba(0,0,0,0.60);
+  --mica-radius-control:4px;
+  --mica-radius-card:8px;
+  --mica-radius-window:8px;
+}
+#pc-app[data-visual-style="mica"][data-theme="dark"]{
+  --mica-bg:rgba(32,32,32,0.65);
+  --mica-layer:rgba(58,58,58,0.30);
+  --mica-card:rgba(255,255,255,0.05);
+  --mica-stroke:rgba(255,255,255,0.08);
+  --mica-stroke-strong:rgba(255,255,255,0.16);
+  --mica-text:#e6e6ea;
+  --mica-text-secondary:rgba(255,255,255,0.60);
+}
+#pc-app[data-visual-style="mica"]::before{
+  background:var(--mica-bg);
+  backdrop-filter:blur(var(--bg-blur, 0px)) saturate(.80) brightness(.95);
+  -webkit-backdrop-filter:blur(var(--bg-blur, 0px)) saturate(.80) brightness(.95);
+}
+#pc-app[data-visual-style="mica"][data-theme="dark"]::before{
+  background:var(--mica-bg);
+  backdrop-filter:blur(var(--bg-blur, 0px)) saturate(.75) brightness(.88);
+  -webkit-backdrop-filter:blur(var(--bg-blur, 0px)) saturate(.75) brightness(.88);
+}
+#pc-app[data-visual-style="mica"] .liquid-glass,
+#pc-app[data-visual-style="mica"] #top-right-info,
+#pc-app[data-visual-style="mica"] #lyrics-island,
+#pc-app[data-visual-style="mica"] #player,
+#pc-app[data-visual-style="mica"] #pc-search-container,
+#pc-app[data-visual-style="mica"] .nav-links,
+#pc-app[data-visual-style="mica"] #song-list,
+#pc-app[data-visual-style="mica"] #modal,
+#pc-app[data-visual-style="mica"] #github-island{
+  background:var(--mica-layer)!important;
+  backdrop-filter:blur(30px) saturate(.85)!important;
+  -webkit-backdrop-filter:blur(30px) saturate(.85)!important;
+  border:1px solid var(--mica-stroke)!important;
+  box-shadow:none!important;
+  border-radius:var(--mica-radius-card)!important;
+}
+#pc-app[data-visual-style="mica"] #player{border-radius:var(--mica-radius-window)!important}
+#pc-app[data-visual-style="mica"] #modal{border-radius:var(--mica-radius-window)!important}
+#pc-app[data-visual-style="mica"] .nav-links{border-radius:9999px!important}
+#pc-app[data-visual-style="mica"] #pc-search-container{border-radius:9999px!important}
+#pc-app[data-visual-style="mica"] #top-right-info,
+#pc-app[data-visual-style="mica"] #lyrics-island{border-radius:var(--mica-radius-card)!important}
+#pc-app[data-visual-style="mica"] #gear-island{
+  background:var(--mica-layer)!important;
+  backdrop-filter:blur(20px) saturate(.85)!important;
+  -webkit-backdrop-filter:blur(20px) saturate(.85)!important;
+  border:1px solid var(--mica-stroke)!important;
+  box-shadow:none!important;
+  border-radius:50%!important;
+}
+#pc-app[data-visual-style="mica"] #gear-island:hover,
+#pc-app[data-visual-style="mica"] #gear-island:active{
+  box-shadow:none!important;
+  border-color:var(--mica-stroke-strong)!important;
+}
+#pc-app[data-visual-style="mica"] #github-island{border-radius:50%!important;}
+#pc-app[data-visual-style="mica"] #main-play-btn{
+  background:var(--mica-card)!important;
+  border:1px solid var(--mica-stroke)!important;
+  box-shadow:none!important;
+}
+#pc-app[data-visual-style="mica"] #progress-container{background:rgba(255,255,255,.10)!important;}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #progress-container{background:rgba(0,0,0,.10)!important;}
+#pc-app[data-visual-style="mica"] #progress-container .progress-thumb,
+#pc-app[data-visual-style="mica"] .transparency-slider-thumb,
+#pc-app[data-visual-style="mica"] .bg-blur-slider-thumb{
+  background:var(--accent)!important; box-shadow:none!important; border:none!important;
+  width:14px!important; height:14px!important;
+}
+#pc-app[data-visual-style="mica"] #progress-container.dragging .progress-thumb,
+#pc-app[data-visual-style="mica"] #progress-container:hover .progress-thumb,
+#pc-app[data-visual-style="mica"] .transparency-slider-track:hover .transparency-slider-thumb,
+#pc-app[data-visual-style="mica"] .bg-blur-slider-track:hover .bg-blur-slider-thumb{
+  width:16px!important; height:16px!important; box-shadow:none!important;
+}
+#pc-app[data-visual-style="mica"] .switch-track,
+#pc-app[data-visual-style="mica"] .auto-switch-track{background:rgba(0,0,0,.14)!important;border-color:var(--mica-stroke)!important;border-radius:9999px!important;}
+#pc-app[data-visual-style="mica"][data-theme="dark"] .switch-track,
+#pc-app[data-visual-style="mica"][data-theme="dark"] .auto-switch-track{background:rgba(255,255,255,.14)!important;}
+#pc-app[data-visual-style="mica"] .switch-track.active,
+#pc-app[data-visual-style="mica"] .auto-switch-track.active{background:var(--accent)!important;border-color:var(--accent)!important;}
+#pc-app[data-visual-style="mica"] .custom-input{background:var(--mica-card)!important;border:1px solid var(--mica-stroke)!important;border-radius:var(--mica-radius-control)!important;color:var(--mica-text)!important;box-shadow:none!important;}
+#pc-app[data-visual-style="mica"] .custom-input:focus{border-color:var(--accent)!important;box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 20%,transparent)!important;}
+#pc-app[data-visual-style="mica"] .settings-card{background:var(--mica-card)!important;border:1px solid var(--mica-stroke)!important;border-radius:var(--mica-radius-card)!important;box-shadow:none!important;}
+#pc-app[data-visual-style="mica"] .modal-sidebar{background:var(--mica-card)!important;border:1px solid var(--mica-stroke)!important;border-radius:var(--mica-radius-card)!important;}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .song-info{color:var(--mica-text)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #time-display{color:var(--mica-text-secondary)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #top-right-info .time,
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #top-right-info .weather{color:var(--mica-text)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #top-right-info .weather-desc{color:var(--mica-text-secondary)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #lyrics-island .lyrics-line.current{color:var(--mica-text)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #lyrics-island .lyrics-line.prev,
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #lyrics-island .lyrics-line.next{color:var(--mica-text-secondary)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #lyrics-island .lyrics-line.placeholder{color:var(--mica-text-secondary)!important;opacity:.7!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #song-list .song-item .song-name{color:var(--mica-text)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #song-list .song-item .song-artist{color:var(--mica-text-secondary)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #song-list .song-item .song-index{color:var(--mica-text-secondary)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #pc-search-input{color:var(--mica-text)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #pc-search-input::placeholder{color:var(--mica-text-secondary)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .md3-icon-btn{color:var(--mica-text)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .modal-title{color:var(--mica-text)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .modal-subtitle{color:var(--mica-text-secondary)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .sidebar-icon{color:var(--mica-text-secondary)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .sidebar-icon.active{color:var(--mica-text)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .settings-card-title{color:var(--mica-text)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .settings-card-desc{color:var(--mica-text-secondary)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .auto-label{color:var(--mica-text)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .transparency-value,
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .bg-blur-value{color:var(--mica-text)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .custom-status{color:var(--mica-text-secondary)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .file-label{color:var(--mica-text)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .pill-btn{color:var(--mica-text)!important;background:var(--mica-card)!important;border-color:var(--mica-stroke)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .pill-btn.primary{background:var(--accent)!important;border-color:var(--accent)!important;color:#fff!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .visual-style-btn{color:var(--mica-text-secondary)!important;background:var(--mica-card)!important;border-color:var(--mica-stroke)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .visual-style-btn.active{background:var(--accent)!important;border-color:var(--accent)!important;color:#fff!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .sidebar-icon[data-tooltip]::after{background:rgba(30,30,34,.94)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .thumb-carousel .thumb-arrow{background:rgba(0,0,0,.08)!important;border-color:var(--mica-stroke)!important;color:var(--mica-text)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .thumb-carousel .thumb-dots span{background:rgba(0,0,0,.16)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .thumb-carousel .thumb-dots span.active{background:var(--accent)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) #pc-footer{color:rgba(0,0,0,.4)!important}
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .transparency-slider-track,
+#pc-app[data-visual-style="mica"]:not([data-theme="dark"]) .bg-blur-slider-track{background:rgba(0,0,0,.14)!important}
 </style>
 </head>
 <body>
 
 <div id="pc-app" data-theme="light" data-visual-style="liquid-glass">
-  <div id="header-overlay"></div>
-  <div id="title-text">
-    <div class="line1">来了,</div>
-    <div class="line2">バラモン！</div>
-  </div>
-
+  
   <div id="top-right-info" class="liquid-glass">
     <div class="time" id="clock">--:--:--</div>
     <div class="weather" id="weather-info">
@@ -1687,10 +1669,25 @@ html,body{
 
   <div id="player" class="liquid-glass">
     <div id="art-box">
-      <img src="CD.jpg" alt="cover" id="cover-img" onerror="this.src='CD.jpg'"/>
+      <img src="741383.png" alt="cover" id="cover-img" onerror="this.src='741383.png'"/>
     </div>
+    
+    <!-- MD3E 专属装饰 -->
+    <div class="md3e-deco md3e-app-icon">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.5 14.5c-.2.3-.6.4-.9.2-2.4-1.5-5.5-1.8-9.1-1-.4.1-.7-.1-.8-.5-.1-.4.1-.7.5-.8 3.9-.9 7.3-.5 10 1.1.3.2.4.6.3 1zm1.2-2.7c-.3.4-.7.5-1.1.3-2.8-1.7-7-2.2-10.3-1.2-.4.1-.8-.1-.9-.5-.1-.4.1-.8.5-.9 3.8-1.1 8.4-.6 11.6 1.3.4.2.5.7.2 1zm.1-2.8C14.3 9 8.4 8.8 5.2 9.8c-.5.2-1-.1-1.2-.6-.2-.5.1-1 .6-1.2 3.7-1.1 10.2-.9 14.2 1.5.5.3.6.9.3 1.4-.3.4-.9.6-1.3.3z"/></svg>
+    </div>
+    <div class="md3e-deco md3e-cast-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16.1A5 5 0 0 1 5.9 20M2 12.05A9 9 0 0 1 9.95 20M2 8V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/><line x1="2" y1="20" x2="2.01" y2="20"/></svg>
+    </div>
+    <div class="md3e-deco md3e-like-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    </div>
+    <div class="md3e-deco md3e-vol-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+    </div>
+
     <div class="control-area">
-      <div class="song-info" id="song-info">加载中...</div>
+      <div class="song-info" id="song-info" data-name="加载中..." data-artist="">加载中...</div>
       <div id="progress-container">
         <div id="progress-fill"></div>
         <div class="wave-overlay"></div>
@@ -1792,13 +1789,12 @@ html,body{
 
         <div class="modal-content">
           <div class="tab-panel" data-panel="personalize">
-            <div class="modal-subtitle" id="modal-subtitle">海边のミク</div>
             <div class="personalize-scroll">
               <div class="thumb-carousel">
                 <div class="thumb-row">
-                  <button class="thumb-arrow prev" id="thumb-prev" aria-label="上一张">‹</button>
                   <div class="thumb-wrapper">
                     <div class="thumb-track" id="thumb-track">
+                      <img src="741383.png" alt="默认壁纸" data-key="741383.png" onerror="this.style.display='none'"/>
                       <img src="722264.jpg" alt="海边のミク" data-key="722264.jpg" onerror="this.style.display='none'"/>
                       <img src="miku2.jpg" alt="桜ミク" data-key="miku2.jpg" onerror="this.style.display='none'"/>
                       <img src="蝶云.png" alt="洛天依-蝶变" data-key="蝶云.png" onerror="this.style.display='none'"/>
@@ -1808,7 +1804,6 @@ html,body{
                       <img src="zao.jpg" alt="东风谷早苗" data-key="zao.jpg" onerror="this.style.display='none'"/>
                     </div>
                   </div>
-                  <button class="thumb-arrow next" id="thumb-next" aria-label="下一张">›</button>
                 </div>
                 <div class="thumb-dots" id="thumb-dots">
                   <span data-index="0" class="active"></span>
@@ -1818,6 +1813,7 @@ html,body{
                   <span data-index="4"></span>
                   <span data-index="5"></span>
                   <span data-index="6"></span>
+                  <span data-index="7"></span>
                 </div>
                 <button class="apply-btn" id="apply-theme-btn">应用</button>
               </div>
@@ -1877,7 +1873,6 @@ html,body{
                 <div class="settings-card-desc">选择界面的整体视觉风格</div>
                 <div class="visual-style-options">
                   <button class="visual-style-btn active" data-style="liquid-glass">Liquid Glass</button>
-                  <button class="visual-style-btn" data-style="mica">Mica</button>
                   <button class="visual-style-btn" data-style="md3e">Google MD3E</button>
                 </div>
               </div>
@@ -1895,7 +1890,7 @@ html,body{
                 </div>
               </div>
 
-              <!-- 新增：背景虚化程度 -->
+              <!-- 背景虚化程度 -->
               <div class="settings-card">
                 <div class="settings-card-title">背景虚化程度</div>
                 <div class="settings-card-desc">调节页面背景壁纸的模糊强度</div>
@@ -1903,9 +1898,9 @@ html,body{
                   <div class="bg-blur-slider-track">
                     <div class="bg-blur-slider-fill" id="bg-blur-fill"></div>
                     <div class="bg-blur-slider-thumb" id="bg-blur-thumb"></div>
-                    <input type="range" id="bg-blur-range" min="0" max="60" value="12" step="1" aria-label="背景虚化程度"/>
+                    <input type="range" id="bg-blur-range" min="0" max="60" value="0" step="1" aria-label="背景虚化程度"/>
                   </div>
-                  <div class="bg-blur-value" id="bg-blur-value">12</div>
+                  <div class="bg-blur-value" id="bg-blur-value">0</div>
                 </div>
               </div>
 
@@ -2208,7 +2203,7 @@ function initGlassIntensity(){
 /* ============ 背景虚化程度 ============ */
 const BG_BLUR_KEY='bg_blur';
 const BG_BLUR_MAX=60;
-const BG_BLUR_DEFAULTS={'liquid-glass':12,'mica':32,'md3e':20};
+const BG_BLUR_DEFAULTS={'liquid-glass':0,'mica':0,'md3e':0};
 
 function getEffectiveBgBlur(style){
   const saved=safeStore.get(BG_BLUR_KEY,null);
@@ -2217,7 +2212,7 @@ function getEffectiveBgBlur(style){
     if(!isNaN(n)&&n>=0&&n<=BG_BLUR_MAX)return n;
   }
   const def=BG_BLUR_DEFAULTS[style];
-  return def!==undefined?def:12;
+  return def!==undefined?def:0;
 }
 
 function updateBgBlurUI(value){
@@ -2474,7 +2469,8 @@ function updateTransparencyCardVisibility(style,skipTransition){
   }
 }
 function applyVisualStyle(style){
-  if(style!=='liquid-glass'&&style!=='mica'&&style!=='md3e')style='liquid-glass';
+  if(style!=='liquid-glass'&&style!=='md3e'&&style!=='mica')style='liquid-glass';
+  if(style==='mica')style='liquid-glass'; // 隐藏 mica
   currentVisualStyle=style;
   const app=document.getElementById('pc-app');
   app.setAttribute('data-visual-style',style);
@@ -2497,6 +2493,7 @@ function initVisualStyle(){
   let saved='liquid-glass';
   const v=safeStore.get(VISUAL_STYLE_KEY,null);
   if(v==='md3e'||v==='liquid-glass'||v==='mica')saved=v;
+  if(saved==='mica')saved='liquid-glass';
   currentVisualStyle=saved;
   document.getElementById('pc-app').setAttribute('data-visual-style',saved);
   document.querySelectorAll('.visual-style-btn').forEach(function(btn){
@@ -2798,6 +2795,8 @@ function updateSongInfo(){
   if(currentIdx<0||currentIdx>=songList.length)return;
   const song=songList[currentIdx];
   songInfoEl.textContent=song.name+' - '+song.artist;
+  songInfoEl.setAttribute('data-name', song.name);
+  songInfoEl.setAttribute('data-artist', song.artist);
 }
 function highlightCurrentSong(){
   const items=songListEl.querySelectorAll('.song-item');
@@ -2846,7 +2845,7 @@ async function loadAndPlay(index,startTime){
   currentIdx=index;
   const song=songList[index];
   updateSongInfo();highlightCurrentSong();
-  coverImg.src=song.cover||'CD.jpg';
+  coverImg.src=song.cover||'741383.png';
   if(!song.cover){
     const cover=await fetchSongCover(song.id);
     if(cover){song.cover=cover;coverImg.src=cover;}
@@ -3332,9 +3331,9 @@ autoSwitchTrack.addEventListener('click',function(e){
   setupAutoTheme();
 });
 
-const THUMB_IMAGES=['722264.jpg','miku2.jpg','蝶云.png','nacho.png','airi.png','hua.jpg','zao.jpg'];
-const THUMB_TITLES={'722264.jpg':'海边のミク','miku2.jpg':'桜ミク','蝶云.png':'洛天依-蝶变','nacho.png':'猫羽雫','airi.png':'桃井爱莉','hua.jpg':'常磐华乃','zao.jpg':'东风谷早苗'};
-const THUMB_COLORS={'722264.jpg':'#66ccff','miku2.jpg':'#FFC0CB','蝶云.png':'#32CD32','nacho.png':'#B6D5E9','airi.png':'#f6829d','hua.jpg':'#feb7bb','zao.jpg':'#e2e2a8'};
+const THUMB_IMAGES=['741383.png','722264.jpg','miku2.jpg','蝶云.png','nacho.png','airi.png','hua.jpg','zao.jpg'];
+const THUMB_TITLES={'741383.png':'默认壁纸','722264.jpg':'海边のミク','miku2.jpg':'桜ミク','蝶云.png':'洛天依-蝶变','nacho.png':'猫羽雫','airi.png':'桃井爱莉','hua.jpg':'常磐华乃','zao.jpg':'东风谷早苗'};
+const THUMB_COLORS={'741383.png':'#66ccff','722264.jpg':'#66ccff','miku2.jpg':'#FFC0CB','蝶云.png':'#32CD32','nacho.png':'#B6D5E9','airi.png':'#f6829d','hua.jpg':'#feb7bb','zao.jpg':'#e2e2a8'};
 let currentThumbIndex=0,appliedThumbIndex=0;
 
 const CUSTOM_BG_KEY='custom_bg_v1';
@@ -3342,16 +3341,13 @@ const CUSTOM_BG_ACTIVE_KEY='custom_bg_active_v1';
 const CUSTOM_COLOR_KEY='custom_color_v1';
 let customWallpaper=null;
 let customColor=null;
-let currentWallpaperUrl='722264.jpg';
+let currentWallpaperUrl='741383.png';
 
 const thumbTrack=document.getElementById('thumb-track');
 const thumbDots=document.getElementById('thumb-dots');
-const thumbPrev=document.getElementById('thumb-prev');
-const thumbNext=document.getElementById('thumb-next');
 const modalSubtitle=document.getElementById('modal-subtitle');
 const applyBtn=document.getElementById('apply-theme-btn');
 const bgOverlay=document.getElementById('bg-transition-overlay');
-const titleText=document.getElementById('title-text');
 const navLinks=document.getElementById('navLinks');
 
 function getThumbColor(index){const key=THUMB_IMAGES[index];return THUMB_COLORS[key]||'#66ccff';}
@@ -3364,17 +3360,35 @@ function preloadImages(){
   });
 }
 function updateThumbPosition(){
-  const offset=-currentThumbIndex*100;
-  thumbTrack.style.transform='translateX('+offset+'%)';
+  const imgs = thumbTrack.querySelectorAll('img');
+  imgs.forEach((img, i) => {
+    const offset = i - currentThumbIndex;
+    img.style.transition = 'transform .45s cubic-bezier(.25,.46,.45,.94), opacity .45s ease, z-index .45s ease';
+    if (offset === 0) {
+      img.style.transform = 'translateX(0) scale(1) translateZ(0)';
+      img.style.opacity = '1';
+      img.style.zIndex = '10';
+    } else if (offset < 0) {
+      img.style.transform = `translateX(${-30 * Math.pow(0.8, Math.abs(offset))}px) scale(${1 - 0.1 * Math.abs(offset)}) translateZ(0)`;
+      img.style.opacity = Math.max(0, 0.6 - 0.2 * (Math.abs(offset) - 1)).toString();
+      img.style.zIndex = (10 + offset).toString();
+    } else {
+      img.style.transform = `translateX(${30 * Math.pow(0.8, offset)}px) scale(${1 - 0.1 * offset}) translateZ(0)`;
+      img.style.opacity = Math.max(0, 0.6 - 0.2 * (offset - 1)).toString();
+      img.style.zIndex = (10 - offset).toString();
+    }
+  });
+  
   const dots=thumbDots.querySelectorAll('span');
   dots.forEach((dot,i)=>dot.classList.toggle('active',i===currentThumbIndex));
+  
   const key=THUMB_IMAGES[currentThumbIndex];
-  modalSubtitle.textContent=THUMB_TITLES[key]||'主题';
   const color=THUMB_COLORS[key];
   dots.forEach((dot,i)=>{
     if(i===currentThumbIndex)dot.style.background=color;
     else dot.style.background='rgba(255,255,255,0.25)';
   });
+  // 移除主题名称显示
 }
 function goToThumb(index){
   if(index<0)index=THUMB_IMAGES.length-1;
@@ -3386,10 +3400,7 @@ function hexToRgb(hex){
   return{r:parseInt(h.slice(0,2),16),g:parseInt(h.slice(2,4),16),b:parseInt(h.slice(4,6),16)};
 }
 function applyColorScheme(color){
-  if(currentVisualStyle==='md3e'){titleText.style.color=color;return;}
-  titleText.style.color=color;
-  navLinks.querySelectorAll('a').forEach(a=>{a.style.color=color;});
-  mainPlayBtn.style.background=color;
+  if(currentVisualStyle==='md3e'){return;}
   document.documentElement.style.setProperty('--play-btn-bg',color);
   document.documentElement.style.setProperty('--accent',color);
   document.documentElement.style.setProperty('--nav-link-color',color);
@@ -3422,7 +3433,7 @@ function applyColorScheme(color){
 }
 function applyThemeByKey(key){
   let index=THUMB_IMAGES.indexOf(key);
-  if(index===-1){key='722264.jpg';index=0;}
+  if(index===-1){key='741383.png';index=0;}
   const title=THUMB_TITLES[key];
   const color=THUMB_COLORS[key]||'#66ccff';
   currentWallpaperUrl=key;customWallpaper=null;
@@ -3445,7 +3456,7 @@ function applyThemeByKey(key){
   updateThumbPosition();
   applyColorScheme(customColor||color);
   setCookie('theme_key',key,30);
-  modalSubtitle.textContent=title;
+  if(modalSubtitle) modalSubtitle.textContent=title;
 }
 function applyCurrentTheme(){
   const key=THUMB_IMAGES[currentThumbIndex];
@@ -3484,9 +3495,9 @@ function applyCurrentTheme(){
       bgOverlay.style.backgroundImage='';
     },1200);
     appliedThumbIndex=currentThumbIndex;
-    modalSubtitle.textContent='✓ '+title;
+    if(modalSubtitle) modalSubtitle.textContent='✓ '+title;
     setTimeout(function(){
-      if(currentThumbIndex===appliedThumbIndex)modalSubtitle.textContent=title;
+      if(currentThumbIndex===appliedThumbIndex && modalSubtitle)modalSubtitle.textContent=title;
     },1500);
     setCookie('theme_key',key,30);
     setCustomBgStatus('');
@@ -3494,7 +3505,7 @@ function applyCurrentTheme(){
 }
 function initDefaultTheme(){
   const savedKey=getCookie('theme_key');
-  const key=(savedKey&&THUMB_IMAGES.includes(savedKey))?savedKey:'722264.jpg';
+  const key=(savedKey&&THUMB_IMAGES.includes(savedKey))?savedKey:'741383.png';
   const savedCustomBg=customWallpaper;
   applyThemeByKey(key);
   if(savedCustomBg){
@@ -3622,7 +3633,7 @@ function initPersonalizeExtras(){
   if(bgReset){
     bgReset.addEventListener('click',function(e){
       e.stopPropagation();
-      const key=THUMB_IMAGES[appliedThumbIndex]||'722264.jpg';
+      const key=THUMB_IMAGES[appliedThumbIndex]||'741383.png';
       customWallpaper=null;currentWallpaperUrl=key;
       safeStore.set(CUSTOM_BG_KEY,'');
       safeStore.set(CUSTOM_BG_ACTIVE_KEY,'0');
@@ -3837,7 +3848,7 @@ async function initPlayer(){
     await loadAndPlay(startIndex,startTime);
   }catch(err){
     songInfoEl.textContent='⚠️ 加载失败：'+err.message.slice(0,60);
-    songList=[{id:'0',name:'加载失败',artist:'请检查控制台',album:'',cover:'CD.jpg'}];
+    songList=[{id:'0',name:'加载失败',artist:'请检查控制台',album:'',cover:'741383.png'}];
     buildSongListUI();
   }
 }
@@ -3850,11 +3861,21 @@ function loadCustomPrefs(){
   if(bg&&active)customWallpaper=bg;
 }
 
-thumbPrev.addEventListener('click',function(e){e.stopPropagation();goToThumb(currentThumbIndex-1);});
-thumbNext.addEventListener('click',function(e){e.stopPropagation();goToThumb(currentThumbIndex+1);});
 thumbDots.querySelectorAll('span').forEach((dot,i)=>{
   dot.addEventListener('click',function(e){e.stopPropagation();goToThumb(i);});
 });
+
+// 点击堆叠卡片两侧可以切换
+document.querySelector('.thumb-wrapper').addEventListener('click', function(e) {
+  const rect = this.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  if (x < rect.width / 3) {
+    goToThumb(currentThumbIndex - 1);
+  } else if (x > rect.width * 2 / 3) {
+    goToThumb(currentThumbIndex + 1);
+  }
+});
+
 applyBtn.addEventListener('click',function(e){e.stopPropagation();applyCurrentTheme();});
 document.addEventListener('keydown',function(e){
   if(isModalOpen){
@@ -3895,8 +3916,8 @@ window.addEventListener('load',function(){
   }
   console.log('========================================');
   console.log('🎵 播放器已启动');
-  console.log('🎨 视觉样式: Liquid Glass / Mica / Google MD3E');
-  console.log('🌫️ 背景虚化: 已启用 (可调节 0-60px)');
+  console.log('🎨 视觉样式: Liquid Glass / Google MD3E');
+  console.log('🌫️ 背景虚化: 已启用 (默认 0px)');
   console.log('🎚️ 拖拽按钮: 各自官方规范');
   console.log('========================================');
 });
